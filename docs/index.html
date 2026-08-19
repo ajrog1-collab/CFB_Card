@@ -719,8 +719,12 @@ function renderFooter(d){
     rating_scale: 'rating differential scale',
   };
   const sitLines = Object.entries(sit)
-    .filter(([k]) => k !== 'rating_scale')
+    .filter(([k, v]) => k !== 'rating_scale' && k !== '_excluded' && typeof v === 'number')
     .map(([k, v]) => `${v > 0 ? '+' : ''}${v} pts ${SIT_LABEL[k] || k}`)
+    .join('<br>');
+  const excl = sit._excluded || {};
+  const exclLines = Object.entries(excl)
+    .map(([k, why]) => `${SIT_LABEL[k] || k} &mdash; excluded: ${esc(why)}`)
     .join('<br>');
   $('footer').innerHTML = `
     Ridge power ratings on turnover-adjusted scoring margin and EPA per play, blended
@@ -729,6 +733,8 @@ function renderFooter(d){
     Prior fit on ${esc(pm.team_seasons ?? '--')} team-seasons, R&sup2; ${esc(pm.r2 ?? '--')}.<br><br>
     ${to}<br><br>
     ${sitLines ? 'Situational effects, fitted from history:<br>' + sitLines + '<br><br>' : ''}
+    ${exclLines ? 'Effects the data would not support, dropped rather than trusted:<br>'
+      + exclLines + '<br><br>' : ''}
     Prior weights: ${parts}<br><br>
     SP+ enters only as the <em>previous</em> season's final rating. Using the current
     season's final SP+ would leak end-of-season knowledge into earlier weeks.<br><br>
