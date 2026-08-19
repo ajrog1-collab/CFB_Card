@@ -42,8 +42,15 @@ def _headers() -> dict:
     return {"Authorization": f"Bearer {key}"}
 
 
-def cfbd_get(endpoint: str, params: dict, force: bool = False) -> pd.DataFrame:
-    """Fetch an endpoint, caching to the repo. Returns empty frame on failure."""
+def cfbd_get(endpoint: str, params: dict, force: bool = False,
+             required: bool = True) -> pd.DataFrame:
+    """Fetch an endpoint, caching to the repo. Returns empty frame on failure.
+
+    `required=False` marks an endpoint the model can live without (weather,
+    advanced stats, box scores, SP+). Several of those sit behind paid CFBD
+    tiers, so a 401 there means "not included in your plan" rather than "bad
+    key" and must not abort the whole run.
+    """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     slug = endpoint.strip("/").replace("/", "_")
     tag = "_".join(f"{k}-{v}" for k, v in sorted(params.items()))
@@ -63,8 +70,14 @@ def cfbd_get(endpoint: str, params: dict, force: bool = False) -> pd.DataFrame:
         print(f"    network error on {endpoint} {params}: {e}")
         return pd.DataFrame()
 
-    if r.status_code == 401:
-        raise RuntimeError("CFBD returned 401 Unauthorized. Check the CFBD_API_KEY secret.")
+    if r.status_code in (401, 403):
+        if required:
+            raise RuntimeError(
+                f"CFBD returned {r.status_code} on {endpoint}, which this model requires. "
+                "Check the CFBD_API_KEY secret."
+            )
+        print(f"    {endpoint} not available on this API tier ({r.status_code}) — skipping")
+        return pd.DataFrame()
     if r.status_code == 429:
         raise RuntimeError("CFBD returned 429. Monthly API call limit reached.")
     if r.status_code >= 400:
@@ -620,6 +633,79 @@ def situational_matrix(frame, rating_col):
         cols.append(frame["rivalry"].fillna(0.0).to_numpy(dtype=float) * rating_col)
         names.append("rivalry_compress")
     return (np.column_stack(cols) if cols else np.zeros((len(frame), 0))), names
+
+
+# Direction and plausible magnitude for each situational effect, taken from
+# published work rather than fitted. A least-squares fit of weak correlated
+# features next to a dominant rating differential will happily return the wrong
+# sign or an absurd magnitude, so anything outside these bounds is zeroed rather
+# than trusted.
+SIT_BOUNDS = {
+    "travel_diff_k":    (-3.0, 0.0),    # travelling further should not help you
+    "east_body":        (-2.5, 0.0),    # eastward body-clock shift should not help
+    "rest_diff":        (0.0, 1.0),     # extra rest should not hurt
+    "rivalry_compress": (-0.35, 0.0),   # compression, at most a third of the spread
+}
+SIT_MIN_ROWS = 300   # non-zero rows a feature needs before it is fit at all
+
+
+def fit_calibration(rating_col, S, names, y, ridge=25.0):
+    """Fit outcome ~ rating + situational, penalizing the situational block.
+
+    Returns (weights, report) with weights aligned to
+    [rating, *S columns, intercept]. Features that are too sparse to estimate,
+    or that come back with an implausible value, are forced to zero and listed
+    in report["_excluded"] with the reason.
+    """
+    rating_col = np.asarray(rating_col, dtype=float)
+    y = np.asarray(y, dtype=float)
+    k = S.shape[1] if S.size else 0
+
+    ok = ~np.isnan(rating_col) & ~np.isnan(y)
+    if S.size:
+        ok = ok & ~np.isnan(S).any(axis=1)
+    n = int(ok.sum())
+    if n < 300:
+        return np.array([1.0] + [0.0] * k + [0.0]), {}
+
+    keep, dropped = [], {}
+    for j, nm in enumerate(names):
+        nz = int((np.abs(S[ok, j]) > 1e-9).sum())
+        if nz < SIT_MIN_ROWS:
+            dropped[nm] = f"only {nz} games with the effect present, need {SIT_MIN_ROWS}"
+        else:
+            keep.append(j)
+
+    Sk = S[:, keep] if keep else np.zeros((len(rating_col), 0))
+    A = np.column_stack([rating_col[ok], Sk[ok], np.ones(n)])
+
+    # ridge on the situational block only; rating scale and intercept stay free
+    R = np.zeros((A.shape[1], A.shape[1]))
+    for i in range(1, 1 + len(keep)):
+        R[i, i] = ridge
+    try:
+        beta = np.linalg.solve(A.T @ A + R, A.T @ y[ok])
+    except np.linalg.LinAlgError:
+        return np.array([1.0] + [0.0] * k + [0.0]), dropped
+
+    w = np.zeros(k + 2)
+    w[0] = float(beta[0])
+    w[-1] = float(beta[-1])
+    report = {}
+    for slot, j in enumerate(keep):
+        nm = names[j]
+        val = float(beta[1 + slot])
+        lo, hi = SIT_BOUNDS.get(nm, (-np.inf, np.inf))
+        if val < lo or val > hi:
+            dropped[nm] = f"fitted {val:+.3f}, outside plausible range [{lo}, {hi}]"
+            continue
+        w[1 + j] = val
+        report[nm] = round(val, 3)
+
+    report["rating_scale"] = round(float(beta[0]), 3)
+    if dropped:
+        report["_excluded"] = dropped
+    return w, report
 
 
 # ----------------------------------------------------------------------
