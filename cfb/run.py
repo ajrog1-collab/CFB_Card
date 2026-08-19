@@ -234,6 +234,141 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
 
 
 
+
+# ======================================================================
+# confidence tiers (A = most sure)
+# ======================================================================
+
+TIER_NAMES = ["A", "B", "C", "D", "E"]
+
+
+def tier_cutpoints(conf_series):
+    """Confidence values splitting picks into five equal-sized tiers.
+
+    Returns four descending cutoffs. A pick lands in tier A if its confidence is
+    at or above the first cutoff, B above the second, and so on.
+    """
+    s = pd.Series(conf_series).dropna()
+    if len(s) < 100:
+        return None
+    return [round(float(s.quantile(q)), 4) for q in (0.8, 0.6, 0.4, 0.2)]
+
+
+def assign_tier(conf, cuts):
+    """Tier letter for a confidence score."""
+    if cuts is None or conf is None or conf != conf:
+        return None
+    for name, c in zip(TIER_NAMES, cuts):
+        if conf >= c:
+            return name
+    return TIER_NAMES[-1]
+
+
+def tier_season_trend(s, cuts, edge_col="edge", outcome_col="margin", line_col="mkt"):
+    """Per-tier, per-season results, plus an overall row for each tier.
+
+    Answers the question the tier list cannot: does a given tier hold up year to
+    year, or did one season carry it?
+    """
+    if cuts is None or not len(s):
+        return {}, {}
+
+    f = s.dropna(subset=[edge_col, outcome_col, line_col, "confidence"]).copy()
+    if not len(f):
+        return {}, {}
+
+    f["_tier"] = [assign_tier(c, cuts) for c in f["confidence"]]
+    realized = np.where(f[edge_col] > 0, f[outcome_col] - f[line_col],
+                        f[line_col] - f[outcome_col])
+    f["_res"] = np.where(realized > 0, "win", np.where(realized < 0, "loss", "push"))
+    profit = american_to_profit(PRICE)
+
+    def summarize(frame):
+        dec = frame[frame._res != "push"]
+        if not len(dec):
+            return None
+        wins = int((frame._res == "win").sum())
+        losses = int((frame._res == "loss").sum())
+        units = wins * profit - losses
+        wp = wins / (wins + losses) * 100 if (wins + losses) else None
+        return {
+            "bets": int(len(frame)), "wins": wins, "losses": losses,
+            "pushes": int((frame._res == "push").sum()),
+            "win_pct": round(wp, 1) if wp is not None else None,
+            "units": round(units, 2),
+            "roi_pct": round(units / len(frame) * 100, 1),
+            "avg_conf": round(float(frame["confidence"].mean()), 2),
+            "avg_gap": round(float(frame[edge_col].abs().mean()), 1),
+        }
+
+    trend, summary = {}, {}
+    for name in TIER_NAMES:
+        sub = f[f._tier == name]
+        if len(sub) < 40:
+            continue
+        summary[name] = summarize(sub)
+        seasons = []
+        for season in sorted(sub["season"].dropna().unique()):
+            ss = sub[sub.season == season]
+            if len(ss) < 15:
+                continue
+            row = summarize(ss)
+            if row:
+                row["season"] = int(season)
+                seasons.append(row)
+        if seasons:
+            trend[name] = seasons
+
+    overall = summarize(f)
+    if overall:
+        summary["ALL"] = overall
+        seasons = []
+        for season in sorted(f["season"].dropna().unique()):
+            ss = f[f.season == season]
+            if len(ss) < 25:
+                continue
+            row = summarize(ss)
+            if row:
+                row["season"] = int(season)
+                seasons.append(row)
+        if seasons:
+            trend["ALL"] = seasons
+    return trend, summary
+
+
+def combined_gap_trend(spread_seasons, total_seasons):
+    """Points behind the closing line, per season, for each market and combined.
+
+    The combined figure is weighted by pick count. Spread error and total error
+    are both measured in points against the book's own number, so averaging them
+    is meaningful, but they are not the same quantity — read the individual lines
+    first and the combined one as a summary.
+    """
+    by = {}
+    for row in spread_seasons or []:
+        if row.get("gap") is not None:
+            by.setdefault(row["season"], {})["spread"] = (row["gap"], row.get("bets", 0))
+    for row in total_seasons or []:
+        if row.get("gap") is not None:
+            by.setdefault(row["season"], {})["total"] = (row["gap"], row.get("bets", 0))
+
+    out = []
+    for season in sorted(by):
+        e = by[season]
+        sp = e.get("spread")
+        to = e.get("total")
+        parts = [v for v in (sp, to) if v]
+        wsum = sum(g * max(n, 1) for g, n in parts)
+        nsum = sum(max(n, 1) for _g, n in parts)
+        out.append({
+            "season": int(season),
+            "spread": sp[0] if sp else None,
+            "total": to[0] if to else None,
+            "all": round(wsum / nsum, 2) if nsum else None,
+        })
+    return out
+
+
 def season_breakdown(s, edge_col="edge", outcome_col="margin", line_col="mkt",
                      min_edge=None):
     """Per-season results for qualified picks, newest last.
@@ -397,6 +532,9 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     s["sigma"] = predict_uncertainty(X, conf_w, conf_mae)
     s["confidence"] = confidence_score(s["edge"].to_numpy(dtype=float),
                                        s["sigma"].to_numpy(dtype=float))
+    cuts = tier_cutpoints(s["confidence"])
+    tier_trend, tier_summary = tier_season_trend(s, cuts)
+
     conf_report = ({n: round(float(w), 3) for n, w in zip(cnames, conf_w[:-1])}
                    if conf_w is not None else {})
     if conf_w is not None:
@@ -443,6 +581,9 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "late": slice_stats(s[s.week >= 5]),
         "situational": sit_report,
         "by_season": season_breakdown(s),
+        "tier_cuts": cuts,
+        "tier_trend": tier_trend,
+        "tier_summary": tier_summary,
         "uncertainty": conf_report,
         "confidence_tiers": confidence_tier_stats(s),
         "confidence_tiers_holdout": (confidence_tier_stats(hold)
@@ -1114,6 +1255,7 @@ def main():
                                if "confidence" in frame.columns and pd.notna(r.get("confidence"))
                                else None),
                 "top_pick": bool(r.get("top_pick", False)),
+                "tier": assign_tier(r.get("confidence"), bt_summary.get("tier_cuts")),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -1156,6 +1298,7 @@ def main():
                 "sigma": (round(float(r.sigma), 1)
                           if "sigma" in frame.columns and pd.notna(r.get("sigma")) else None),
                 "top_pick": bool(r.get("top_pick", False)),
+                "tier": assign_tier(r.get("confidence"), bt_summary.get("tier_cuts")),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -1226,6 +1369,9 @@ def main():
         "situational": bt_summary.get("situational", {}),
         "uncertainty": bt_summary.get("uncertainty", {}),
         "confidence_tiers": bt_summary.get("confidence_tiers", []),
+        "tier_trend": bt_summary.get("tier_trend", {}),
+        "tier_summary": bt_summary.get("tier_summary", {}),
+        "tier_cuts": bt_summary.get("tier_cuts"),
         "confidence_tiers_holdout": bt_summary.get("confidence_tiers_holdout", []),
         "top_pick_count": TOP_PICK_COUNT,
         "prior_model": {
@@ -1237,6 +1383,8 @@ def main():
         "picks": pick_rows(picks) if len(picks) else [],
         "total_picks": total_pick_rows(total_picks) if len(total_picks) else [],
         "totals": t_summary,
+        "gap_trend": combined_gap_trend(bt_summary.get("by_season", []),
+                                        t_summary.get("by_season", [])),
         "totals_ratings": totals_rating_rows(t_off, t_dfn),
         "history": history_rows,
         "record": log_out.get("summary", {}),
