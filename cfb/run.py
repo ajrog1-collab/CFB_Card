@@ -23,10 +23,12 @@ import pandas as pd
 
 from model import (
     PriorModel, add_adjusted_margin, add_situational, attach_epa, attach_lines,
-    attach_turnovers, attach_weather, blend_prior, blend_ratings, build_games,
+    attach_turnovers, attach_venue_weather, blend_prior, blend_ratings, build_games,
+    confidence_features, confidence_score, fetch_venue_forecast, fetch_venue_weather,
+    fit_uncertainty, predict_uncertainty,
     cfbd_get, col, fit_calibration, fit_points_ratings, fit_ratings,
     games_played_counts,
-    infer_home_venues, parse_sp, parse_team_stats, parse_venues, parse_weather,
+    infer_home_venues, parse_sp, parse_team_stats, parse_venues,
     predict_total, rating_diff, season_ratings, situational_matrix, totals_matrix,
     talent_composite, returning_production,
 )
@@ -46,6 +48,8 @@ TO_SHRINK = float(CONFIG.get("turnover_shrink", 0.7))
 ALLOW_WEEK_BACKFILL = bool(CONFIG.get("allow_week_backfill", True))
 RATING_TARGET = "adj_margin"
 MIN_EDGE_TOTAL = float(CONFIG.get("min_edge_total", 4.0))
+TOP_PICK_COUNT = int(CONFIG.get("top_pick_count", 5))
+CONF_TIERS = CONFIG.get("confidence_tiers", [0.2, 0.35, 0.5, 0.7])
 LOOKAHEAD_DAYS = int(CONFIG["lookahead_days"])
 PRICE = float(CONFIG["assumed_price"])  # e.g. -110
 
@@ -86,7 +90,7 @@ def load_everything():
     print("Fetching data...")
     games_raw, lines_raw, adv_raw = [], [], []
     recruit, returning, fbs = [], [], {}
-    sp_by_year, team_stats, weather = {}, [], []
+    sp_by_year, team_stats = {}, []
 
     for yr in HIST_YEARS:
         for st in ("regular", "postseason"):
@@ -123,10 +127,6 @@ def load_everything():
         if len(ts):
             team_stats.append(ts)
 
-        wx = cfbd_get("games/weather", {"year": yr, "seasonType": "regular"}, required=False)
-        if len(wx):
-            weather.append(wx)
-
         print(f"  {yr}")
 
     # current season: never cached, always fresh
@@ -159,7 +159,7 @@ def load_everything():
         "recruit": cat(recruit), "returning": cat(returning), "fbs": fbs,
         "cur_games": cur_games, "cur_lines": cur_lines,
         "sp": sp_by_year, "team_stats": cat(team_stats),
-        "venues": venues_raw, "weather": cat(weather),
+        "venues": venues_raw,
     }
 
 
@@ -224,6 +224,58 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
     return out
 
 
+
+def confidence_tier_stats(frame, conf_col="confidence", outcome_col="margin",
+                         line_col="mkt", edge_col="edge"):
+    """Results grouped by confidence, to test whether confidence sorts winners.
+
+    This is the honest test of the whole idea: if the top confidence group does
+    not beat the bottom one, confidence is not measuring anything useful.
+    """
+    profit = american_to_profit(PRICE)
+    f = frame.dropna(subset=[conf_col, outcome_col, line_col, edge_col]).copy()
+    if len(f) < 100:
+        return []
+
+    f["_realized"] = np.where(f[edge_col] > 0, f[outcome_col] - f[line_col],
+                              f[line_col] - f[outcome_col])
+    f["_res"] = np.where(f["_realized"] > 0, "win",
+                         np.where(f["_realized"] < 0, "loss", "push"))
+
+    qs = list(CONF_TIERS)
+    cuts = [f[conf_col].quantile(q) for q in qs]
+    bounds = [(None, cuts[0])] + [(cuts[i], cuts[i + 1]) for i in range(len(cuts) - 1)] \
+             + [(cuts[-1], None)]
+    labels = ([f"bottom {int(qs[0]*100)}%"]
+              + [f"{int(qs[i]*100)}-{int(qs[i+1]*100)}%" for i in range(len(qs) - 1)]
+              + [f"top {int((1-qs[-1])*100)}%"])
+
+    out = []
+    for (lo, hi), label in zip(bounds, labels):
+        sub = f
+        if lo is not None:
+            sub = sub[sub[conf_col] >= lo]
+        if hi is not None:
+            sub = sub[sub[conf_col] < hi]
+        dec = sub[sub._res != "push"]
+        if len(sub) < 30:
+            continue
+        wp = float((dec._res == "win").mean()) if len(dec) else float("nan")
+        se = float(np.sqrt(wp * (1 - wp) / len(dec)) * 100) if len(dec) else float("nan")
+        units = int((sub._res == "win").sum()) * profit - int((sub._res == "loss").sum())
+        out.append({
+            "label": label,
+            "bets": int(len(sub)),
+            "win_pct": round(wp * 100, 1) if wp == wp else None,
+            "se": round(se, 1) if se == se else None,
+            "units": round(units, 2),
+            "roi_pct": round(units / len(sub) * 100, 1),
+            "avg_conf": round(float(sub[conf_col].mean()), 2),
+            "avg_edge": round(float(sub[edge_col].abs().mean()), 1),
+        })
+    return out
+
+
 # ======================================================================
 # 3. backtest
 # ======================================================================
@@ -256,12 +308,18 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
                 if use_epa:
                     r_p, _ = fit_ratings(so_far, "ppa_margin", ridge=1.0, cap=1.5)
                 r_in = blend_ratings(r_m, r_p)
-            R = blend_prior(prior, r_in, games_played_counts(so_far), BLEND_K)
+            gp = games_played_counts(so_far)
+            R = blend_prior(prior, r_in, gp, BLEND_K)
             out = test.copy()
             rd = rating_diff(test, R, hfa_ref)
             S, _ = situational_matrix(test, rd)
             A = np.column_stack([rd, S, np.ones(len(test))])
             out["pred"] = np.nan_to_num(A, nan=0.0) @ w_cal
+
+            # a second opinion from the prior alone, for the disagreement feature
+            out["pred_alt"] = rating_diff(test, prior, hfa_ref) * w_cal[0] + w_cal[-1]
+            out["_gp_min"] = [min(gp.get(h, 0), gp.get(a, 0))
+                              for h, a in zip(test["home_team"], test["away_team"])]
             preds.append(out)
 
     if not preds:
@@ -276,6 +334,22 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     s["e_mkt"] = (s.mkt - s.margin).abs()
     s["edge"] = s.pred - s.mkt
     s["cover"] = np.where(s.margin > s.mkt, 1.0, np.where(s.margin < s.mkt, 0.0, np.nan))
+
+    # ---- confidence: edge relative to expected error on this game ----
+    X, cnames = confidence_features(s, pred_col="pred", alt_pred_col="pred_alt")
+    if "_gp_min" in s.columns:
+        imm = 6.0 / np.clip(s["_gp_min"].to_numpy(dtype=float), 1.0, None)
+        X = np.column_stack([X, imm]) if X.size else imm.reshape(-1, 1)
+        cnames = cnames + ["immaturity"]
+
+    conf_w, conf_mae = fit_uncertainty(X, (s.pred - s.margin).to_numpy(dtype=float))
+    s["sigma"] = predict_uncertainty(X, conf_w, conf_mae)
+    s["confidence"] = confidence_score(s["edge"].to_numpy(dtype=float),
+                                       s["sigma"].to_numpy(dtype=float))
+    conf_report = ({n: round(float(w), 3) for n, w in zip(cnames, conf_w[:-1])}
+                   if conf_w is not None else {})
+    if conf_w is not None:
+        conf_report["baseline"] = round(float(conf_w[-1]), 2)
 
     def slice_stats(frame):
         if not len(frame):
@@ -317,6 +391,13 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
         "situational": sit_report,
+        "uncertainty": conf_report,
+        "confidence_tiers": confidence_tier_stats(s),
+        "confidence_tiers_holdout": (confidence_tier_stats(hold)
+                                     if HOLDOUT and len(hold) else []),
+        "conf_weights": ([float(x) for x in conf_w] if conf_w is not None else None),
+        "conf_names": cnames,
+        "conf_mae": round(conf_mae, 2) if conf_mae == conf_mae else None,
         "tiers": tier_stats(s),
         "tiers_holdout": tier_stats(hold) if HOLDOUT and len(hold) else [],
         "tuning": {"seasons": [x for x in TEST_SEASONS if x != HOLDOUT],
@@ -464,7 +545,8 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
 # 3. picks
 # ======================================================================
 
-def find_picks(cur, ratings, hfa, sit_weights=None):
+def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
+               conf_w=None, conf_names=None, conf_mae=None, games_played=None):
     """Upcoming FBS-vs-FBS games with a posted line, ranked by disagreement."""
     now = datetime.now(timezone.utc)
     up = cur[
@@ -480,6 +562,7 @@ def find_picks(cur, ratings, hfa, sit_weights=None):
         return pd.DataFrame()
 
     rd = rating_diff(up, ratings, hfa)
+    scale = 1.0
     if sit_weights:
         S, names = situational_matrix(up, rd)
         adj = np.zeros(len(up))
@@ -500,7 +583,29 @@ def find_picks(cur, ratings, hfa, sit_weights=None):
     # Spread as it would be quoted for the side we like.
     up["pick_spread"] = np.where(up.edge > 0, -up["mkt"], up["mkt"])
     up["qualified"] = up.edge.abs() >= MIN_EDGE
-    return up.sort_values("edge", key=lambda c: c.abs(), ascending=False).reset_index(drop=True)
+
+    # ---- confidence ----
+    up["pred_alt"] = (rating_diff(up, prior, hfa) * scale
+                      if prior else up["pred"])
+    X, names = confidence_features(up, pred_col="pred", alt_pred_col="pred_alt")
+    if games_played is not None and conf_names and "immaturity" in conf_names:
+        imm = np.array([6.0 / max(min(games_played.get(h, 0), games_played.get(a, 0)), 1.0)
+                        for h, a in zip(up["home_team"], up["away_team"])])
+        X = np.column_stack([X, imm]) if X.size else imm.reshape(-1, 1)
+        names = names + ["immaturity"]
+
+    if conf_w is not None and list(names) == list(conf_names):
+        up["sigma"] = predict_uncertainty(X, np.asarray(conf_w), conf_mae)
+    else:
+        up["sigma"] = conf_mae if conf_mae else 13.0
+    up["confidence"] = confidence_score(up["edge"].to_numpy(dtype=float),
+                                        up["sigma"].to_numpy(dtype=float))
+
+    up = up.sort_values("confidence", ascending=False).reset_index(drop=True)
+    up["top_pick"] = False
+    qual_idx = up.index[up.qualified][:TOP_PICK_COUNT]
+    up.loc[qual_idx, "top_pick"] = True
+    return up
 
 
 # ======================================================================
@@ -515,7 +620,7 @@ def update_bet_log(picks, finished, total_picks=None):
     """
     cols = ["game_id", "market", "season", "week", "logged_at", "away_name",
             "home_name", "pick_team", "side", "pred", "mkt_at_log",
-            "pick_spread", "edge"]
+            "pick_spread", "edge", "confidence", "top_pick"]
 
     log = pd.read_csv(BET_LOG) if BET_LOG.exists() else pd.DataFrame(columns=cols)
     if "market" not in log.columns:
@@ -623,13 +728,15 @@ def update_bet_log(picks, finished, total_picks=None):
 
     sp = graded[graded.market != "total"]
     to = graded[graded.market == "total"]
+    top = graded[graded.get("top_pick", pd.Series(False, index=graded.index)) == True]
 
     return log, {
         "summary": summary,
         "rows": graded,
         "tiers": tiers_for(sp),
         "tiers_total": tiers_for(to),
-        "by_market": {"spread": market_summary(sp), "total": market_summary(to)},
+        "by_market": {"spread": market_summary(sp), "total": market_summary(to),
+                      "top": market_summary(top)},
     }
 
 
@@ -649,13 +756,19 @@ def main():
     d, use_to = attach_turnovers(d, to_df)
     d, to_points = add_adjusted_margin(d, shrink=TO_SHRINK)
 
-    # weather, for the totals model
-    d, use_wx = attach_weather(d, parse_weather(data["weather"]))
-
     # situational context: travel, body clock, rest, rivalry
     venues = parse_venues(data["venues"])
     home_venue = infer_home_venues(d)
     d = add_situational(d, venues, home_venue)
+
+    # weather from Open-Meteo: one archive call per outdoor venue covers every
+    # season at once, so this costs ~130 calls once rather than one per game
+    wx_end = datetime.now(timezone.utc).date().isoformat()
+    wx_daily = fetch_venue_weather(venues, CONFIG.get("weather_start", "2016-08-01"), wx_end)
+    d, use_wx = attach_venue_weather(d, wx_daily, venues)
+    n_dome = sum(1 for v in venues.values() if v.get("dome"))
+    print(f"Weather: {int(d['wind'].notna().sum()):,} games covered "
+          f"| {n_dome} domes | active {use_wx}")
 
     d = d.sort_values(["season", "week"]).reset_index(drop=True)
     print(f"History: {len(d):,} games | lines {int(d.spread.notna().sum()):,} "
@@ -693,6 +806,10 @@ def main():
         cur, _ = attach_turnovers(cur, parse_team_stats(cur_to))
         cur, _ = add_adjusted_margin(cur, shrink=TO_SHRINK)
         cur = add_situational(cur, venues, home_venue)
+        up_ids = cur.loc[cur.home_pts.isna(), "venue_id"].dropna().unique()
+        fc = fetch_venue_forecast(venues, up_ids, days=LOOKAHEAD_DAYS + 2)
+        cur_wx = pd.concat([wx_daily, fc], ignore_index=True) if len(fc) else wx_daily
+        cur, _ = attach_venue_weather(cur, cur_wx, venues)
         done = cur[cur.home_pts.notna()]
         played = int(len(done))
         r_in = None
@@ -714,13 +831,28 @@ def main():
               f"| weather {use_wx}")
 
     # ---- picks + log ----
-    picks = (find_picks(cur, ratings_now, hfa, bt_summary.get("situational"))
+    gp_now = games_played_counts(cur[cur.home_pts.notna()]) if len(cur) else {}
+    picks = (find_picks(cur, ratings_now, hfa, bt_summary.get("situational"),
+                       prior=prior,
+                       conf_w=bt_summary.get("conf_weights"),
+                       conf_names=bt_summary.get("conf_names"),
+                       conf_mae=bt_summary.get("conf_mae"),
+                       games_played=gp_now)
              if len(cur) else pd.DataFrame())
 
     # ---- totals picks ----
     t_off, t_dfn, t_hfa, t_base, t_w, t_names = fit_totals_calibration(d, use_wx)
     total_picks = (find_total_picks(cur, t_off, t_dfn, t_hfa, t_base, t_w, t_names)
                    if len(cur) else pd.DataFrame())
+    if len(total_picks):
+        t_mae = t_summary.get("model_mae") or 13.0
+        total_picks["sigma"] = t_mae
+        total_picks["confidence"] = confidence_score(
+            total_picks["edge"].to_numpy(dtype=float), np.full(len(total_picks), t_mae))
+        total_picks = total_picks.sort_values("confidence", ascending=False).reset_index(drop=True)
+        total_picks["top_pick"] = False
+        tq = total_picks.index[total_picks.qualified][:TOP_PICK_COUNT]
+        total_picks.loc[tq, "top_pick"] = True
 
     fin_cols = ["game_id", "margin", "mkt", "actual_total", "mkt_total"]
     finished = d[[c for c in fin_cols if c in d.columns]].copy()
@@ -756,6 +888,11 @@ def main():
                 "edge": round(float(r.edge), 1),
                 "wind": (round(float(r.wind), 1)
                          if "wind" in frame.columns and pd.notna(r.get("wind")) else None),
+                "indoor": bool(r.get("indoor", 0)),
+                "confidence": (round(float(r.confidence), 2)
+                               if "confidence" in frame.columns and pd.notna(r.get("confidence"))
+                               else None),
+                "top_pick": bool(r.get("top_pick", False)),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -785,6 +922,12 @@ def main():
                 "model_margin": round(float(r.pred), 1),
                 "market_margin": round(float(r.mkt), 1),
                 "edge": round(float(r.edge), 1),
+                "confidence": (round(float(r.confidence), 2)
+                               if "confidence" in frame.columns and pd.notna(r.get("confidence"))
+                               else None),
+                "sigma": (round(float(r.sigma), 1)
+                          if "sigma" in frame.columns and pd.notna(r.get("sigma")) else None),
+                "top_pick": bool(r.get("top_pick", False)),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -835,12 +978,19 @@ def main():
             "home_field": round(hfa, 2),
             "uses_epa": bool(use_epa),
             "uses_turnovers": bool(use_to),
+            "uses_weather": bool(use_wx),
+            "weather_games": int(d["wind"].notna().sum()) if "wind" in d.columns else 0,
+            "domes": sum(1 for v in venues.values() if v.get("dome")),
             "uses_sp": bool(sp),
             "turnover_points": round(to_points, 2) if to_points is not None else None,
             "turnover_shrink": TO_SHRINK,
             "returning_field": ret_field,
         },
         "situational": bt_summary.get("situational", {}),
+        "uncertainty": bt_summary.get("uncertainty", {}),
+        "confidence_tiers": bt_summary.get("confidence_tiers", []),
+        "confidence_tiers_holdout": bt_summary.get("confidence_tiers_holdout", []),
+        "top_pick_count": TOP_PICK_COUNT,
         "prior_model": {
             "r2": round(prior_model.r2, 3) if prior_model.r2 == prior_model.r2 else None,
             "team_seasons": prior_model.n_train,
