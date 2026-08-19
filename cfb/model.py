@@ -288,15 +288,152 @@ def attach_epa(d, adv_raw):
 
 
 # ----------------------------------------------------------------------
+# turnover adjustment
+# ----------------------------------------------------------------------
+
+def parse_team_stats(raw):
+    """Flatten /games/teams into one row per game-team with turnover counts.
+
+    Response shape is nested: game -> teams[] -> stats[] of {category, stat}.
+    Returns DataFrame [game_id, team, home_away, turnovers] or empty.
+    """
+    if not len(raw):
+        return pd.DataFrame()
+
+    gid = col(raw, "id", "gameId", "game_id")
+    tcol = col(raw, "teams")
+    if not (gid and tcol):
+        return pd.DataFrame()
+
+    df = raw[[gid, tcol]].rename(columns={gid: "game_id"}).explode(tcol).dropna(subset=[tcol])
+    if not len(df):
+        return pd.DataFrame()
+
+    teams = pd.json_normalize(df[tcol])
+    teams.index = df.index
+    df = pd.concat([df.drop(columns=[tcol]), teams], axis=1)
+
+    school = col(df, "school", "team")
+    ha = col(df, "homeAway", "home_away")
+    scol = col(df, "stats")
+    if not (school and scol):
+        return pd.DataFrame()
+
+    st = df[["game_id", school, scol]].rename(columns={school: "team"})
+    st = st.explode(scol).dropna(subset=[scol])
+    if not len(st):
+        return pd.DataFrame()
+
+    sn = pd.json_normalize(st[scol])
+    sn.index = st.index
+    st = pd.concat([st.drop(columns=[scol]), sn], axis=1)
+
+    ccol = col(st, "category")
+    vcol = col(st, "stat", "value")
+    if not (ccol and vcol):
+        return pd.DataFrame()
+
+    to = st[st[ccol].astype(str).str.lower() == "turnovers"].copy()
+    if not len(to):
+        return pd.DataFrame()
+    to["turnovers"] = pd.to_numeric(to[vcol], errors="coerce")
+    to = to.dropna(subset=["turnovers"])[["game_id", "team", "turnovers"]]
+
+    out = to.groupby(["game_id", "team"], as_index=False)["turnovers"].first()
+    if ha:
+        side = df[["game_id", school, ha]].rename(columns={school: "team", ha: "home_away"})
+        out = out.merge(side, on=["game_id", "team"], how="left")
+    return out
+
+
+def attach_turnovers(d, to_df):
+    """Add to_margin: home turnovers lost minus away turnovers lost.
+
+    Negative to_margin means the home team lost the turnover battle.
+    """
+    d = d.copy()
+    d["to_margin"] = np.nan
+    if not len(to_df):
+        return d, False
+
+    gm = d[["game_id", "home_name", "away_name"]]
+    h = gm.merge(to_df, left_on=["game_id", "home_name"], right_on=["game_id", "team"])
+    a = gm.merge(to_df, left_on=["game_id", "away_name"], right_on=["game_id", "team"])
+    both = h[["game_id", "turnovers"]].merge(
+        a[["game_id", "turnovers"]], on="game_id", suffixes=("_h", "_a"))
+    # away giveaways minus home giveaways: positive helps the home team
+    both["to_margin"] = both["turnovers_a"] - both["turnovers_h"]
+
+    d = d.drop(columns=["to_margin"]).merge(
+        both[["game_id", "to_margin"]], on="game_id", how="left")
+    return d, bool(d["to_margin"].notna().sum() > 1000)
+
+
+def fit_turnover_points(d):
+    """Points of scoring margin associated with one net turnover.
+
+    Regresses margin on turnover margin. Historically lands near 4-5.
+    """
+    sub = d.dropna(subset=["margin", "to_margin"])
+    if len(sub) < 500:
+        return None
+    x = sub["to_margin"].to_numpy(dtype=float)
+    y = sub["margin"].to_numpy(dtype=float)
+    A = np.column_stack([x, np.ones(len(x))])
+    beta, *_ = np.linalg.lstsq(A, y, rcond=None)
+    return float(beta[0])
+
+
+def add_adjusted_margin(d, shrink=0.7):
+    """Remove the luck portion of turnover margin from scoring margin.
+
+    Fumble recovery is close to a coin flip and interception rate is far less
+    stable than it looks, so most of turnover margin does not repeat. Some of
+    it is skill (pressure, ball security), which is why we remove only
+    `shrink` of the fitted effect rather than all of it.
+    """
+    d = d.copy()
+    k = fit_turnover_points(d)
+    if k is None:
+        d["adj_margin"] = d["margin"]
+        return d, None
+    d["adj_margin"] = np.where(
+        d["to_margin"].notna(),
+        d["margin"] - shrink * k * d["to_margin"].fillna(0.0),
+        d["margin"],
+    )
+    return d, k
+
+
+# ----------------------------------------------------------------------
+# published ratings
+# ----------------------------------------------------------------------
+
+def parse_sp(raw):
+    """Team -> overall SP+ rating for one season."""
+    if not len(raw):
+        return {}
+    tcol = col(raw, "team", "school")
+    rcol = col(raw, "rating", "overall.rating", "overallRating")
+    if not (tcol and rcol):
+        return {}
+    sub = raw[[tcol, rcol]].copy()
+    sub[rcol] = pd.to_numeric(sub[rcol], errors="coerce")
+    sub = sub.dropna()
+    sub = sub[sub[tcol].astype(str).str.lower() != "nationalaverages"]
+    return dict(zip(sub[tcol], sub[rcol]))
+
+
+# ----------------------------------------------------------------------
 # preseason prior
 # ----------------------------------------------------------------------
 
-def season_ratings(d, years, use_epa):
+def season_ratings(d, years, use_epa, target="margin"):
     """Per-season ratings, each season fit in isolation."""
     R, H = {}, {}
     for yr in years:
         sub = d[d.season == yr]
-        r_m, hfa = fit_ratings(sub, "margin", ridge=12.0, cap=35.0)
+        r_m, hfa = fit_ratings(sub, target, ridge=12.0, cap=35.0)
         if r_m is None:
             continue
         r_p = None
@@ -350,14 +487,20 @@ def returning_production(returning):
 
 class PriorModel:
     """Regression from prior-year ratings + returning production + talent
-    onto end-of-season rating."""
+    + prior-year SP+ onto end-of-season rating.
 
-    FEATURES = ["r_prev", "r_prev2", "ret", "talent"]
+    Note on SP+: only the PRIOR season's final SP+ is used. Using season Y's
+    final SP+ to predict games inside season Y would leak end-of-season
+    knowledge backwards and inflate the backtest.
+    """
 
-    def __init__(self, season_r, ret, talent):
+    FEATURES = ["r_prev", "r_prev2", "ret", "talent", "sp_prev"]
+
+    def __init__(self, season_r, ret, talent, sp=None):
         self.season_r = season_r
         self.ret = ret
         self.talent = talent
+        self.sp = sp or {}
         self.feats = []
         self.weights = None
         self.r2 = float("nan")
@@ -370,6 +513,7 @@ class PriorModel:
         for yr in sorted(self.season_r):
             if (yr - 1) not in self.season_r or (yr - 2) not in self.season_r:
                 continue
+            sp_prev = self.sp.get(yr - 1, {})
             for team, target in self.season_r[yr].items():
                 if team == "NON_FBS":
                     continue
@@ -379,6 +523,7 @@ class PriorModel:
                     "r_prev2": self.season_r[yr - 2].get(team, np.nan),
                     "ret": self.ret.get(yr, {}).get(team, np.nan),
                     "talent": self.talent.get(yr, {}).get(team, np.nan),
+                    "sp_prev": sp_prev.get(team, np.nan),
                 })
         return pd.DataFrame(rows)
 
@@ -426,6 +571,7 @@ class PriorModel:
                 "r_prev2": self.season_r[season - 2].get(t, self.medians.get("r_prev2", 0.0)),
                 "ret": self.ret.get(season, {}).get(t, self.medians.get("ret", 0.0)),
                 "talent": self.talent.get(season, {}).get(t, self.medians.get("talent", 0.0)),
+                "sp_prev": self.sp.get(season - 1, {}).get(t, self.medians.get("sp_prev", 0.0)),
             }
             x = np.array([vals[f] for f in self.feats] + [1.0])
             out[t] = float(x @ self.weights)
