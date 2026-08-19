@@ -233,6 +233,49 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
 
 
 
+
+def season_breakdown(s, edge_col="edge", outcome_col="margin", line_col="mkt",
+                     min_edge=None):
+    """Per-season results for qualified picks, newest last.
+
+    The useful trend column is `gap`: how much worse than the closing line the
+    model was that year. Win rate bounces around on a few hundred picks; the
+    accuracy gap is a far steadier read on whether the model is improving.
+    """
+    if not len(s):
+        return []
+    thr = MIN_EDGE if min_edge is None else min_edge
+    profit = american_to_profit(PRICE)
+    out = []
+
+    for season in sorted(s["season"].dropna().unique()):
+        sub = s[s.season == season]
+        q = sub[(sub[edge_col].abs() >= thr)].dropna(subset=[outcome_col, line_col])
+        if len(q) < 25:
+            continue
+        realized = np.where(q[edge_col] > 0, q[outcome_col] - q[line_col],
+                            q[line_col] - q[outcome_col])
+        wins = int((realized > 0).sum())
+        losses = int((realized < 0).sum())
+        pushes = int((realized == 0).sum())
+        decided = wins + losses
+        units = wins * profit - losses
+        row = {
+            "season": int(season),
+            "bets": int(len(q)),
+            "wins": wins, "losses": losses, "pushes": pushes,
+            "win_pct": round(wins / decided * 100, 1) if decided else None,
+            "units": round(units, 2),
+            "roi_pct": round(units / len(q) * 100, 1) if len(q) else None,
+        }
+        if "e_model" in sub.columns and "e_mkt" in sub.columns:
+            row["model_mae"] = round(float(sub.e_model.mean()), 2)
+            row["market_mae"] = round(float(sub.e_mkt.mean()), 2)
+            row["gap"] = round(float(sub.e_model.mean() - sub.e_mkt.mean()), 2)
+        out.append(row)
+    return out
+
+
 def confidence_tier_stats(frame, conf_col="confidence", outcome_col="margin",
                          line_col="mkt", edge_col="edge"):
     """Results grouped by confidence, to test whether confidence sorts winners.
@@ -399,6 +442,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
         "situational": sit_report,
+        "by_season": season_breakdown(s),
         "uncertainty": conf_report,
         "confidence_tiers": confidence_tier_stats(s),
         "confidence_tiers_holdout": (confidence_tier_stats(hold)
@@ -496,6 +540,8 @@ def run_totals_backtest(d, use_wx):
                      "bets": int(len(hq))} if HOLDOUT and len(hq) else None),
         "tiers": tier_stats(s, edge_col="edge", margin_col="actual_total",
                             line_col="mkt_total"),
+        "by_season": season_breakdown(s, outcome_col="actual_total",
+                                      line_col="mkt_total", min_edge=MIN_EDGE_TOTAL),
         "seasons": TEST_SEASONS,
         "min_edge": MIN_EDGE_TOTAL,
         "uses_weather": bool(use_wx),
@@ -877,6 +923,8 @@ def update_bet_log(picks, finished, total_picks=None):
 
     sp = graded[graded.market != "total"]
     to = graded[graded.market == "total"]
+    cur_season = graded[graded.get("season", pd.Series(dtype=float)) == CURRENT] \
+        if "season" in graded.columns else graded.iloc[0:0]
     top = graded[graded.get("top_pick", pd.Series(False, index=graded.index)) == True]
 
     return log, {
@@ -886,6 +934,8 @@ def update_bet_log(picks, finished, total_picks=None):
         "tiers_total": tiers_for(to),
         "by_market": {"spread": market_summary(sp), "total": market_summary(to),
                       "top": market_summary(top)},
+        "live_season": ({"season": CURRENT, **market_summary(cur_season)}
+                        if len(cur_season) else None),
     }
 
 
@@ -1194,6 +1244,7 @@ def main():
         "record_tiers": log_out.get("tiers", []),
         "record_tiers_total": log_out.get("tiers_total", []),
         "record_by_market": log_out.get("by_market", {}),
+        "record_live_season": log_out.get("live_season"),
         "ratings": ratings_rows,
         "notes": notes,
     }
