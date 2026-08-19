@@ -397,6 +397,25 @@ function renderRecord(d){
           <div class="tile-v">${bt.late ? esc(bt.late.model_mae) : '--'}</div>
           <div class="tile-sub">mkt ${bt.late ? esc(bt.late.market_mae) : '--'}</div></div>
       </div>`;
+
+    if(bt.holdout){
+      const tn = bt.tuning || {}, ho = bt.holdout;
+      html += `<h2>Held-out season</h2>
+        <p class="sub">${esc(ho.season)} was kept aside while the model was built.
+        Its number is the trustworthy one &mdash; the tuning seasons have been looked
+        at repeatedly and will flatter the model.</p>
+        <div class="tiles">
+          <div class="tile"><div class="tile-k">Tuning ${esc((tn.seasons||[]).join('/'))}</div>
+            <div class="tile-v">${tn.win_pct == null ? '--' : esc(tn.win_pct) + '%'}</div>
+            <div class="tile-sub">${esc(tn.bets ?? 0)} bets &middot; MAE ${esc(tn.model_mae ?? '--')}</div></div>
+          <div class="tile"><div class="tile-k">Holdout ${esc(ho.season)}</div>
+            <div class="tile-v">${ho.win_pct == null ? '--' : esc(ho.win_pct) + '%'}</div>
+            <div class="tile-sub">${esc(ho.bets ?? 0)} bets &middot; MAE ${esc(ho.model_mae ?? '--')}</div></div>
+          <div class="tile"><div class="tile-k">Break-even</div>
+            <div class="tile-v">${esc((d.record||{}).breakeven_pct ?? 52.4)}%</div>
+            <div class="tile-sub">at ${esc(d.assumed_price ?? -110)}</div></div>
+        </div>`;
+    }
   }
 
   if(hist.length){
@@ -437,15 +456,25 @@ function renderRatings(d){
 
 function renderFooter(d){
   const pm = d.prior_model || {};
+  const st = d.state || {};
   const co = pm.coefficients || {};
   const parts = Object.keys(co).length
     ? Object.entries(co).map(([k, v]) => `${k} ${v > 0 ? '+' : ''}${v}`).join(' &middot; ')
     : 'not fit';
+  const to = st.turnover_points != null
+    ? `Turnover luck removed: each net turnover was worth ${st.turnover_points} points historically,
+       and ${Math.round((st.turnover_shrink ?? 0.7) * 100)}% of that is stripped from scoring margin
+       before rating teams, since fumble recoveries barely repeat.`
+    : 'Turnover adjustment inactive this run.';
   $('footer').innerHTML = `
-    Ridge power ratings on scoring margin and EPA per play, blended with a preseason
-    prior built from prior-year ratings, returning production, and recruiting talent.
+    Ridge power ratings on turnover-adjusted scoring margin and EPA per play, blended
+    with a preseason prior built from prior-year ratings, returning production,
+    recruiting talent${st.uses_sp ? ', and prior-year SP+' : ''}.
     Prior fit on ${esc(pm.team_seasons ?? '--')} team-seasons, R&sup2; ${esc(pm.r2 ?? '--')}.<br><br>
+    ${to}<br><br>
     Prior weights: ${parts}<br><br>
+    SP+ enters only as the <em>previous</em> season's final rating. Using the current
+    season's final SP+ would leak end-of-season knowledge into earlier weeks.<br><br>
     Data from the College Football Data API. Transfer portal movement is not modeled,
     which is the largest known gap. For entertainment and analysis.`;
 }
