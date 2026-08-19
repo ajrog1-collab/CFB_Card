@@ -808,10 +808,15 @@ OM_FORECAST = "https://api.open-meteo.com/v1/forecast"
 OM_DAILY = "wind_speed_10m_max,temperature_2m_mean,precipitation_sum"
 
 
-def _om_get(url, params, label):
-    """One Open-Meteo call. Returns parsed daily dict or None."""
+def _om_get(url, params, label, timeout=15):
+    """One Open-Meteo call. Returns parsed daily dict or None.
+
+    Short timeout on purpose: Open-Meteo throttles shared CI addresses, and a
+    slow failure is far worse than a fast one when there are 130 venues to get
+    through inside a job time limit.
+    """
     try:
-        r = requests.get(url, params=params, timeout=60)
+        r = requests.get(url, params=params, timeout=timeout)
         if r.status_code >= 400:
             print(f"    open-meteo {label}: HTTP {r.status_code}")
             return None
@@ -821,7 +826,8 @@ def _om_get(url, params, label):
         return None
 
 
-def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
+def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False,
+                        seconds_budget=300, abort_after_failures=6):
     """Daily weather per venue for the whole date range.
 
     One archive call per venue covers every season at once, so the whole history
@@ -838,6 +844,10 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
     frames = []
     fetched = 0
     pending = 0
+    failures = 0
+    consecutive_failures = 0
+    started = time.time()
+    gave_up = False
 
     for vid, v in sorted(venues.items()):
         if v.get("dome"):
@@ -850,7 +860,9 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
             except Exception:
                 pass
 
-        if fetched >= budget:
+        # stop fetching on any of: call budget, wall-clock budget, or a run of
+        # failures that means the host is refusing us right now
+        if gave_up or fetched >= budget or (time.time() - started) > seconds_budget:
             pending += 1
             continue
         fetched += 1
@@ -862,7 +874,14 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
             "temperature_unit": "fahrenheit", "timezone": "UTC",
         }, f"archive venue {vid}")
         if not daily or not daily.get("time"):
+            failures += 1
+            consecutive_failures += 1
+            if consecutive_failures >= abort_after_failures:
+                gave_up = True
+                print(f"    weather: {consecutive_failures} failures in a row — "
+                      f"Open-Meteo is refusing this runner, skipping the rest this run")
             continue
+        consecutive_failures = 0
 
         df = pd.DataFrame({
             "venue_id": vid,
@@ -878,8 +897,10 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
         frames.append(df)
         time.sleep(0.15)
 
+    got = fetched - failures
     if fetched:
-        print(f"    weather: fetched {fetched} new venues this run")
+        print(f"    weather: {got} of {fetched} attempts succeeded "
+              f"({time.time() - started:.0f}s)")
     if pending:
         print(f"    weather: {pending} venues still to backfill — they will fill in "
               f"on the next scheduled run")
