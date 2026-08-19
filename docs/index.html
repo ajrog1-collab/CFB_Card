@@ -570,12 +570,26 @@ function renderFooter(d){
        and ${Math.round((st.turnover_shrink ?? 0.7) * 100)}% of that is stripped from scoring margin
        before rating teams, since fumble recoveries barely repeat.`
     : 'Turnover adjustment inactive this run.';
+
+  const sit = d.situational || {};
+  const SIT_LABEL = {
+    travel_diff_k: 'per 1,000 miles the road team travels',
+    east_body: 'per hour of eastward body-clock shift into an early kickoff',
+    rest_diff: 'per extra day of rest',
+    rivalry_compress: 'rivalry compression (fraction of the spread given back)',
+    rating_scale: 'rating differential scale',
+  };
+  const sitLines = Object.entries(sit)
+    .filter(([k]) => k !== 'rating_scale')
+    .map(([k, v]) => `${v > 0 ? '+' : ''}${v} pts ${SIT_LABEL[k] || k}`)
+    .join('<br>');
   $('footer').innerHTML = `
     Ridge power ratings on turnover-adjusted scoring margin and EPA per play, blended
     with a preseason prior built from prior-year ratings, returning production,
     recruiting talent${st.uses_sp ? ', and prior-year SP+' : ''}.
     Prior fit on ${esc(pm.team_seasons ?? '--')} team-seasons, R&sup2; ${esc(pm.r2 ?? '--')}.<br><br>
     ${to}<br><br>
+    ${sitLines ? 'Situational effects, fitted from history:<br>' + sitLines + '<br><br>' : ''}
     Prior weights: ${parts}<br><br>
     SP+ enters only as the <em>previous</em> season's final rating. Using the current
     season's final SP+ would leak end-of-season knowledge into earlier weeks.<br><br>
