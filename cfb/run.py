@@ -23,9 +23,10 @@ import pandas as pd
 
 from model import (
     PriorModel, add_adjusted_margin, add_situational, attach_epa, attach_lines,
-    attach_turnovers, blend_prior, blend_ratings, build_games, cfbd_get, col,
-    fit_ratings, games_played_counts, infer_home_venues, parse_sp, parse_team_stats,
-    parse_venues, rating_diff, season_ratings, situational_matrix,
+    attach_turnovers, attach_weather, blend_prior, blend_ratings, build_games,
+    cfbd_get, col, fit_points_ratings, fit_ratings, games_played_counts,
+    infer_home_venues, parse_sp, parse_team_stats, parse_venues, parse_weather,
+    predict_total, rating_diff, season_ratings, situational_matrix, totals_matrix,
     talent_composite, returning_production,
 )
 
@@ -43,6 +44,7 @@ HOLDOUT = CONFIG.get("holdout_season")
 TO_SHRINK = float(CONFIG.get("turnover_shrink", 0.7))
 ALLOW_WEEK_BACKFILL = bool(CONFIG.get("allow_week_backfill", True))
 RATING_TARGET = "adj_margin"
+MIN_EDGE_TOTAL = float(CONFIG.get("min_edge_total", 4.0))
 LOOKAHEAD_DAYS = int(CONFIG["lookahead_days"])
 PRICE = float(CONFIG["assumed_price"])  # e.g. -110
 
@@ -82,7 +84,7 @@ def load_everything():
     print("Fetching data...")
     games_raw, lines_raw, adv_raw = [], [], []
     recruit, returning, fbs = [], [], {}
-    sp_by_year, team_stats = {}, []
+    sp_by_year, team_stats, weather = {}, [], []
 
     for yr in HIST_YEARS:
         for st in ("regular", "postseason"):
@@ -118,6 +120,10 @@ def load_everything():
         if len(ts):
             team_stats.append(ts)
 
+        wx = cfbd_get("games/weather", {"year": yr, "seasonType": "regular"})
+        if len(wx):
+            weather.append(wx)
+
         print(f"  {yr}")
 
     # current season: never cached, always fresh
@@ -150,7 +156,7 @@ def load_everything():
         "recruit": cat(recruit), "returning": cat(returning), "fbs": fbs,
         "cur_games": cur_games, "cur_lines": cur_lines,
         "sp": sp_by_year, "team_stats": cat(team_stats),
-        "venues": venues_raw,
+        "venues": venues_raw, "weather": cat(weather),
     }
 
 
@@ -333,6 +339,135 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
 
 
 # ======================================================================
+# 3b. totals
+# ======================================================================
+
+def run_totals_backtest(d, use_wx):
+    """Walk-forward totals backtest.
+
+    Offense/defense points ratings are refit each week from that season's games
+    so far, then calibrated onto the totals scale with weather and rest context.
+    Weeks 1-4 are skipped: there is no usable preseason prior for totals, and
+    pretending otherwise would only add noise.
+    """
+    preds = []
+    for season in TEST_SEASONS:
+        for wk in sorted(d.loc[(d.season == season) & (d.week >= 5), "week"].unique()):
+            so_far = d[(d.season == season) & (d.week < wk)]
+            test = d[(d.season == season) & (d.week == wk)]
+            if len(so_far) < 200 or test.empty:
+                continue
+
+            off, dfn, hfa_off, base = fit_points_ratings(so_far, ridge=14.0, cap=56.0)
+            if off is None:
+                continue
+
+            raw_prev = predict_total(so_far, off, dfn, hfa_off, base)
+            S_prev, names = totals_matrix(so_far)
+            ok = ~np.isnan(raw_prev) & so_far["actual_total"].notna().to_numpy()
+            if ok.sum() < 200:
+                continue
+            A = np.column_stack([raw_prev[ok], S_prev[ok], np.ones(int(ok.sum()))])
+            w, *_ = np.linalg.lstsq(
+                A, so_far.loc[ok, "actual_total"].to_numpy(dtype=float), rcond=None)
+
+            raw = predict_total(test, off, dfn, hfa_off, base)
+            S, _ = totals_matrix(test)
+            At = np.nan_to_num(np.column_stack([raw, S, np.ones(len(test))]), nan=0.0)
+            out = test.copy()
+            out["pred_total"] = At @ w
+            preds.append(out)
+
+    if not preds:
+        return pd.DataFrame(), {}
+
+    bt = pd.concat(preds, ignore_index=True)
+    s = bt.dropna(subset=["mkt_total", "pred_total", "actual_total"]).copy()
+    if not len(s):
+        return bt, {}
+
+    s["e_model"] = (s.pred_total - s.actual_total).abs()
+    s["e_mkt"] = (s.mkt_total - s.actual_total).abs()
+    s["edge"] = s.pred_total - s.mkt_total
+    # "cover" means the over hit
+    s["cover"] = np.where(s.actual_total > s.mkt_total, 1.0,
+                          np.where(s.actual_total < s.mkt_total, 0.0, np.nan))
+
+    qual = s[(s.edge.abs() >= MIN_EDGE_TOTAL) & s.cover.notna()]
+    win = (float(np.where(qual.edge > 0, qual.cover, 1 - qual.cover).mean())
+           if len(qual) > 20 else None)
+
+    hold = s[s.season == HOLDOUT] if HOLDOUT else pd.DataFrame()
+    hq = (hold[(hold.edge.abs() >= MIN_EDGE_TOTAL) & hold.cover.notna()]
+          if len(hold) else pd.DataFrame())
+    hwin = (float(np.where(hq.edge > 0, hq.cover, 1 - hq.cover).mean())
+            if len(hq) > 20 else None)
+
+    return bt, {
+        "games": int(len(s)),
+        "model_mae": round(float(s.e_model.mean()), 2),
+        "market_mae": round(float(s.e_mkt.mean()), 2),
+        "qualified_win_pct": round(win * 100, 1) if win is not None else None,
+        "qualified_bets": int(len(qual)),
+        "holdout": ({"season": HOLDOUT,
+                     "win_pct": round(hwin * 100, 1) if hwin is not None else None,
+                     "bets": int(len(hq))} if HOLDOUT and len(hq) else None),
+        "tiers": tier_stats(s, edge_col="edge", margin_col="actual_total",
+                            line_col="mkt_total"),
+        "seasons": TEST_SEASONS,
+        "min_edge": MIN_EDGE_TOTAL,
+        "uses_weather": bool(use_wx),
+    }
+
+
+def fit_totals_calibration(d, use_wx):
+    """Fit current offense/defense ratings plus the totals calibration."""
+    off, dfn, hfa_off, base = fit_points_ratings(d, ridge=14.0, cap=56.0)
+    if off is None:
+        return None, None, 0.0, 0.0, None, []
+    raw = predict_total(d, off, dfn, hfa_off, base)
+    S, names = totals_matrix(d)
+    ok = ~np.isnan(raw) & d["actual_total"].notna().to_numpy()
+    if ok.sum() < 200:
+        return off, dfn, hfa_off, base, None, names
+    A = np.column_stack([raw[ok], S[ok], np.ones(int(ok.sum()))])
+    w, *_ = np.linalg.lstsq(A, d.loc[ok, "actual_total"].to_numpy(dtype=float), rcond=None)
+    return off, dfn, hfa_off, base, w, names
+
+
+def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
+    """Upcoming games with a posted total, ranked by disagreement."""
+    now = datetime.now(timezone.utc)
+    up = cur[
+        cur.home_pts.isna() & cur.kickoff.notna()
+        & (cur.kickoff > now) & (cur.kickoff < now + timedelta(days=LOOKAHEAD_DAYS))
+    ].copy()
+    up = up[(up.home_team != "NON_FBS") & (up.away_team != "NON_FBS")]
+    if not len(up) or off is None or cal_w is None:
+        return pd.DataFrame()
+
+    raw = predict_total(up, off, dfn, hfa_off, base)
+    S, names = totals_matrix(up)
+    if list(names) != list(cal_names) or S.shape[1] != len(cal_names):
+        S = np.zeros((len(up), len(cal_names)))
+    A = np.nan_to_num(np.column_stack([raw, S, np.ones(len(up))]), nan=0.0)
+    if A.shape[1] != len(cal_w):
+        return pd.DataFrame()
+
+    up["pred_total"] = A @ cal_w
+    up["edge"] = up["pred_total"] - up["mkt_total"]
+    up = up.dropna(subset=["edge"])
+    if not len(up):
+        return pd.DataFrame()
+
+    up["side"] = np.where(up.edge > 0, "over", "under")
+    up["pick_team"] = np.where(up.edge > 0, "Over", "Under")
+    up["pick_spread"] = up["mkt_total"]
+    up["qualified"] = up.edge.abs() >= MIN_EDGE_TOTAL
+    return up.sort_values("edge", key=lambda c: c.abs(), ascending=False).reset_index(drop=True)
+
+
+# ======================================================================
 # 3. picks
 # ======================================================================
 
@@ -378,20 +513,36 @@ def find_picks(cur, ratings, hfa, sit_weights=None):
 # 4. bet log
 # ======================================================================
 
-def update_bet_log(picks, finished):
-    """Append newly qualified wagers, then grade any that have completed."""
-    cols = ["game_id", "season", "week", "logged_at", "away_name", "home_name",
-            "pick_team", "side", "pred", "mkt_at_log", "pick_spread", "edge"]
+def update_bet_log(picks, finished, total_picks=None):
+    """Append newly qualified wagers, then grade any that have completed.
+
+    Handles both markets. `market` is 'spread' or 'total'; rows written before
+    that column existed are treated as spreads.
+    """
+    cols = ["game_id", "market", "season", "week", "logged_at", "away_name",
+            "home_name", "pick_team", "side", "pred", "mkt_at_log",
+            "pick_spread", "edge"]
 
     log = pd.read_csv(BET_LOG) if BET_LOG.exists() else pd.DataFrame(columns=cols)
+    if "market" not in log.columns:
+        log["market"] = "spread"
+    log["market"] = log["market"].fillna("spread")
 
-    if len(picks):
-        new = picks[picks.qualified].copy()
-        if len(new):
-            new["logged_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-            new = new.rename(columns={"mkt": "mkt_at_log"})
-            new = new[[c for c in cols if c in new.columns]]
-            log = pd.concat([log, new], ignore_index=True)
+    def add(frame, market, pred_col, line_col):
+        nonlocal log
+        if frame is None or not len(frame):
+            return
+        new = frame[frame.qualified].copy()
+        if not len(new):
+            return
+        new["market"] = market
+        new["logged_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        new = new.rename(columns={line_col: "mkt_at_log", pred_col: "pred"})
+        new = new[[c for c in cols if c in new.columns]]
+        log = pd.concat([log, new], ignore_index=True)
+
+    add(picks, "spread", "pred", "mkt")
+    add(total_picks, "total", "pred_total", "mkt_total")
 
     if not len(log):
         return log, {}
@@ -400,29 +551,36 @@ def update_bet_log(picks, finished):
     log["game_id"] = pd.to_numeric(log["game_id"], errors="coerce")
     log = (log.dropna(subset=["game_id"])
               .sort_values("logged_at")
-              .drop_duplicates("game_id", keep="first")
+              .drop_duplicates(["game_id", "market"], keep="first")
               .reset_index(drop=True))
     BET_LOG.parent.mkdir(parents=True, exist_ok=True)
     log.to_csv(BET_LOG, index=False)
 
     # ---- grade ----
-    res = finished[["game_id", "margin", "mkt"]].rename(columns={"mkt": "mkt_close"})
+    res = finished[["game_id", "margin", "mkt", "actual_total", "mkt_total"]].rename(
+        columns={"mkt": "mkt_close_spread", "mkt_total": "mkt_close_total"})
     g = log.merge(res, on="game_id", how="left")
 
-    graded = g.dropna(subset=["margin"]).copy()
+    is_total = g["market"] == "total"
+    # the realized number each wager is graded against
+    g["outcome"] = np.where(is_total, g["actual_total"], g["margin"])
+    g["mkt_close"] = np.where(is_total, g["mkt_close_total"], g["mkt_close_spread"])
+
+    graded = g.dropna(subset=["outcome"]).copy()
     if not len(graded):
         return log, {"pending": int(len(g)), "settled": 0}
 
-    home = graded.side == "home"
+    # a wager wins if the outcome landed on the side taken
+    over_or_home = graded["side"].isin(["home", "over"])
     graded["result"] = np.select(
-        [graded.margin == graded.mkt_at_log,
-         home & (graded.margin > graded.mkt_at_log),
-         (~home) & (graded.margin < graded.mkt_at_log)],
+        [graded.outcome == graded.mkt_at_log,
+         over_or_home & (graded.outcome > graded.mkt_at_log),
+         (~over_or_home) & (graded.outcome < graded.mkt_at_log)],
         ["push", "win", "win"], default="loss")
 
     profit = american_to_profit(PRICE)
     graded["units"] = graded.result.map({"win": profit, "loss": -1.0, "push": 0.0})
-    graded["clv"] = np.where(home,
+    graded["clv"] = np.where(over_or_home,
                              graded.mkt_close - graded.mkt_at_log,
                              graded.mkt_at_log - graded.mkt_close)
 
@@ -445,11 +603,40 @@ def update_bet_log(picks, finished):
 
     graded = graded.sort_values("logged_at", ascending=False)
 
-    # live tier breakdown, using the line recorded at log time
-    lt = graded.rename(columns={"mkt_at_log": "mkt"})
-    live_tiers = tier_stats(lt, edge_col="edge", margin_col="margin", line_col="mkt")
+    def market_summary(frame):
+        if not len(frame):
+            return None
+        dec = frame[frame.result != "push"]
+        return {
+            "settled": int(len(frame)),
+            "wins": int((frame.result == "win").sum()),
+            "losses": int((frame.result == "loss").sum()),
+            "pushes": int((frame.result == "push").sum()),
+            "win_pct": round(float((dec.result == "win").mean()) * 100, 1) if len(dec) else None,
+            "units": round(float(frame.units.sum()), 2),
+            "roi_pct": round(float(frame.units.sum() / len(frame)) * 100, 1),
+        }
 
-    return log, {"summary": summary, "rows": graded, "tiers": live_tiers}
+    # live tier breakdowns, using the line recorded at log time
+    def tiers_for(frame):
+        if not len(frame):
+            return []
+        # drop the originals first: renaming onto existing names would create
+        # duplicate columns and break the arithmetic in tier_stats
+        lt = (frame.drop(columns=["margin", "mkt"], errors="ignore")
+                   .rename(columns={"mkt_at_log": "mkt", "outcome": "margin"}))
+        return tier_stats(lt, edge_col="edge", margin_col="margin", line_col="mkt")
+
+    sp = graded[graded.market != "total"]
+    to = graded[graded.market == "total"]
+
+    return log, {
+        "summary": summary,
+        "rows": graded,
+        "tiers": tiers_for(sp),
+        "tiers_total": tiers_for(to),
+        "by_market": {"spread": market_summary(sp), "total": market_summary(to)},
+    }
 
 
 # ======================================================================
@@ -467,6 +654,9 @@ def main():
     to_df = parse_team_stats(data["team_stats"])
     d, use_to = attach_turnovers(d, to_df)
     d, to_points = add_adjusted_margin(d, shrink=TO_SHRINK)
+
+    # weather, for the totals model
+    d, use_wx = attach_weather(d, parse_weather(data["weather"]))
 
     # situational context: travel, body clock, rest, rivalry
     venues = parse_venues(data["venues"])
@@ -521,19 +711,34 @@ def main():
             ws = [gp.get(t, 0) / (gp.get(t, 0) + BLEND_K) for t in prior if t != "NON_FBS"]
             in_season_weight = float(np.mean(ws)) if ws else 0.0
 
-    # ---- backtest ----
+    # ---- backtests ----
     bt, bt_summary = run_backtest(d, prior_model, season_hfa, use_epa)
+    tbt, t_summary = run_totals_backtest(d, use_wx)
+    if t_summary:
+        print(f"\nTotals: model MAE {t_summary['model_mae']} vs market "
+              f"{t_summary['market_mae']} on {t_summary['games']:,} games "
+              f"| weather {use_wx}")
 
     # ---- picks + log ----
     picks = (find_picks(cur, ratings_now, hfa, bt_summary.get("situational"))
              if len(cur) else pd.DataFrame())
 
-    finished = d[["game_id", "margin", "mkt"]].copy()
-    if len(cur):
-        cf = cur[cur.home_pts.notna()][["game_id", "margin", "mkt"]]
-        finished = pd.concat([finished, cf], ignore_index=True).drop_duplicates("game_id", keep="last")
+    # ---- totals picks ----
+    t_off, t_dfn, t_hfa, t_base, t_w, t_names = fit_totals_calibration(d, use_wx)
+    total_picks = (find_total_picks(cur, t_off, t_dfn, t_hfa, t_base, t_w, t_names)
+                   if len(cur) else pd.DataFrame())
 
-    log, log_out = update_bet_log(picks, finished)
+    fin_cols = ["game_id", "margin", "mkt", "actual_total", "mkt_total"]
+    finished = d[[c for c in fin_cols if c in d.columns]].copy()
+    if len(cur):
+        cf = cur[cur.home_pts.notna()][[c for c in fin_cols if c in cur.columns]]
+        finished = pd.concat([finished, cf], ignore_index=True).drop_duplicates(
+            "game_id", keep="last")
+    for c in fin_cols:
+        if c not in finished.columns:
+            finished[c] = np.nan
+
+    log, log_out = update_bet_log(picks, finished, total_picks)
 
     # ---- ratings table ----
     ratings_rows = []
@@ -542,6 +747,36 @@ def main():
                      key=lambda kv: -kv[1])
         ratings_rows = [{"rank": i, "team": t, "rating": round(v, 2)}
                         for i, (t, v) in enumerate(srt, start=1)]
+
+    def total_pick_rows(frame):
+        rows = []
+        for _, r in frame.iterrows():
+            rows.append({
+                "game_id": int(r.game_id),
+                "week": int(r.week) if pd.notna(r.week) else None,
+                "kickoff": r.kickoff.isoformat() if pd.notna(r.kickoff) else None,
+                "away": r.away_name, "home": r.home_name,
+                "pick": r.pick_team,
+                "line": round(float(r.mkt_total), 1),
+                "model_total": round(float(r.pred_total), 1),
+                "edge": round(float(r.edge), 1),
+                "wind": (round(float(r.wind), 1)
+                         if "wind" in frame.columns and pd.notna(r.get("wind")) else None),
+                "qualified": bool(r.qualified),
+            })
+        return rows
+
+    def totals_rating_rows(off, dfn):
+        if not off:
+            return []
+        rows = []
+        for t_ in sorted(off, key=lambda k: -(off.get(k, 0) - dfn.get(k, 0))):
+            if t_ == "NON_FBS":
+                continue
+            rows.append({"team": t_, "offense": round(off.get(t_, 0.0), 1),
+                         "defense": round(dfn.get(t_, 0.0), 1),
+                         "pace": round(off.get(t_, 0.0) - dfn.get(t_, 0.0), 1)})
+        return rows
 
     def pick_rows(frame):
         rows = []
@@ -588,6 +823,10 @@ def main():
         notes.append("Turnover data unavailable this run; ratings use raw scoring margin.")
     if not sp:
         notes.append("SP+ ratings unavailable this run; the prior does not include them.")
+    if not use_wx:
+        notes.append("Weather data unavailable, so the totals model runs without wind. "
+                     "Wind is the largest external factor on scoring, so totals numbers "
+                     "are weaker than they would otherwise be.")
     if prior_model.weights is None:
         notes.append("Preseason prior could not be fit. Check the data pull logs.")
 
@@ -615,9 +854,14 @@ def main():
         },
         "backtest": bt_summary,
         "picks": pick_rows(picks) if len(picks) else [],
+        "total_picks": total_pick_rows(total_picks) if len(total_picks) else [],
+        "totals": t_summary,
+        "totals_ratings": totals_rating_rows(t_off, t_dfn),
         "history": history_rows,
         "record": log_out.get("summary", {}),
         "record_tiers": log_out.get("tiers", []),
+        "record_tiers_total": log_out.get("tiers_total", []),
+        "record_by_market": log_out.get("by_market", {}),
         "ratings": ratings_rows,
         "notes": notes,
     }
@@ -627,6 +871,8 @@ def main():
     print(f"\nWrote {OUT}")
     print(f"  picks: {len(payload['picks'])} "
           f"({sum(1 for p in payload['picks'] if p['qualified'])} qualified)")
+    print(f"  total picks: {len(payload['total_picks'])} "
+          f"({sum(1 for p in payload['total_picks'] if p['qualified'])} qualified)")
     print(f"  logged bets: {len(log)}  |  settled: {payload['record'].get('settled', 0)}")
 
     tiers = payload["backtest"].get("tiers") or []
