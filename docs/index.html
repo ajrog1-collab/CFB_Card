@@ -161,6 +161,19 @@
   .row-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
   .row-clv{font-family:var(--mono);font-size:12px;flex:none;text-align:right;width:52px}
 
+  /* the model's strongest claims get a full brass frame, not just a rail */
+  .card.top{background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--brass)}
+  .card.top .tick{background:var(--brass)}
+  .conf{
+    font-family:var(--mono);font-size:10px;color:var(--brass);
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .rank-chip{
+    font-family:var(--display);font-size:12px;font-weight:700;
+    background:var(--brass);color:#17202b;border-radius:1px;
+    padding:1px 5px;letter-spacing:.05em;
+  }
+
   /* ---------- tiers ---------- */
   .tier{
     display:grid;grid-template-columns:52px 44px 1fr 1fr;gap:8px;
@@ -320,23 +333,25 @@ function renderBets(d){
     return;
   }
 
-  const card = p => {
+  const card = (p, rank) => {
     const w = Math.min(3 + Math.abs(p.edge) * 0.9, 11).toFixed(1);
     return `
-    <div class="card ${p.qualified ? 'qual' : ''}">
+    <div class="card ${p.top_pick ? 'top qual' : p.qualified ? 'qual' : ''}">
       <div class="tick" style="width:${w}px"></div>
       <div class="card-body">
         <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
         <div class="meta">
+          ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
           <span>Wk ${esc(p.week)}</span>
           <span>${esc(fmtKick(p.kickoff))}</span>
-          <span class="flag">${p.qualified ? 'Qualified' : 'Lean'}</span>
+          ${p.confidence != null ? `<span class="conf">conf ${esc(p.confidence)}</span>` : ''}
+          <span class="flag">${p.top_pick ? 'Top pick' : p.qualified ? 'Qualified' : 'Lean'}</span>
         </div>
         <div class="callout">
           <span class="pick">${esc(p.pick)}</span>
           <span class="pick-line">${sgn(p.pick_spread)}</span>
           <span class="numbers">
-            edge <b>${sgn(p.edge)}</b><br>
+            edge <b>${sgn(p.edge)}</b>${p.sigma != null ? ` / &sigma;<b>${esc(p.sigma)}</b>` : ''}<br>
             model <b>${sgn(p.model_margin)}</b> &middot; mkt <b>${sgn(p.market_margin)}</b>
           </span>
         </div>
@@ -344,18 +359,31 @@ function renderBets(d){
     </div>`;
   };
 
+  const tops = (d.picks || []).filter(p => p.top_pick);
+  const rest = qual.filter(p => !p.top_pick);
+
   let html = notes;
-  html += `<h2>Qualified wagers</h2>
+
+  if(tops.length){
+    html += `<h2>Top picks</h2>
+      <p class="sub">Ranked by edge divided by the model's expected error on that
+      game &mdash; not by raw edge size. A modest edge on a well-measured matchup
+      outranks a big edge the model is unsure about.</p>`
+      + tops.map((p, i) => card(p, i + 1)).join('');
+    html += confNote(d);
+  }
+
+  html += `<h2>${tops.length ? 'Other qualified wagers' : 'Qualified wagers'}</h2>
     <p class="sub">Disagreement with the market of ${esc(d.min_edge)} points or more.</p>`;
-  html += qual.length ? qual.map(card).join('')
-    : `<div class="empty"><div class="empty-h">None this week</div>
-       <div class="empty-p">The model agrees with the market everywhere on the board.
-       That is a normal week, and passing is a position.</div></div>`;
+  html += rest.length ? rest.map(p => card(p)).join('')
+    : `<div class="empty"><div class="empty-h">${tops.length ? 'Nothing else qualifies' : 'None this week'}</div>
+       <div class="empty-p">${tops.length ? 'The top picks above are the full qualified list.'
+       : 'The model agrees with the market everywhere on the board. Passing is a position.'}</div></div>`;
 
   if(lean.length){
     html += `<h2>Smaller leans</h2>
       <p class="sub">Under the threshold. Shown for context, not to bet.</p>`
-      + lean.slice(0, 12).map(card).join('');
+      + lean.slice(0, 12).map(p => card(p)).join('');
   }
   el.innerHTML = html;
 }
@@ -393,18 +421,20 @@ function renderTotals(d){
   const qual = tp.filter(p => p.qualified);
   const lean = tp.filter(p => !p.qualified);
 
-  const card = p => {
+  const card = (p, rank) => {
     const w = Math.min(3 + Math.abs(p.edge) * 0.7, 11).toFixed(1);
     return `
-    <div class="card ${p.qualified ? 'qual' : ''}">
+    <div class="card ${p.top_pick ? 'top qual' : p.qualified ? 'qual' : ''}">
       <div class="tick" style="width:${w}px"></div>
       <div class="card-body">
         <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
         <div class="meta">
           <span>Wk ${esc(p.week)}</span>
           <span>${esc(fmtKick(p.kickoff))}</span>
-          ${p.wind != null ? `<span>wind ${esc(p.wind)} mph</span>` : ''}
-          <span class="flag">${p.qualified ? 'Qualified' : 'Lean'}</span>
+          ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
+          ${p.indoor ? `<span>indoor</span>`
+            : p.wind != null ? `<span>wind ${esc(p.wind)} mph</span>` : ''}
+          <span class="flag">${p.top_pick ? 'Top pick' : p.qualified ? 'Qualified' : 'Lean'}</span>
         </div>
         <div class="callout">
           <span class="pick">${esc(p.pick)}</span>
@@ -425,12 +455,12 @@ function renderTotals(d){
   } else {
     html += `<h2>Qualified totals</h2>
       <p class="sub">Disagreement of ${esc(ts.min_edge ?? 4)} points or more with the posted total.</p>`;
-    html += qual.length ? qual.map(card).join('')
+    html += qual.length ? qual.map((p, i) => card(p, p.top_pick ? i + 1 : null)).join('')
       : `<div class="empty"><div class="empty-h">None this week</div>
          <div class="empty-p">The model agrees with every posted total. Passing is a position.</div></div>`;
     if(lean.length){
       html += `<h2>Smaller leans</h2><p class="sub">Under the threshold, shown for context.</p>`
-        + lean.slice(0, 10).map(card).join('');
+        + lean.slice(0, 10).map(p => card(p)).join('');
     }
   }
 
@@ -582,6 +612,44 @@ function renderRecord(d){
     }
   }
 
+  const ctB = d.confidence_tiers || [], ctH = d.confidence_tiers_holdout || [];
+  if(ctB.length){
+    html += `<h2>Does confidence work?</h2>
+      <p class="sub">Results grouped by the model's own confidence. If the top group
+      does not beat the bottom group, confidence is not measuring anything useful
+      and the top-picks list is just an ordering.</p>`
+      + confTable(ctB, r.breakeven_pct);
+    const top = ctB[ctB.length-1], bot = ctB[0];
+    if(top.win_pct != null && bot.win_pct != null){
+      const gap = (top.win_pct - bot.win_pct).toFixed(1);
+      html += `<div class="note">Top minus bottom: <b>${gap} points</b> of win rate.
+        A working confidence measure would show a clear positive gap here, rising
+        across the groups rather than jumping around.</div>`;
+    }
+  }
+  if(ctH.length){
+    html += `<h2>Confidence, held-out season</h2>
+      <p class="sub">${esc(bt.holdout ? bt.holdout.season : '')} only.</p>`
+      + confTable(ctH, r.breakeven_pct);
+  }
+
+  const bmTop = (d.record_by_market || {}).top;
+  if(bmTop){
+    html += `<h2>Live top picks</h2>
+      <p class="sub">Only the wagers flagged as top picks, tracked separately.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile-k">Record</div>
+          <div class="tile-v">${bmTop.wins}-${bmTop.losses}${bmTop.pushes ? '-' + bmTop.pushes : ''}</div>
+          <div class="tile-sub">${bmTop.win_pct ?? '--'}%</div></div>
+        <div class="tile"><div class="tile-k">Units</div>
+          <div class="tile-v ${bmTop.units > 0 ? 'pos' : bmTop.units < 0 ? 'neg' : ''}">${bmTop.units > 0 ? '+' : ''}${esc(bmTop.units)}</div>
+          <div class="tile-sub">${bmTop.roi_pct ?? '--'}% ROI</div></div>
+        <div class="tile"><div class="tile-k">Settled</div>
+          <div class="tile-v">${esc(bmTop.settled)}</div>
+          <div class="tile-sub">wagers</div></div>
+      </div>`;
+  }
+
   const btT = bt.tiers || [], btH = bt.tiers_holdout || [];
   if(btT.length){
     html += `<h2>Sides backtest by edge size</h2>
@@ -611,6 +679,63 @@ function renderRecord(d){
   }
 
   el.innerHTML = html;
+}
+
+/* ---------- confidence ---------- */
+/* The whole point of ranking by confidence is testable: does the top group win
+   more than the bottom group? This note says what the backtest found, so the
+   top-picks list never implies more than the evidence supports. */
+function confNote(d){
+  const ct = d.confidence_tiers || [];
+  if(ct.length < 2) return '';
+  const top = ct[ct.length - 1], bot = ct[0];
+  const be = (d.record || {}).breakeven_pct ?? 52.4;
+  if(top.win_pct == null || bot.win_pct == null) return '';
+  const spread = top.win_pct - bot.win_pct;
+  const clears = top.se != null && (top.win_pct - top.se) > be;
+
+  let msg;
+  if(clears && spread > 3){
+    msg = `In backtest the most confident group hit ${top.win_pct}% versus
+      ${bot.win_pct}% for the least confident, and the top group clears break-even
+      beyond its error bar. That is the pattern a working confidence measure makes.`;
+  } else if(spread > 3){
+    msg = `In backtest the most confident group hit ${top.win_pct}% versus
+      ${bot.win_pct}% for the least confident &mdash; a real gap, but not enough to
+      clear break-even once the error bar is counted.`;
+  } else {
+    msg = `Worth knowing: in backtest the most confident group hit ${top.win_pct}%
+      and the least confident ${bot.win_pct}%. Confidence is not sorting winners
+      from losers here, so treat this ranking as the model's opinion rather than
+      evidence it is right.`;
+  }
+  return `<div class="note">${msg}</div>`;
+}
+
+function confTable(tiers, breakeven){
+  if(!tiers || !tiers.length) return '';
+  const be = breakeven ?? 52.4;
+  const rows = tiers.map(t => {
+    const beats = t.win_pct != null && t.se != null && (t.win_pct - t.se) > be;
+    return `
+      <div class="tier">
+        <div class="tier-label" style="font-size:13px">${esc(t.label)}</div>
+        <div class="tier-n">${esc(t.bets)}</div>
+        <div class="tier-wp" style="color:${beats ? 'var(--win)' : 'var(--paper)'}">
+          ${t.win_pct == null ? '--' : esc(t.win_pct)}%
+          <span class="tier-se">&plusmn;${esc(t.se ?? '--')}</span>
+        </div>
+        <div class="tier-cal">
+          <span style="color:${t.roi_pct > 0 ? 'var(--win)' : 'var(--loss)'}">${t.roi_pct > 0 ? '+' : ''}${esc(t.roi_pct)}%</span>
+          <span class="tier-se">conf ${esc(t.avg_conf)} &middot; edge ${esc(t.avg_edge)}</span>
+        </div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="tier tier-head">
+      <div class="tier-label">Confidence</div><div class="tier-n">Bets</div>
+      <div class="tier-wp">Win %</div><div class="tier-cal">ROI</div>
+    </div>${rows}`;
 }
 
 /* ---------- tier table ---------- */
