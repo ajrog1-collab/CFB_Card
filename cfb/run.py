@@ -59,17 +59,25 @@ def american_to_profit(price: float) -> float:
     return (100.0 / abs(price)) if price < 0 else (price / 100.0)
 
 
+_YEAR_LEVEL_TEAM_STATS_WORKS = True
+
+
 def fetch_team_stats(year: int) -> pd.DataFrame:
     """Team box scores for a season, used for turnover counts.
 
-    /games/teams sometimes rejects a year-only query depending on API version.
-    Try year-level first (1 call). If that comes back empty, fall back to a
-    week-by-week loop (~16 calls). The result caches permanently, so the
-    fallback cost is paid once, not every run.
+    /games/teams rejects a year-only query on current API versions, so we try it
+    once and then stop wasting a call per season on it, falling back to a
+    week-by-week loop (~16 calls). Results cache permanently, so the fallback
+    cost is paid once rather than every run.
     """
-    ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"}, required=False)
-    if len(ts):
-        return ts
+    global _YEAR_LEVEL_TEAM_STATS_WORKS
+    if _YEAR_LEVEL_TEAM_STATS_WORKS:
+        ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"},
+                      required=False)
+        if len(ts):
+            return ts
+        _YEAR_LEVEL_TEAM_STATS_WORKS = False
+        print("    games/teams: year-level query rejected, using week-by-week from here")
     if not ALLOW_WEEK_BACKFILL:
         return pd.DataFrame()
 
@@ -764,8 +772,10 @@ def main():
     # weather from Open-Meteo: one archive call per outdoor venue covers every
     # season at once, so this costs ~130 calls once rather than one per game
     wx_end = datetime.now(timezone.utc).date().isoformat()
-    wx_daily = fetch_venue_weather(venues, CONFIG.get("weather_start", "2016-08-01"), wx_end,
-                                   budget=int(CONFIG.get("weather_venue_budget", 40)))
+    wx_daily = fetch_venue_weather(
+        venues, CONFIG.get("weather_start", "2018-08-01"), wx_end,
+        budget=int(CONFIG.get("weather_venue_budget", 25)),
+        seconds_budget=int(CONFIG.get("weather_seconds_budget", 300)))
     d, use_wx = attach_venue_weather(d, wx_daily, venues)
     n_dome = sum(1 for v in venues.values() if v.get("dome"))
     print(f"Weather: {int(d['wind'].notna().sum()):,} games covered "
