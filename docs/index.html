@@ -161,7 +161,90 @@
   .row-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
   .row-clv{font-family:var(--mono);font-size:12px;flex:none;text-align:right;width:52px}
 
-  /* ---------- ratings ---------- */
+  /* ---------- tiers ---------- */
+  .tier{
+    display:grid;grid-template-columns:52px 44px 1fr 1fr;gap:8px;
+    align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);
+  }
+  .tier-head{
+    font-family:var(--mono);font-size:9px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);
+  }
+  .tier-label{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.03em}
+  .tier-n,.tier-wp,.tier-cal{font-family:var(--mono);font-size:13px}
+  .tier-n{color:var(--muted)}
+  .tier-se{display:block;font-size:9.5px;color:var(--muted);margin-top:1px}
+  .tier-head .tier-label,.tier-head .tier-n,
+  .tier-head .tier-wp,.tier-head .tier-cal{
+    font-family:var(--mono);font-size:9px;font-weight:400;letter-spacing:.13em;color:var(--muted);
+  }
+
+  /* ---------- tier table ---------- */
+/* Win rate per tier is noisy, so each error bar is shown inline. The column
+   that actually matters is calibration: realized edge divided by predicted. */
+function tierTable(tiers, breakeven){
+  if(!tiers || !tiers.length) return '';
+  const be = breakeven ?? 52.4;
+  const rows = tiers.map(t => {
+    const beats = t.win_pct != null && t.se != null && (t.win_pct - t.se) > be;
+    const cal = t.calibration;
+    const calColor = cal == null ? 'var(--muted)'
+      : cal >= 0.5 ? 'var(--win)' : cal >= 0.2 ? 'var(--brass)' : 'var(--loss)';
+    return `
+      <div class="tier">
+        <div class="tier-label">${esc(t.label)}</div>
+        <div class="tier-n">${esc(t.bets)}</div>
+        <div class="tier-wp" style="color:${beats ? 'var(--win)' : 'var(--paper)'}">
+          ${t.win_pct == null ? '--' : esc(t.win_pct)}%
+          <span class="tier-se">&plusmn;${esc(t.se ?? '--')}</span>
+        </div>
+        <div class="tier-cal">
+          <span style="color:${calColor}">${cal == null ? '--' : esc(cal)}</span>
+          <span class="tier-se">${esc(t.realized_edge)} of ${esc(t.pred_edge)} pts</span>
+        </div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="tier tier-head">
+      <div class="tier-label">Edge</div>
+      <div class="tier-n">Bets</div>
+      <div class="tier-wp">Win %</div>
+      <div class="tier-cal">Calibration</div>
+    </div>${rows}`;
+}
+
+function tierVerdict(tiers, breakeven){
+  if(!tiers || !tiers.length) return '';
+  const be = breakeven ?? 52.4;
+  const clears = tiers.filter(t => t.win_pct != null && t.se != null && (t.win_pct - t.se) > be);
+  const cals = tiers.filter(t => t.calibration != null).map(t => t.calibration);
+  const avgCal = cals.length ? cals.reduce((a,b) => a+b, 0)/cals.length : null;
+  const first = tiers[0], last = tiers[tiers.length-1];
+  const rising = tiers.length > 2 && first.win_pct != null && last.win_pct != null
+    && (last.win_pct - first.win_pct) > 4;
+
+  let msg;
+  if(clears.length === 0 && avgCal != null && Math.abs(avgCal) < 0.2){
+    msg = `No tier clears break-even once its error bar is counted, and realized edge is
+      near zero at every size. The edges carry no information, so rescaling them would not
+      help &mdash; there is nothing to rescale.`;
+  } else if(clears.length === 0){
+    msg = `No tier clears break-even after its error bar. Calibration averages
+      ${avgCal == null ? '--' : avgCal.toFixed(2)}, so the model delivers roughly
+      ${avgCal == null ? '--' : Math.round(avgCal*100)}% of the edge it claims.`;
+  } else if(rising){
+    msg = `Win rate rises with edge size and ${clears.length} tier(s) clear break-even
+      beyond their error bars. That is the shape a real edge makes. Check whether it also
+      holds in the held-out season before trusting it.`;
+  } else {
+    msg = `${clears.length} tier(s) clear break-even, but with no rising pattern across
+      tiers this is most likely one bucket running hot. Five tiers means five chances for
+      noise to look like signal.`;
+  }
+  return `<div class="note">${msg}</div>`;
+}
+
+/* ---------- ratings ---------- */
   .rank-row{
     display:flex;align-items:center;gap:11px;
     padding:8px 0;border-bottom:1px solid var(--rule);
@@ -416,6 +499,27 @@ function renderRecord(d){
             <div class="tile-sub">at ${esc(d.assumed_price ?? -110)}</div></div>
         </div>`;
     }
+  }
+
+  const liveT = d.record_tiers || [];
+  if(liveT.length){
+    html += `<h2>Live results by edge size</h2>
+      <p class="sub">Does a bigger disagreement with the market actually win more often?</p>`
+      + tierTable(liveT, r.breakeven_pct) + tierVerdict(liveT, r.breakeven_pct);
+  }
+
+  const btT = bt.tiers || [], btH = bt.tiers_holdout || [];
+  if(btT.length){
+    html += `<h2>Backtest by edge size</h2>
+      <p class="sub">All ${esc((bt.seasons||[]).join(', '))}. Calibration is the column to
+      read: realized points beaten by, divided by points the model predicted.</p>`
+      + tierTable(btT, r.breakeven_pct) + tierVerdict(btT, r.breakeven_pct);
+  }
+  if(btH.length){
+    html += `<h2>Held-out season by edge size</h2>
+      <p class="sub">${esc(bt.holdout ? bt.holdout.season : '')} only &mdash; never looked at
+      during development. Smaller samples, wider error bars, but the honest read.</p>`
+      + tierTable(btH, r.breakeven_pct);
   }
 
   if(hist.length){
