@@ -24,7 +24,8 @@ import pandas as pd
 from model import (
     PriorModel, add_adjusted_margin, add_situational, attach_epa, attach_lines,
     attach_turnovers, attach_weather, blend_prior, blend_ratings, build_games,
-    cfbd_get, col, fit_points_ratings, fit_ratings, games_played_counts,
+    cfbd_get, col, fit_calibration, fit_points_ratings, fit_ratings,
+    games_played_counts,
     infer_home_venues, parse_sp, parse_team_stats, parse_venues, parse_weather,
     predict_total, rating_diff, season_ratings, situational_matrix, totals_matrix,
     talent_composite, returning_production,
@@ -62,7 +63,7 @@ def fetch_team_stats(year: int) -> pd.DataFrame:
     week-by-week loop (~16 calls). The result caches permanently, so the
     fallback cost is paid once, not every run.
     """
-    ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"})
+    ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"}, required=False)
     if len(ts):
         return ts
     if not ALLOW_WEEK_BACKFILL:
@@ -70,7 +71,8 @@ def fetch_team_stats(year: int) -> pd.DataFrame:
 
     frames = []
     for wk in range(1, 17):
-        w = cfbd_get("games/teams", {"year": year, "week": wk, "seasonType": "regular"})
+        w = cfbd_get("games/teams", {"year": year, "week": wk, "seasonType": "regular"},
+                      required=False)
         if len(w):
             frames.append(w)
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
@@ -95,22 +97,23 @@ def load_everything():
         if len(l):
             lines_raw.append(l)
         a = cfbd_get("stats/game/advanced",
-                     {"year": yr, "seasonType": "regular", "excludeGarbageTime": "true"})
+                     {"year": yr, "seasonType": "regular", "excludeGarbageTime": "true"},
+                     required=False)
         if len(a):
             adv_raw.append(a)
         t = cfbd_get("teams/fbs", {"year": yr})
         if len(t):
             c = col(t, "school", "team")
             fbs[yr] = set(t[c]) if c else set()
-        rc = cfbd_get("recruiting/teams", {"year": yr})
+        rc = cfbd_get("recruiting/teams", {"year": yr}, required=False)
         if len(rc):
             recruit.append(rc.assign(_year=yr))
-        rp = cfbd_get("player/returning", {"year": yr})
+        rp = cfbd_get("player/returning", {"year": yr}, required=False)
         if len(rp):
             returning.append(rp.assign(_year=yr))
 
         # SP+ (used only as a PRIOR-year feature, never within-season)
-        sp = cfbd_get("ratings/sp", {"year": yr})
+        sp = cfbd_get("ratings/sp", {"year": yr}, required=False)
         parsed = parse_sp(sp)
         if parsed:
             sp_by_year[yr] = parsed
@@ -120,7 +123,7 @@ def load_everything():
         if len(ts):
             team_stats.append(ts)
 
-        wx = cfbd_get("games/weather", {"year": yr, "seasonType": "regular"})
+        wx = cfbd_get("games/weather", {"year": yr, "seasonType": "regular"}, required=False)
         if len(wx):
             weather.append(wx)
 
@@ -131,10 +134,10 @@ def load_everything():
     if len(t):
         c = col(t, "school", "team")
         fbs[CURRENT] = set(t[c]) if c else set()
-    rc = cfbd_get("recruiting/teams", {"year": CURRENT})
+    rc = cfbd_get("recruiting/teams", {"year": CURRENT}, required=False)
     if len(rc):
         recruit.append(rc.assign(_year=CURRENT))
-    rp = cfbd_get("player/returning", {"year": CURRENT})
+    rp = cfbd_get("player/returning", {"year": CURRENT}, required=False)
     if len(rp):
         returning.append(rp.assign(_year=CURRENT))
 
@@ -142,11 +145,11 @@ def load_everything():
     cur_lines = cfbd_get("lines", {"year": CURRENT, "seasonType": "regular"}, force=True)
     print(f"  {CURRENT} (live)")
 
-    venues_raw = cfbd_get("venues", {})
+    venues_raw = cfbd_get("venues", {}, required=False)
 
     # recruiting classes before the window, for the rolling average
     for yr in range(CONFIG["history_start"] - CONFIG["recruit_window"], CONFIG["history_start"]):
-        r = cfbd_get("recruiting/teams", {"year": yr})
+        r = cfbd_get("recruiting/teams", {"year": yr}, required=False)
         if len(r):
             recruit.append(r.assign(_year=yr))
 
@@ -238,18 +241,8 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         cal = d[d.season < season]
         cal_x = rating_diff(cal, prior_model.season_r.get(season - 1), hfa_ref)
         cal_S, sit_names = situational_matrix(cal, cal_x)
-        ok = ~np.isnan(cal_x)
-        if ok.sum() > 300:
-            Ac = np.column_stack([cal_x[ok], cal_S[ok], np.ones(int(ok.sum()))])
-            w_cal, *_ = np.linalg.lstsq(Ac, cal.loc[ok, "margin"].to_numpy(dtype=float), rcond=None)
-        else:
-            w_cal = np.array([1.0] + [0.0] * cal_S.shape[1] + [0.0])
-
-        # record what each situational feature earned (last season fitted wins)
-        if sit_names and len(w_cal) == 2 + len(sit_names):
-            sit_report = {n: round(float(w), 3)
-                          for n, w in zip(sit_names, w_cal[1:1 + len(sit_names)])}
-            sit_report["rating_scale"] = round(float(w_cal[0]), 3)
+        w_cal, sit_report = fit_calibration(
+            cal_x, cal_S, sit_names, cal["margin"].to_numpy(dtype=float))
 
         for wk in sorted(d.loc[d.season == season, "week"].unique()):
             so_far = d[(d.season == season) & (d.week < wk)]
@@ -491,7 +484,8 @@ def find_picks(cur, ratings, hfa, sit_weights=None):
         S, names = situational_matrix(up, rd)
         adj = np.zeros(len(up))
         for j, nm in enumerate(names):
-            adj = adj + S[:, j] * sit_weights.get(nm, 0.0)
+            v = sit_weights.get(nm, 0.0)
+            adj = adj + S[:, j] * (v if isinstance(v, (int, float)) else 0.0)
         scale = sit_weights.get("rating_scale", 1.0) or 1.0
         up["pred"] = rd * scale + adj
     else:
