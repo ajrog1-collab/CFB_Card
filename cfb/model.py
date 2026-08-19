@@ -504,8 +504,14 @@ def parse_venues(raw):
             continue
         if not (np.isfinite(lat) and np.isfinite(lon)) or (lat == 0 and lon == 0):
             continue
+        dome_c = None
+        for cand in ("dome", "isDome", "grass"):
+            if cand in raw.columns and cand != "grass":
+                dome_c = cand
+                break
         out[vid] = {"lat": lat, "lon": lon,
-                    "tz": (str(r[tzc]) if tzc and pd.notna(r.get(tzc)) else None)}
+                    "tz": (str(r[tzc]) if tzc and pd.notna(r.get(tzc)) else None),
+                    "dome": bool(r[dome_c]) if dome_c and pd.notna(r.get(dome_c)) else False}
     return out
 
 
@@ -794,6 +800,144 @@ def predict_total(frame, off, dfn, hfa_off, base):
 
 
 # ----------------------------------------------------------------------
+# weather via Open-Meteo (free, no key required)
+# ----------------------------------------------------------------------
+
+OM_ARCHIVE = "https://archive-api.open-meteo.com/v1/archive"
+OM_FORECAST = "https://api.open-meteo.com/v1/forecast"
+OM_DAILY = "wind_speed_10m_max,temperature_2m_mean,precipitation_sum"
+
+
+def _om_get(url, params, label):
+    """One Open-Meteo call. Returns parsed daily dict or None."""
+    try:
+        r = requests.get(url, params=params, timeout=60)
+        if r.status_code >= 400:
+            print(f"    open-meteo {label}: HTTP {r.status_code}")
+            return None
+        return r.json().get("daily")
+    except Exception as e:
+        print(f"    open-meteo {label} failed: {e}")
+        return None
+
+
+def fetch_venue_weather(venues, start_date, end_date, forecast_days=16, force=False):
+    """Daily weather per venue for the whole date range.
+
+    One archive call per venue covers every season at once, so the cost is about
+    130 calls total rather than one per game. Domes are skipped entirely.
+    Results cache to the repo, so this is paid once.
+
+    Returns a DataFrame [venue_id, date, wind, temp, precip].
+    """
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    frames = []
+
+    for vid, v in sorted(venues.items()):
+        if v.get("dome"):
+            continue
+        path = CACHE_DIR / f"om_{vid}.parquet"
+        if path.exists() and not force:
+            try:
+                frames.append(pd.read_parquet(path))
+                continue
+            except Exception:
+                pass
+
+        daily = _om_get(OM_ARCHIVE, {
+            "latitude": round(v["lat"], 4), "longitude": round(v["lon"], 4),
+            "start_date": start_date, "end_date": end_date,
+            "daily": OM_DAILY, "wind_speed_unit": "mph",
+            "temperature_unit": "fahrenheit", "timezone": "UTC",
+        }, f"archive venue {vid}")
+        if not daily or not daily.get("time"):
+            continue
+
+        df = pd.DataFrame({
+            "venue_id": vid,
+            "date": pd.to_datetime(daily["time"], errors="coerce").date,
+            "wind": pd.to_numeric(daily.get("wind_speed_10m_max"), errors="coerce"),
+            "temp": pd.to_numeric(daily.get("temperature_2m_mean"), errors="coerce"),
+            "precip": pd.to_numeric(daily.get("precipitation_sum"), errors="coerce"),
+        }).dropna(subset=["date"])
+        try:
+            df.to_parquet(path, index=False)
+        except Exception:
+            pass
+        frames.append(df)
+        time.sleep(0.15)
+
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+
+
+def fetch_venue_forecast(venues, venue_ids, days=16):
+    """Forecast for the venues with games coming up. Never cached."""
+    frames = []
+    for vid in sorted(set(int(v) for v in venue_ids if pd.notna(v))):
+        v = venues.get(vid)
+        if not v or v.get("dome"):
+            continue
+        daily = _om_get(OM_FORECAST, {
+            "latitude": round(v["lat"], 4), "longitude": round(v["lon"], 4),
+            "daily": OM_DAILY, "forecast_days": days, "wind_speed_unit": "mph",
+            "temperature_unit": "fahrenheit", "timezone": "UTC",
+        }, f"forecast venue {vid}")
+        if not daily or not daily.get("time"):
+            continue
+        frames.append(pd.DataFrame({
+            "venue_id": vid,
+            "date": pd.to_datetime(daily["time"], errors="coerce").date,
+            "wind": pd.to_numeric(daily.get("wind_speed_10m_max"), errors="coerce"),
+            "temp": pd.to_numeric(daily.get("temperature_2m_mean"), errors="coerce"),
+            "precip": pd.to_numeric(daily.get("precipitation_sum"), errors="coerce"),
+        }).dropna(subset=["date"]))
+        time.sleep(0.15)
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+
+
+def attach_venue_weather(d, wx_daily, venues):
+    """Join daily venue weather onto games by venue and kickoff date.
+
+    Domes get calm-weather values rather than missing ones: a closed roof really
+    does mean no wind, so treating it as unknown would throw away information.
+    """
+    d = d.copy()
+    for c in ("wind", "temp", "precip"):
+        if c not in d.columns:
+            d[c] = np.nan
+
+    if len(wx_daily) and "venue_id" in d.columns and "kickoff" in d.columns:
+        j = d[["game_id", "venue_id", "kickoff"]].copy()
+        j["date"] = pd.to_datetime(j["kickoff"], errors="coerce", utc=True).dt.date
+        j["venue_id"] = pd.to_numeric(j["venue_id"], errors="coerce")
+        w = wx_daily.copy()
+        w["venue_id"] = pd.to_numeric(w["venue_id"], errors="coerce")
+        merged = j.merge(w, on=["venue_id", "date"], how="left")[
+            ["game_id", "wind", "temp", "precip"]]
+        d = d.drop(columns=["wind", "temp", "precip"], errors="ignore").merge(
+            merged, on="game_id", how="left")
+
+    # indoor games: calm and mild by definition
+    if venues and "venue_id" in d.columns:
+        domes = {vid for vid, v in venues.items() if v.get("dome")}
+        if domes:
+            is_dome = d["venue_id"].isin(domes)
+            d.loc[is_dome, "wind"] = 0.0
+            d.loc[is_dome, "temp"] = d.loc[is_dome, "temp"].fillna(70.0)
+            d.loc[is_dome, "precip"] = 0.0
+            d["indoor"] = is_dome.astype(float)
+    if "indoor" not in d.columns:
+        d["indoor"] = 0.0
+
+    d["wind_excess"] = np.clip(d["wind"].fillna(8.0) - 10.0, 0, 30)
+    d["cold"] = np.clip(40.0 - d["temp"].fillna(60.0), 0, 60) / 10.0
+    d["precip_flag"] = (d["precip"].fillna(0.0) > 0.05).astype(float)
+    d["wx_known"] = d["wind"].notna().astype(float)
+    covered = int(d["wind"].notna().sum())
+    return d, bool(covered > 500)
+
+
+# ----------------------------------------------------------------------
 # weather (totals only)
 # ----------------------------------------------------------------------
 
@@ -845,6 +989,103 @@ def totals_matrix(frame):
             cols.append(frame[c].fillna(0.0).to_numpy(dtype=float))
             names.append(c)
     return (np.column_stack(cols) if cols else np.zeros((len(frame), 0))), names
+
+
+# ----------------------------------------------------------------------
+# confidence: how much to trust a given prediction
+# ----------------------------------------------------------------------
+#
+# Edge size alone tells you nothing — the tier tables show win rate flat from 3
+# to 15+ points of disagreement. What might carry information is edge relative
+# to how accurate the model is *on that particular game*. A 5-point edge on a
+# mature, fully-measured matchup is a stronger claim than a 12-point edge in
+# Week 5 between teams the ratings barely know.
+#
+# So: fit expected absolute error per game, then score confidence as
+# |edge| / expected_error. Whether that actually sorts winners from losers is an
+# empirical question, and the backtest reports it either way.
+
+CONF_FEATURES = [
+    "abs_pred",        # big predicted margins have bigger errors
+    "model_disagree",  # margin-based vs EPA-based ratings disagreeing = uncertainty
+    "immaturity",      # 1/(games played), high early in the season
+    "missing_epa",
+    "rivalry",
+    "wx_unknown",
+]
+
+
+def confidence_features(frame, pred_col="pred", alt_pred_col=None,
+                        games_played=None, min_games_ref=6.0):
+    """Build the uncertainty feature matrix. Returns (X, names)."""
+    n = len(frame)
+    cols, names = [], []
+
+    if pred_col in frame.columns:
+        cols.append(frame[pred_col].abs().fillna(0.0).to_numpy(dtype=float))
+        names.append("abs_pred")
+
+    if alt_pred_col and alt_pred_col in frame.columns and pred_col in frame.columns:
+        cols.append((frame[pred_col] - frame[alt_pred_col]).abs().fillna(0.0)
+                    .to_numpy(dtype=float))
+        names.append("model_disagree")
+
+    if games_played is not None:
+        gp = np.array([
+            min(games_played.get(h, 0), games_played.get(a, 0))
+            for h, a in zip(frame["home_team"], frame["away_team"])
+        ], dtype=float)
+        cols.append(min_games_ref / np.clip(gp, 1.0, None))
+        names.append("immaturity")
+
+    if "ppa_margin" in frame.columns:
+        cols.append(frame["ppa_margin"].isna().astype(float).to_numpy())
+        names.append("missing_epa")
+
+    if "rivalry" in frame.columns:
+        cols.append(frame["rivalry"].fillna(0.0).to_numpy(dtype=float))
+        names.append("rivalry")
+
+    if "wx_known" in frame.columns:
+        cols.append((1.0 - frame["wx_known"].fillna(0.0)).to_numpy(dtype=float))
+        names.append("wx_unknown")
+
+    return (np.column_stack(cols) if cols else np.zeros((n, 0))), names
+
+
+def fit_uncertainty(X, residuals, floor=6.0, ceiling=30.0):
+    """Regress absolute error on the confidence features.
+
+    Returns (weights, mean_abs_error). Predictions are clipped to a sane band so
+    a weird feature combination cannot produce a near-zero denominator and an
+    absurd confidence score.
+    """
+    y = np.abs(np.asarray(residuals, dtype=float))
+    ok = np.isfinite(y)
+    if X.size:
+        ok = ok & np.isfinite(X).all(axis=1)
+    if ok.sum() < 300:
+        return None, float(np.nanmean(y)) if ok.sum() else float("nan")
+    A = np.column_stack([X[ok], np.ones(int(ok.sum()))]) if X.size else np.ones((int(ok.sum()), 1))
+    w, *_ = np.linalg.lstsq(A, y[ok], rcond=None)
+    return w, float(np.mean(y[ok]))
+
+
+def predict_uncertainty(X, w, fallback, floor=6.0, ceiling=30.0):
+    """Expected absolute error per game."""
+    n = X.shape[0] if X.size else 0
+    if w is None or not n:
+        return np.full(max(n, 0), fallback if fallback == fallback else 13.0)
+    A = np.column_stack([X, np.ones(n)]) if X.size else np.ones((n, 1))
+    out = np.nan_to_num(A @ w, nan=fallback)
+    return np.clip(out, floor, ceiling)
+
+
+def confidence_score(edge, sigma):
+    """|edge| divided by expected error. Higher means a stronger claim."""
+    edge = np.asarray(edge, dtype=float)
+    sigma = np.asarray(sigma, dtype=float)
+    return np.abs(edge) / np.clip(sigma, 1e-6, None)
 
 
 # ----------------------------------------------------------------------
