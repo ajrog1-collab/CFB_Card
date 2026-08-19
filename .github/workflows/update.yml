@@ -36,9 +36,11 @@ jobs:
       - name: Run model
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
-        run: python cfb/run.py
+          PYTHONUNBUFFERED: "1"     # stream progress live instead of buffering
+        run: python -u cfb/run.py
 
       - name: Commit results
+        if: always()          # keep partial cache even if the run timed out
         run: |
           git config user.name  "cfb-model-bot"
           git config user.email "actions@github.com"
