@@ -550,6 +550,147 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
 
 
 # ======================================================================
+# edge drivers
+# ======================================================================
+
+def _fmt_team(name, n=18):
+    return name if len(name) <= n else name[: n - 1] + "\u2026"
+
+
+def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_weight):
+    """Why this pick, in numbers the card doesn't already show.
+
+    The gap is printed on the card, so restating it is not a driver. Each entry
+    here has to add something: a schedule mismatch, a unit mismatch, where the
+    teams actually rank, or a reason for doubt. Anything that would read the same
+    on half the slate is dropped.
+    """
+    out = []
+    home, away = row.get("home_name"), row.get("away_name")
+    ht, at = row.get("home_team"), row.get("away_team")
+    pick_home = row.get("edge", 0) > 0
+    pick_name = home if pick_home else away
+    fade_name = away if pick_home else home
+    pick_key, fade_key = (ht, at) if pick_home else (at, ht)
+
+    # 1. schedule: only genuine mismatches, not a routine 7-vs-7
+    rest = float(row.get("rest_diff") or 0)
+    if abs(rest) >= 5:
+        rested = home if rest > 0 else away
+        out.append({"kind": "rest", "weight": 2.0 + abs(rest) / 7.0,
+                    "text": f"{_fmt_team(rested)} has {abs(rest):.0f} more days of rest"})
+
+    eb = float(row.get("east_body") or 0)
+    tk = float(row.get("travel_diff_k") or 0)
+    if eb > 0:
+        out.append({"kind": "travel", "weight": 2.0 + eb / 3.0,
+                    "text": f"{_fmt_team(away)} crosses {eb:.0f} time zones for an early kick"})
+    elif tk >= 1.6:
+        out.append({"kind": "travel", "weight": 1.6 + tk / 3.0,
+                    "text": f"{_fmt_team(away)} flies {tk * 1000:,.0f} miles"})
+
+    # 2. unit mismatch: which side of the ball actually creates the edge
+    if off and dfn:
+        o_pick, d_fade = off.get(pick_key), dfn.get(fade_key)
+        d_pick, o_fade = dfn.get(pick_key), off.get(fade_key)
+        cands = []
+        # our strong offense against their weak defense
+        if o_pick is not None and d_fade is not None and o_pick >= 3 and d_fade <= -4:
+            cands.append((o_pick - d_fade, "offense",
+                          f"{_fmt_team(pick_name)} offense (+{o_pick:.0f}) meets a defense "
+                          f"{abs(d_fade):.0f} pts below average"))
+        # our strong defense against their weak offense
+        if d_pick is not None and o_fade is not None and d_pick >= 3 and o_fade <= -4:
+            cands.append((d_pick - o_fade, "defense",
+                          f"{_fmt_team(pick_name)} defense (+{d_pick:.0f}) meets an offense "
+                          f"{abs(o_fade):.0f} pts below average"))
+        if cands:
+            cands.sort(key=lambda c: -c[0])
+            _score, kind, text = cands[0]
+            out.append({"kind": kind, "weight": 1.9, "text": text})
+
+    # 3. where these teams actually stand — context the card lacks
+    rp, rf = ranks.get(pick_key), ranks.get(fade_key)
+    if rp and rf and abs(rp - rf) >= 25:
+        out.append({"kind": "rating", "weight": 1.2,
+                    "text": f"Model ranks {_fmt_team(pick_name)} #{rp}, "
+                            f"{_fmt_team(fade_name)} #{rf}"})
+
+    # 4. reasons to doubt it
+    gp = min(games_played.get(ht, 0), games_played.get(at, 0))
+    if gp == 0:
+        out.append({"kind": "caution", "weight": 3.0,
+                    "text": "Preseason ratings only, no games played"})
+    elif gp < 4:
+        out.append({"kind": "caution", "weight": 3.0,
+                    "text": f"Thin evidence: one side has played {gp} game{'s' if gp != 1 else ''}"})
+    elif in_season_weight < 0.35:
+        out.append({"kind": "caution", "weight": 1.4,
+                    "text": f"Ratings still {int((1 - in_season_weight) * 100)}% last season"})
+
+    if row.get("rivalry"):
+        out.append({"kind": "rivalry", "weight": 1.5,
+                    "text": "Rivalry game, usually closer than ratings say"})
+
+    mkt = float(row.get("mkt") or 0)
+    if abs(mkt) >= 17 and ((mkt > 0) != pick_home):
+        out.append({"kind": "contrarian", "weight": 1.7,
+                    "text": f"Backing a {abs(mkt):.0f}-point underdog"})
+
+    out.sort(key=lambda d: -d["weight"])
+    return [{"kind": d["kind"], "text": d["text"]} for d in out[:2]]
+
+
+def total_drivers(row, off, dfn):
+    """Why this total, in concrete numbers."""
+    out = []
+    home, away = row.get("home_name"), row.get("away_name")
+    over = row.get("edge", 0) > 0
+
+    wind = row.get("wind")
+    if row.get("indoor"):
+        out.append({"kind": "weather", "text": "Indoor, weather removed", "weight": 0.4})
+    elif wind is not None and wind == wind and float(wind) >= 18:
+        out.append({"kind": "weather",
+                    "text": f"{float(wind):.0f} mph wind, the biggest drag on scoring",
+                    "weight": float(wind) / 22.0})
+
+    temp = row.get("temp")
+    if temp is not None and temp == temp and float(temp) <= 28:
+        out.append({"kind": "weather", "text": f"{float(temp):.0f}\u00b0F at kickoff",
+                    "weight": 0.6})
+
+    if off and dfn:
+        oh, oa = off.get(row.get("home_team")), off.get(row.get("away_team"))
+        dh, da = dfn.get(row.get("home_team")), dfn.get(row.get("away_team"))
+        if None not in (oh, oa, dh, da):
+            o_sum, d_sum = oh + oa, dh + da
+            if over and o_sum >= 8:
+                out.append({"kind": "offense",
+                            "text": f"Both offenses rate above average, +{o_sum:.0f} combined",
+                            "weight": o_sum / 12.0})
+            elif over and d_sum <= -8:
+                out.append({"kind": "defense",
+                            "text": f"Both defenses rate poorly, {d_sum:.0f} combined",
+                            "weight": abs(d_sum) / 12.0})
+            elif (not over) and d_sum >= 8:
+                out.append({"kind": "defense",
+                            "text": f"Both defenses rate strong, +{d_sum:.0f} combined",
+                            "weight": d_sum / 12.0})
+            elif (not over) and o_sum <= -8:
+                out.append({"kind": "offense",
+                            "text": f"Both offenses rate poorly, {o_sum:.0f} combined",
+                            "weight": abs(o_sum) / 12.0})
+
+    rest = float(row.get("rest_diff") or 0)
+    if abs(rest) >= 7:
+        out.append({"kind": "rest", "text": f"{abs(rest):.0f}-day rest gap", "weight": 0.5})
+
+    out.sort(key=lambda d: -d["weight"])
+    return [{"kind": d["kind"], "text": d["text"]} for d in out[:2]]
+
+
+# ======================================================================
 # 3. picks
 # ======================================================================
 
@@ -889,6 +1030,13 @@ def main():
     log, log_out = update_bet_log(picks, finished, total_picks)
 
     # ---- ratings table ----
+    rank_map = {}
+    if ratings_now:
+        for i, (tm, _v) in enumerate(sorted(
+                ((k, v) for k, v in ratings_now.items() if k != "NON_FBS"),
+                key=lambda kv: -kv[1]), start=1):
+            rank_map[tm] = i
+
     ratings_rows = []
     if ratings_now:
         srt = sorted(((t, v) for t, v in ratings_now.items() if t != "NON_FBS"),
@@ -901,6 +1049,7 @@ def main():
         for _, r in frame.iterrows():
             rows.append({
                 "game_id": int(r.game_id),
+                "drivers": total_drivers(r, t_off or {}, t_dfn or {}),
                 "week": int(r.week) if pd.notna(r.week) else None,
                 "kickoff": r.kickoff.isoformat() if pd.notna(r.kickoff) else None,
                 "away": r.away_name, "home": r.home_name,
@@ -936,6 +1085,13 @@ def main():
         for _, r in frame.iterrows():
             rows.append({
                 "game_id": int(r.game_id),
+                "drivers": spread_drivers(r, ratings_now or {}, rank_map,
+                                          t_off or {}, t_dfn or {}, hfa, gp_now,
+                                          in_season_weight),
+                "home_rating": (round(float((ratings_now or {}).get(r.home_team)), 1)
+                                if (ratings_now or {}).get(r.home_team) is not None else None),
+                "away_rating": (round(float((ratings_now or {}).get(r.away_team)), 1)
+                                if (ratings_now or {}).get(r.away_team) is not None else None),
                 "week": int(r.week) if pd.notna(r.week) else None,
                 "kickoff": r.kickoff.isoformat() if pd.notna(r.kickoff) else None,
                 "away": r.away_name, "home": r.home_name,
@@ -953,6 +1109,15 @@ def main():
                 "qualified": bool(r.qualified),
             })
         return rows
+
+    equity = []
+    if "rows" in log_out and len(log_out["rows"]):
+        eq = log_out["rows"].sort_values("logged_at")
+        run_units = 0.0
+        for i, (_, r) in enumerate(eq.iterrows(), start=1):
+            run_units += float(r.units)
+            equity.append({"n": i, "units": round(run_units, 2),
+                           "market": ("total" if r.market == "total" else "spread")})
 
     history_rows = []
     if "rows" in log_out:
@@ -1025,6 +1190,7 @@ def main():
         "totals_ratings": totals_rating_rows(t_off, t_dfn),
         "history": history_rows,
         "record": log_out.get("summary", {}),
+        "equity": equity,
         "record_tiers": log_out.get("tiers", []),
         "record_tiers_total": log_out.get("tiers_total", []),
         "record_by_market": log_out.get("by_market", {}),
