@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-19T19:39:04+00:00",
+  "generated_at": "2026-08-19T19:53:13+00:00",
   "season": 2026,
   "min_edge": 3.0,
   "assumed_price": -110.0,
@@ -42,6 +42,150 @@
       "model_mae": 13.34,
       "market_mae": 11.93
     },
+    "tiers": [
+      {
+        "label": "3-5",
+        "bets": 390,
+        "wins": 201,
+        "losses": 182,
+        "pushes": 7,
+        "win_pct": 52.5,
+        "se": 2.6,
+        "units": 0.73,
+        "roi_pct": 0.2,
+        "pred_edge": 4.0,
+        "realized_edge": 1.1,
+        "calibration": 0.28
+      },
+      {
+        "label": "5-7",
+        "bets": 375,
+        "wins": 184,
+        "losses": 186,
+        "pushes": 5,
+        "win_pct": 49.7,
+        "se": 2.6,
+        "units": -18.73,
+        "roi_pct": -5.0,
+        "pred_edge": 6.0,
+        "realized_edge": -0.7,
+        "calibration": -0.12
+      },
+      {
+        "label": "7-10",
+        "bets": 421,
+        "wins": 205,
+        "losses": 211,
+        "pushes": 5,
+        "win_pct": 49.3,
+        "se": 2.5,
+        "units": -24.64,
+        "roi_pct": -5.9,
+        "pred_edge": 8.4,
+        "realized_edge": 0.3,
+        "calibration": 0.03
+      },
+      {
+        "label": "10-15",
+        "bets": 371,
+        "wins": 176,
+        "losses": 191,
+        "pushes": 4,
+        "win_pct": 48.0,
+        "se": 2.6,
+        "units": -31.0,
+        "roi_pct": -8.4,
+        "pred_edge": 12.3,
+        "realized_edge": -0.1,
+        "calibration": -0.01
+      },
+      {
+        "label": "15+",
+        "bets": 287,
+        "wins": 147,
+        "losses": 137,
+        "pushes": 3,
+        "win_pct": 51.8,
+        "se": 3.0,
+        "units": -3.36,
+        "roi_pct": -1.2,
+        "pred_edge": 19.7,
+        "realized_edge": -0.5,
+        "calibration": -0.03
+      }
+    ],
+    "tiers_holdout": [
+      {
+        "label": "3-5",
+        "bets": 130,
+        "wins": 66,
+        "losses": 62,
+        "pushes": 2,
+        "win_pct": 51.6,
+        "se": 4.4,
+        "units": -2.0,
+        "roi_pct": -1.5,
+        "pred_edge": 4.0,
+        "realized_edge": -0.4,
+        "calibration": -0.1
+      },
+      {
+        "label": "5-7",
+        "bets": 121,
+        "wins": 53,
+        "losses": 67,
+        "pushes": 1,
+        "win_pct": 44.2,
+        "se": 4.5,
+        "units": -18.82,
+        "roi_pct": -15.6,
+        "pred_edge": 6.0,
+        "realized_edge": -2.3,
+        "calibration": -0.38
+      },
+      {
+        "label": "7-10",
+        "bets": 154,
+        "wins": 79,
+        "losses": 73,
+        "pushes": 2,
+        "win_pct": 52.0,
+        "se": 4.1,
+        "units": -1.18,
+        "roi_pct": -0.8,
+        "pred_edge": 8.4,
+        "realized_edge": 1.0,
+        "calibration": 0.12
+      },
+      {
+        "label": "10-15",
+        "bets": 123,
+        "wins": 61,
+        "losses": 61,
+        "pushes": 1,
+        "win_pct": 50.0,
+        "se": 4.5,
+        "units": -5.55,
+        "roi_pct": -4.5,
+        "pred_edge": 12.3,
+        "realized_edge": -0.3,
+        "calibration": -0.03
+      },
+      {
+        "label": "15+",
+        "bets": 109,
+        "wins": 57,
+        "losses": 50,
+        "pushes": 2,
+        "win_pct": 53.3,
+        "se": 4.8,
+        "units": 1.82,
+        "roi_pct": 1.7,
+        "pred_edge": 20.1,
+        "realized_edge": -0.5,
+        "calibration": -0.02
+      }
+    ],
     "tuning": {
       "seasons": [
         2023,
@@ -106,9 +250,115 @@
       2025
     ]
   },
-  "picks": [],
+  "picks": [
+    {
+      "game_id": 401864494,
+      "week": 1,
+      "kickoff": "2026-08-29T19:00:00+00:00",
+      "away": "San Jos\u00e9 State",
+      "home": "USC",
+      "pick": "San Jos\u00e9 State",
+      "pick_spread": 35.5,
+      "model_margin": 11.9,
+      "market_margin": 35.5,
+      "edge": -23.6,
+      "qualified": true
+    },
+    {
+      "game_id": 401864570,
+      "week": 1,
+      "kickoff": "2026-08-29T23:00:00+00:00",
+      "away": "New Mexico State",
+      "home": "Florida State",
+      "pick": "New Mexico State",
+      "pick_spread": 31.0,
+      "model_margin": 10.4,
+      "market_margin": 31.0,
+      "edge": -20.6,
+      "qualified": true
+    },
+    {
+      "game_id": 401866408,
+      "week": 1,
+      "kickoff": "2026-08-29T22:30:00+00:00",
+      "away": "Sacramento State",
+      "home": "Eastern Michigan",
+      "pick": "Sacramento State",
+      "pick_spread": 8.5,
+      "model_margin": 2.6,
+      "market_margin": 8.5,
+      "edge": -5.9,
+      "qualified": true
+    },
+    {
+      "game_id": 401856766,
+      "week": 1,
+      "kickoff": "2026-08-29T16:00:00+00:00",
+      "away": "North Carolina",
+      "home": "TCU",
+      "pick": "North Carolina",
+      "pick_spread": 6.5,
+      "model_margin": 2.7,
+      "market_margin": 6.5,
+      "edge": -3.8,
+      "qualified": true
+    },
+    {
+      "game_id": 401858202,
+      "week": 1,
+      "kickoff": "2026-08-29T19:30:00+00:00",
+      "away": "NC State",
+      "home": "Virginia",
+      "pick": "NC State",
+      "pick_spread": 6.0,
+      "model_margin": 2.5,
+      "market_margin": 6.0,
+      "edge": -3.5,
+      "qualified": true
+    },
+    {
+      "game_id": 401864577,
+      "week": 1,
+      "kickoff": "2026-08-29T21:30:00+00:00",
+      "away": "Jacksonville State",
+      "home": "North Dakota State",
+      "pick": "Jacksonville State",
+      "pick_spread": 7.0,
+      "model_margin": 4.1,
+      "market_margin": 7.0,
+      "edge": -2.9,
+      "qualified": false
+    },
+    {
+      "game_id": 401858201,
+      "week": 1,
+      "kickoff": "2026-08-29T23:00:00+00:00",
+      "away": "Hawai'i",
+      "home": "Stanford",
+      "pick": "Hawai'i",
+      "pick_spread": 3.0,
+      "model_margin": 2.1,
+      "market_margin": 3.0,
+      "edge": -0.9,
+      "qualified": false
+    },
+    {
+      "game_id": 401862693,
+      "week": 1,
+      "kickoff": "2026-08-30T02:00:00+00:00",
+      "away": "Memphis",
+      "home": "UNLV",
+      "pick": "Memphis",
+      "pick_spread": 3.0,
+      "model_margin": 2.2,
+      "market_margin": 3.0,
+      "edge": -0.8,
+      "qualified": false
+    }
+  ],
   "history": [],
   "record": {},
+  "record_tiers": [],
   "ratings": [
     {
       "rank": 1,
@@ -862,12 +1112,12 @@
     },
     {
       "rank": 151,
-      "team": "Norfolk State",
+      "team": "Southern Utah",
       "rating": -1.21
     },
     {
       "rank": 152,
-      "team": "Southern Utah",
+      "team": "Norfolk State",
       "rating": -1.21
     },
     {
@@ -932,12 +1182,12 @@
     },
     {
       "rank": 165,
-      "team": "Tennessee Tech",
+      "team": "Idaho State",
       "rating": -1.23
     },
     {
       "rank": 166,
-      "team": "Idaho State",
+      "team": "Tennessee Tech",
       "rating": -1.23
     },
     {
@@ -987,12 +1237,12 @@
     },
     {
       "rank": 176,
-      "team": "Southern",
+      "team": "Robert Morris",
       "rating": -1.25
     },
     {
       "rank": 177,
-      "team": "Robert Morris",
+      "team": "Southern",
       "rating": -1.25
     },
     {
@@ -1112,37 +1362,37 @@
     },
     {
       "rank": 201,
-      "team": "Alcorn State",
+      "team": "Charleston Southern",
       "rating": -1.44
     },
     {
       "rank": 202,
-      "team": "Southeastern Louisiana",
+      "team": "Morehead State",
       "rating": -1.44
     },
     {
       "rank": 203,
-      "team": "Drake",
+      "team": "Stetson",
       "rating": -1.44
     },
     {
       "rank": 204,
-      "team": "Indiana State",
+      "team": "Butler",
       "rating": -1.44
     },
     {
       "rank": 205,
-      "team": "Lafayette",
+      "team": "Maine",
       "rating": -1.44
     },
     {
       "rank": 206,
-      "team": "Morgan State",
+      "team": "Wagner",
       "rating": -1.44
     },
     {
       "rank": 207,
-      "team": "Wagner",
+      "team": "Morgan State",
       "rating": -1.44
     },
     {
@@ -1152,42 +1402,42 @@
     },
     {
       "rank": 209,
-      "team": "Dayton",
+      "team": "Drake",
       "rating": -1.44
     },
     {
       "rank": 210,
-      "team": "Davidson",
+      "team": "Southeastern Louisiana",
       "rating": -1.44
     },
     {
       "rank": 211,
-      "team": "Valparaiso",
+      "team": "Alcorn State",
       "rating": -1.44
     },
     {
       "rank": 212,
-      "team": "Maine",
+      "team": "Lafayette",
       "rating": -1.44
     },
     {
       "rank": 213,
-      "team": "Charleston Southern",
+      "team": "Davidson",
       "rating": -1.44
     },
     {
       "rank": 214,
-      "team": "Morehead State",
+      "team": "Indiana State",
       "rating": -1.44
     },
     {
       "rank": 215,
-      "team": "Stetson",
+      "team": "Dayton",
       "rating": -1.44
     },
     {
       "rank": 216,
-      "team": "Butler",
+      "team": "Valparaiso",
       "rating": -1.44
     },
     {
