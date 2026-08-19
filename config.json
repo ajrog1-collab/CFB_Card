@@ -6,8 +6,9 @@
   "min_edge": 3.0,
   "blend_k": 6.0,
   "recruit_window": 4,
-  "lookahead_days": 9,
+  "lookahead_days": 14,
   "assumed_price": -110,
   "turnover_shrink": 0.7,
-  "allow_week_backfill": true
+  "allow_week_backfill": true,
+  "tier_edges": [3, 5, 7, 10, 15]
 }
