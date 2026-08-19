@@ -195,6 +195,7 @@ def games_played_counts(frame):
 def build_games(games_raw, fbs, keep_unplayed=False):
     g = games_raw
     sd = col(g, "startDate", "start_date")
+    vid = col(g, "venueId", "venue_id")
     out = pd.DataFrame({
         "game_id":   g[col(g, "id", "gameId", "game_id")],
         "season":    g[col(g, "season", "year")],
@@ -205,6 +206,7 @@ def build_games(games_raw, fbs, keep_unplayed=False):
         "away_pts":  pd.to_numeric(g[col(g, "awayPoints", "away_points")], errors="coerce"),
         "neutral":   g[col(g, "neutralSite", "neutral_site")].fillna(False).astype(bool),
         "kickoff":   pd.to_datetime(g[sd], errors="coerce", utc=True) if sd else pd.NaT,
+        "venue_id":  pd.to_numeric(g[vid], errors="coerce") if vid else np.nan,
     })
     if not keep_unplayed:
         out = out.dropna(subset=["home_pts", "away_pts"])
@@ -422,6 +424,199 @@ def parse_sp(raw):
     sub = sub.dropna()
     sub = sub[sub[tcol].astype(str).str.lower() != "nationalaverages"]
     return dict(zip(sub[tcol], sub[rcol]))
+
+
+# ----------------------------------------------------------------------
+# situational adjustments
+# ----------------------------------------------------------------------
+
+# Curated list of annual rivalries. Names follow CFBD school naming. A name
+# mismatch simply means the flag never fires for that pair, which is safe.
+RIVALRIES = [
+    ("Ohio State", "Michigan"), ("Alabama", "Auburn"), ("Army", "Navy"),
+    ("Oklahoma", "Oklahoma State"), ("Texas", "Texas A&M"), ("Michigan", "Michigan State"),
+    ("Florida", "Florida State"), ("Georgia", "Georgia Tech"), ("Clemson", "South Carolina"),
+    ("USC", "UCLA"), ("Oregon", "Oregon State"), ("Washington", "Washington State"),
+    ("California", "Stanford"), ("Utah", "BYU"), ("Kansas", "Kansas State"),
+    ("Iowa", "Iowa State"), ("Minnesota", "Wisconsin"), ("Indiana", "Purdue"),
+    ("Illinois", "Northwestern"), ("Pittsburgh", "West Virginia"),
+    ("Virginia", "Virginia Tech"), ("North Carolina", "Duke"),
+    ("North Carolina", "NC State"), ("Wake Forest", "Duke"),
+    ("Kentucky", "Louisville"), ("Tennessee", "Vanderbilt"),
+    ("Mississippi", "Mississippi State"), ("LSU", "Arkansas"),
+    ("Missouri", "Kansas"), ("Nebraska", "Iowa"), ("Colorado", "Colorado State"),
+    ("Arizona", "Arizona State"), ("Texas Tech", "Baylor"), ("TCU", "SMU"),
+    ("Houston", "Rice"), ("Cincinnati", "Miami (OH)"), ("Miami (OH)", "Ohio"),
+    ("Toledo", "Bowling Green"), ("Air Force", "Army"), ("Air Force", "Navy"),
+    ("Boise State", "Fresno State"), ("Nevada", "UNLV"),
+    ("Notre Dame", "USC"), ("Notre Dame", "Navy"), ("Marshall", "Ohio"),
+    ("Louisiana", "Louisiana Monroe"), ("Southern Mississippi", "Memphis"),
+    ("Utah State", "Wyoming"), ("San Diego State", "San Jose State"),
+    ("East Carolina", "Marshall"), ("Auburn", "Georgia"), ("Florida", "Georgia"),
+    ("Tennessee", "Alabama"), ("Penn State", "Pittsburgh"), ("Maryland", "Penn State"),
+    ("Boston College", "Syracuse"), ("Connecticut", "UMass"),
+]
+RIVALRY_SET = frozenset(frozenset(p) for p in RIVALRIES)
+
+
+def haversine(lat1, lon1, lat2, lon2):
+    """Great-circle distance in miles. Vectorized."""
+    R = 3958.8
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    dp = p2 - p1
+    dl = np.radians(np.asarray(lon2) - np.asarray(lon1))
+    a = np.sin(dp / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
+    return 2 * R * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+
+
+def parse_venues(raw):
+    """venue_id -> {lat, lon, tz}."""
+    if not len(raw):
+        return {}
+    idc = col(raw, "id", "venueId")
+    latc = col(raw, "latitude", "location.x", "location.latitude")
+    lonc = col(raw, "longitude", "location.y", "location.longitude")
+    tzc = col(raw, "timezone", "timeZone")
+    if not (idc and latc and lonc):
+        return {}
+    out = {}
+    for _, r in raw.iterrows():
+        try:
+            vid = int(r[idc])
+            lat, lon = float(r[latc]), float(r[lonc])
+        except (TypeError, ValueError):
+            continue
+        if not (np.isfinite(lat) and np.isfinite(lon)) or (lat == 0 and lon == 0):
+            continue
+        out[vid] = {"lat": lat, "lon": lon,
+                    "tz": (str(r[tzc]) if tzc and pd.notna(r.get(tzc)) else None)}
+    return out
+
+
+def tz_offset_hours(tzname, when):
+    """UTC offset in hours for a timezone at a given moment. Falls back to None."""
+    if not tzname:
+        return None
+    try:
+        from zoneinfo import ZoneInfo
+        if pd.isna(when):
+            return None
+        off = when.astimezone(ZoneInfo(tzname)).utcoffset()
+        return off.total_seconds() / 3600.0 if off else None
+    except Exception:
+        return None
+
+
+def infer_home_venues(d):
+    """Each team's usual home venue, from the games where they hosted."""
+    if "venue_id" not in d.columns:
+        return {}
+    home = d[d["neutral"] == False].dropna(subset=["venue_id"])
+    if not len(home):
+        return {}
+    mode = (home.groupby("home_name")["venue_id"]
+                .agg(lambda s: s.value_counts().idxmax()))
+    return mode.to_dict()
+
+
+def add_situational(d, venues, home_venue):
+    """Travel, time-zone/body-clock, rest, and rivalry columns.
+
+    All of these are game-level context rather than team strength, so they
+    enter the final linear calibration alongside the rating differential
+    instead of changing the ratings themselves.
+    """
+    d = d.copy()
+    n = len(d)
+    for c in ("travel_diff_k", "east_body", "rest_diff", "rivalry"):
+        d[c] = 0.0
+    if not n:
+        return d
+
+    # ---- rivalry ----
+    d["rivalry"] = [
+        1.0 if frozenset((h, a)) in RIVALRY_SET else 0.0
+        for h, a in zip(d["home_name"], d["away_name"])
+    ]
+
+    # ---- rest differential ----
+    if "kickoff" in d.columns:
+        ko = pd.to_datetime(d["kickoff"], errors="coerce", utc=True)
+        last = {}
+        rest_h, rest_a = np.zeros(n), np.zeros(n)
+        order = np.argsort(ko.values.astype("datetime64[ns]"))
+        for pos in order:
+            t = ko.iloc[pos]
+            if pd.isna(t):
+                continue
+            for side, arr in (("home_name", rest_h), ("away_name", rest_a)):
+                team = d[side].iloc[pos]
+                prev = last.get(team)
+                arr[pos] = 7.0 if prev is None else min((t - prev).total_seconds() / 86400.0, 21.0)
+            for side in ("home_name", "away_name"):
+                last[d[side].iloc[pos]] = t
+        d["rest_diff"] = np.clip(rest_h - rest_a, -10, 10)
+
+    # ---- travel and body clock ----
+    if venues and home_venue and "venue_id" in d.columns:
+        def coords(team):
+            v = home_venue.get(team)
+            return venues.get(v) if v is not None else None
+
+        miles_h, miles_a, east_body = np.zeros(n), np.zeros(n), np.zeros(n)
+        ko = pd.to_datetime(d["kickoff"], errors="coerce", utc=True) \
+            if "kickoff" in d.columns else pd.Series([pd.NaT] * n)
+
+        for i in range(n):
+            vid = d["venue_id"].iloc[i]
+            site = venues.get(int(vid)) if pd.notna(vid) else None
+            if site is None:
+                continue
+            for team, arr in ((d["home_name"].iloc[i], miles_h),
+                              (d["away_name"].iloc[i], miles_a)):
+                hv = coords(team)
+                if hv:
+                    arr[i] = float(haversine(hv["lat"], hv["lon"], site["lat"], site["lon"]))
+
+            # body-clock penalty: eastward travel into an early kickoff
+            av = coords(d["away_name"].iloc[i])
+            t = ko.iloc[i]
+            if av and site and pd.notna(t):
+                off_site = tz_offset_hours(site["tz"], t)
+                off_away = tz_offset_hours(av["tz"], t)
+                if off_site is not None and off_away is not None:
+                    shift = off_site - off_away          # >0 means travelled east
+                    # wrap into 0-23; a bare sum goes negative for late kicks
+                    local_hour = (t.hour + t.minute / 60.0 + off_site) % 24
+                    body_hour = (local_hour - shift) % 24
+                    if shift > 0 and body_hour <= 11:
+                        east_body[i] = float(shift)
+
+        d["travel_diff_k"] = (miles_a - miles_h) / 1000.0
+        d["east_body"] = east_body
+
+    return d
+
+
+SITUATIONAL = ["travel_diff_k", "east_body", "rest_diff"]
+
+
+def situational_matrix(frame, rating_col):
+    """Feature columns for the calibration step, including rivalry compression.
+
+    Rivalry enters as an interaction with the rating differential: rivalry games
+    tend to play closer than ratings suggest, so we expect a negative weight
+    that shrinks the prediction toward a pick'em rather than shifting it.
+    """
+    cols, names = [], []
+    for c in SITUATIONAL:
+        if c in frame.columns:
+            cols.append(frame[c].fillna(0.0).to_numpy(dtype=float))
+            names.append(c)
+    if "rivalry" in frame.columns:
+        cols.append(frame["rivalry"].fillna(0.0).to_numpy(dtype=float) * rating_col)
+        names.append("rivalry_compress")
+    return (np.column_stack(cols) if cols else np.zeros((len(frame), 0))), names
 
 
 # ----------------------------------------------------------------------
