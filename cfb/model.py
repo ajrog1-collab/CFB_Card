@@ -827,7 +827,8 @@ def _om_get(url, params, label, timeout=15):
 
 
 def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False,
-                        seconds_budget=300, abort_after_failures=6):
+                        seconds_budget=300, abort_after_failures=6,
+                        venue_order=None):
     """Daily weather per venue for the whole date range.
 
     One archive call per venue covers every season at once, so the whole history
@@ -849,7 +850,15 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False,
     started = time.time()
     gave_up = False
 
-    for vid, v in sorted(venues.items()):
+    # CFBD lists every venue it has ever known — 800+, most of them FCS or
+    # defunct. Only fetch the ones that actually host games here, busiest first,
+    # so coverage grows as fast as possible per call spent.
+    if venue_order:
+        order = [(vid, venues[vid]) for vid in venue_order if vid in venues]
+    else:
+        order = sorted(venues.items())
+
+    for vid, v in order:
         if v.get("dome"):
             continue
         path = CACHE_DIR / f"om_{vid}.parquet"
@@ -908,20 +917,34 @@ def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False,
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
-def fetch_venue_forecast(venues, venue_ids, days=16):
-    """Forecast for the venues with games coming up. Never cached."""
+def fetch_venue_forecast(venues, venue_ids, days=16, seconds_budget=90,
+                         abort_after_failures=4, max_venues=60):
+    """Forecast for venues with games coming up. Never cached, so it needs the
+    same guards as the archive fetch: a wall-clock budget and an early exit when
+    the host is refusing us."""
     frames = []
+    failures = 0
+    started = time.time()
+    attempted = 0
+
     for vid in sorted(set(int(v) for v in venue_ids if pd.notna(v))):
         v = venues.get(vid)
         if not v or v.get("dome"):
             continue
+        if (attempted >= max_venues
+                or failures >= abort_after_failures
+                or (time.time() - started) > seconds_budget):
+            break
+        attempted += 1
         daily = _om_get(OM_FORECAST, {
             "latitude": round(v["lat"], 4), "longitude": round(v["lon"], 4),
             "daily": OM_DAILY, "forecast_days": days, "wind_speed_unit": "mph",
             "temperature_unit": "fahrenheit", "timezone": "UTC",
         }, f"forecast venue {vid}")
         if not daily or not daily.get("time"):
+            failures += 1
             continue
+        failures = 0
         frames.append(pd.DataFrame({
             "venue_id": vid,
             "date": pd.to_datetime(daily["time"], errors="coerce").date,
@@ -930,6 +953,10 @@ def fetch_venue_forecast(venues, venue_ids, days=16):
             "precip": pd.to_numeric(daily.get("precipitation_sum"), errors="coerce"),
         }).dropna(subset=["date"]))
         time.sleep(0.15)
+
+    if attempted:
+        print(f"    forecast: {len(frames)} of {attempted} venues "
+              f"({time.time() - started:.0f}s)")
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
