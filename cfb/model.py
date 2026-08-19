@@ -211,6 +211,7 @@ def build_games(games_raw, fbs, keep_unplayed=False):
     if not keep_unplayed:
         out = out.dropna(subset=["home_pts", "away_pts"])
     out["margin"] = out["home_pts"] - out["away_pts"]
+    out["actual_total"] = out["home_pts"] + out["away_pts"]
 
     # Keep real school names alongside the pooled labels, for display.
     out["home_name"] = out["home_team"]
@@ -258,6 +259,8 @@ def attach_lines(frame, lines_raw, sign=None):
         ck = frame.dropna(subset=["spread", "margin"])
         sign = -1 if len(ck) > 50 and ck["spread"].corr(ck["margin"]) < 0 else 1
     frame["mkt"] = sign * frame["spread"]
+    if "total" in frame.columns:
+        frame["mkt_total"] = frame["total"]
     return frame, sign
 
 
@@ -616,6 +619,145 @@ def situational_matrix(frame, rating_col):
     if "rivalry" in frame.columns:
         cols.append(frame["rivalry"].fillna(0.0).to_numpy(dtype=float) * rating_col)
         names.append("rivalry_compress")
+    return (np.column_stack(cols) if cols else np.zeros((len(frame), 0))), names
+
+
+# ----------------------------------------------------------------------
+# totals: offense / defense points ratings
+# ----------------------------------------------------------------------
+
+def fit_points_ratings(train, ridge=14.0, half_life=None, cap=56.0, min_games=150):
+    """Rate offense and defense separately on points scored.
+
+    Each game contributes two rows:
+        points = base + offense[team] - defense[opponent] + hfa_off * is_home
+
+    A higher defense rating means fewer points allowed. Returns
+    (offense, defense, hfa_off, base) or (None, None, 0, 0).
+    """
+    sub = train.dropna(subset=["home_pts", "away_pts"])
+    if len(sub) < min_games:
+        return None, None, 0.0, 0.0
+
+    teams = sorted(set(sub["home_team"]) | set(sub["away_team"]))
+    idx = {t: i for i, t in enumerate(teams)}
+    m = len(teams)
+    n = 2 * len(sub)
+
+    # columns: [offense 0..m-1][defense m..2m-1][is_home][intercept]
+    X = np.zeros((n, 2 * m + 2))
+    y = np.zeros(n)
+
+    h_off = sub["home_team"].map(idx).to_numpy()
+    a_off = sub["away_team"].map(idx).to_numpy()
+    rows_h = np.arange(len(sub))
+    rows_a = rows_h + len(sub)
+
+    X[rows_h, h_off] = 1.0
+    X[rows_h, m + a_off] = -1.0
+    X[rows_h, 2 * m] = np.where(sub["neutral"].to_numpy(), 0.0, 1.0)
+    X[rows_h, 2 * m + 1] = 1.0
+    y[rows_h] = np.clip(sub["home_pts"].to_numpy(dtype=float), 0, cap)
+
+    X[rows_a, a_off] = 1.0
+    X[rows_a, m + h_off] = -1.0
+    X[rows_a, 2 * m + 1] = 1.0
+    y[rows_a] = np.clip(sub["away_pts"].to_numpy(dtype=float), 0, cap)
+
+    if half_life:
+        age = np.concatenate([np.arange(len(sub))[::-1]] * 2)
+        w = np.sqrt(0.5 ** (age / half_life))
+        X, y = X * w[:, None], y * w
+
+    R = np.eye(2 * m + 2) * ridge
+    R[2 * m, 2 * m] = 0.0        # home-field scoring bump unpenalized
+    R[2 * m + 1, 2 * m + 1] = 0.0  # intercept unpenalized
+
+    try:
+        beta = np.linalg.solve(X.T @ X + R, X.T @ y)
+    except np.linalg.LinAlgError:
+        return None, None, 0.0, 0.0
+
+    off = {t: float(beta[idx[t]]) for t in teams}
+    dfn = {t: float(beta[m + idx[t]]) for t in teams}
+    hfa_off = float(beta[2 * m])
+    base = float(beta[2 * m + 1])
+
+    # center both so ratings read as points above/below average
+    mo = np.mean([v for t, v in off.items() if t != "NON_FBS"])
+    md = np.mean([v for t, v in dfn.items() if t != "NON_FBS"])
+    off = {t: v - mo for t, v in off.items()}
+    dfn = {t: v - md for t, v in dfn.items()}
+    base = base + mo - md
+    return off, dfn, hfa_off, base
+
+
+def predict_total(frame, off, dfn, hfa_off, base):
+    """Expected combined points."""
+    if off is None or not len(frame):
+        return np.full(len(frame), np.nan)
+    do = min(off.values()) if off else 0.0
+    dd = min(dfn.values()) if dfn else 0.0
+    oh = frame["home_team"].map(off).fillna(do).to_numpy()
+    oa = frame["away_team"].map(off).fillna(do).to_numpy()
+    dh = frame["home_team"].map(dfn).fillna(dd).to_numpy()
+    da = frame["away_team"].map(dfn).fillna(dd).to_numpy()
+    home_pts = base + oh - da + np.where(frame["neutral"].to_numpy(), 0.0, hfa_off)
+    away_pts = base + oa - dh
+    return home_pts + away_pts
+
+
+# ----------------------------------------------------------------------
+# weather (totals only)
+# ----------------------------------------------------------------------
+
+def parse_weather(raw):
+    """game_id -> {wind, temp, precip}. Empty if the endpoint is unavailable."""
+    if not len(raw):
+        return pd.DataFrame()
+    gid = col(raw, "id", "gameId", "game_id")
+    wind = col(raw, "windSpeed", "wind_speed")
+    temp = col(raw, "temperature", "temp")
+    prec = col(raw, "precipitation", "precip")
+    if not gid:
+        return pd.DataFrame()
+    out = pd.DataFrame({"game_id": pd.to_numeric(raw[gid], errors="coerce")})
+    out["wind"] = pd.to_numeric(raw[wind], errors="coerce") if wind else np.nan
+    out["temp"] = pd.to_numeric(raw[temp], errors="coerce") if temp else np.nan
+    out["precip"] = pd.to_numeric(raw[prec], errors="coerce") if prec else np.nan
+    return out.dropna(subset=["game_id"]).drop_duplicates("game_id")
+
+
+def attach_weather(d, wx):
+    """Add wind_excess, cold, and precip columns for the totals model.
+
+    Wind enters as excess over 10 mph: light wind does nothing measurable,
+    and the effect on scoring shows up in the tail.
+    """
+    d = d.copy()
+    for c in ("wind_excess", "cold", "precip_flag"):
+        d[c] = 0.0
+    if not len(wx):
+        return d, False
+
+    d = d.drop(columns=["wind_excess", "cold", "precip_flag"]).merge(
+        wx, on="game_id", how="left")
+    d["wind_excess"] = np.clip(d["wind"].fillna(8.0) - 10.0, 0, 30)
+    d["cold"] = np.clip(40.0 - d["temp"].fillna(60.0), 0, 60) / 10.0
+    d["precip_flag"] = (d["precip"].fillna(0.0) > 0.05).astype(float)
+    return d, bool(d["wind"].notna().sum() > 500)
+
+
+TOTALS_SITUATIONAL = ["wind_excess", "cold", "precip_flag", "rest_diff"]
+
+
+def totals_matrix(frame):
+    """Context columns for the totals calibration."""
+    cols, names = [], []
+    for c in TOTALS_SITUATIONAL:
+        if c in frame.columns:
+            cols.append(frame[c].fillna(0.0).to_numpy(dtype=float))
+            names.append(c)
     return (np.column_stack(cols) if cols else np.zeros((len(frame), 0))), names
 
 
