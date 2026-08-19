@@ -1,18 +1,37 @@
 {
   "current_season": 2026,
   "history_start": 2016,
-  "backtest_seasons": [2019, 2021, 2022, 2023, 2024, 2025],
+  "backtest_seasons": [
+    2019,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
   "holdout_season": 2025,
   "min_edge": 3.0,
   "min_edge_total": 4.0,
   "top_pick_count": 5,
-  "confidence_tiers": [0.2, 0.35, 0.5, 0.7],
+  "confidence_tiers": [
+    0.2,
+    0.35,
+    0.5,
+    0.7
+  ],
   "blend_k": 6.0,
   "recruit_window": 4,
   "lookahead_days": 14,
   "assumed_price": -110,
   "turnover_shrink": 0.7,
   "allow_week_backfill": true,
-  "tier_edges": [3, 5, 7, 10, 15],
-  "weather_start": "2016-08-01"
+  "tier_edges": [
+    3,
+    5,
+    7,
+    10,
+    15
+  ],
+  "weather_start": "2016-08-01",
+  "weather_venue_budget": 40
 }
