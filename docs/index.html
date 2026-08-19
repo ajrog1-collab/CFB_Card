@@ -86,9 +86,9 @@
   .tab{
     flex:1;appearance:none;border:0;cursor:pointer;
     background:var(--panel);color:var(--muted);
-    font-family:var(--display);font-size:15px;font-weight:600;
-    letter-spacing:.07em;text-transform:uppercase;
-    padding:10px 4px;border-radius:2px;transition:background .15s,color .15s;
+    font-family:var(--display);font-size:14px;font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;
+    padding:10px 2px;border-radius:2px;transition:background .15s,color .15s;
   }
   .tab[aria-selected="true"]{background:var(--brass);color:#17202b}
   .tab:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
@@ -237,12 +237,14 @@
   <div id="gauge"></div>
 
   <nav role="tablist">
-    <button class="tab" role="tab" id="t-bets" aria-controls="p-bets" aria-selected="true">Bets</button>
+    <button class="tab" role="tab" id="t-bets" aria-controls="p-bets" aria-selected="true">Sides</button>
+    <button class="tab" role="tab" id="t-totals" aria-controls="p-totals" aria-selected="false">Totals</button>
     <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">Record</button>
     <button class="tab" role="tab" id="t-ratings" aria-controls="p-ratings" aria-selected="false">Ratings</button>
   </nav>
 
   <section class="panel" id="p-bets" role="tabpanel" aria-labelledby="t-bets"></section>
+  <section class="panel" id="p-totals" role="tabpanel" aria-labelledby="t-totals" hidden></section>
   <section class="panel" id="p-record" role="tabpanel" aria-labelledby="t-record" hidden></section>
   <section class="panel" id="p-ratings" role="tabpanel" aria-labelledby="t-ratings" hidden></section>
 
@@ -358,6 +360,100 @@ function renderBets(d){
   el.innerHTML = html;
 }
 
+/* ---------- totals ---------- */
+function renderTotals(d){
+  const el = $('p-totals');
+  const tp = d.total_picks || [];
+  const ts = d.totals || {};
+  let html = '';
+
+  if(ts.model_mae != null){
+    const max = Math.max(ts.model_mae, ts.market_mae) * 1.12;
+    const bar = (nm, v, c) => `
+      <div class="bar-row">
+        <div class="bar-name">${nm}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%;background:${c}"></div></div>
+        <div class="bar-val">${v.toFixed(2)}</div>
+      </div>`;
+    html += `<div class="gauge">
+      <div class="gauge-label">Average miss vs combined score</div>
+      ${bar('Model', ts.model_mae, 'var(--brass)')}
+      ${bar('Market', ts.market_mae, 'var(--cool)')}
+      <div class="gauge-note">${ts.uses_weather
+        ? 'Wind, cold, and precipitation are in the model.'
+        : 'Weather data was unavailable this run, so wind is not modeled &mdash; the single biggest gap for totals.'}</div>
+    </div>`;
+  }
+
+  if(!ts.uses_weather){
+    html += `<div class="note">Totals without wind are meaningfully weaker. If the
+      weather endpoint stays unavailable, this market is worth less than it looks.</div>`;
+  }
+
+  const qual = tp.filter(p => p.qualified);
+  const lean = tp.filter(p => !p.qualified);
+
+  const card = p => {
+    const w = Math.min(3 + Math.abs(p.edge) * 0.7, 11).toFixed(1);
+    return `
+    <div class="card ${p.qualified ? 'qual' : ''}">
+      <div class="tick" style="width:${w}px"></div>
+      <div class="card-body">
+        <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
+        <div class="meta">
+          <span>Wk ${esc(p.week)}</span>
+          <span>${esc(fmtKick(p.kickoff))}</span>
+          ${p.wind != null ? `<span>wind ${esc(p.wind)} mph</span>` : ''}
+          <span class="flag">${p.qualified ? 'Qualified' : 'Lean'}</span>
+        </div>
+        <div class="callout">
+          <span class="pick">${esc(p.pick)}</span>
+          <span class="pick-line">${esc(p.line)}</span>
+          <span class="numbers">
+            edge <b>${sgn(p.edge)}</b><br>
+            model <b>${esc(p.model_total)}</b> &middot; mkt <b>${esc(p.line)}</b>
+          </span>
+        </div>
+      </div>
+    </div>`;
+  };
+
+  if(!tp.length){
+    html += `<div class="empty">
+      <div class="empty-h">No totals on the board</div>
+      <div class="empty-p">Nothing kicks off soon, or totals have not posted yet.</div></div>`;
+  } else {
+    html += `<h2>Qualified totals</h2>
+      <p class="sub">Disagreement of ${esc(ts.min_edge ?? 4)} points or more with the posted total.</p>`;
+    html += qual.length ? qual.map(card).join('')
+      : `<div class="empty"><div class="empty-h">None this week</div>
+         <div class="empty-p">The model agrees with every posted total. Passing is a position.</div></div>`;
+    if(lean.length){
+      html += `<h2>Smaller leans</h2><p class="sub">Under the threshold, shown for context.</p>`
+        + lean.slice(0, 10).map(card).join('');
+    }
+  }
+
+  const tr = d.totals_ratings || [];
+  if(tr.length){
+    html += `<h2>Scoring environment</h2>
+      <p class="sub">Offense is points above average scored; defense is points below
+      average allowed. High on both means high-scoring games.</p>`;
+    html += `<div class="tier tier-head">
+        <div class="tier-label">Team</div><div class="tier-n">Off</div>
+        <div class="tier-wp">Def</div><div class="tier-cal">Net</div></div>`;
+    html += tr.slice(0, 25).map(r => `
+      <div class="tier">
+        <div class="tier-label" style="grid-column:span 1">${esc(r.team)}</div>
+        <div class="tier-n">${sgn(r.offense)}</div>
+        <div class="tier-wp">${sgn(r.defense)}</div>
+        <div class="tier-cal">${sgn(r.pace)}</div>
+      </div>`).join('');
+  }
+
+  el.innerHTML = html;
+}
+
 /* ---------- record ---------- */
 function renderRecord(d){
   const el = $('p-record');
@@ -436,16 +532,59 @@ function renderRecord(d){
     }
   }
 
+  const bm = d.record_by_market || {};
+  if(bm.spread || bm.total){
+    const mrow = (label, m) => m ? `
+      <div class="tile"><div class="tile-k">${label}</div>
+        <div class="tile-v">${m.wins}-${m.losses}${m.pushes ? '-' + m.pushes : ''}</div>
+        <div class="tile-sub">${m.win_pct ?? '--'}% &middot; ${m.units > 0 ? '+' : ''}${m.units}u</div></div>` : '';
+    html += `<h2>By market</h2>
+      <div class="tiles">
+        ${mrow('Sides', bm.spread)}
+        ${mrow('Totals', bm.total)}
+        <div class="tile"><div class="tile-k">Break-even</div>
+          <div class="tile-v">${esc(r.breakeven_pct ?? 52.4)}%</div>
+          <div class="tile-sub">at ${esc(d.assumed_price ?? -110)}</div></div>
+      </div>`;
+  }
+
   const liveT = d.record_tiers || [];
   if(liveT.length){
-    html += `<h2>Live results by edge size</h2>
+    html += `<h2>Live sides by edge size</h2>
       <p class="sub">Does a bigger disagreement with the market actually win more often?</p>`
       + tierTable(liveT, r.breakeven_pct) + tierVerdict(liveT, r.breakeven_pct);
   }
 
+  const liveTT = d.record_tiers_total || [];
+  if(liveTT.length){
+    html += `<h2>Live totals by edge size</h2>`
+      + tierTable(liveTT, r.breakeven_pct) + tierVerdict(liveTT, r.breakeven_pct);
+  }
+
+  const ts = d.totals || {};
+  if(ts.qualified_win_pct != null){
+    html += `<h2>Totals backtest</h2>
+      <p class="sub">Weeks 5+ only &mdash; totals have no usable preseason prior.
+      ${ts.holdout ? 'Holdout ' + esc(ts.holdout.season) + ' shown separately.' : ''}</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile-k">Qualified</div>
+          <div class="tile-v">${esc(ts.qualified_win_pct)}%</div>
+          <div class="tile-sub">${esc(ts.qualified_bets)} bets</div></div>
+        <div class="tile"><div class="tile-k">Model MAE</div>
+          <div class="tile-v">${esc(ts.model_mae)}</div>
+          <div class="tile-sub">mkt ${esc(ts.market_mae)}</div></div>
+        <div class="tile"><div class="tile-k">Holdout</div>
+          <div class="tile-v">${ts.holdout && ts.holdout.win_pct != null ? esc(ts.holdout.win_pct) + '%' : '--'}</div>
+          <div class="tile-sub">${ts.holdout ? esc(ts.holdout.bets) + ' bets' : 'n/a'}</div></div>
+      </div>`;
+    if((ts.tiers || []).length){
+      html += tierTable(ts.tiers, r.breakeven_pct) + tierVerdict(ts.tiers, r.breakeven_pct);
+    }
+  }
+
   const btT = bt.tiers || [], btH = bt.tiers_holdout || [];
   if(btT.length){
-    html += `<h2>Backtest by edge size</h2>
+    html += `<h2>Sides backtest by edge size</h2>
       <p class="sub">All ${esc((bt.seasons||[]).join(', '))}. Calibration is the column to
       read: realized points beaten by, divided by points the model predicted.</p>`
       + tierTable(btT, r.breakeven_pct) + tierVerdict(btT, r.breakeven_pct);
@@ -598,7 +737,8 @@ function renderFooter(d){
 }
 
 /* ---------- tabs ---------- */
-const TABS = [['t-bets','p-bets'],['t-record','p-record'],['t-ratings','p-ratings']];
+const TABS = [['t-bets','p-bets'],['t-totals','p-totals'],
+              ['t-record','p-record'],['t-ratings','p-ratings']];
 TABS.forEach(([tid, pid]) => {
   $(tid).addEventListener('click', () => {
     TABS.forEach(([t, p]) => {
@@ -615,7 +755,7 @@ fetch('data.json?t=' + Date.now())
   .then(r => { if(!r.ok) throw new Error('data.json ' + r.status); return r.json(); })
   .then(d => {
     renderStamp(d); renderGauge(d);
-    renderBets(d); renderRecord(d); renderRatings(d); renderFooter(d);
+    renderBets(d); renderTotals(d); renderRecord(d); renderRatings(d); renderFooter(d);
   })
   .catch(e => {
     $('p-bets').innerHTML = `<div class="empty">
