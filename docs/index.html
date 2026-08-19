@@ -103,14 +103,13 @@
   .dot.weather,.dot.travel,.dot.rest{background:var(--brass)}
   .driver.caution{color:var(--muted)}
 
-  .meter{margin-top:9px;height:22px;position:relative}
-  .meter-line{position:absolute;left:0;right:0;top:14px;height:1px;background:var(--rule)}
-  .meter-mkt,.meter-mod{position:absolute;top:8px;width:2px;height:13px}
-  .meter-mkt{background:var(--cool)}
-  .meter-mod{background:var(--brass)}
-  .meter-lab{position:absolute;top:0;font-family:var(--mono);font-size:9px}
-  .meter-lab.mkt{color:var(--cool)}
-  .meter-lab.mod{color:var(--brass);right:0;text-align:right}
+  .nums{display:flex;margin-top:9px;padding-top:9px;border-top:1px solid var(--rule)}
+  .num{flex:1;text-align:center}
+  .num + .num{border-left:1px solid var(--rule)}
+  .num-k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted)}
+  .num-v{font-family:var(--mono);font-size:17px;font-weight:600;margin-top:2px}
+  .num-v.gap{color:var(--brass)}
 
   .chart{background:var(--panel);border-radius:2px;padding:12px 12px 8px;margin:10px 0}
   .chart-t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
@@ -124,6 +123,17 @@
   .tile-v{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.05;margin-top:3px}
   .tile-v.pos{color:var(--win)} .tile-v.neg{color:var(--loss)}
   .tile-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
+
+  .srow{display:grid;grid-template-columns:52px 1fr 62px 56px;gap:10px;
+    align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
+  .syear{font-family:var(--display);font-size:18px;font-weight:600}
+  .syear .live{font-family:var(--mono);font-size:8.5px;color:var(--brass);
+    display:block;letter-spacing:.12em}
+  .sbar{position:relative;height:16px}
+  .sbar-mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--rule)}
+  .sbar-fill{position:absolute;top:4px;height:8px;border-radius:1px}
+  .sright{font-family:var(--mono);font-size:13px;text-align:right}
+  .sright small{display:block;font-size:9px;color:var(--muted)}
 
   .rrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule)}
   .badge{font-family:var(--display);font-size:12px;font-weight:700;width:30px;flex:none;
@@ -220,20 +230,25 @@ function visible(){
   return list.sort((a,b) => key(a) - key(b));
 }
 
-/* Model number vs market number, side by side. */
-function meter(p){
-  if(p.market_margin == null || p.model_margin == null) return '';
-  const lo = Math.min(p.market_margin, p.model_margin);
-  const hi = Math.max(p.market_margin, p.model_margin);
-  const pad = Math.max(4, (hi - lo) * 0.9);
-  const a = lo - pad, b = hi + pad;
-  const pos = v => ((v - a) / (b - a) * 100).toFixed(1);
-  return `<div class="meter">
-    <div class="meter-lab mkt">book ${esc(p.market_margin)}</div>
-    <div class="meter-lab mod">model ${esc(p.model_margin)}</div>
-    <div class="meter-line"></div>
-    <div class="meter-mkt" style="left:${pos(p.market_margin)}%"></div>
-    <div class="meter-mod" style="left:${pos(p.model_margin)}%"></div>
+/* Book, model, gap — quoted from the side being picked, so the three numbers
+   read left to right as one sentence. */
+function nums(p){
+  let book, model;
+  if(p.market === 'total'){
+    book = p.line;
+    model = p.model_total;
+  } else {
+    const home = p.edge > 0;
+    book = p.pick_spread;
+    model = home ? -p.model_margin : p.model_margin;
+  }
+  if(book == null || model == null) return '';
+  const f = v => p.market === 'total' ? Number(v).toFixed(1) : sgn(v);
+  return `<div class="nums">
+    <div class="num"><div class="num-k">Book</div><div class="num-v">${esc(f(book))}</div></div>
+    <div class="num"><div class="num-k">Model</div><div class="num-v">${esc(f(model))}</div></div>
+    <div class="num"><div class="num-k">Gap</div>
+      <div class="num-v gap">${esc(Math.abs(p.edge).toFixed(1))}</div></div>
   </div>`;
 }
 
@@ -264,9 +279,8 @@ function card(p, rank){
       <div class="callout">
         <span class="pick">${esc(p.pick)}</span>
         <span class="pick-line">${p.market === 'total' ? esc(p.line) : sgn(p.pick_spread)}</span>
-        <span class="numbers">gap <b>${sgn(p.edge)}</b></span>
       </div>
-      ${meter(p)}
+      ${nums(p)}
       ${drivers ? `<div class="drivers">${drivers}</div>` : ''}
     </div>
   </div>`;
@@ -339,33 +353,36 @@ function equityChart(eq){
     </svg></div>`;
 }
 
-function confChart(tiers, be){
-  if(!tiers || tiers.length < 2) return '';
-  const W = 320, H = 112, P = 16, n = tiers.length;
-  const gap = (W - 2*P) / n, bw = gap * 0.6, lo = 35, hi = 68;
-  const py = v => H - P - (v - lo) / (hi - lo) * (H - 2*P);
-  const bars = tiers.map((t,i) => {
-    if(t.win_pct == null) return '';
-    const x = P + i*gap + (gap - bw)/2, y = py(t.win_pct), base = py(lo);
-    const beats = t.se != null && (t.win_pct - t.se) > (be ?? 52.4);
-    const eb = t.se != null
-      ? `<line x1="${x+bw/2}" y1="${py(t.win_pct - t.se)}" x2="${x+bw/2}"
-           y2="${py(t.win_pct + t.se)}" stroke="var(--paper)" stroke-width="1" opacity=".6"/>` : '';
-    return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(base-y,1)}"
-        fill="${beats ? 'var(--win)' : 'var(--cool)'}" opacity=".85"/>${eb}
-      <text x="${x+bw/2}" y="${H-4}" text-anchor="middle" font-size="7.5"
-        fill="#8b9aad" font-family="monospace">${esc(String(t.label).replace('%',''))}</text>`;
+/* Win rate per season, drawn relative to break-even: bars right of centre made
+   money, left lost it. The gap column is the steadier signal — win rate on a few
+   hundred picks is mostly noise. */
+function seasonTable(rows, live, be){
+  if(!rows || !rows.length) return '';
+  const all = rows.slice();
+  if(live && live.win_pct != null){
+    all.push({season:live.season, bets:live.settled, win_pct:live.win_pct,
+              units:live.units, roi_pct:live.roi_pct, _live:true});
+  }
+  const SPAN = 12;   // percentage points either side of break-even
+  return all.map(r => {
+    const wp = r.win_pct ?? be;
+    const d = Math.max(-SPAN, Math.min(SPAN, wp - be));
+    const half = Math.abs(d) / SPAN * 50;
+    const style = d >= 0
+      ? `left:50%;width:${half.toFixed(1)}%;background:var(--win)`
+      : `right:50%;width:${half.toFixed(1)}%;background:var(--loss)`;
+    return `
+      <div class="srow">
+        <div class="syear">${esc(r.season)}${r._live ? '<span class="live">live</span>' : ''}</div>
+        <div class="sbar"><div class="sbar-mid"></div>
+          <div class="sbar-fill" style="${style}"></div></div>
+        <div class="sright">${r.win_pct == null ? '--' : esc(r.win_pct) + '%'}
+          <small>${esc(r.bets)} picks</small></div>
+        <div class="sright" style="color:${r.units > 0 ? 'var(--win)' : 'var(--loss)'}">
+          ${r.units > 0 ? '+' : ''}${esc(r.units)}
+          <small>${r.gap != null ? 'gap ' + esc(r.gap) : (r.roi_pct ?? '--') + '%'}</small></div>
+      </div>`;
   }).join('');
-  const beY = py(be ?? 52.4);
-  return `<div class="chart">
-    <div class="chart-t">Win rate by how sure the model was</div>
-    <svg viewBox="0 0 ${W} ${H}" style="height:112px">
-      <line x1="${P}" y1="${beY}" x2="${W-P}" y2="${beY}" stroke="var(--brass)"
-        stroke-dasharray="3 3"/>
-      <text x="${W-P}" y="${beY-3}" text-anchor="end" font-size="7.5" fill="#c8973f"
-        font-family="monospace">break even</text>
-      ${bars}
-    </svg></div>`;
 }
 
 function renderRecord(){
@@ -395,21 +412,55 @@ function renderRecord(){
       <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
+  /* Three buckets, named in English. The question is only whether the model's
+     confidence tracks results — a chart adds nothing a number doesn't. */
   const ct = d.confidence_tiers || [];
-  if(ct.length){
+  if(ct.length >= 3){
+    const be = r.breakeven_pct ?? 52.4;
+    const agg = rows => {
+      const bets = rows.reduce((a,x) => a + x.bets, 0);
+      if(!bets) return null;
+      const wp = rows.reduce((a,x) => a + (x.win_pct ?? 0) * x.bets, 0) / bets;
+      return { bets, wp };
+    };
+    const third = Math.ceil(ct.length / 3);
+    const groups = [
+      ['Least sure', agg(ct.slice(0, third))],
+      ['Middle',     agg(ct.slice(third, ct.length - third))],
+      ['Most sure',  agg(ct.slice(ct.length - third))],
+    ].filter(g => g[1]);
+
     h += `<h2>Does "sure" mean anything?</h2>
-      <p class="sub">Past picks grouped by how sure the model was.</p>` + confChart(ct, r.breakeven_pct);
-    const top = ct[ct.length-1], bot = ct[0];
-    if(top.win_pct != null && bot.win_pct != null){
-      const gapv = (top.win_pct - bot.win_pct).toFixed(1);
-      const good = gapv > 3 && top.se != null && (top.win_pct - top.se) > (r.breakeven_pct ?? 52.4);
-      h += `<div class="note">${good
-        ? `Most sure beat least sure by ${gapv} pts and cleared break-even. Encouraging.`
-        : `Most sure vs least sure: ${gapv} pts. Not enough to matter — read the ranking as opinion, not proof.`}</div>`;
-    }
+      <p class="sub">Past picks split by how sure the model was. Break-even is ${esc(be)}%.</p>`;
+    h += groups.map(([label, g]) => `
+      <div class="rrow">
+        <div class="rmain"><div class="rpick">${label}</div>
+          <div class="rsub">${g.bets.toLocaleString()} picks</div></div>
+        <div class="num-v" style="color:${g.wp >= be ? 'var(--win)' : 'var(--paper)'}">${g.wp.toFixed(1)}%</div>
+      </div>`).join('');
+
+    const lo = groups[0][1].wp, hi = groups[groups.length-1][1].wp;
+    const diff = (hi - lo).toFixed(1);
+    h += `<div class="note">${hi >= be && (hi - lo) > 3
+      ? `Most sure beat least sure by ${diff} pts and cleared break-even.`
+      : `Most sure and least sure land within ${Math.abs(diff)} pts of each other. Confidence is not sorting winners — read top picks as the model's opinion, not proof.`}</div>`;
   }
 
   const bt = d.backtest || {}, ts = d.totals || {};
+  const be2 = r.breakeven_pct ?? 52.4;
+
+  if((bt.by_season || []).length){
+    h += `<h2>Sides by season</h2>
+      <p class="sub">Bars show win rate against the ${esc(be2)}% break-even line.
+      Right of centre made money. <b>Gap</b> is how far behind the book the model
+      was that year — the steadier read on whether it's improving.</p>`
+      + seasonTable(bt.by_season, d.record_live_season, be2);
+  }
+  if((ts.by_season || []).length){
+    h += `<h2>Totals by season</h2>`
+      + seasonTable(ts.by_season, null, be2);
+  }
+
   h += `<h2>Model vs book</h2>
     <p class="sub">Average miss on the final score. Lower is better.</p>
     <div class="tiles">
