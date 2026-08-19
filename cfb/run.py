@@ -764,7 +764,8 @@ def main():
     # weather from Open-Meteo: one archive call per outdoor venue covers every
     # season at once, so this costs ~130 calls once rather than one per game
     wx_end = datetime.now(timezone.utc).date().isoformat()
-    wx_daily = fetch_venue_weather(venues, CONFIG.get("weather_start", "2016-08-01"), wx_end)
+    wx_daily = fetch_venue_weather(venues, CONFIG.get("weather_start", "2016-08-01"), wx_end,
+                                   budget=int(CONFIG.get("weather_venue_budget", 40)))
     d, use_wx = attach_venue_weather(d, wx_daily, venues)
     n_dome = sum(1 for v in venues.values() if v.get("dome"))
     print(f"Weather: {int(d['wind'].notna().sum()):,} games covered "
