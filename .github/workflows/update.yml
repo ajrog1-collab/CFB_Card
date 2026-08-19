@@ -1,0 +1,51 @@
+name: Update model
+
+on:
+  schedule:
+    # Wednesday 15:00 UTC — early lines are up, numbers are softest
+    - cron: "0 15 * * 3"
+    # Saturday 13:00 UTC — before the early slate kicks
+    - cron: "0 13 * * 6"
+    # Sunday 12:00 UTC — grade the week that just finished
+    - cron: "0 12 * * 0"
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-model
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run model
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python cfb/run.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "cfb-model-bot"
+          git config user.email "actions@github.com"
+          git add docs/data.json data/
+          if git diff --staged --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Update model: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
