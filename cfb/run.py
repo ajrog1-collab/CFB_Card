@@ -22,9 +22,10 @@ import numpy as np
 import pandas as pd
 
 from model import (
-    PriorModel, attach_epa, attach_lines, blend_prior, blend_ratings,
-    build_games, cfbd_get, col, fit_ratings, games_played_counts,
-    rating_diff, season_ratings, talent_composite, returning_production,
+    PriorModel, add_adjusted_margin, attach_epa, attach_lines, attach_turnovers,
+    blend_prior, blend_ratings, build_games, cfbd_get, col, fit_ratings,
+    games_played_counts, parse_sp, parse_team_stats, rating_diff, season_ratings,
+    talent_composite, returning_production,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -37,6 +38,10 @@ CURRENT = CONFIG["current_season"]
 MIN_EDGE = float(CONFIG["min_edge"])
 BLEND_K = float(CONFIG["blend_k"])
 TEST_SEASONS = CONFIG["backtest_seasons"]
+HOLDOUT = CONFIG.get("holdout_season")
+TO_SHRINK = float(CONFIG.get("turnover_shrink", 0.7))
+ALLOW_WEEK_BACKFILL = bool(CONFIG.get("allow_week_backfill", True))
+RATING_TARGET = "adj_margin"
 LOOKAHEAD_DAYS = int(CONFIG["lookahead_days"])
 PRICE = float(CONFIG["assumed_price"])  # e.g. -110
 
@@ -44,6 +49,28 @@ PRICE = float(CONFIG["assumed_price"])  # e.g. -110
 def american_to_profit(price: float) -> float:
     """Profit per 1 unit risked on a win."""
     return (100.0 / abs(price)) if price < 0 else (price / 100.0)
+
+
+def fetch_team_stats(year: int) -> pd.DataFrame:
+    """Team box scores for a season, used for turnover counts.
+
+    /games/teams sometimes rejects a year-only query depending on API version.
+    Try year-level first (1 call). If that comes back empty, fall back to a
+    week-by-week loop (~16 calls). The result caches permanently, so the
+    fallback cost is paid once, not every run.
+    """
+    ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"})
+    if len(ts):
+        return ts
+    if not ALLOW_WEEK_BACKFILL:
+        return pd.DataFrame()
+
+    frames = []
+    for wk in range(1, 17):
+        w = cfbd_get("games/teams", {"year": year, "week": wk, "seasonType": "regular"})
+        if len(w):
+            frames.append(w)
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
 # ======================================================================
@@ -54,6 +81,7 @@ def load_everything():
     print("Fetching data...")
     games_raw, lines_raw, adv_raw = [], [], []
     recruit, returning, fbs = [], [], {}
+    sp_by_year, team_stats = {}, []
 
     for yr in HIST_YEARS:
         for st in ("regular", "postseason"):
@@ -77,6 +105,18 @@ def load_everything():
         rp = cfbd_get("player/returning", {"year": yr})
         if len(rp):
             returning.append(rp.assign(_year=yr))
+
+        # SP+ (used only as a PRIOR-year feature, never within-season)
+        sp = cfbd_get("ratings/sp", {"year": yr})
+        parsed = parse_sp(sp)
+        if parsed:
+            sp_by_year[yr] = parsed
+
+        # team box scores, for turnovers
+        ts = fetch_team_stats(yr)
+        if len(ts):
+            team_stats.append(ts)
+
         print(f"  {yr}")
 
     # current season: never cached, always fresh
@@ -106,6 +146,7 @@ def load_everything():
         "games": cat(games_raw), "lines": cat(lines_raw), "adv": cat(adv_raw),
         "recruit": cat(recruit), "returning": cat(returning), "fbs": fbs,
         "cur_games": cur_games, "cur_lines": cur_lines,
+        "sp": sp_by_year, "team_stats": cat(team_stats),
     }
 
 
@@ -138,7 +179,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
                 continue
             r_in = None
             if len(so_far) >= 150:
-                r_m, _ = fit_ratings(so_far, "margin", ridge=14.0, cap=35.0)
+                r_m, _ = fit_ratings(so_far, RATING_TARGET, ridge=14.0, cap=35.0)
                 r_p = None
                 if use_epa:
                     r_p, _ = fit_ratings(so_far, "ppa_margin", ridge=1.0, cap=1.5)
@@ -184,10 +225,27 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
             "win_pct": round(float(np.where(sub.edge > 0, sub.cover, 1 - sub.cover).mean()) * 100, 1),
         })
 
+    tuning = s[s.season != HOLDOUT] if HOLDOUT else s
+    hold = s[s.season == HOLDOUT] if HOLDOUT else pd.DataFrame()
+
+    def qual_pct(frame):
+        q = frame[(frame.edge.abs() >= MIN_EDGE) & frame.cover.notna()]
+        if len(q) < 20:
+            return None, int(len(q))
+        return round(float(np.where(q.edge > 0, q.cover, 1 - q.cover).mean()) * 100, 1), int(len(q))
+
+    tune_pct, tune_n = qual_pct(tuning)
+    hold_pct, hold_n = qual_pct(hold)
+
     return bt, {
         "overall": slice_stats(s),
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
+        "tuning": {"seasons": [x for x in TEST_SEASONS if x != HOLDOUT],
+                   "win_pct": tune_pct, "bets": tune_n,
+                   **(slice_stats(tuning) or {})},
+        "holdout": ({"season": HOLDOUT, "win_pct": hold_pct, "bets": hold_n,
+                     **(slice_stats(hold) or {})} if HOLDOUT and len(hold) else None),
         "qualified_win_pct": round(win * 100, 1) if win is not None else None,
         "qualified_bets": int(len(qual)),
         "thresholds": thresholds,
@@ -311,14 +369,26 @@ def main():
     d = build_games(data["games"], data["fbs"])
     d, sign = attach_lines(d, data["lines"])
     d, use_epa = attach_epa(d, data["adv"])
-    d = d.sort_values(["season", "week"]).reset_index(drop=True)
-    print(f"History: {len(d):,} games | lines {int(d.spread.notna().sum()):,} | EPA {use_epa}")
 
-    season_r, season_hfa = season_ratings(d, HIST_YEARS, use_epa)
+    # turnover adjustment: strip the luck portion of turnover margin
+    to_df = parse_team_stats(data["team_stats"])
+    d, use_to = attach_turnovers(d, to_df)
+    d, to_points = add_adjusted_margin(d, shrink=TO_SHRINK)
+
+    d = d.sort_values(["season", "week"]).reset_index(drop=True)
+    print(f"History: {len(d):,} games | lines {int(d.spread.notna().sum()):,} "
+          f"| EPA {use_epa} | turnovers {use_to}")
+    if to_points is not None:
+        print(f"Turnover value: {to_points:.2f} pts each, removing {TO_SHRINK:.0%} "
+              f"({TO_SHRINK * to_points:.2f} pts per net turnover)")
+
+    season_r, season_hfa = season_ratings(d, HIST_YEARS, use_epa, target=RATING_TARGET)
     talent = talent_composite(data["recruit"], HIST_YEARS + [CURRENT], CONFIG["recruit_window"])
     ret, ret_field = returning_production(data["returning"])
-    prior_model = PriorModel(season_r, ret, talent)
-    print(f"Prior model: {prior_model.n_train} team-seasons, R2 {prior_model.r2:.3f}")
+    sp = data["sp"]
+    prior_model = PriorModel(season_r, ret, talent, sp=sp)
+    print(f"Prior model: {prior_model.n_train} team-seasons, R2 {prior_model.r2:.3f}, "
+          f"features {prior_model.feats}")
 
     hfa = float(np.mean(list(season_hfa.values()))) if season_hfa else 2.6
     prior = prior_model.preseason(CURRENT)
@@ -332,11 +402,16 @@ def main():
     if len(data["cur_games"]):
         cur = build_games(data["cur_games"], data["fbs"], keep_unplayed=True)
         cur, _ = attach_lines(cur, data["cur_lines"], sign=sign)
+        # only worth a call once games have actually been played
+        has_results = bool(cur["home_pts"].notna().sum())
+        cur_to = fetch_team_stats(CURRENT) if has_results else pd.DataFrame()
+        cur, _ = attach_turnovers(cur, parse_team_stats(cur_to))
+        cur, _ = add_adjusted_margin(cur, shrink=TO_SHRINK)
         done = cur[cur.home_pts.notna()]
         played = int(len(done))
         r_in = None
         if played >= 150:
-            r_m, _ = fit_ratings(done, "margin", ridge=14.0, cap=35.0)
+            r_m, _ = fit_ratings(done, RATING_TARGET, ridge=14.0, cap=35.0)
             r_in = blend_ratings(r_m, None)
         gp = games_played_counts(done)
         ratings_now = blend_prior(prior, r_in, gp, BLEND_K)
@@ -406,6 +481,10 @@ def main():
         )
     if not use_epa:
         notes.append("EPA data unavailable this run; ratings are margin-only.")
+    if not use_to:
+        notes.append("Turnover data unavailable this run; ratings use raw scoring margin.")
+    if not sp:
+        notes.append("SP+ ratings unavailable this run; the prior does not include them.")
     if prior_model.weights is None:
         notes.append("Preseason prior could not be fit. Check the data pull logs.")
 
@@ -419,6 +498,10 @@ def main():
             "in_season_weight": round(in_season_weight, 3),
             "home_field": round(hfa, 2),
             "uses_epa": bool(use_epa),
+            "uses_turnovers": bool(use_to),
+            "uses_sp": bool(sp),
+            "turnover_points": round(to_points, 2) if to_points is not None else None,
+            "turnover_shrink": TO_SHRINK,
             "returning_field": ret_field,
         },
         "prior_model": {
