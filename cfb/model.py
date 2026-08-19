@@ -821,17 +821,23 @@ def _om_get(url, params, label):
         return None
 
 
-def fetch_venue_weather(venues, start_date, end_date, forecast_days=16, force=False):
+def fetch_venue_weather(venues, start_date, end_date, budget=40, force=False):
     """Daily weather per venue for the whole date range.
 
-    One archive call per venue covers every season at once, so the cost is about
-    130 calls total rather than one per game. Domes are skipped entirely.
-    Results cache to the repo, so this is paid once.
+    One archive call per venue covers every season at once, so the whole history
+    costs ~130 calls rather than one per game. Domes are skipped entirely.
+
+    `budget` caps how many NEW venues are fetched per run. Cached venues are
+    always loaded and cost nothing. This keeps every run comfortably inside the
+    workflow timeout: the backfill completes over several runs, and each run
+    commits what it got, so progress is never lost to a timeout.
 
     Returns a DataFrame [venue_id, date, wind, temp, precip].
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     frames = []
+    fetched = 0
+    pending = 0
 
     for vid, v in sorted(venues.items()):
         if v.get("dome"):
@@ -843,6 +849,11 @@ def fetch_venue_weather(venues, start_date, end_date, forecast_days=16, force=Fa
                 continue
             except Exception:
                 pass
+
+        if fetched >= budget:
+            pending += 1
+            continue
+        fetched += 1
 
         daily = _om_get(OM_ARCHIVE, {
             "latitude": round(v["lat"], 4), "longitude": round(v["lon"], 4),
@@ -866,6 +877,12 @@ def fetch_venue_weather(venues, start_date, end_date, forecast_days=16, force=Fa
             pass
         frames.append(df)
         time.sleep(0.15)
+
+    if fetched:
+        print(f"    weather: fetched {fetched} new venues this run")
+    if pending:
+        print(f"    weather: {pending} venues still to backfill — they will fill in "
+              f"on the next scheduled run")
 
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
