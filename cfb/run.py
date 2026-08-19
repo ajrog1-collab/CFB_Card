@@ -772,10 +772,19 @@ def main():
     # weather from Open-Meteo: one archive call per outdoor venue covers every
     # season at once, so this costs ~130 calls once rather than one per game
     wx_end = datetime.now(timezone.utc).date().isoformat()
+    # rank venues by how many games they actually host, so the backfill spends
+    # its calls where they buy the most coverage
+    wx_start = CONFIG.get("weather_start", "2018-08-01")
+    used = d.loc[d["season"] >= int(wx_start[:4]), "venue_id"].dropna()
+    venue_order = [int(v) for v in used.value_counts().index]
+    print(f"Venues hosting games since {wx_start[:4]}: {len(venue_order)} "
+          f"(of {len(venues)} known)")
+
     wx_daily = fetch_venue_weather(
-        venues, CONFIG.get("weather_start", "2018-08-01"), wx_end,
+        venues, wx_start, wx_end,
         budget=int(CONFIG.get("weather_venue_budget", 25)),
-        seconds_budget=int(CONFIG.get("weather_seconds_budget", 300)))
+        seconds_budget=int(CONFIG.get("weather_seconds_budget", 300)),
+        venue_order=venue_order)
     d, use_wx = attach_venue_weather(d, wx_daily, venues)
     n_dome = sum(1 for v in venues.values() if v.get("dome"))
     print(f"Weather: {int(d['wind'].notna().sum()):,} games covered "
@@ -818,7 +827,9 @@ def main():
         cur, _ = add_adjusted_margin(cur, shrink=TO_SHRINK)
         cur = add_situational(cur, venues, home_venue)
         up_ids = cur.loc[cur.home_pts.isna(), "venue_id"].dropna().unique()
-        fc = fetch_venue_forecast(venues, up_ids, days=LOOKAHEAD_DAYS + 2)
+        fc = fetch_venue_forecast(
+            venues, up_ids, days=LOOKAHEAD_DAYS + 2,
+            seconds_budget=int(CONFIG.get("forecast_seconds_budget", 90)))
         cur_wx = pd.concat([wx_daily, fc], ignore_index=True) if len(fc) else wx_daily
         cur, _ = attach_venue_weather(cur, cur_wx, venues)
         done = cur[cur.home_pts.notna()]
