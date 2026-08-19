@@ -6,262 +6,176 @@
 <meta name="theme-color" content="#141b26">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Card &middot; CFB Model</title>
+<title>The Card</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#141b26;
-    --panel:#1b2532;
-    --panel-2:#222e3d;
-    --rule:#2c3a4c;
-    --paper:#e9e7e2;
-    --muted:#8b9aad;
-    --brass:#c8973f;
-    --cool:#5b9fcf;
-    --win:#4e9a6b;
-    --loss:#b4574f;
-    --push:#7d8794;
+    --ink:#141b26; --panel:#1b2532; --panel-2:#222e3d; --rule:#2c3a4c;
+    --paper:#e9e7e2; --muted:#8b9aad; --brass:#c8973f; --cool:#5b9fcf;
+    --win:#4e9a6b; --loss:#b4574f; --push:#7d8794;
     --display:'Barlow Condensed',Impact,sans-serif;
     --body:'IBM Plex Sans',system-ui,sans-serif;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{
-    background:var(--ink);color:var(--paper);
-    font-family:var(--body);font-size:15px;line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    padding:0 0 env(safe-area-inset-bottom);
-  }
-  .wrap{max-width:640px;margin:0 auto;padding:0 14px 56px}
+  body{background:var(--ink);color:var(--paper);font-family:var(--body);
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+    padding:0 0 env(safe-area-inset-bottom)}
+  .wrap{max-width:680px;margin:0 auto;padding:0 14px 60px}
 
-  /* ---------- masthead ---------- */
-  header{padding:22px 0 14px;border-bottom:1px solid var(--rule)}
-  .eyebrow{
-    font-family:var(--mono);font-size:10px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--muted);
-  }
-  h1{
-    font-family:var(--display);font-weight:700;
-    font-size:40px;line-height:.92;letter-spacing:.01em;
-    margin:4px 0 0;text-transform:uppercase;
-  }
+  header{padding:20px 0 12px}
+  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--display);font-weight:700;font-size:38px;line-height:.92;
+    margin:3px 0 0;text-transform:uppercase}
   h1 .accent{color:var(--brass)}
-  .stamp{
-    font-family:var(--mono);font-size:11px;color:var(--muted);
-    margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;
-  }
-  .stamp b{color:var(--paper);font-weight:500}
+  .stamp{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
 
-  /* ---------- honesty strip: the signature element ---------- */
-  .gauge{
-    margin:14px 0 0;padding:12px 13px;background:var(--panel);
-    border-left:3px solid var(--brass);border-radius:2px;
-  }
-  .gauge-label{
-    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--muted);margin-bottom:9px;
-  }
-  .bar-row{display:flex;align-items:center;gap:9px;margin-bottom:5px}
-  .bar-name{
-    font-family:var(--display);font-size:14px;letter-spacing:.04em;
-    text-transform:uppercase;width:62px;flex:none;color:var(--muted);
-  }
-  .bar-track{flex:1;height:9px;background:var(--panel-2);border-radius:1px;overflow:hidden}
-  .bar-fill{height:100%;border-radius:1px}
-  .bar-val{font-family:var(--mono);font-size:12px;width:38px;text-align:right;flex:none}
-  .gauge-note{
-    font-size:12px;color:var(--muted);margin-top:9px;padding-top:9px;
-    border-top:1px solid var(--rule);line-height:1.45;
-  }
+  .summary{display:flex;gap:7px;margin:12px 0 0}
+  .sum{flex:1;background:var(--panel);border-radius:2px;padding:9px 10px;text-align:center}
+  .sum-v{font-family:var(--display);font-size:24px;font-weight:700;line-height:1}
+  .sum-v.brass{color:var(--brass)}
+  .sum-v.pos{color:var(--win)} .sum-v.neg{color:var(--loss)}
+  .sum-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);margin-top:3px}
 
-  /* ---------- tabs ---------- */
-  nav{
-    display:flex;gap:2px;margin:16px 0 0;
-    position:sticky;top:0;z-index:20;background:var(--ink);
-    padding:8px 0;border-bottom:1px solid var(--rule);
-  }
-  .tab{
-    flex:1;appearance:none;border:0;cursor:pointer;
-    background:var(--panel);color:var(--muted);
-    font-family:var(--display);font-size:14px;font-weight:600;
-    letter-spacing:.05em;text-transform:uppercase;
-    padding:10px 2px;border-radius:2px;transition:background .15s,color .15s;
-  }
+  nav{display:flex;gap:2px;margin:14px 0 0;position:sticky;top:0;z-index:30;
+    background:var(--ink);padding:8px 0;border-bottom:1px solid var(--rule)}
+  .tab{flex:1;appearance:none;border:0;cursor:pointer;background:var(--panel);
+    color:var(--muted);font-family:var(--display);font-size:15px;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;padding:10px 2px;border-radius:2px;
+    transition:background .15s,color .15s}
   .tab[aria-selected="true"]{background:var(--brass);color:#17202b}
   .tab:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .badge-n{font-family:var(--mono);font-size:10px;margin-left:4px;opacity:.85}
   .panel[hidden]{display:none}
 
-  /* ---------- cards ---------- */
-  .card{
-    background:var(--panel);border-radius:2px;margin:10px 0;
-    padding:12px 13px 12px 0;display:flex;gap:0;position:relative;overflow:hidden;
-  }
-  /* the tick: thickness of the left rail encodes edge size */
-  .tick{width:3px;flex:none;background:var(--rule);margin-right:12px}
+  .filters{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px}
+  .chip{appearance:none;border:1px solid var(--rule);background:transparent;
+    color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;padding:6px 10px;border-radius:2px;cursor:pointer;
+    transition:background .15s,color .15s,border-color .15s}
+  .chip[aria-pressed="true"]{background:var(--brass);color:#17202b;border-color:var(--brass)}
+  .chip:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .sortbar{display:flex;align-items:center;gap:8px;margin:8px 0 2px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted)}
+  .sortbar select{background:var(--panel);color:var(--paper);border:1px solid var(--rule);
+    border-radius:2px;font-family:var(--mono);font-size:11px;padding:5px 7px}
+  .count{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)}
+
+  .card{background:var(--panel);border-radius:2px;margin:9px 0;padding:11px 12px 11px 0;
+    display:flex;position:relative;overflow:hidden}
   .card.qual .tick{background:var(--brass)}
+  .card.top{background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--brass)}
+  .tick{width:3px;flex:none;background:var(--rule);margin-right:11px}
   .card-body{flex:1;min-width:0}
-  .matchup{
-    font-family:var(--display);font-size:19px;font-weight:600;
-    letter-spacing:.02em;line-height:1.15;
-  }
+  .row1{display:flex;align-items:flex-start;gap:8px}
+  .matchup{font-family:var(--display);font-size:19px;font-weight:600;line-height:1.15;flex:1}
   .at{color:var(--muted);font-weight:500;padding:0 3px}
-  .meta{
-    font-family:var(--mono);font-size:11px;color:var(--muted);
-    margin-top:3px;display:flex;gap:9px;flex-wrap:wrap;
-  }
-  .callout{
-    display:flex;align-items:baseline;gap:8px;margin-top:9px;
-    padding-top:9px;border-top:1px solid var(--rule);
-  }
-  .pick{
-    font-family:var(--display);font-size:17px;font-weight:700;
-    letter-spacing:.03em;text-transform:uppercase;
-  }
-  .pick-line{font-family:var(--mono);font-size:15px;color:var(--brass);font-weight:600}
-  .numbers{
-    margin-left:auto;font-family:var(--mono);font-size:11px;
-    color:var(--muted);text-align:right;flex:none;line-height:1.35;
-  }
-  .numbers b{color:var(--paper);font-weight:500}
-  .flag{
-    font-family:var(--mono);font-size:9px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--muted);
-    border:1px solid var(--rule);border-radius:1px;padding:1px 5px;
-  }
+  .star{appearance:none;border:0;background:transparent;cursor:pointer;font-size:19px;
+    line-height:1;color:var(--rule);padding:0 2px;flex:none;transition:color .15s}
+  .star[aria-pressed="true"]{color:var(--brass)}
+  .star:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:3px;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .rank-chip{font-family:var(--display);font-size:12px;font-weight:700;
+    background:var(--brass);color:#17202b;border-radius:1px;padding:1px 5px}
+  .flag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--rule);border-radius:1px;padding:1px 5px}
   .card.qual .flag{color:var(--brass);border-color:var(--brass)}
 
-  /* ---------- record ---------- */
-  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
+  .callout{display:flex;align-items:baseline;gap:8px;margin-top:9px;padding-top:9px;
+    border-top:1px solid var(--rule)}
+  .pick{font-family:var(--display);font-size:18px;font-weight:700;text-transform:uppercase}
+  .pick-line{font-family:var(--mono);font-size:15px;color:var(--brass);font-weight:600}
+  .numbers{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted);
+    text-align:right;flex:none}
+  .numbers b{color:var(--paper);font-weight:500}
+
+  .drivers{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+  .driver{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;line-height:1.35}
+  .dot{width:5px;height:5px;border-radius:50%;flex:none;margin-top:6px;background:var(--cool)}
+  .dot.caution{background:var(--loss)}
+  .dot.weather,.dot.travel,.dot.rest{background:var(--brass)}
+  .driver.caution{color:var(--muted)}
+
+  .meter{margin-top:9px;height:22px;position:relative}
+  .meter-line{position:absolute;left:0;right:0;top:14px;height:1px;background:var(--rule)}
+  .meter-mkt,.meter-mod{position:absolute;top:8px;width:2px;height:13px}
+  .meter-mkt{background:var(--cool)}
+  .meter-mod{background:var(--brass)}
+  .meter-lab{position:absolute;top:0;font-family:var(--mono);font-size:9px}
+  .meter-lab.mkt{color:var(--cool)}
+  .meter-lab.mod{color:var(--brass);right:0;text-align:right}
+
+  .chart{background:var(--panel);border-radius:2px;padding:12px 12px 8px;margin:10px 0}
+  .chart-t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  svg{display:block;width:100%}
+
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
   .tile{background:var(--panel);border-radius:2px;padding:11px 10px}
-  .tile-k{
-    font-family:var(--mono);font-size:9px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--muted)
-  }
+  .tile-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted)}
   .tile-v{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.05;margin-top:3px}
   .tile-v.pos{color:var(--win)} .tile-v.neg{color:var(--loss)}
   .tile-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
 
-  .row{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 0;border-bottom:1px solid var(--rule);
-  }
-  .badge{
-    font-family:var(--display);font-size:12px;font-weight:700;
-    letter-spacing:.06em;width:34px;flex:none;text-align:center;
-    padding:3px 0;border-radius:1px;text-transform:uppercase;
-  }
+  .rrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule)}
+  .badge{font-family:var(--display);font-size:12px;font-weight:700;width:30px;flex:none;
+    text-align:center;padding:3px 0;border-radius:1px}
   .badge.win{background:var(--win);color:#0f1a13}
   .badge.loss{background:var(--loss);color:#1e0f0e}
   .badge.push{background:var(--push);color:#14181d}
-  .row-main{flex:1;min-width:0}
-  .row-pick{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.02em}
-  .row-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
-  .row-clv{font-family:var(--mono);font-size:12px;flex:none;text-align:right;width:52px}
+  .rmain{flex:1;min-width:0}
+  .rpick{font-family:var(--display);font-size:16px;font-weight:600}
+  .rsub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
 
-  /* the model's strongest claims get a full brass frame, not just a rail */
-  .card.top{background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--brass)}
-  .card.top .tick{background:var(--brass)}
-  .conf{
-    font-family:var(--mono);font-size:10px;color:var(--brass);
-    letter-spacing:.06em;text-transform:uppercase;
-  }
-  .rank-chip{
-    font-family:var(--display);font-size:12px;font-weight:700;
-    background:var(--brass);color:#17202b;border-radius:1px;
-    padding:1px 5px;letter-spacing:.05em;
-  }
-
-  /* ---------- tiers ---------- */
-  .tier{
-    display:grid;grid-template-columns:52px 44px 1fr 1fr;gap:8px;
-    align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);
-  }
-  .tier-head{
-    font-family:var(--mono);font-size:9px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);
-  }
-  .tier-label{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.03em}
-  .tier-n,.tier-wp,.tier-cal{font-family:var(--mono);font-size:13px}
-  .tier-n{color:var(--muted)}
-  .tier-se{display:block;font-size:9.5px;color:var(--muted);margin-top:1px}
-  .tier-head .tier-label,.tier-head .tier-n,
-  .tier-head .tier-wp,.tier-head .tier-cal{
-    font-family:var(--mono);font-size:9px;font-weight:400;letter-spacing:.13em;color:var(--muted);
-  }
-
-/* ---------- ratings ---------- */
-  .rank-row{
-    display:flex;align-items:center;gap:11px;
-    padding:8px 0;border-bottom:1px solid var(--rule);
-  }
-  .rank-n{
-    font-family:var(--mono);font-size:11px;color:var(--muted);
-    width:22px;flex:none;text-align:right;
-  }
-  .rank-team{
-    flex:1;font-family:var(--display);font-size:17px;
-    font-weight:500;letter-spacing:.02em;
-  }
-  .rank-bar{width:74px;height:5px;background:var(--panel-2);flex:none;border-radius:1px;overflow:hidden}
-  .rank-bar span{display:block;height:100%;background:var(--cool)}
-  .rank-v{font-family:var(--mono);font-size:12px;width:44px;text-align:right;flex:none}
-
-  /* ---------- misc ---------- */
-  h2{
-    font-family:var(--display);font-size:20px;font-weight:600;
-    letter-spacing:.05em;text-transform:uppercase;
-    margin:22px 0 2px;
-  }
-  .sub{font-size:12px;color:var(--muted);margin:0 0 4px}
-  .empty{
-    background:var(--panel);border-radius:2px;padding:22px 16px;
-    text-align:center;margin:12px 0;
-  }
-  .empty-h{
-    font-family:var(--display);font-size:20px;font-weight:600;
-    letter-spacing:.04em;text-transform:uppercase;
-  }
+  h2{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;margin:20px 0 2px}
+  h3{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;margin:18px 0 4px;color:var(--brass)}
+  .sub{font-size:12.5px;color:var(--muted);margin:0 0 6px}
+  .empty{background:var(--panel);border-radius:2px;padding:24px 16px;text-align:center;margin:10px 0}
+  .empty-h{font-family:var(--display);font-size:20px;font-weight:600;text-transform:uppercase}
   .empty-p{font-size:13px;color:var(--muted);margin-top:5px}
-  .note{
-    background:var(--panel);border-left:3px solid var(--cool);
-    padding:10px 12px;margin:10px 0;font-size:13px;
-    color:var(--paper);border-radius:2px;
-  }
-  footer{
-    margin-top:26px;padding-top:14px;border-top:1px solid var(--rule);
-    font-size:12px;color:var(--muted);line-height:1.55;
-  }
+  .note{background:var(--panel);border-left:3px solid var(--cool);padding:10px 12px;
+    margin:10px 0;font-size:13px;border-radius:2px}
+  .note.warn{border-left-color:var(--brass)}
+  dl{margin:0}
+  dt{font-family:var(--display);font-size:15px;font-weight:600;letter-spacing:.03em;
+    margin-top:13px;color:var(--paper)}
+  dd{margin:3px 0 0;font-size:13.5px;color:var(--muted);line-height:1.5}
+  dd b{color:var(--paper);font-weight:500}
   a{color:var(--cool)}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <header>
-    <div class="eyebrow">College football &middot; power ratings &amp; spread model</div>
+    <div class="eyebrow">College football model</div>
     <h1>The <span class="accent">Card</span></h1>
     <div class="stamp" id="stamp"></div>
   </header>
 
-  <div id="gauge"></div>
+  <div class="summary" id="summary"></div>
 
   <nav role="tablist">
-    <button class="tab" role="tab" id="t-bets" aria-controls="p-bets" aria-selected="true">Sides</button>
-    <button class="tab" role="tab" id="t-totals" aria-controls="p-totals" aria-selected="false">Totals</button>
+    <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">Board</button>
+    <button class="tab" role="tab" id="t-slip" aria-controls="p-slip" aria-selected="false">Slip</button>
     <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">Record</button>
-    <button class="tab" role="tab" id="t-ratings" aria-controls="p-ratings" aria-selected="false">Ratings</button>
+    <button class="tab" role="tab" id="t-model" aria-controls="p-model" aria-selected="false">Model</button>
   </nav>
 
-  <section class="panel" id="p-bets" role="tabpanel" aria-labelledby="t-bets"></section>
-  <section class="panel" id="p-totals" role="tabpanel" aria-labelledby="t-totals" hidden></section>
+  <section class="panel" id="p-board" role="tabpanel" aria-labelledby="t-board"></section>
+  <section class="panel" id="p-slip" role="tabpanel" aria-labelledby="t-slip" hidden></section>
   <section class="panel" id="p-record" role="tabpanel" aria-labelledby="t-record" hidden></section>
-  <section class="panel" id="p-ratings" role="tabpanel" aria-labelledby="t-ratings" hidden></section>
-
-  <footer id="footer"></footer>
+  <section class="panel" id="p-model" role="tabpanel" aria-labelledby="t-model" hidden></section>
 </div>
 
 <script>
@@ -271,628 +185,398 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
 const sgn = n => (n > 0 ? '+' : '') + Number(n).toFixed(1);
 const sgnInt = n => (n > 0 ? '+' : '') + Math.round(n);
 
-function fmtKick(iso){
+let DATA = null;
+const FAVS = new Set();               // in-memory only, clears on reload
+const FILTERS = { market:'all', quality:'all' };
+let SORT = 'confidence';
+
+function kickText(iso){
   if(!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleDateString([], {weekday:'short', month:'numeric', day:'numeric'})
-    + ' ' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  const d = new Date(iso), hrs = (d - new Date()) / 36e5;
+  const when = d.toLocaleDateString([], {weekday:'short'}) + ' ' +
+               d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  return hrs < 24 ? `${when} · ${Math.max(0, Math.round(hrs))}h` : when;
+}
+const started = p => p.kickoff && new Date(p.kickoff) < new Date();
+
+/* Finished and in-progress games drop off automatically. */
+function allPicks(){
+  const s = (DATA.picks || []).map(p => ({...p, market:'spread'}));
+  const t = (DATA.total_picks || []).map(p => ({...p, market:'total',
+    pick_spread:p.line, model_margin:p.model_total, market_margin:p.line}));
+  return s.concat(t).filter(p => !started(p));
 }
 
-/* ---------- masthead ---------- */
-function renderStamp(d){
-  const t = new Date(d.generated_at);
-  const w = Math.round((d.state?.in_season_weight ?? 0) * 100);
-  $('stamp').innerHTML =
-    `<span>Updated <b>${esc(t.toLocaleDateString([], {month:'short', day:'numeric'}))}
-      ${esc(t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}))}</b></span>
-     <span>Season <b>${esc(d.season)}</b></span>
-     <span>Ratings <b>${w}% in-season</b></span>`;
+function visible(){
+  let list = allPicks();
+  if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
+  if(FILTERS.quality === 'top') list = list.filter(p => p.top_pick);
+  if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
+  const key = {
+    confidence: p => -(p.confidence ?? 0),
+    edge:       p => -Math.abs(p.edge ?? 0),
+    kickoff:    p => new Date(p.kickoff || 0).getTime(),
+  }[SORT];
+  return list.sort((a,b) => key(a) - key(b));
 }
 
-/* Signature element: model error against the market's, side by side.
-   Kept at the top on purpose — it frames everything below it. */
-function renderGauge(d){
-  const bt = d.backtest?.overall;
-  if(!bt){ $('gauge').innerHTML = ''; return; }
-  const max = Math.max(bt.model_mae, bt.market_mae) * 1.12;
-  const bar = (name, val, color) => `
-    <div class="bar-row">
-      <div class="bar-name">${name}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(val/max*100).toFixed(1)}%;background:${color}"></div></div>
-      <div class="bar-val">${val.toFixed(2)}</div>
+/* Model number vs market number, side by side. */
+function meter(p){
+  if(p.market_margin == null || p.model_margin == null) return '';
+  const lo = Math.min(p.market_margin, p.model_margin);
+  const hi = Math.max(p.market_margin, p.model_margin);
+  const pad = Math.max(4, (hi - lo) * 0.9);
+  const a = lo - pad, b = hi + pad;
+  const pos = v => ((v - a) / (b - a) * 100).toFixed(1);
+  return `<div class="meter">
+    <div class="meter-lab mkt">book ${esc(p.market_margin)}</div>
+    <div class="meter-lab mod">model ${esc(p.model_margin)}</div>
+    <div class="meter-line"></div>
+    <div class="meter-mkt" style="left:${pos(p.market_margin)}%"></div>
+    <div class="meter-mod" style="left:${pos(p.model_margin)}%"></div>
+  </div>`;
+}
+
+function card(p, rank){
+  const id = p.market + ':' + p.game_id;
+  const fav = FAVS.has(id);
+  const cls = p.top_pick ? 'top qual' : p.qualified ? 'qual' : '';
+  const w = Math.min(3 + Math.abs(p.edge) * 0.8, 11).toFixed(1);
+  const drivers = (p.drivers || []).map(d => `
+    <div class="driver ${d.kind === 'caution' ? 'caution' : ''}">
+      <span class="dot ${esc(d.kind)}"></span><span>${esc(d.text)}</span></div>`).join('');
+  return `
+  <div class="card ${cls}">
+    <div class="tick" style="width:${w}px"></div>
+    <div class="card-body">
+      <div class="row1">
+        <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
+        <button class="star" aria-pressed="${fav}" data-fav="${esc(id)}"
+          aria-label="${fav ? 'Remove from slip' : 'Add to slip'}">${fav ? '★' : '☆'}</button>
+      </div>
+      <div class="meta">
+        ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
+        <span>${esc(kickText(p.kickoff))}</span>
+        ${p.market === 'total' ? '<span>total</span>' : ''}
+        ${p.confidence != null ? `<span>sure ${esc(p.confidence)}</span>` : ''}
+        <span class="flag">${p.top_pick ? 'Top' : p.qualified ? 'Qualified' : 'Lean'}</span>
+      </div>
+      <div class="callout">
+        <span class="pick">${esc(p.pick)}</span>
+        <span class="pick-line">${p.market === 'total' ? esc(p.line) : sgn(p.pick_spread)}</span>
+        <span class="numbers">gap <b>${sgn(p.edge)}</b></span>
+      </div>
+      ${meter(p)}
+      ${drivers ? `<div class="drivers">${drivers}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderBoard(){
+  const list = visible();
+  const notes = (DATA.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('');
+  const chip = (g, v, label) =>
+    `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${label}</button>`;
+  const controls = `
+    <div class="filters">
+      ${chip('quality','all','All')}${chip('quality','qual','Qualified')}${chip('quality','top','Top')}
+      ${chip('market','all','Both')}${chip('market','spread','Sides')}${chip('market','total','Totals')}
+    </div>
+    <div class="sortbar">
+      <label for="sortsel">Sort</label>
+      <select id="sortsel">
+        <option value="confidence"${SORT==='confidence'?' selected':''}>Most sure</option>
+        <option value="edge"${SORT==='edge'?' selected':''}>Biggest gap</option>
+        <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
+      </select>
+      <span class="count">${list.length} game${list.length===1?'':'s'}</span>
     </div>`;
-  const gap = bt.model_mae - bt.market_mae;
-  const verdict = gap <= 0
-    ? 'The model is beating the closing line in backtest. Treat that as a warning sign of leakage, not a green light.'
-    : gap <= 0.9
-      ? 'The model lands close to the closing line. Respectable, and about the ceiling for public data.'
-      : 'The closing line is sharper than the model. That is the normal result — the gap is mostly injury and roster information.';
-  $('gauge').innerHTML = `
-    <div class="gauge">
-      <div class="gauge-label">Average miss vs final score &middot; ${esc((d.backtest.seasons||[]).join(', '))}</div>
-      ${bar('Model', bt.model_mae, 'var(--brass)')}
-      ${bar('Market', bt.market_mae, 'var(--cool)')}
-      <div class="gauge-note">${esc(verdict)}</div>
-    </div>`;
+  let rank = 0;
+  const body = list.length
+    ? list.map(p => card(p, p.top_pick ? ++rank : null)).join('')
+    : `<div class="empty"><div class="empty-h">Nothing here</div>
+       <div class="empty-p">No upcoming games match, or lines aren't posted yet.</div></div>`;
+  $('p-board').innerHTML = notes + controls + body;
+  wire($('p-board'));
 }
 
-/* ---------- bets ---------- */
-function renderBets(d){
-  const el = $('p-bets');
-  const notes = (d.notes||[]).map(n => `<div class="note">${esc(n)}</div>`).join('');
-  const qual = (d.picks||[]).filter(p => p.qualified);
-  const lean = (d.picks||[]).filter(p => !p.qualified);
-
-  if(!qual.length && !lean.length){
-    el.innerHTML = notes + `
-      <div class="empty">
-        <div class="empty-h">No games on the board</div>
-        <div class="empty-p">Nothing kicks off in the next ${esc(9)} days, or lines have not posted yet.
-        This page refreshes Wednesday and Saturday.</div>
-      </div>`;
+function renderSlip(){
+  const picks = allPicks().filter(p => FAVS.has(p.market + ':' + p.game_id));
+  if(!picks.length){
+    $('p-slip').innerHTML = `<div class="empty"><div class="empty-h">Slip is empty</div>
+      <div class="empty-p">Tap ☆ on the board to shortlist games.</div></div>`;
     return;
   }
-
-  const card = (p, rank) => {
-    const w = Math.min(3 + Math.abs(p.edge) * 0.9, 11).toFixed(1);
-    return `
-    <div class="card ${p.top_pick ? 'top qual' : p.qualified ? 'qual' : ''}">
-      <div class="tick" style="width:${w}px"></div>
-      <div class="card-body">
-        <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
-        <div class="meta">
-          ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
-          <span>Wk ${esc(p.week)}</span>
-          <span>${esc(fmtKick(p.kickoff))}</span>
-          ${p.confidence != null ? `<span class="conf">conf ${esc(p.confidence)}</span>` : ''}
-          <span class="flag">${p.top_pick ? 'Top pick' : p.qualified ? 'Qualified' : 'Lean'}</span>
-        </div>
-        <div class="callout">
-          <span class="pick">${esc(p.pick)}</span>
-          <span class="pick-line">${sgn(p.pick_spread)}</span>
-          <span class="numbers">
-            edge <b>${sgn(p.edge)}</b>${p.sigma != null ? ` / &sigma;<b>${esc(p.sigma)}</b>` : ''}<br>
-            model <b>${sgn(p.model_margin)}</b> &middot; mkt <b>${sgn(p.market_margin)}</b>
-          </span>
-        </div>
-      </div>
-    </div>`;
-  };
-
-  const tops = (d.picks || []).filter(p => p.top_pick);
-  const rest = qual.filter(p => !p.top_pick);
-
-  let html = notes;
-
-  if(tops.length){
-    html += `<h2>Top picks</h2>
-      <p class="sub">Ranked by edge divided by the model's expected error on that
-      game &mdash; not by raw edge size. A modest edge on a well-measured matchup
-      outranks a big edge the model is unsure about.</p>`
-      + tops.map((p, i) => card(p, i + 1)).join('');
-    html += confNote(d);
-  }
-
-  html += `<h2>${tops.length ? 'Other qualified wagers' : 'Qualified wagers'}</h2>
-    <p class="sub">Disagreement with the market of ${esc(d.min_edge)} points or more.</p>`;
-  html += rest.length ? rest.map(p => card(p)).join('')
-    : `<div class="empty"><div class="empty-h">${tops.length ? 'Nothing else qualifies' : 'None this week'}</div>
-       <div class="empty-p">${tops.length ? 'The top picks above are the full qualified list.'
-       : 'The model agrees with the market everywhere on the board. Passing is a position.'}</div></div>`;
-
-  if(lean.length){
-    html += `<h2>Smaller leans</h2>
-      <p class="sub">Under the threshold. Shown for context, not to bet.</p>`
-      + lean.slice(0, 12).map(p => card(p)).join('');
-  }
-  el.innerHTML = html;
+  const avg = picks.reduce((a,p) => a + Math.abs(p.edge), 0) / picks.length;
+  $('p-slip').innerHTML = `
+    <div class="tiles">
+      <div class="tile"><div class="tile-k">Games</div><div class="tile-v">${picks.length}</div></div>
+      <div class="tile"><div class="tile-k">Avg gap</div><div class="tile-v">${avg.toFixed(1)}</div></div>
+      <div class="tile"><div class="tile-k">Qualified</div>
+        <div class="tile-v">${picks.filter(p => p.qualified).length}</div></div>
+    </div>
+    <button class="chip" id="clearslip" style="margin:4px 0 8px">Clear slip</button>
+    ${picks.map(p => card(p)).join('')}`;
+  wire($('p-slip'));
+  $('clearslip').addEventListener('click', () => { FAVS.clear(); renderAll(); });
 }
 
-/* ---------- totals ---------- */
-function renderTotals(d){
-  const el = $('p-totals');
-  const tp = d.total_picks || [];
-  const ts = d.totals || {};
-  let html = '';
-
-  if(ts.model_mae != null){
-    const max = Math.max(ts.model_mae, ts.market_mae) * 1.12;
-    const bar = (nm, v, c) => `
-      <div class="bar-row">
-        <div class="bar-name">${nm}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%;background:${c}"></div></div>
-        <div class="bar-val">${v.toFixed(2)}</div>
-      </div>`;
-    html += `<div class="gauge">
-      <div class="gauge-label">Average miss vs combined score</div>
-      ${bar('Model', ts.model_mae, 'var(--brass)')}
-      ${bar('Market', ts.market_mae, 'var(--cool)')}
-      <div class="gauge-note">${ts.uses_weather
-        ? 'Wind, cold, and precipitation are in the model.'
-        : 'Weather data was unavailable this run, so wind is not modeled &mdash; the single biggest gap for totals.'}</div>
-    </div>`;
-  }
-
-  if(!ts.uses_weather){
-    html += `<div class="note">Totals without wind are meaningfully weaker. If the
-      weather endpoint stays unavailable, this market is worth less than it looks.</div>`;
-  }
-
-  const qual = tp.filter(p => p.qualified);
-  const lean = tp.filter(p => !p.qualified);
-
-  const card = (p, rank) => {
-    const w = Math.min(3 + Math.abs(p.edge) * 0.7, 11).toFixed(1);
-    return `
-    <div class="card ${p.top_pick ? 'top qual' : p.qualified ? 'qual' : ''}">
-      <div class="tick" style="width:${w}px"></div>
-      <div class="card-body">
-        <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
-        <div class="meta">
-          <span>Wk ${esc(p.week)}</span>
-          <span>${esc(fmtKick(p.kickoff))}</span>
-          ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
-          ${p.indoor ? `<span>indoor</span>`
-            : p.wind != null ? `<span>wind ${esc(p.wind)} mph</span>` : ''}
-          <span class="flag">${p.top_pick ? 'Top pick' : p.qualified ? 'Qualified' : 'Lean'}</span>
-        </div>
-        <div class="callout">
-          <span class="pick">${esc(p.pick)}</span>
-          <span class="pick-line">${esc(p.line)}</span>
-          <span class="numbers">
-            edge <b>${sgn(p.edge)}</b><br>
-            model <b>${esc(p.model_total)}</b> &middot; mkt <b>${esc(p.line)}</b>
-          </span>
-        </div>
-      </div>
-    </div>`;
-  };
-
-  if(!tp.length){
-    html += `<div class="empty">
-      <div class="empty-h">No totals on the board</div>
-      <div class="empty-p">Nothing kicks off soon, or totals have not posted yet.</div></div>`;
-  } else {
-    html += `<h2>Qualified totals</h2>
-      <p class="sub">Disagreement of ${esc(ts.min_edge ?? 4)} points or more with the posted total.</p>`;
-    html += qual.length ? qual.map((p, i) => card(p, p.top_pick ? i + 1 : null)).join('')
-      : `<div class="empty"><div class="empty-h">None this week</div>
-         <div class="empty-p">The model agrees with every posted total. Passing is a position.</div></div>`;
-    if(lean.length){
-      html += `<h2>Smaller leans</h2><p class="sub">Under the threshold, shown for context.</p>`
-        + lean.slice(0, 10).map(p => card(p)).join('');
-    }
-  }
-
-  const tr = d.totals_ratings || [];
-  if(tr.length){
-    html += `<h2>Scoring environment</h2>
-      <p class="sub">Offense is points above average scored; defense is points below
-      average allowed. High on both means high-scoring games.</p>`;
-    html += `<div class="tier tier-head">
-        <div class="tier-label">Team</div><div class="tier-n">Off</div>
-        <div class="tier-wp">Def</div><div class="tier-cal">Net</div></div>`;
-    html += tr.slice(0, 25).map(r => `
-      <div class="tier">
-        <div class="tier-label" style="grid-column:span 1">${esc(r.team)}</div>
-        <div class="tier-n">${sgn(r.offense)}</div>
-        <div class="tier-wp">${sgn(r.defense)}</div>
-        <div class="tier-cal">${sgn(r.pace)}</div>
-      </div>`).join('');
-  }
-
-  el.innerHTML = html;
+function equityChart(eq){
+  if(!eq || eq.length < 3) return '';
+  const W = 320, H = 90, P = 4;
+  const ys = eq.map(d => d.units);
+  const x1 = eq.length, y0 = Math.min(0, ...ys), y1 = Math.max(0, ...ys);
+  const px = i => P + i / Math.max(x1 - 1, 1) * (W - 2*P);
+  const py = v => H - P - (v - y0) / Math.max(y1 - y0, 1) * (H - 2*P);
+  const pts = eq.map((d,i) => `${px(i).toFixed(1)},${py(d.units).toFixed(1)}`).join(' ');
+  const last = ys[ys.length-1];
+  return `<div class="chart">
+    <div class="chart-t">Units over time · ${last > 0 ? '+' : ''}${last.toFixed(1)}</div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:90px">
+      <line x1="0" y1="${py(0)}" x2="${W}" y2="${py(0)}" stroke="var(--rule)"/>
+      <polyline points="${pts}" fill="none" stroke="${last >= 0 ? 'var(--win)' : 'var(--loss)'}"
+        stroke-width="2" stroke-linejoin="round"/>
+    </svg></div>`;
 }
 
-/* ---------- record ---------- */
-function renderRecord(d){
-  const el = $('p-record');
-  const r = d.record || {};
-  const hist = d.history || [];
-  let html = '';
+function confChart(tiers, be){
+  if(!tiers || tiers.length < 2) return '';
+  const W = 320, H = 112, P = 16, n = tiers.length;
+  const gap = (W - 2*P) / n, bw = gap * 0.6, lo = 35, hi = 68;
+  const py = v => H - P - (v - lo) / (hi - lo) * (H - 2*P);
+  const bars = tiers.map((t,i) => {
+    if(t.win_pct == null) return '';
+    const x = P + i*gap + (gap - bw)/2, y = py(t.win_pct), base = py(lo);
+    const beats = t.se != null && (t.win_pct - t.se) > (be ?? 52.4);
+    const eb = t.se != null
+      ? `<line x1="${x+bw/2}" y1="${py(t.win_pct - t.se)}" x2="${x+bw/2}"
+           y2="${py(t.win_pct + t.se)}" stroke="var(--paper)" stroke-width="1" opacity=".6"/>` : '';
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(base-y,1)}"
+        fill="${beats ? 'var(--win)' : 'var(--cool)'}" opacity=".85"/>${eb}
+      <text x="${x+bw/2}" y="${H-4}" text-anchor="middle" font-size="7.5"
+        fill="#8b9aad" font-family="monospace">${esc(String(t.label).replace('%',''))}</text>`;
+  }).join('');
+  const beY = py(be ?? 52.4);
+  return `<div class="chart">
+    <div class="chart-t">Win rate by how sure the model was</div>
+    <svg viewBox="0 0 ${W} ${H}" style="height:112px">
+      <line x1="${P}" y1="${beY}" x2="${W-P}" y2="${beY}" stroke="var(--brass)"
+        stroke-dasharray="3 3"/>
+      <text x="${W-P}" y="${beY-3}" text-anchor="end" font-size="7.5" fill="#c8973f"
+        font-family="monospace">break even</text>
+      ${bars}
+    </svg></div>`;
+}
 
+function renderRecord(){
+  const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
+  let h = '';
   if(r.settled){
-    const wl = `${r.wins}-${r.losses}${r.pushes ? '-' + r.pushes : ''}`;
-    const cls = v => v == null ? '' : (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
-    html += `<h2>Live record</h2>
-      <p class="sub">Every qualified wager since tracking began, graded at the line
-      recorded when it first qualified.</p>
-      <div class="tiles">
-        <div class="tile"><div class="tile-k">Record</div>
-          <div class="tile-v">${esc(wl)}</div>
-          <div class="tile-sub">${r.win_pct ?? '--'}% &middot; need ${r.breakeven_pct}%</div></div>
-        <div class="tile"><div class="tile-k">Units</div>
-          <div class="tile-v ${cls(r.units)}">${r.units > 0 ? '+' : ''}${esc(r.units)}</div>
-          <div class="tile-sub">${r.roi_pct ?? '--'}% ROI</div></div>
-        <div class="tile"><div class="tile-k">Avg CLV</div>
-          <div class="tile-v ${cls(r.avg_clv)}">${r.avg_clv == null ? '--' : (r.avg_clv > 0 ? '+' : '') + r.avg_clv}</div>
-          <div class="tile-sub">${r.beat_close_pct == null ? 'needs 5+' : r.beat_close_pct + '% beat close'}</div></div>
-      </div>`;
-
-    if(r.avg_clv != null){
-      const good = r.avg_clv > 0.5 && (r.beat_close_pct ?? 0) > 55;
-      html += `<div class="note">${good
-        ? 'Positive closing line value. This is the signal worth watching — it shows up long before win rate means anything.'
-        : 'Closing line value is flat or negative, which means the market is not moving toward these numbers. Win rate at this sample size is noise; CLV is the number to trust.'}</div>`;
-    }
-    if(r.pending){
-      html += `<p class="sub">${esc(r.pending)} wager${r.pending===1?'':'s'} still pending.</p>`;
+    h += `<div class="tiles">
+      <div class="tile"><div class="tile-k">Record</div>
+        <div class="tile-v">${r.wins}-${r.losses}${r.pushes ? '-' + r.pushes : ''}</div>
+        <div class="tile-sub">${r.win_pct ?? '--'}% · need ${r.breakeven_pct ?? 52.4}%</div></div>
+      <div class="tile"><div class="tile-k">Units</div>
+        <div class="tile-v ${r.units > 0 ? 'pos' : r.units < 0 ? 'neg' : ''}">${r.units > 0 ? '+' : ''}${esc(r.units)}</div>
+        <div class="tile-sub">${r.roi_pct ?? '--'}% return</div></div>
+      <div class="tile"><div class="tile-k">Line value</div>
+        <div class="tile-v ${r.avg_clv > 0 ? 'pos' : r.avg_clv < 0 ? 'neg' : ''}">${r.avg_clv == null ? '--' : (r.avg_clv > 0 ? '+' : '') + r.avg_clv}</div>
+        <div class="tile-sub">vs closing line</div></div>
+    </div>` + equityChart(d.equity);
+    const mrow = (lab,m) => m ? `<div class="tile"><div class="tile-k">${lab}</div>
+      <div class="tile-v">${m.wins}-${m.losses}</div>
+      <div class="tile-sub">${m.win_pct ?? '--'}% · ${m.units > 0 ? '+' : ''}${m.units}u</div></div>` : '';
+    if(bm.spread || bm.total || bm.top){
+      h += `<h2>By type</h2><div class="tiles">
+        ${mrow('Sides',bm.spread)}${mrow('Totals',bm.total)}${mrow('Top picks',bm.top)}</div>`;
     }
   } else {
-    html += `<div class="empty">
-      <div class="empty-h">No settled wagers yet</div>
-      <div class="empty-p">Qualified picks are logged automatically and graded once the
-      games finish. The record fills in as the season runs.</div></div>`;
+    h += `<div class="empty"><div class="empty-h">No results yet</div>
+      <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
-  const bt = d.backtest || {};
-  if(bt.qualified_win_pct != null){
-    html += `<h2>Backtest, for reference</h2>
-      <p class="sub">Same rules applied to ${esc((bt.seasons||[]).join(', '))}.
-      Historical, not live — do not mix the two.</p>
-      <div class="tiles">
-        <div class="tile"><div class="tile-k">Qualified</div>
-          <div class="tile-v">${esc(bt.qualified_win_pct)}%</div>
-          <div class="tile-sub">${esc(bt.qualified_bets)} bets</div></div>
-        <div class="tile"><div class="tile-k">Weeks 1-4</div>
-          <div class="tile-v">${bt.early ? esc(bt.early.model_mae) : '--'}</div>
-          <div class="tile-sub">mkt ${bt.early ? esc(bt.early.market_mae) : '--'}</div></div>
-        <div class="tile"><div class="tile-k">Weeks 5+</div>
-          <div class="tile-v">${bt.late ? esc(bt.late.model_mae) : '--'}</div>
-          <div class="tile-sub">mkt ${bt.late ? esc(bt.late.market_mae) : '--'}</div></div>
-      </div>`;
-
-    if(bt.holdout){
-      const tn = bt.tuning || {}, ho = bt.holdout;
-      html += `<h2>Held-out season</h2>
-        <p class="sub">${esc(ho.season)} was kept aside while the model was built.
-        Its number is the trustworthy one &mdash; the tuning seasons have been looked
-        at repeatedly and will flatter the model.</p>
-        <div class="tiles">
-          <div class="tile"><div class="tile-k">Tuning ${esc((tn.seasons||[]).join('/'))}</div>
-            <div class="tile-v">${tn.win_pct == null ? '--' : esc(tn.win_pct) + '%'}</div>
-            <div class="tile-sub">${esc(tn.bets ?? 0)} bets &middot; MAE ${esc(tn.model_mae ?? '--')}</div></div>
-          <div class="tile"><div class="tile-k">Holdout ${esc(ho.season)}</div>
-            <div class="tile-v">${ho.win_pct == null ? '--' : esc(ho.win_pct) + '%'}</div>
-            <div class="tile-sub">${esc(ho.bets ?? 0)} bets &middot; MAE ${esc(ho.model_mae ?? '--')}</div></div>
-          <div class="tile"><div class="tile-k">Break-even</div>
-            <div class="tile-v">${esc((d.record||{}).breakeven_pct ?? 52.4)}%</div>
-            <div class="tile-sub">at ${esc(d.assumed_price ?? -110)}</div></div>
-        </div>`;
-    }
-  }
-
-  const bm = d.record_by_market || {};
-  if(bm.spread || bm.total){
-    const mrow = (label, m) => m ? `
-      <div class="tile"><div class="tile-k">${label}</div>
-        <div class="tile-v">${m.wins}-${m.losses}${m.pushes ? '-' + m.pushes : ''}</div>
-        <div class="tile-sub">${m.win_pct ?? '--'}% &middot; ${m.units > 0 ? '+' : ''}${m.units}u</div></div>` : '';
-    html += `<h2>By market</h2>
-      <div class="tiles">
-        ${mrow('Sides', bm.spread)}
-        ${mrow('Totals', bm.total)}
-        <div class="tile"><div class="tile-k">Break-even</div>
-          <div class="tile-v">${esc(r.breakeven_pct ?? 52.4)}%</div>
-          <div class="tile-sub">at ${esc(d.assumed_price ?? -110)}</div></div>
-      </div>`;
-  }
-
-  const liveT = d.record_tiers || [];
-  if(liveT.length){
-    html += `<h2>Live sides by edge size</h2>
-      <p class="sub">Does a bigger disagreement with the market actually win more often?</p>`
-      + tierTable(liveT, r.breakeven_pct) + tierVerdict(liveT, r.breakeven_pct);
-  }
-
-  const liveTT = d.record_tiers_total || [];
-  if(liveTT.length){
-    html += `<h2>Live totals by edge size</h2>`
-      + tierTable(liveTT, r.breakeven_pct) + tierVerdict(liveTT, r.breakeven_pct);
-  }
-
-  const ts = d.totals || {};
-  if(ts.qualified_win_pct != null){
-    html += `<h2>Totals backtest</h2>
-      <p class="sub">Weeks 5+ only &mdash; totals have no usable preseason prior.
-      ${ts.holdout ? 'Holdout ' + esc(ts.holdout.season) + ' shown separately.' : ''}</p>
-      <div class="tiles">
-        <div class="tile"><div class="tile-k">Qualified</div>
-          <div class="tile-v">${esc(ts.qualified_win_pct)}%</div>
-          <div class="tile-sub">${esc(ts.qualified_bets)} bets</div></div>
-        <div class="tile"><div class="tile-k">Model MAE</div>
-          <div class="tile-v">${esc(ts.model_mae)}</div>
-          <div class="tile-sub">mkt ${esc(ts.market_mae)}</div></div>
-        <div class="tile"><div class="tile-k">Holdout</div>
-          <div class="tile-v">${ts.holdout && ts.holdout.win_pct != null ? esc(ts.holdout.win_pct) + '%' : '--'}</div>
-          <div class="tile-sub">${ts.holdout ? esc(ts.holdout.bets) + ' bets' : 'n/a'}</div></div>
-      </div>`;
-    if((ts.tiers || []).length){
-      html += tierTable(ts.tiers, r.breakeven_pct) + tierVerdict(ts.tiers, r.breakeven_pct);
-    }
-  }
-
-  const ctB = d.confidence_tiers || [], ctH = d.confidence_tiers_holdout || [];
-  if(ctB.length){
-    html += `<h2>Does confidence work?</h2>
-      <p class="sub">Results grouped by the model's own confidence. If the top group
-      does not beat the bottom group, confidence is not measuring anything useful
-      and the top-picks list is just an ordering.</p>`
-      + confTable(ctB, r.breakeven_pct);
-    const top = ctB[ctB.length-1], bot = ctB[0];
-    if(top.win_pct != null && bot.win_pct != null){
-      const gap = (top.win_pct - bot.win_pct).toFixed(1);
-      html += `<div class="note">Top minus bottom: <b>${gap} points</b> of win rate.
-        A working confidence measure would show a clear positive gap here, rising
-        across the groups rather than jumping around.</div>`;
-    }
-  }
-  if(ctH.length){
-    html += `<h2>Confidence, held-out season</h2>
-      <p class="sub">${esc(bt.holdout ? bt.holdout.season : '')} only.</p>`
-      + confTable(ctH, r.breakeven_pct);
-  }
-
-  const bmTop = (d.record_by_market || {}).top;
-  if(bmTop){
-    html += `<h2>Live top picks</h2>
-      <p class="sub">Only the wagers flagged as top picks, tracked separately.</p>
-      <div class="tiles">
-        <div class="tile"><div class="tile-k">Record</div>
-          <div class="tile-v">${bmTop.wins}-${bmTop.losses}${bmTop.pushes ? '-' + bmTop.pushes : ''}</div>
-          <div class="tile-sub">${bmTop.win_pct ?? '--'}%</div></div>
-        <div class="tile"><div class="tile-k">Units</div>
-          <div class="tile-v ${bmTop.units > 0 ? 'pos' : bmTop.units < 0 ? 'neg' : ''}">${bmTop.units > 0 ? '+' : ''}${esc(bmTop.units)}</div>
-          <div class="tile-sub">${bmTop.roi_pct ?? '--'}% ROI</div></div>
-        <div class="tile"><div class="tile-k">Settled</div>
-          <div class="tile-v">${esc(bmTop.settled)}</div>
-          <div class="tile-sub">wagers</div></div>
-      </div>`;
-  }
-
-  const btT = bt.tiers || [], btH = bt.tiers_holdout || [];
-  if(btT.length){
-    html += `<h2>Sides backtest by edge size</h2>
-      <p class="sub">All ${esc((bt.seasons||[]).join(', '))}. Calibration is the column to
-      read: realized points beaten by, divided by points the model predicted.</p>`
-      + tierTable(btT, r.breakeven_pct) + tierVerdict(btT, r.breakeven_pct);
-  }
-  if(btH.length){
-    html += `<h2>Held-out season by edge size</h2>
-      <p class="sub">${esc(bt.holdout ? bt.holdout.season : '')} only &mdash; never looked at
-      during development. Smaller samples, wider error bars, but the honest read.</p>`
-      + tierTable(btH, r.breakeven_pct);
-  }
-
-  if(hist.length){
-    html += `<h2>Every graded wager</h2>`;
-    html += hist.map(h => `
-      <div class="row">
-        <div class="badge ${esc(h.result)}">${esc(h.result === 'push' ? 'PSH' : h.result === 'win' ? 'W' : 'L')}</div>
-        <div class="row-main">
-          <div class="row-pick">${esc(h.pick)} ${h.pick_spread == null ? '' : sgn(h.pick_spread)}</div>
-          <div class="row-sub">Wk ${esc(h.week)} &middot; ${esc(h.away)} at ${esc(h.home)}
-            ${h.margin == null ? '' : '&middot; margin ' + sgnInt(h.margin)}</div>
-        </div>
-        <div class="row-clv" title="closing line value">${h.clv == null ? '' : sgn(h.clv)}</div>
-      </div>`).join('');
-  }
-
-  el.innerHTML = html;
-}
-
-/* ---------- confidence ---------- */
-/* The whole point of ranking by confidence is testable: does the top group win
-   more than the bottom group? This note says what the backtest found, so the
-   top-picks list never implies more than the evidence supports. */
-function confNote(d){
   const ct = d.confidence_tiers || [];
-  if(ct.length < 2) return '';
-  const top = ct[ct.length - 1], bot = ct[0];
-  const be = (d.record || {}).breakeven_pct ?? 52.4;
-  if(top.win_pct == null || bot.win_pct == null) return '';
-  const spread = top.win_pct - bot.win_pct;
-  const clears = top.se != null && (top.win_pct - top.se) > be;
-
-  let msg;
-  if(clears && spread > 3){
-    msg = `In backtest the most confident group hit ${top.win_pct}% versus
-      ${bot.win_pct}% for the least confident, and the top group clears break-even
-      beyond its error bar. That is the pattern a working confidence measure makes.`;
-  } else if(spread > 3){
-    msg = `In backtest the most confident group hit ${top.win_pct}% versus
-      ${bot.win_pct}% for the least confident &mdash; a real gap, but not enough to
-      clear break-even once the error bar is counted.`;
-  } else {
-    msg = `Worth knowing: in backtest the most confident group hit ${top.win_pct}%
-      and the least confident ${bot.win_pct}%. Confidence is not sorting winners
-      from losers here, so treat this ranking as the model's opinion rather than
-      evidence it is right.`;
+  if(ct.length){
+    h += `<h2>Does "sure" mean anything?</h2>
+      <p class="sub">Past picks grouped by how sure the model was.</p>` + confChart(ct, r.breakeven_pct);
+    const top = ct[ct.length-1], bot = ct[0];
+    if(top.win_pct != null && bot.win_pct != null){
+      const gapv = (top.win_pct - bot.win_pct).toFixed(1);
+      const good = gapv > 3 && top.se != null && (top.win_pct - top.se) > (r.breakeven_pct ?? 52.4);
+      h += `<div class="note">${good
+        ? `Most sure beat least sure by ${gapv} pts and cleared break-even. Encouraging.`
+        : `Most sure vs least sure: ${gapv} pts. Not enough to matter — read the ranking as opinion, not proof.`}</div>`;
+    }
   }
-  return `<div class="note">${msg}</div>`;
-}
 
-function confTable(tiers, breakeven){
-  if(!tiers || !tiers.length) return '';
-  const be = breakeven ?? 52.4;
-  const rows = tiers.map(t => {
-    const beats = t.win_pct != null && t.se != null && (t.win_pct - t.se) > be;
-    return `
-      <div class="tier">
-        <div class="tier-label" style="font-size:13px">${esc(t.label)}</div>
-        <div class="tier-n">${esc(t.bets)}</div>
-        <div class="tier-wp" style="color:${beats ? 'var(--win)' : 'var(--paper)'}">
-          ${t.win_pct == null ? '--' : esc(t.win_pct)}%
-          <span class="tier-se">&plusmn;${esc(t.se ?? '--')}</span>
-        </div>
-        <div class="tier-cal">
-          <span style="color:${t.roi_pct > 0 ? 'var(--win)' : 'var(--loss)'}">${t.roi_pct > 0 ? '+' : ''}${esc(t.roi_pct)}%</span>
-          <span class="tier-se">conf ${esc(t.avg_conf)} &middot; edge ${esc(t.avg_edge)}</span>
-        </div>
-      </div>`;
-  }).join('');
-  return `
-    <div class="tier tier-head">
-      <div class="tier-label">Confidence</div><div class="tier-n">Bets</div>
-      <div class="tier-wp">Win %</div><div class="tier-cal">ROI</div>
-    </div>${rows}`;
-}
+  const bt = d.backtest || {}, ts = d.totals || {};
+  h += `<h2>Model vs book</h2>
+    <p class="sub">Average miss on the final score. Lower is better.</p>
+    <div class="tiles">
+      <div class="tile"><div class="tile-k">Sides</div>
+        <div class="tile-v">${bt.overall ? esc(bt.overall.model_mae) : '--'}</div>
+        <div class="tile-sub">book ${bt.overall ? esc(bt.overall.market_mae) : '--'}</div></div>
+      <div class="tile"><div class="tile-k">Totals</div>
+        <div class="tile-v">${ts.model_mae != null ? esc(ts.model_mae) : '--'}</div>
+        <div class="tile-sub">book ${ts.market_mae != null ? esc(ts.market_mae) : '--'}</div></div>
+      <div class="tile"><div class="tile-k">Past picks</div>
+        <div class="tile-v">${bt.qualified_win_pct != null ? esc(bt.qualified_win_pct)+'%' : '--'}</div>
+        <div class="tile-sub">${bt.qualified_bets ?? '--'} graded</div></div>
+    </div>`;
 
-/* ---------- tier table ---------- */
-/* Win rate per tier is noisy, so each error bar is shown inline. The column
-   that actually matters is calibration: realized edge divided by predicted. */
-function tierTable(tiers, breakeven){
-  if(!tiers || !tiers.length) return '';
-  const be = breakeven ?? 52.4;
-  const rows = tiers.map(t => {
-    const beats = t.win_pct != null && t.se != null && (t.win_pct - t.se) > be;
-    const cal = t.calibration;
-    const calColor = cal == null ? 'var(--muted)'
-      : cal >= 0.5 ? 'var(--win)' : cal >= 0.2 ? 'var(--brass)' : 'var(--loss)';
-    return `
-      <div class="tier">
-        <div class="tier-label">${esc(t.label)}</div>
-        <div class="tier-n">${esc(t.bets)}</div>
-        <div class="tier-wp" style="color:${beats ? 'var(--win)' : 'var(--paper)'}">
-          ${t.win_pct == null ? '--' : esc(t.win_pct)}%
-          <span class="tier-se">&plusmn;${esc(t.se ?? '--')}</span>
-        </div>
-        <div class="tier-cal">
-          <span style="color:${calColor}">${cal == null ? '--' : esc(cal)}</span>
-          <span class="tier-se">${esc(t.realized_edge)} of ${esc(t.pred_edge)} pts</span>
-        </div>
-      </div>`;
-  }).join('');
-  return `
-    <div class="tier tier-head">
-      <div class="tier-label">Edge</div>
-      <div class="tier-n">Bets</div>
-      <div class="tier-wp">Win %</div>
-      <div class="tier-cal">Calibration</div>
-    </div>${rows}`;
-}
-
-function tierVerdict(tiers, breakeven){
-  if(!tiers || !tiers.length) return '';
-  const be = breakeven ?? 52.4;
-  const clears = tiers.filter(t => t.win_pct != null && t.se != null && (t.win_pct - t.se) > be);
-  const cals = tiers.filter(t => t.calibration != null).map(t => t.calibration);
-  const avgCal = cals.length ? cals.reduce((a,b) => a+b, 0)/cals.length : null;
-  const first = tiers[0], last = tiers[tiers.length-1];
-  const rising = tiers.length > 2 && first.win_pct != null && last.win_pct != null
-    && (last.win_pct - first.win_pct) > 4;
-
-  let msg;
-  if(clears.length === 0 && avgCal != null && Math.abs(avgCal) < 0.2){
-    msg = `No tier clears break-even once its error bar is counted, and realized edge is
-      near zero at every size. The edges carry no information, so rescaling them would not
-      help &mdash; there is nothing to rescale.`;
-  } else if(clears.length === 0){
-    msg = `No tier clears break-even after its error bar. Calibration averages
-      ${avgCal == null ? '--' : avgCal.toFixed(2)}, so the model delivers roughly
-      ${avgCal == null ? '--' : Math.round(avgCal*100)}% of the edge it claims.`;
-  } else if(rising){
-    msg = `Win rate rises with edge size and ${clears.length} tier(s) clear break-even
-      beyond their error bars. That is the shape a real edge makes. Check whether it also
-      holds in the held-out season before trusting it.`;
-  } else {
-    msg = `${clears.length} tier(s) clear break-even, but with no rising pattern across
-      tiers this is most likely one bucket running hot. Five tiers means five chances for
-      noise to look like signal.`;
-  }
-  return `<div class="note">${msg}</div>`;
-}
-
-/* ---------- ratings ---------- */
-function renderRatings(d){
-  const el = $('p-ratings');
-  const rows = d.ratings || [];
-  if(!rows.length){ el.innerHTML = `<div class="empty"><div class="empty-h">No ratings yet</div></div>`; return; }
-  const max = Math.max(...rows.map(r => Math.abs(r.rating))) || 1;
-  el.innerHTML = `<h2>Power ratings</h2>
-    <p class="sub">Points better than an average FBS team on a neutral field.
-    Home field is worth ${esc(d.state?.home_field ?? '--')} points.</p>`
-    + rows.map(r => `
-      <div class="rank-row">
-        <div class="rank-n">${esc(r.rank)}</div>
-        <div class="rank-team">${esc(r.team)}</div>
-        <div class="rank-bar"><span style="width:${(Math.abs(r.rating)/max*100).toFixed(0)}%;
-          background:${r.rating >= 0 ? 'var(--cool)' : 'var(--loss)'}"></span></div>
-        <div class="rank-v">${sgn(r.rating)}</div>
+  const hist = d.history || [];
+  if(hist.length){
+    h += `<h2>Every graded pick</h2>` + hist.map(x => `
+      <div class="rrow">
+        <div class="badge ${esc(x.result)}">${x.result === 'push' ? 'P' : x.result === 'win' ? 'W' : 'L'}</div>
+        <div class="rmain"><div class="rpick">${esc(x.pick)} ${x.pick_spread == null ? '' : sgn(x.pick_spread)}</div>
+          <div class="rsub">${esc(x.away)} at ${esc(x.home)}${x.margin == null ? '' : ' · ' + sgnInt(x.margin)}</div></div>
+        <div class="rsub">${x.clv == null ? '' : sgn(x.clv)}</div>
       </div>`).join('');
+  }
+  $('p-record').innerHTML = h;
 }
 
-function renderFooter(d){
-  const pm = d.prior_model || {};
-  const st = d.state || {};
+function renderModel(){
+  const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
+  const excl = (d.situational || {})._excluded || {};
   const co = pm.coefficients || {};
-  const parts = Object.keys(co).length
-    ? Object.entries(co).map(([k, v]) => `${k} ${v > 0 ? '+' : ''}${v}`).join(' &middot; ')
-    : 'not fit';
-  const to = st.turnover_points != null
-    ? `Turnover luck removed: each net turnover was worth ${st.turnover_points} points historically,
-       and ${Math.round((st.turnover_shrink ?? 0.7) * 100)}% of that is stripped from scoring margin
-       before rating teams, since fumble recoveries barely repeat.`
-    : 'Turnover adjustment inactive this run.';
+  const be = (d.record || {}).breakeven_pct ?? 52.4;
+  const ratings = (d.ratings || []).slice(0,25).map(r => `
+    <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
+      <div class="rmain"><div class="rpick">${esc(r.team)}</div></div>
+      <div class="rsub">${sgn(r.rating)}</div></div>`).join('');
 
-  const sit = d.situational || {};
-  const SIT_LABEL = {
-    travel_diff_k: 'per 1,000 miles the road team travels',
-    east_body: 'per hour of eastward body-clock shift into an early kickoff',
-    rest_diff: 'per extra day of rest',
-    rivalry_compress: 'rivalry compression (fraction of the spread given back)',
-    rating_scale: 'rating differential scale',
-  };
-  const sitLines = Object.entries(sit)
-    .filter(([k, v]) => k !== 'rating_scale' && k !== '_excluded' && typeof v === 'number')
-    .map(([k, v]) => `${v > 0 ? '+' : ''}${v} pts ${SIT_LABEL[k] || k}`)
-    .join('<br>');
-  const excl = sit._excluded || {};
-  const exclLines = Object.entries(excl)
-    .map(([k, why]) => `${SIT_LABEL[k] || k} &mdash; excluded: ${esc(why)}`)
-    .join('<br>');
-  $('footer').innerHTML = `
-    Ridge power ratings on turnover-adjusted scoring margin and EPA per play, blended
-    with a preseason prior built from prior-year ratings, returning production,
-    recruiting talent${st.uses_sp ? ', and prior-year SP+' : ''}.
-    Prior fit on ${esc(pm.team_seasons ?? '--')} team-seasons, R&sup2; ${esc(pm.r2 ?? '--')}.<br><br>
-    ${to}<br><br>
-    ${sitLines ? 'Situational effects, fitted from history:<br>' + sitLines + '<br><br>' : ''}
-    ${exclLines ? 'Effects the data would not support, dropped rather than trusted:<br>'
-      + exclLines + '<br><br>' : ''}
-    Prior weights: ${parts}<br><br>
-    SP+ enters only as the <em>previous</em> season's final rating. Using the current
-    season's final SP+ would leak end-of-season knowledge into earlier weeks.<br><br>
-    Data from the College Football Data API. Transfer portal movement is not modeled,
-    which is the largest known gap. For entertainment and analysis.`;
+  $('p-model').innerHTML = `
+  <h2>What this is</h2>
+  <p class="sub">A power-rating model for college football. It prices every game,
+  compares its number to the book's, and tracks every pick it flags.</p>
+
+  <h3>Reading a card</h3>
+  <dl>
+    <dt>Gap</dt><dd>How far the model is from the book, in points.</dd>
+    <dt>Sure</dt><dd>The gap divided by how wrong the model usually is on that kind of
+      game. <b>A small gap on a well-understood game beats a big gap on a mystery.</b>
+      Top picks are ranked by this, not by gap size.</dd>
+    <dt>Qualified vs Top</dt><dd>Qualified clears the threshold
+      (${esc(d.min_edge ?? 3)} pts sides, ${esc((d.totals||{}).min_edge ?? 4)} totals).
+      Top means it's among the ${esc(d.top_pick_count ?? 5)} most sure of those.</dd>
+    <dt>The bar</dt><dd>Blue is the book's number, gold is the model's.</dd>
+    <dt>Bullets</dt><dd>What's actually driving the number on that game. Red means caution.</dd>
+  </dl>
+
+  <h3>Reading the record</h3>
+  <dl>
+    <dt>Break-even is ${esc(be)}%</dt>
+    <dd>At ${esc(d.assumed_price ?? -110)} pricing you must win that often to stay level.
+      Below it loses money.</dd>
+    <dt>Line value</dt><dd>Whether the number moved toward the pick after it was logged.
+      <b>This matters sooner than win rate</b> — it shows up in dozens of picks, where
+      win rate needs hundreds.</dd>
+    <dt>Average miss</dt><dd>How far off the final score, on average. The book is usually
+      better; that gap is mostly injury news the model can't see.</dd>
+    <dt>Error bars</dt><dd>The thin lines on the chart. If two bars overlap, the
+      difference between them is noise.</dd>
+  </dl>
+
+  <h3>How it works</h3>
+  <dl>
+    <dt>Ratings</dt><dd>Every team gets a points-above-average number, fit from scoring
+      margin and EPA per play across all games at once — so beating a good team counts
+      more than beating a bad one.</dd>
+    <dt>Turnover luck</dt><dd>Fumble recoveries are near coin flips.
+      ${st.turnover_points != null
+        ? `Each net turnover was worth ${esc(st.turnover_points)} pts historically;
+           ${Math.round((st.turnover_shrink ?? .7)*100)}% is stripped out before rating teams.`
+        : 'Not active this run.'}</dd>
+    <dt>Preseason</dt><dd>Before teams play, ratings come from last year, returning
+      production, recruiting, and prior-year SP+. Fit on ${esc(pm.team_seasons ?? '--')}
+      team-seasons, R² ${esc(pm.r2 ?? '--')}.
+      ${st.in_season_weight != null ? `Now ${Math.round(st.in_season_weight*100)}% this season.` : ''}</dd>
+    <dt>Totals</dt><dd>A separate model rating offense and defense apart, plus wind, cold
+      and rain. ${st.uses_weather
+        ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
+        : 'Weather still loading — totals are weaker without it.'}</dd>
+    <dt>Home field</dt><dd>Worth ${esc(st.home_field ?? '--')} pts, measured not assumed.</dd>
+  </dl>
+
+  <h3>What got thrown out</h3>
+  <p class="sub">Effects the data wouldn't support. Dropping them beats trusting a number
+  that claims jet lag helps.</p>
+  <dl>${Object.keys(excl).length
+    ? Object.entries(excl).map(([k,why]) =>
+        `<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(why)}</dd>`).join('')
+    : '<dd>Nothing dropped this run.</dd>'}</dl>
+
+  <h3>Honest limits</h3>
+  <dl>
+    <dt>No injury data</dt><dd>The biggest gap. A starting QB is worth several points and
+      the model never knows.</dd>
+    <dt>No transfer portal</dt><dd>Incoming transfers aren't counted, so rebuilt rosters
+      are misrated — worst in September.</dd>
+    <dt>Consensus lines</dt><dd>Numbers come from a consensus feed, not your book.
+      Half a point matters.</dd>
+    <dt>Past ≠ future</dt><dd>${bt.qualified_win_pct != null
+      ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically against a
+         ${esc(be)}% break-even.` : 'Backtest pending.'}
+      Held-out season: ${bt.holdout && bt.holdout.win_pct != null ? esc(bt.holdout.win_pct)+'%' : '--'}.</dd>
+  </dl>
+
+  <h3>Top 25</h3>
+  <p class="sub">Points better than average, neutral field.</p>
+  ${ratings || '<div class="empty"><div class="empty-p">Not available.</div></div>'}
+
+  <h3>Preseason weights</h3>
+  <p class="sub" style="font-family:var(--mono);font-size:11px">
+    ${Object.entries(co).map(([k,v]) => `${esc(k)} ${v>0?'+':''}${esc(v)}`).join(' · ') || '--'}</p>
+  <p class="sub">Data: College Football Data API, Open-Meteo.</p>`;
 }
 
-/* ---------- tabs ---------- */
-const TABS = [['t-bets','p-bets'],['t-totals','p-totals'],
-              ['t-record','p-record'],['t-ratings','p-ratings']];
-TABS.forEach(([tid, pid]) => {
-  $(tid).addEventListener('click', () => {
-    TABS.forEach(([t, p]) => {
-      const on = t === tid;
-      $(t).setAttribute('aria-selected', on);
-      $(p).hidden = !on;
-    });
-    window.scrollTo({top: 0, behavior: 'instant'});
-  });
-});
+function renderTop(){
+  const d = DATA, t = new Date(d.generated_at);
+  $('stamp').textContent = `Updated ${t.toLocaleDateString([], {month:'short', day:'numeric'})} `
+    + t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  const live = allPicks(), r = d.record || {};
+  $('summary').innerHTML = `
+    <div class="sum"><div class="sum-v brass">${live.filter(p=>p.qualified).length}</div>
+      <div class="sum-k">Qualified</div></div>
+    <div class="sum"><div class="sum-v">${live.filter(p=>p.top_pick).length}</div>
+      <div class="sum-k">Top picks</div></div>
+    <div class="sum"><div class="sum-v ${r.units>0?'pos':r.units<0?'neg':''}">${r.settled ? (r.units>0?'+':'')+r.units : '--'}</div>
+      <div class="sum-k">Units</div></div>`;
+  const badge = (id,n,label) => { $(id).innerHTML = n ? `${label}<span class="badge-n">${n}</span>` : label; };
+  badge('t-board', live.length, 'Board');
+  badge('t-slip', FAVS.size, 'Slip');
+}
 
-/* ---------- boot ---------- */
+function wire(root){
+  root.querySelectorAll('[data-fav]').forEach(b => b.addEventListener('click', () => {
+    const id = b.dataset.fav;
+    FAVS.has(id) ? FAVS.delete(id) : FAVS.add(id);
+    renderAll();
+  }));
+  root.querySelectorAll('.chip[data-f]').forEach(c => c.addEventListener('click', () => {
+    FILTERS[c.dataset.f] = c.dataset.v;
+    renderBoard(); renderTop();
+  }));
+  const sel = root.querySelector('#sortsel');
+  if(sel) sel.addEventListener('change', e => { SORT = e.target.value; renderBoard(); });
+}
+
+function renderAll(){ renderTop(); renderBoard(); renderSlip(); renderRecord(); renderModel(); }
+
+const TABS = [['t-board','p-board'],['t-slip','p-slip'],['t-record','p-record'],['t-model','p-model']];
+TABS.forEach(([tid,pid]) => $(tid).addEventListener('click', () => {
+  TABS.forEach(([t,p]) => { $(t).setAttribute('aria-selected', t===tid); $(p).hidden = t!==tid; });
+  window.scrollTo({top:0, behavior:'instant'});
+}));
+
 fetch('data.json?t=' + Date.now())
   .then(r => { if(!r.ok) throw new Error('data.json ' + r.status); return r.json(); })
-  .then(d => {
-    renderStamp(d); renderGauge(d);
-    renderBets(d); renderTotals(d); renderRecord(d); renderRatings(d); renderFooter(d);
-  })
+  .then(d => { DATA = d; renderAll(); })
   .catch(e => {
-    $('p-bets').innerHTML = `<div class="empty">
-      <div class="empty-h">Nothing to show yet</div>
-      <div class="empty-p">data.json has not been generated. Open the Actions tab in
-      GitHub and run the update workflow once.<br><br>
+    $('p-board').innerHTML = `<div class="empty"><div class="empty-h">No data yet</div>
+      <div class="empty-p">Run the update workflow in GitHub.<br>
       <span style="font-family:var(--mono);font-size:11px">${esc(e.message)}</span></div></div>`;
   });
 </script>
