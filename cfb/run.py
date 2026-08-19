@@ -151,7 +151,68 @@ def load_everything():
 
 
 # ======================================================================
-# 2. backtest
+# 2. tiers
+# ======================================================================
+
+def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
+    """Break results into edge tiers and measure calibration.
+
+    For each tier we report the win rate (with its standard error, because a
+    120-bet tier has a ~4.5 point error bar) and — more usefully — the average
+    points by which the pick actually beat the line, next to the average edge
+    the model predicted. The ratio between them is the calibration factor: if
+    the model claims 8 points of edge and delivers 2, its edges are inflated 4x.
+    """
+    edges = CONFIG.get("tier_edges", [3, 5, 7, 10, 15])
+    profit = american_to_profit(PRICE)
+    out = []
+
+    f = frame.dropna(subset=[edge_col, margin_col, line_col]).copy()
+    if not len(f):
+        return out
+
+    # points by which the picked side beat the line
+    f["_realized"] = np.where(f[edge_col] > 0,
+                              f[margin_col] - f[line_col],
+                              f[line_col] - f[margin_col])
+    f["_pred"] = f[edge_col].abs()
+    f["_result"] = np.where(f["_realized"] > 0, "win",
+                            np.where(f["_realized"] < 0, "loss", "push"))
+
+    bounds = [(edges[i], edges[i + 1] if i + 1 < len(edges) else None)
+              for i in range(len(edges))]
+
+    for lo, hi in bounds:
+        sub = f[(f._pred >= lo) & ((f._pred < hi) if hi else True)]
+        decided = sub[sub._result != "push"]
+        n = int(len(sub))
+        if n < 10:
+            continue
+        wins = int((sub._result == "win").sum())
+        losses = int((sub._result == "loss").sum())
+        pushes = int((sub._result == "push").sum())
+        wp = float((decided._result == "win").mean()) if len(decided) else float("nan")
+        se = float(np.sqrt(wp * (1 - wp) / len(decided)) * 100) if len(decided) else float("nan")
+        units = wins * profit - losses
+        pred = float(sub._pred.mean())
+        real = float(sub._realized.mean())
+
+        out.append({
+            "label": f"{lo}-{hi}" if hi else f"{lo}+",
+            "bets": n, "wins": wins, "losses": losses, "pushes": pushes,
+            "win_pct": round(wp * 100, 1) if wp == wp else None,
+            "se": round(se, 1) if se == se else None,
+            "units": round(units, 2),
+            "roi_pct": round(units / n * 100, 1) if n else None,
+            "pred_edge": round(pred, 1),
+            "realized_edge": round(real, 1),
+            "calibration": round(real / pred, 2) if pred > 0.01 else None,
+        })
+    return out
+
+
+# ======================================================================
+# 3. backtest
 # ======================================================================
 
 def run_backtest(d, prior_model, season_hfa, use_epa):
@@ -241,6 +302,8 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "overall": slice_stats(s),
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
+        "tiers": tier_stats(s),
+        "tiers_holdout": tier_stats(hold) if HOLDOUT and len(hold) else [],
         "tuning": {"seasons": [x for x in TEST_SEASONS if x != HOLDOUT],
                    "win_pct": tune_pct, "bets": tune_n,
                    **(slice_stats(tuning) or {})},
@@ -356,7 +419,12 @@ def update_bet_log(picks, finished):
     }
 
     graded = graded.sort_values("logged_at", ascending=False)
-    return log, {"summary": summary, "rows": graded}
+
+    # live tier breakdown, using the line recorded at log time
+    lt = graded.rename(columns={"mkt_at_log": "mkt"})
+    live_tiers = tier_stats(lt, edge_col="edge", margin_col="margin", line_col="mkt")
+
+    return log, {"summary": summary, "rows": graded, "tiers": live_tiers}
 
 
 # ======================================================================
@@ -513,6 +581,7 @@ def main():
         "picks": pick_rows(picks) if len(picks) else [],
         "history": history_rows,
         "record": log_out.get("summary", {}),
+        "record_tiers": log_out.get("tiers", []),
         "ratings": ratings_rows,
         "notes": notes,
     }
@@ -523,6 +592,17 @@ def main():
     print(f"  picks: {len(payload['picks'])} "
           f"({sum(1 for p in payload['picks'] if p['qualified'])} qualified)")
     print(f"  logged bets: {len(log)}  |  settled: {payload['record'].get('settled', 0)}")
+
+    tiers = payload["backtest"].get("tiers") or []
+    if tiers:
+        print(f"\n{'tier':>8} {'bets':>6} {'win%':>7} {'+/-':>5} "
+              f"{'pred':>6} {'real':>6} {'calib':>6}")
+        for r in tiers:
+            print(f"{r['label']:>8} {r['bets']:>6} {r['win_pct']:>6}% "
+                  f"{r['se']:>4} {r['pred_edge']:>6} {r['realized_edge']:>6} "
+                  f"{r['calibration'] if r['calibration'] is not None else '--':>6}")
+        print("\ncalib = realized edge / predicted edge. Near 1.0 means the model's")
+        print("edges are honest. Near 0 means they carry no information.")
 
 
 if __name__ == "__main__":
