@@ -67,53 +67,61 @@
     border-radius:2px;font-family:var(--mono);font-size:11px;padding:5px 7px}
   .count{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)}
 
-  .card{background:var(--panel);border-radius:2px;margin:9px 0;padding:11px 12px 11px 0;
+  .card{background:var(--panel);border-radius:2px;margin:7px 0;padding:9px 10px 9px 0;
     display:flex;position:relative;overflow:hidden}
   .card.qual .tick{background:var(--brass)}
   .card.top{background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--brass)}
-  .tick{width:3px;flex:none;background:var(--rule);margin-right:11px}
+  .tick{width:3px;flex:none;background:var(--rule);margin-right:10px}
   .card-body{flex:1;min-width:0}
-  .row1{display:flex;align-items:flex-start;gap:8px}
-  .matchup{font-family:var(--display);font-size:19px;font-weight:600;line-height:1.15;flex:1}
+
+  .chead{display:flex;align-items:flex-start;gap:8px}
+  .cleft{flex:1;min-width:0}
+  .matchup{font-family:var(--display);font-size:17px;font-weight:600;line-height:1.1}
   .at{color:var(--muted);font-weight:500;padding:0 3px}
-  .star{appearance:none;border:0;background:transparent;cursor:pointer;font-size:19px;
-    line-height:1;color:var(--rule);padding:0 2px;flex:none;transition:color .15s}
+  .cmeta{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:2px;
+    display:flex;gap:7px;flex-wrap:wrap}
+  .cright{flex:none;text-align:right;display:flex;flex-direction:column;
+    align-items:flex-end;gap:2px}
+  .cpick{font-family:var(--display);font-size:16px;font-weight:700;line-height:1.05;
+    text-transform:uppercase;white-space:nowrap}
+  .cline{font-family:var(--mono);font-size:14px;color:var(--brass);font-weight:600}
+  .tierrow{display:flex;align-items:center;gap:5px}
+  .tierbadge{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;
+    border:1px solid var(--rule);border-radius:1px;padding:1px 5px;color:var(--muted)}
+  .tierbadge.A{background:var(--brass);color:#17202b;border-color:var(--brass)}
+  .tierbadge.B{color:var(--brass);border-color:var(--brass)}
+  .tierbadge.C{color:var(--cool);border-color:var(--cool)}
+  .star{appearance:none;border:0;background:transparent;cursor:pointer;font-size:17px;
+    line-height:1;color:var(--rule);padding:0;transition:color .15s}
   .star[aria-pressed="true"]{color:var(--brass)}
   .star:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
-  .meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:3px;
-    display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .rank-chip{font-family:var(--display);font-size:12px;font-weight:700;
-    background:var(--brass);color:#17202b;border-radius:1px;padding:1px 5px}
-  .flag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--muted);border:1px solid var(--rule);border-radius:1px;padding:1px 5px}
-  .card.qual .flag{color:var(--brass);border-color:var(--brass)}
 
-  .callout{display:flex;align-items:baseline;gap:8px;margin-top:9px;padding-top:9px;
-    border-top:1px solid var(--rule)}
-  .pick{font-family:var(--display);font-size:18px;font-weight:700;text-transform:uppercase}
-  .pick-line{font-family:var(--mono);font-size:15px;color:var(--brass);font-weight:600}
-  .numbers{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted);
-    text-align:right;flex:none}
-  .numbers b{color:var(--paper);font-weight:500}
+  .nums{display:flex;align-items:center;margin-top:7px;padding-top:7px;
+    border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px}
+  .nums .n{flex:1;color:var(--muted)}
+  .nums .n b{color:var(--paper);font-weight:600;font-size:13px;margin-left:4px}
+  .nums .n.gap b{color:var(--brass)}
+  .info{appearance:none;border:1px solid var(--rule);background:transparent;
+    color:var(--muted);font-family:var(--mono);font-size:10px;line-height:1;
+    padding:3px 6px;border-radius:1px;cursor:pointer;flex:none}
+  .info[aria-expanded="true"]{background:var(--rule);color:var(--paper)}
+  .info:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
 
-  .drivers{margin-top:8px;display:flex;flex-direction:column;gap:4px}
-  .driver{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;line-height:1.35}
-  .dot{width:5px;height:5px;border-radius:50%;flex:none;margin-top:6px;background:var(--cool)}
+  .drivers{margin-top:7px;padding-top:7px;border-top:1px solid var(--rule);
+    display:flex;flex-direction:column;gap:4px}
+  .drivers[hidden]{display:none}
+  .driver{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.35}
+  .dot{width:5px;height:5px;border-radius:50%;flex:none;margin-top:5px;background:var(--cool)}
   .dot.caution{background:var(--loss)}
   .dot.weather,.dot.travel,.dot.rest{background:var(--brass)}
   .driver.caution{color:var(--muted)}
 
-  .nums{display:flex;margin-top:9px;padding-top:9px;border-top:1px solid var(--rule)}
-  .num{flex:1;text-align:center}
-  .num + .num{border-left:1px solid var(--rule)}
-  .num-k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--muted)}
-  .num-v{font-family:var(--mono);font-size:17px;font-weight:600;margin-top:2px}
-  .num-v.gap{color:var(--brass)}
-
   .chart{background:var(--panel);border-radius:2px;padding:12px 12px 8px;margin:10px 0}
   .chart-t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
     text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .legend{display:flex;gap:14px;margin-top:8px;font-family:var(--mono);font-size:10px}
+  .legend span{display:flex;align-items:center;gap:5px;color:var(--muted)}
+  .legend i{width:12px;height:2px;display:inline-block}
   svg{display:block;width:100%}
 
   .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
@@ -199,6 +207,7 @@ let DATA = null;
 const FAVS = new Set();               // in-memory only, clears on reload
 const FILTERS = { market:'all', quality:'all' };
 let SORT = 'confidence';
+let TIER = 'A';
 
 function kickText(iso){
   if(!iso) return '';
@@ -232,31 +241,23 @@ function visible(){
 
 /* Book, model, gap — quoted from the side being picked, so the three numbers
    read left to right as one sentence. */
-function nums(p){
+function cardNums(p){
   let book, model;
-  if(p.market === 'total'){
-    book = p.line;
-    model = p.model_total;
-  } else {
-    const home = p.edge > 0;
-    book = p.pick_spread;
-    model = home ? -p.model_margin : p.model_margin;
-  }
+  if(p.market === 'total'){ book = p.line; model = p.model_total; }
+  else { book = p.pick_spread; model = p.edge > 0 ? -p.model_margin : p.model_margin; }
   if(book == null || model == null) return '';
   const f = v => p.market === 'total' ? Number(v).toFixed(1) : sgn(v);
-  return `<div class="nums">
-    <div class="num"><div class="num-k">Book</div><div class="num-v">${esc(f(book))}</div></div>
-    <div class="num"><div class="num-k">Model</div><div class="num-v">${esc(f(model))}</div></div>
-    <div class="num"><div class="num-k">Gap</div>
-      <div class="num-v gap">${esc(Math.abs(p.edge).toFixed(1))}</div></div>
-  </div>`;
+  return `<span class="n">Book<b>${esc(f(book))}</b></span>
+    <span class="n">Model<b>${esc(f(model))}</b></span>
+    <span class="n gap">Gap<b>${esc(Math.abs(p.edge).toFixed(1))}</b></span>`;
 }
 
 function card(p, rank){
   const id = p.market + ':' + p.game_id;
   const fav = FAVS.has(id);
   const cls = p.top_pick ? 'top qual' : p.qualified ? 'qual' : '';
-  const w = Math.min(3 + Math.abs(p.edge) * 0.8, 11).toFixed(1);
+  const w = Math.min(3 + Math.abs(p.edge) * 0.8, 10).toFixed(1);
+  const tier = p.tier || '—';
   const drivers = (p.drivers || []).map(d => `
     <div class="driver ${d.kind === 'caution' ? 'caution' : ''}">
       <span class="dot ${esc(d.kind)}"></span><span>${esc(d.text)}</span></div>`).join('');
@@ -264,24 +265,30 @@ function card(p, rank){
   <div class="card ${cls}">
     <div class="tick" style="width:${w}px"></div>
     <div class="card-body">
-      <div class="row1">
-        <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
-        <button class="star" aria-pressed="${fav}" data-fav="${esc(id)}"
-          aria-label="${fav ? 'Remove from slip' : 'Add to slip'}">${fav ? '★' : '☆'}</button>
+      <div class="chead">
+        <div class="cleft">
+          <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
+          <div class="cmeta">
+            ${rank ? `<span>#${rank}</span>` : ''}
+            <span>${esc(kickText(p.kickoff))}</span>
+            ${p.market === 'total' ? '<span>total</span>' : ''}
+          </div>
+        </div>
+        <div class="cright">
+          <div class="cpick">${esc(p.pick)}
+            <span class="cline">${p.market === 'total' ? esc(p.line) : sgn(p.pick_spread)}</span></div>
+          <div class="tierrow">
+            <span class="tierbadge ${esc(tier)}">Tier ${esc(tier)}</span>
+            <button class="star" aria-pressed="${fav}" data-fav="${esc(id)}"
+              aria-label="${fav ? 'Remove from slip' : 'Add to slip'}">${fav ? '★' : '☆'}</button>
+          </div>
+        </div>
       </div>
-      <div class="meta">
-        ${rank ? `<span class="rank-chip">#${rank}</span>` : ''}
-        <span>${esc(kickText(p.kickoff))}</span>
-        ${p.market === 'total' ? '<span>total</span>' : ''}
-        ${p.confidence != null ? `<span>sure ${esc(p.confidence)}</span>` : ''}
-        <span class="flag">${p.top_pick ? 'Top' : p.qualified ? 'Qualified' : 'Lean'}</span>
+      <div class="nums">
+        ${cardNums(p)}
+        ${drivers ? `<button class="info" data-info="${esc(id)}" aria-expanded="false">Why</button>` : ''}
       </div>
-      <div class="callout">
-        <span class="pick">${esc(p.pick)}</span>
-        <span class="pick-line">${p.market === 'total' ? esc(p.line) : sgn(p.pick_spread)}</span>
-      </div>
-      ${nums(p)}
-      ${drivers ? `<div class="drivers">${drivers}</div>` : ''}
+      ${drivers ? `<div class="drivers" id="why-${esc(id)}" hidden>${drivers}</div>` : ''}
     </div>
   </div>`;
 }
@@ -294,7 +301,7 @@ function renderBoard(){
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}${chip('quality','top','Top')}
-      ${chip('market','all','Both')}${chip('market','spread','Sides')}${chip('market','total','Totals')}
+      ${chip('market','all','Both')}${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
     <div class="sortbar">
       <label for="sortsel">Sort</label>
@@ -326,8 +333,9 @@ function renderSlip(){
     <div class="tiles">
       <div class="tile"><div class="tile-k">Games</div><div class="tile-v">${picks.length}</div></div>
       <div class="tile"><div class="tile-k">Avg gap</div><div class="tile-v">${avg.toFixed(1)}</div></div>
-      <div class="tile"><div class="tile-k">Qualified</div>
-        <div class="tile-v">${picks.filter(p => p.qualified).length}</div></div>
+      <div class="tile"><div class="tile-k">Best tier</div>
+        <div class="tile-v">${esc(['A','B','C','D','E'].find(t => picks.some(p => p.tier === t)) || '—')}</div>
+        <div class="tile-sub">${picks.filter(p => p.qualified).length} qualified</div></div>
     </div>
     <button class="chip" id="clearslip" style="margin:4px 0 8px">Clear slip</button>
     ${picks.map(p => card(p)).join('')}`;
@@ -356,6 +364,88 @@ function equityChart(eq){
 /* Win rate per season, drawn relative to break-even: bars right of centre made
    money, left lost it. The gap column is the steadier signal — win rate on a few
    hundred picks is mostly noise. */
+/* Points behind the book, by season. Lower is better; the dashed zero line is
+   matching the closing number. Three series so you can see whether one market is
+   carrying the other. */
+function gapTrend(rows){
+  if(!rows || rows.length < 2) return '';
+  const W = 320, H = 132, L = 26, R = 8, T = 10, B = 22;
+  const seasons = rows.map(r => r.season);
+  const vals = rows.flatMap(r => [r.spread, r.total, r.all]).filter(v => v != null);
+  if(!vals.length) return '';
+  const ymax = Math.max(0.4, ...vals) * 1.15;
+  const ymin = Math.min(0, ...vals) * 1.15;
+  const px = i => L + (rows.length === 1 ? 0 : i / (rows.length - 1) * (W - L - R));
+  const py = v => T + (ymax - v) / Math.max(ymax - ymin, .01) * (H - T - B);
+
+  const series = [
+    ['spread', 'var(--brass)'],
+    ['total',  'var(--cool)'],
+    ['all',    'var(--paper)'],
+  ];
+  const lines = series.map(([key, col]) => {
+    const pts = rows.map((r, i) => r[key] == null ? null : `${px(i).toFixed(1)},${py(r[key]).toFixed(1)}`)
+                    .filter(Boolean);
+    if(pts.length < 2) return '';
+    const dots = rows.map((r, i) => r[key] == null ? '' :
+      `<circle cx="${px(i).toFixed(1)}" cy="${py(r[key]).toFixed(1)}" r="2.4" fill="${col}"/>`).join('');
+    return `<polyline points="${pts.join(' ')}" fill="none" stroke="${col}"
+      stroke-width="${key === 'all' ? 2.4 : 1.6}" stroke-linejoin="round"
+      opacity="${key === 'all' ? 1 : .9}"/>${dots}`;
+  }).join('');
+
+  const zeroY = py(0);
+  const ticks = [ymax, (ymax + ymin) / 2, ymin].map(v => `
+    <text x="${L - 5}" y="${py(v) + 3}" text-anchor="end" font-size="8"
+      fill="#8b9aad" font-family="monospace">${v.toFixed(1)}</text>`).join('');
+  const xlabs = rows.map((r, i) => `
+    <text x="${px(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="8"
+      fill="#8b9aad" font-family="monospace">${esc(String(r.season).slice(2))}</text>`).join('');
+
+  return `<div class="chart">
+    <div class="chart-t">Points behind the book, by season &middot; lower is better</div>
+    <svg viewBox="0 0 ${W} ${H}" style="height:132px">
+      <line x1="${L}" y1="${zeroY}" x2="${W - R}" y2="${zeroY}" stroke="#4e9a6b"
+        stroke-dasharray="3 3" stroke-width="1"/>
+      <text x="${W - R}" y="${zeroY - 4}" text-anchor="end" font-size="7.5"
+        fill="#4e9a6b" font-family="monospace">matches the book</text>
+      ${ticks}${xlabs}${lines}
+    </svg>
+    <div class="legend">
+      <span><i style="background:var(--brass)"></i>Spreads</span>
+      <span><i style="background:var(--cool)"></i>Totals</span>
+      <span><i style="background:var(--paper)"></i>All</span>
+    </div>
+  </div>`;
+}
+
+/* One tier, season by season, against break-even. */
+function tierTrend(rows, be, label){
+  const W = 320, H = 118, L = 26, R = 8, T = 10, B = 20;
+  const vals = rows.map(x => x.win_pct).filter(v => v != null);
+  if(vals.length < 2) return '';
+  const lo = Math.min(be - 6, ...vals) - 2, hi = Math.max(be + 6, ...vals) + 2;
+  const px = i => L + (rows.length === 1 ? 0 : i / (rows.length - 1) * (W - L - R));
+  const py = v => T + (hi - v) / Math.max(hi - lo, .01) * (H - T - B);
+  const pts = rows.map((x, i) => x.win_pct == null ? null
+    : `${px(i).toFixed(1)},${py(x.win_pct).toFixed(1)}`).filter(Boolean).join(' ');
+  const dots = rows.map((x, i) => x.win_pct == null ? '' :
+    `<circle cx="${px(i).toFixed(1)}" cy="${py(x.win_pct).toFixed(1)}" r="2.6"
+      fill="${x.win_pct >= be ? 'var(--win)' : 'var(--loss)'}"/>`).join('');
+  const xl = rows.map((x, i) => `<text x="${px(i).toFixed(1)}" y="${H - 5}"
+    text-anchor="middle" font-size="8" fill="#8b9aad" font-family="monospace">${esc(String(x.season).slice(2))}</text>`).join('');
+  return `<div class="chart">
+    <div class="chart-t">Tier ${esc(label === 'ALL' ? 'overall' : label)} win rate by season</div>
+    <svg viewBox="0 0 ${W} ${H}" style="height:118px">
+      <line x1="${L}" y1="${py(be)}" x2="${W - R}" y2="${py(be)}" stroke="var(--brass)"
+        stroke-dasharray="3 3"/>
+      <text x="${L - 5}" y="${py(be) + 3}" text-anchor="end" font-size="8"
+        fill="#c8973f" font-family="monospace">${be}</text>
+      <polyline points="${pts}" fill="none" stroke="var(--paper)" stroke-width="2"
+        stroke-linejoin="round"/>${dots}${xl}
+    </svg></div>`;
+}
+
 function seasonTable(rows, live, be){
   if(!rows || !rows.length) return '';
   const all = rows.slice();
@@ -405,52 +495,65 @@ function renderRecord(){
       <div class="tile-sub">${m.win_pct ?? '--'}% · ${m.units > 0 ? '+' : ''}${m.units}u</div></div>` : '';
     if(bm.spread || bm.total || bm.top){
       h += `<h2>By type</h2><div class="tiles">
-        ${mrow('Sides',bm.spread)}${mrow('Totals',bm.total)}${mrow('Top picks',bm.top)}</div>`;
+        ${mrow('Spreads',bm.spread)}${mrow('Totals',bm.total)}${mrow('Top picks',bm.top)}</div>`;
     }
   } else {
     h += `<div class="empty"><div class="empty-h">No results yet</div>
       <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
-  /* Three buckets, named in English. The question is only whether the model's
-     confidence tracks results — a chart adds nothing a number doesn't. */
-  const ct = d.confidence_tiers || [];
-  if(ct.length >= 3){
+  /* Tier A is the most sure fifth of picks, E the least. Selecting a tier shows
+     whether it held up season to season, which the headline number can't say. */
+  const tsum = d.tier_summary || {}, ttrend = d.tier_trend || {};
+  const tiers = ['A','B','C','D','E'].filter(k => tsum[k]);
+  if(tiers.length){
     const be = r.breakeven_pct ?? 52.4;
-    const agg = rows => {
-      const bets = rows.reduce((a,x) => a + x.bets, 0);
-      if(!bets) return null;
-      const wp = rows.reduce((a,x) => a + (x.win_pct ?? 0) * x.bets, 0) / bets;
-      return { bets, wp };
-    };
-    const third = Math.ceil(ct.length / 3);
-    const groups = [
-      ['Least sure', agg(ct.slice(0, third))],
-      ['Middle',     agg(ct.slice(third, ct.length - third))],
-      ['Most sure',  agg(ct.slice(ct.length - third))],
-    ].filter(g => g[1]);
+    const opts = tiers.concat(['ALL']);
+    if(!opts.includes(TIER)) TIER = opts[0];
+    const sel = tsum[TIER] || {};
+    const rows = ttrend[TIER] || [];
 
-    h += `<h2>Does "sure" mean anything?</h2>
-      <p class="sub">Past picks split by how sure the model was. Break-even is ${esc(be)}%.</p>`;
-    h += groups.map(([label, g]) => `
-      <div class="rrow">
-        <div class="rmain"><div class="rpick">${label}</div>
-          <div class="rsub">${g.bets.toLocaleString()} picks</div></div>
-        <div class="num-v" style="color:${g.wp >= be ? 'var(--win)' : 'var(--paper)'}">${g.wp.toFixed(1)}%</div>
-      </div>`).join('');
+    h += `<h2>Tier performance</h2>
+      <p class="sub">Tier A is the fifth of picks the model was most sure about,
+      E the least. Break-even is ${esc(be)}%.</p>
+      <div class="filters">${opts.map(k =>
+        `<button class="chip" data-tier="${k}" aria-pressed="${TIER===k}">${k === 'ALL' ? 'All' : 'Tier ' + k}</button>`
+      ).join('')}</div>
+      <div class="tiles">
+        <div class="tile"><div class="tile-k">Win rate</div>
+          <div class="tile-v ${sel.win_pct >= be ? 'pos' : ''}">${sel.win_pct ?? '--'}%</div>
+          <div class="tile-sub">${esc(sel.bets ?? 0)} picks</div></div>
+        <div class="tile"><div class="tile-k">Units</div>
+          <div class="tile-v ${sel.units > 0 ? 'pos' : sel.units < 0 ? 'neg' : ''}">${sel.units > 0 ? '+' : ''}${esc(sel.units ?? '--')}</div>
+          <div class="tile-sub">${esc(sel.roi_pct ?? '--')}% return</div></div>
+        <div class="tile"><div class="tile-k">Avg gap</div>
+          <div class="tile-v">${esc(sel.avg_gap ?? '--')}</div>
+          <div class="tile-sub">sure ${esc(sel.avg_conf ?? '--')}</div></div>
+      </div>`;
 
-    const lo = groups[0][1].wp, hi = groups[groups.length-1][1].wp;
-    const diff = (hi - lo).toFixed(1);
-    h += `<div class="note">${hi >= be && (hi - lo) > 3
-      ? `Most sure beat least sure by ${diff} pts and cleared break-even.`
-      : `Most sure and least sure land within ${Math.abs(diff)} pts of each other. Confidence is not sorting winners — read top picks as the model's opinion, not proof.`}</div>`;
+    if(rows.length > 1){
+      h += tierTrend(rows, be, TIER);
+      const yrs = rows.filter(x => x.win_pct != null);
+      const above = yrs.filter(x => x.win_pct >= be).length;
+      h += `<div class="note">Tier ${TIER === 'ALL' ? 'overall' : TIER} cleared break-even in
+        <b>${above} of ${yrs.length}</b> seasons. A tier worth trusting would clear it
+        most years, not just on the total.</div>`;
+    } else {
+      h += `<div class="note">Not enough seasons to show a trend for this tier.</div>`;
+    }
   }
 
   const bt = d.backtest || {}, ts = d.totals || {};
   const be2 = r.breakeven_pct ?? 52.4;
 
+  if((d.gap_trend || []).length > 1){
+    h += `<h2>Accuracy trend</h2>
+      <p class="sub">How far behind the book the model landed each season.
+      Falling means improving.</p>` + gapTrend(d.gap_trend);
+  }
+
   if((bt.by_season || []).length){
-    h += `<h2>Sides by season</h2>
+    h += `<h2>Spreads by season</h2>
       <p class="sub">Bars show win rate against the ${esc(be2)}% break-even line.
       Right of centre made money. <b>Gap</b> is how far behind the book the model
       was that year — the steadier read on whether it's improving.</p>`
@@ -464,7 +567,7 @@ function renderRecord(){
   h += `<h2>Model vs book</h2>
     <p class="sub">Average miss on the final score. Lower is better.</p>
     <div class="tiles">
-      <div class="tile"><div class="tile-k">Sides</div>
+      <div class="tile"><div class="tile-k">Spreads</div>
         <div class="tile-v">${bt.overall ? esc(bt.overall.model_mae) : '--'}</div>
         <div class="tile-sub">book ${bt.overall ? esc(bt.overall.market_mae) : '--'}</div></div>
       <div class="tile"><div class="tile-k">Totals</div>
@@ -486,6 +589,7 @@ function renderRecord(){
       </div>`).join('');
   }
   $('p-record').innerHTML = h;
+  wire($('p-record'));
 }
 
 function renderModel(){
@@ -506,14 +610,17 @@ function renderModel(){
   <h3>Reading a card</h3>
   <dl>
     <dt>Gap</dt><dd>How far the model is from the book, in points.</dd>
-    <dt>Sure</dt><dd>The gap divided by how wrong the model usually is on that kind of
-      game. <b>A small gap on a well-understood game beats a big gap on a mystery.</b>
-      Top picks are ranked by this, not by gap size.</dd>
-    <dt>Qualified vs Top</dt><dd>Qualified clears the threshold
-      (${esc(d.min_edge ?? 3)} pts sides, ${esc((d.totals||{}).min_edge ?? 4)} totals).
-      Top means it's among the ${esc(d.top_pick_count ?? 5)} most sure of those.</dd>
-    <dt>The bar</dt><dd>Blue is the book's number, gold is the model's.</dd>
-    <dt>Bullets</dt><dd>What's actually driving the number on that game. Red means caution.</dd>
+    <dt>Tier A to E</dt><dd>How sure the model is, which is the gap divided by how
+      wrong it usually is on that kind of game. <b>Tier A is the most sure fifth of
+      all picks, E the least.</b> A small gap on a well-understood game can outrank a
+      big gap on a mystery — that's the whole point of tiers.</dd>
+    <dt>Qualified</dt><dd>The gap clears the threshold
+      (${esc(d.min_edge ?? 3)} pts spreads, ${esc((d.totals||{}).min_edge ?? 4)} totals).
+      Anything below is shown as a lean, for context only.</dd>
+    <dt>Why</dt><dd>Tap it for what's actually driving that number — rest, travel, a
+      unit mismatch, or a reason to doubt it. Red means caution.</dd>
+    <dt>Book / Model / Gap</dt><dd>What you can bet, what the model makes it, and the
+      distance between them. All three quoted from the side being picked.</dd>
   </dl>
 
   <h3>Reading the record</h3>
@@ -526,8 +633,11 @@ function renderModel(){
       win rate needs hundreds.</dd>
     <dt>Average miss</dt><dd>How far off the final score, on average. The book is usually
       better; that gap is mostly injury news the model can't see.</dd>
-    <dt>Error bars</dt><dd>The thin lines on the chart. If two bars overlap, the
-      difference between them is noise.</dd>
+    <dt>Tier performance</dt><dd>Pick a tier to see whether it held up year to year.
+      <b>A tier worth trusting clears break-even most seasons</b>, not just on the
+      combined total — one hot year can carry a whole tier.</dd>
+    <dt>Accuracy trend</dt><dd>Points behind the book each season. Falling means
+      improving. Steadier than win rate, which swings on a few hundred picks.</dd>
   </dl>
 
   <h3>How it works</h3>
@@ -609,6 +719,16 @@ function wire(root){
   root.querySelectorAll('.chip[data-f]').forEach(c => c.addEventListener('click', () => {
     FILTERS[c.dataset.f] = c.dataset.v;
     renderBoard(); renderTop();
+  }));
+  root.querySelectorAll('[data-tier]').forEach(b => b.addEventListener('click', () => {
+    TIER = b.dataset.tier; renderRecord();
+  }));
+  root.querySelectorAll('[data-info]').forEach(b => b.addEventListener('click', () => {
+    const box = root.querySelector('#why-' + CSS.escape(b.dataset.info));
+    if(!box) return;
+    const open = box.hasAttribute('hidden');
+    if(open) box.removeAttribute('hidden'); else box.setAttribute('hidden', '');
+    b.setAttribute('aria-expanded', open);
   }));
   const sel = root.querySelector('#sortsel');
   if(sel) sel.addEventListener('change', e => { SORT = e.target.value; renderBoard(); });
