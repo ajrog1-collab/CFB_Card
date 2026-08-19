@@ -22,9 +22,10 @@ import numpy as np
 import pandas as pd
 
 from model import (
-    PriorModel, add_adjusted_margin, attach_epa, attach_lines, attach_turnovers,
-    blend_prior, blend_ratings, build_games, cfbd_get, col, fit_ratings,
-    games_played_counts, parse_sp, parse_team_stats, rating_diff, season_ratings,
+    PriorModel, add_adjusted_margin, add_situational, attach_epa, attach_lines,
+    attach_turnovers, blend_prior, blend_ratings, build_games, cfbd_get, col,
+    fit_ratings, games_played_counts, infer_home_venues, parse_sp, parse_team_stats,
+    parse_venues, rating_diff, season_ratings, situational_matrix,
     talent_composite, returning_production,
 )
 
@@ -135,6 +136,8 @@ def load_everything():
     cur_lines = cfbd_get("lines", {"year": CURRENT, "seasonType": "regular"}, force=True)
     print(f"  {CURRENT} (live)")
 
+    venues_raw = cfbd_get("venues", {})
+
     # recruiting classes before the window, for the rolling average
     for yr in range(CONFIG["history_start"] - CONFIG["recruit_window"], CONFIG["history_start"]):
         r = cfbd_get("recruiting/teams", {"year": yr})
@@ -147,6 +150,7 @@ def load_everything():
         "recruit": cat(recruit), "returning": cat(returning), "fbs": fbs,
         "cur_games": cur_games, "cur_lines": cur_lines,
         "sp": sp_by_year, "team_stats": cat(team_stats),
+        "venues": venues_raw,
     }
 
 
@@ -217,6 +221,7 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
 
 def run_backtest(d, prior_model, season_hfa, use_epa):
     preds = []
+    sit_report = {}
     for season in TEST_SEASONS:
         prior = prior_model.preseason(season)
         if prior is None:
@@ -226,12 +231,19 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
 
         cal = d[d.season < season]
         cal_x = rating_diff(cal, prior_model.season_r.get(season - 1), hfa_ref)
+        cal_S, sit_names = situational_matrix(cal, cal_x)
         ok = ~np.isnan(cal_x)
         if ok.sum() > 300:
-            Ac = np.column_stack([cal_x[ok], np.ones(int(ok.sum()))])
+            Ac = np.column_stack([cal_x[ok], cal_S[ok], np.ones(int(ok.sum()))])
             w_cal, *_ = np.linalg.lstsq(Ac, cal.loc[ok, "margin"].to_numpy(dtype=float), rcond=None)
         else:
-            w_cal = np.array([1.0, 0.0])
+            w_cal = np.array([1.0] + [0.0] * cal_S.shape[1] + [0.0])
+
+        # record what each situational feature earned (last season fitted wins)
+        if sit_names and len(w_cal) == 2 + len(sit_names):
+            sit_report = {n: round(float(w), 3)
+                          for n, w in zip(sit_names, w_cal[1:1 + len(sit_names)])}
+            sit_report["rating_scale"] = round(float(w_cal[0]), 3)
 
         for wk in sorted(d.loc[d.season == season, "week"].unique()):
             so_far = d[(d.season == season) & (d.week < wk)]
@@ -247,7 +259,10 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
                 r_in = blend_ratings(r_m, r_p)
             R = blend_prior(prior, r_in, games_played_counts(so_far), BLEND_K)
             out = test.copy()
-            out["pred"] = rating_diff(test, R, hfa_ref) * w_cal[0] + w_cal[1]
+            rd = rating_diff(test, R, hfa_ref)
+            S, _ = situational_matrix(test, rd)
+            A = np.column_stack([rd, S, np.ones(len(test))])
+            out["pred"] = np.nan_to_num(A, nan=0.0) @ w_cal
             preds.append(out)
 
     if not preds:
@@ -302,6 +317,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "overall": slice_stats(s),
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
+        "situational": sit_report,
         "tiers": tier_stats(s),
         "tiers_holdout": tier_stats(hold) if HOLDOUT and len(hold) else [],
         "tuning": {"seasons": [x for x in TEST_SEASONS if x != HOLDOUT],
@@ -320,7 +336,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
 # 3. picks
 # ======================================================================
 
-def find_picks(cur, ratings, hfa):
+def find_picks(cur, ratings, hfa, sit_weights=None):
     """Upcoming FBS-vs-FBS games with a posted line, ranked by disagreement."""
     now = datetime.now(timezone.utc)
     up = cur[
@@ -335,7 +351,16 @@ def find_picks(cur, ratings, hfa):
     if not len(up):
         return pd.DataFrame()
 
-    up["pred"] = rating_diff(up, ratings, hfa)
+    rd = rating_diff(up, ratings, hfa)
+    if sit_weights:
+        S, names = situational_matrix(up, rd)
+        adj = np.zeros(len(up))
+        for j, nm in enumerate(names):
+            adj = adj + S[:, j] * sit_weights.get(nm, 0.0)
+        scale = sit_weights.get("rating_scale", 1.0) or 1.0
+        up["pred"] = rd * scale + adj
+    else:
+        up["pred"] = rd
     up["edge"] = up["pred"] - up["mkt"]
     up = up.dropna(subset=["edge"])
     if not len(up):
@@ -443,9 +468,17 @@ def main():
     d, use_to = attach_turnovers(d, to_df)
     d, to_points = add_adjusted_margin(d, shrink=TO_SHRINK)
 
+    # situational context: travel, body clock, rest, rivalry
+    venues = parse_venues(data["venues"])
+    home_venue = infer_home_venues(d)
+    d = add_situational(d, venues, home_venue)
+
     d = d.sort_values(["season", "week"]).reset_index(drop=True)
     print(f"History: {len(d):,} games | lines {int(d.spread.notna().sum()):,} "
-          f"| EPA {use_epa} | turnovers {use_to}")
+          f"| EPA {use_epa} | turnovers {use_to} | venues {len(venues)}")
+    print(f"Rivalry games flagged: {int(d['rivalry'].sum())} | "
+          f"mean away travel: {d['travel_diff_k'].mean()*1000:.0f} mi | "
+          f"body-clock spots: {int((d['east_body'] > 0).sum())}")
     if to_points is not None:
         print(f"Turnover value: {to_points:.2f} pts each, removing {TO_SHRINK:.0%} "
               f"({TO_SHRINK * to_points:.2f} pts per net turnover)")
@@ -475,6 +508,7 @@ def main():
         cur_to = fetch_team_stats(CURRENT) if has_results else pd.DataFrame()
         cur, _ = attach_turnovers(cur, parse_team_stats(cur_to))
         cur, _ = add_adjusted_margin(cur, shrink=TO_SHRINK)
+        cur = add_situational(cur, venues, home_venue)
         done = cur[cur.home_pts.notna()]
         played = int(len(done))
         r_in = None
@@ -491,7 +525,8 @@ def main():
     bt, bt_summary = run_backtest(d, prior_model, season_hfa, use_epa)
 
     # ---- picks + log ----
-    picks = find_picks(cur, ratings_now, hfa) if len(cur) else pd.DataFrame()
+    picks = (find_picks(cur, ratings_now, hfa, bt_summary.get("situational"))
+             if len(cur) else pd.DataFrame())
 
     finished = d[["game_id", "margin", "mkt"]].copy()
     if len(cur):
@@ -572,6 +607,7 @@ def main():
             "turnover_shrink": TO_SHRINK,
             "returning_field": ret_field,
         },
+        "situational": bt_summary.get("situational", {}),
         "prior_model": {
             "r2": round(prior_model.r2, 3) if prior_model.r2 == prior_model.r2 else None,
             "team_seasons": prior_model.n_train,
