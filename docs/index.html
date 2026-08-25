@@ -73,10 +73,10 @@
   /* ---------- tabs ---------- */
   nav{display:flex;gap:3px;position:sticky;top:0;z-index:30;background:var(--page);
     padding:8px 0;border-bottom:1px solid var(--rule)}
-  .tab{flex:1;appearance:none;border:1px solid transparent;cursor:pointer;
+  .tab{flex:1 1 0;min-width:0;appearance:none;border:1px solid transparent;cursor:pointer;
     background:var(--panel);color:var(--mute);font-family:var(--display);font-size:15px;
-    letter-spacing:.09em;padding:9px 4px;border-radius:4px;white-space:nowrap;
-    transition:background .15s,color .15s}
+    letter-spacing:.07em;padding:9px 2px;border-radius:4px;white-space:nowrap;
+    overflow:hidden;text-overflow:clip;transition:background .15s,color .15s}
   .tab[aria-selected="true"]{background:var(--gold);color:#0C1B29}
   .tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .tab .n{font-family:var(--data);font-size:10px;margin-left:4px;opacity:.8;font-weight:600}
@@ -303,12 +303,22 @@
   .watermark .c{font-family:var(--display);font-size:46px;letter-spacing:.05em;color:var(--ink)}
   .watermark .t{font-family:var(--data);font-size:9px;letter-spacing:.3em;color:var(--ink);
     font-weight:700}
-  /* Narrow phones: drop the logo's right panel so the mark and the buttons
-     share one clean row instead of stacking. */
+  /* Phones: compress the lockup rather than dropping half of it, so the full
+     logo and the buttons still share one row. */
   @media (max-width:520px){
+    .brand-l{padding:6px 9px 6px 9px}
+    .brand-card{font-size:26px}
+    .brand-the{font-size:10px;letter-spacing:.22em}
+    .brand-r{padding:6px 15px 6px 8px;gap:0}
+    .brand-sub,.brand-tag{font-size:7px;letter-spacing:.13em}
+    .brand .fold{border-left-width:13px;border-bottom-width:13px}
+    .sharebtn{font-size:13.5px;padding:0 9px;letter-spacing:.07em}
+    .topright{gap:5px}
+    .iconbtn{width:31px;height:31px}
+  }
+  /* Very narrow: the strapline goes, the wordmark stays. */
+  @media (max-width:340px){
     .brand-rule,.brand-r{display:none}
-    .brand-l{padding-right:20px}
-    .sharebtn{font-size:14px;padding:0 10px}
   }
   @media (max-width:430px){
     .t-side{width:84px}
@@ -443,8 +453,8 @@ function visible(){
     list = list.filter(p => inConf(p.home) || inConf(p.away));
   }
   const key = { confidence:p => -(p.confidence ?? 0),
-                edge:p => -Math.abs(p.edge ?? 0),
-                kickoff:p => new Date(p.kickoff || 0).getTime() }[SORT];
+                kickoff:p => new Date(p.kickoff || 0).getTime() }[SORT]
+              || (p => -(p.confidence ?? 0));
   return list.sort((a,b) => key(a) - key(b));
 }
 
@@ -543,8 +553,7 @@ function renderBoard(){
       </select>
       <label for="sortsel">Sort</label>
       <select id="sortsel">
-        <option value="confidence"${SORT==='confidence'?' selected':''}>Most sure</option>
-        <option value="edge"${SORT==='edge'?' selected':''}>Biggest edge</option>
+        <option value="confidence"${SORT==='confidence'?' selected':''}>Confidence</option>
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
       <span class="count">${list.length} PICK${list.length===1?'':'S'}</span></div>`;
