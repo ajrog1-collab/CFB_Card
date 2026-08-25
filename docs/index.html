@@ -75,8 +75,8 @@
     padding:8px 0;border-bottom:1px solid var(--rule)}
   .tab{flex:1 1 0;min-width:0;appearance:none;border:1px solid transparent;cursor:pointer;
     background:var(--panel);color:var(--mute);font-family:var(--display);font-size:15px;
-    letter-spacing:.07em;padding:9px 2px;border-radius:4px;white-space:nowrap;
-    overflow:hidden;text-overflow:clip;transition:background .15s,color .15s}
+    letter-spacing:.06em;padding:9px 3px;border-radius:4px;white-space:nowrap;
+    transition:background .15s,color .15s}
   .tab[aria-selected="true"]{background:var(--gold);color:#0C1B29}
   .tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .tab .n{font-family:var(--data);font-size:10px;margin-left:4px;opacity:.8;font-weight:600}
@@ -770,6 +770,35 @@ function renderRecord(){
       <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
+  /* CLV first: it is the earliest honest read on whether the picks beat the
+     number, and it needs far fewer bets than win rate to mean anything. */
+  const cbm = d.clv_by_market || {}, cbt = d.clv_by_tier || {};
+  if(cbm.all){
+    const a = cbm.all;
+    const cell = (lab, s) => s ? `
+      <div class="tile"><div class="tile-k">${lab}</div>
+        <div class="tile-v ${s.avg > 0 ? 'pos' : s.avg < 0 ? 'neg' : ''}">${s.avg > 0 ? '+' : ''}${esc(s.avg)}</div>
+        <div class="tile-sub">${esc(s.beat_pct)}% beat · ${esc(s.n)}</div></div>` : '';
+    h += `<h2>LINE VALUE</h2>
+      <p class="sub">Did the number move toward the pick after it was logged?
+      Positive means you took a better price than the market closed at.</p>
+      <div class="tiles">
+        ${cell('ALL', cbm.all)}${cell('SPREADS', cbm.spread)}${cell('TOTALS', cbm.total)}
+      </div>`;
+    const tiles = Object.entries(cbt)
+      .map(([k, s]) => `<div class="tile"><div class="tile-k">${TIER_STARS[k]}★</div>
+        <div class="tile-v ${s.avg > 0 ? 'pos' : s.avg < 0 ? 'neg' : ''}" style="font-size:21px">${s.avg > 0 ? '+' : ''}${esc(s.avg)}</div>
+        <div class="tile-sub">${esc(s.n)} picks</div></div>`).join('');
+    if(tiles) h += `<div class="tiles">${tiles}</div>`;
+    h += `<div class="note">${a.n < 30
+      ? `Only ${a.n} graded so far — line value needs about 30 before it says anything.`
+      : a.avg > 0.3
+        ? `Averaging ${a.avg} points better than the close. That is the signal worth having; keep logging.`
+        : a.avg < -0.3
+          ? `Averaging ${a.avg} points worse than the close. The market is moving against these picks.`
+          : `Flat against the close. No evidence of beating the number yet.`}</div>`;
+  }
+
   const tsum = d.tier_summary || {}, ttrend = d.tier_trend || {};
   const tks = ['A','B','C','D','E'].filter(k => tsum[k]);
   if(tks.length){
@@ -1071,9 +1100,11 @@ function renderTop(){
     t.toLocaleDateString([], {month:'short', day:'numeric'}).toUpperCase() + ' ' +
     t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
   const live = allPicks();
-  const set=(id,n,l)=>{ $(id).innerHTML = n ? `${l}<span class="n">${n}</span>` : l; };
-  set('t-board', live.length, 'GAMES');
-  set('t-slip', FAVS.size, 'YOUR CARD');
+  /* The pick count already appears in the filter bar, and squeezing it into the
+     tab was what pushed the label out of its box. */
+  $('t-board').textContent = 'GAMES';
+  $('t-slip').innerHTML = FAVS.size
+    ? `YOUR CARD<span class="n">${FAVS.size}</span>` : 'YOUR CARD';
 }
 
 function wire(root){
