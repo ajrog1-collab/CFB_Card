@@ -27,7 +27,8 @@ from model import (
     build_games, cfbd_get, col, confidence_features, confidence_score,
     fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
     fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
-    infer_home_venues, parse_sp, parse_team_stats, parse_teams, parse_venues,
+    infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
+    parse_venues,
     predict_total, predict_uncertainty, rating_diff, returning_production,
     season_ratings, situational_matrix, talent_composite, totals_matrix,
 )
@@ -101,12 +102,32 @@ def fetch_team_stats(year: int) -> pd.DataFrame:
 
 
 def _current_week(default: int = 1) -> int:
-    """Rough season week from the calendar, used only to decide what to refetch."""
-    now = datetime.now(timezone.utc)
-    if now.month < 8:
-        return 16
-    start = datetime(now.year, 8, 24, tzinfo=timezone.utc)
-    return max(default, min(16, int((now - start).days // 7) + 1))
+    """Latest week with a completed game, from the schedule itself.
+
+    An earlier version guessed this from the calendar with a hardcoded season
+    start and 7-day weeks. That drifts against the real schedule, and it decides
+    which weeks of box scores get refreshed — so drifting means turnover data
+    silently stops updating.
+    """
+    if _LIVE_WEEK[0] is not None:
+        return _LIVE_WEEK[0]
+    return default
+
+
+_LIVE_WEEK = [None]
+
+
+def set_live_week(cur_games_frame):
+    """Record the newest week that has a final score, for cache decisions."""
+    try:
+        played = cur_games_frame[cur_games_frame["home_pts"].notna()]
+        if len(played):
+            _LIVE_WEEK[0] = int(played["week"].max())
+        else:
+            _LIVE_WEEK[0] = 1
+    except Exception:
+        _LIVE_WEEK[0] = None
+    return _LIVE_WEEK[0]
 
 
 # ======================================================================
@@ -174,6 +195,16 @@ def load_everything():
     if len(rp):
         returning.append(rp.assign(_year=CURRENT))
 
+    qb_raw = cfbd_get("ppa/players/season", {"year": CURRENT, "position": "QB"},
+                      force=True, required=False)
+    if not len(qb_raw):
+        # nothing played yet this season, so last year's usage is the best guide
+        qb_raw = cfbd_get("ppa/players/season",
+                          {"year": CURRENT - 1, "position": "QB"}, required=False)
+        qb_season = CURRENT - 1
+    else:
+        qb_season = CURRENT
+
     cur_games = cfbd_get("games", {"year": CURRENT, "seasonType": "regular"}, force=True)
     cur_lines = cfbd_get("lines", {"year": CURRENT, "seasonType": "regular"}, force=True)
     print(f"  {CURRENT} (live)")
@@ -193,6 +224,7 @@ def load_everything():
         "cur_games": cur_games, "cur_lines": cur_lines,
         "sp": sp_by_year, "team_stats": cat(team_stats),
         "venues": venues_raw, "teams_meta": teams_raw,
+        "qb": qb_raw, "qb_season": qb_season,
     }
 
 
@@ -267,6 +299,21 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
 TIER_NAMES = ["A", "B", "C", "D", "E"]
 
 
+def regime_cuts(cuts, week=None, in_season_weight=None):
+    """Pick the cutpoint set matching how the ratings were built.
+
+    Accepts the old flat list too, so an older cached payload still works.
+    """
+    if not cuts:
+        return None
+    if isinstance(cuts, list):
+        return cuts
+    early = week is not None and week <= 4
+    if in_season_weight is not None:
+        early = in_season_weight < 0.35
+    return cuts.get("early" if early else "late") or cuts.get("all")
+
+
 def tier_cutpoints(conf_series):
     """Confidence values splitting picks into five equal-sized tiers.
 
@@ -294,15 +341,19 @@ def tier_season_trend(s, cuts, edge_col="edge", outcome_col="margin", line_col="
 
     Answers the question the tier list cannot: does a given tier hold up year to
     year, or did one season carry it?
+
+    Rows are tiered with the cutpoints for their own regime, so a Week 2 pick is
+    graded against other Week 2 picks rather than against mid-season ones.
     """
-    if cuts is None or not len(s):
+    if not cuts or not len(s):
         return {}, {}
 
     f = s.dropna(subset=[edge_col, outcome_col, line_col, "confidence"]).copy()
     if not len(f):
         return {}, {}
 
-    f["_tier"] = [assign_tier(c, cuts) for c in f["confidence"]]
+    f["_tier"] = [assign_tier(c, regime_cuts(cuts, w))
+                  for c, w in zip(f["confidence"], f["week"])]
     realized = np.where(f[edge_col] > 0, f[outcome_col] - f[line_col],
                         f[line_col] - f[outcome_col])
     f["_res"] = np.where(realized > 0, "win", np.where(realized < 0, "loss", "push"))
@@ -373,6 +424,8 @@ def combined_gap_trend(spread_seasons, total_seasons):
     for row in spread_seasons or []:
         if row.get("gap") is not None:
             by.setdefault(row["season"], {})["spread"] = (row["gap"], row.get("bets", 0))
+        if row.get("gap_raw") is not None:
+            by.setdefault(row["season"], {})["spread_raw"] = (row["gap_raw"], row.get("bets", 0))
     for row in total_seasons or []:
         if row.get("gap") is not None:
             by.setdefault(row["season"], {})["total"] = (row["gap"], row.get("bets", 0))
@@ -385,9 +438,11 @@ def combined_gap_trend(spread_seasons, total_seasons):
         parts = [v for v in (sp, to) if v]
         wsum = sum(g * max(n, 1) for g, n in parts)
         nsum = sum(max(n, 1) for _g, n in parts)
+        raw = e.get("spread_raw")
         out.append({
             "season": int(season),
             "spread": sp[0] if sp else None,
+            "spread_raw": raw[0] if raw else None,
             "total": to[0] if to else None,
             "all": round(wsum / nsum, 2) if nsum else None,
         })
@@ -432,6 +487,8 @@ def season_breakdown(s, edge_col="edge", outcome_col="margin", line_col="mkt",
             row["model_mae"] = round(float(sub.e_model.mean()), 2)
             row["market_mae"] = round(float(sub.e_mkt.mean()), 2)
             row["gap"] = round(float(sub.e_model.mean() - sub.e_mkt.mean()), 2)
+            if "e_raw" in sub.columns and sub.e_raw.notna().any():
+                row["gap_raw"] = round(float(sub.e_raw.mean() - sub.e_mkt.mean()), 2)
         out.append(row)
     return out
 
@@ -593,6 +650,11 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
 
     s["e_model"] = (s.pred - s.margin).abs()
     s["e_mkt"] = (s.mkt - s.margin).abs()
+    # Debiasing anchors predictions to the line, which flatters the accuracy
+    # figure without the model getting better. Keep the unanchored error too so
+    # improvement can be judged on the model's own work.
+    if "pred_raw" in s.columns:
+        s["e_raw"] = (s.pred_raw - s.margin).abs()
     s["edge"] = s.pred - s.mkt
     s["cover"] = np.where(s.margin > s.mkt, 1.0, np.where(s.margin < s.mkt, 0.0, np.nan))
 
@@ -607,7 +669,15 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     s["sigma"] = predict_uncertainty(X, conf_w, conf_mae)
     s["confidence"] = confidence_score(s["edge"].to_numpy(dtype=float),
                                        s["sigma"].to_numpy(dtype=float))
-    cuts = tier_cutpoints(s["confidence"])
+    # Preseason ratings are compressed harder than in-season ones, so their
+    # confidence values sit on a different scale. One set of cutpoints applied to
+    # both means a live 5-star pick need not match a backtest 5-star pick. Cut
+    # each regime separately and let live picks use the one they belong to.
+    cuts_early = tier_cutpoints(s.loc[s.week <= 4, "confidence"])
+    cuts_late = tier_cutpoints(s.loc[s.week >= 5, "confidence"])
+    cuts_all = tier_cutpoints(s["confidence"])
+    cuts = {"early": cuts_early or cuts_all, "late": cuts_late or cuts_all,
+            "all": cuts_all}
     tier_trend, tier_summary = tier_season_trend(s, cuts)
 
     conf_report = ({n: round(float(w), 3) for n, w in zip(cnames, conf_w[:-1])}
@@ -618,11 +688,14 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     def slice_stats(frame):
         if not len(frame):
             return None
-        return {
+        out = {
             "games": int(len(frame)),
             "model_mae": round(float(frame.e_model.mean()), 2),
             "market_mae": round(float(frame.e_mkt.mean()), 2),
         }
+        if "e_raw" in frame.columns and frame.e_raw.notna().any():
+            out["model_mae_raw"] = round(float(frame.e_raw.mean()), 2)
+        return out
 
     # A fixed points threshold is arbitrary: after debiasing, edges are smaller,
     # so 3 points might select two thirds of the board or none of it. Setting it
@@ -881,7 +954,8 @@ def _fmt_team(name, n=18):
     return name if len(name) <= n else name[: n - 1] + "\u2026"
 
 
-def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_weight):
+def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_weight,
+                   sit_weights=None):
     """Why this pick, in numbers the card doesn't already show.
 
     The gap is printed on the card, so restating it is not a driver. Each entry
@@ -890,6 +964,13 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
     on half the slate is dropped.
     """
     out = []
+    # A feature the plausibility gate rejected contributes exactly zero to the
+    # number. Naming it as a reason implies it moved the line when it did not.
+    sw = sit_weights or {}
+    def uses(name):
+        v = sw.get(name)
+        return isinstance(v, (int, float)) and abs(v) > 1e-9
+
     home, away = row.get("home_name"), row.get("away_name")
     ht, at = row.get("home_team"), row.get("away_team")
     pick_home = row.get("edge", 0) > 0
@@ -899,17 +980,17 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
 
     # 1. schedule: only genuine mismatches, not a routine 7-vs-7
     rest = float(row.get("rest_diff") or 0)
-    if abs(rest) >= 5:
+    if abs(rest) >= 5 and uses("rest_diff"):
         rested = home if rest > 0 else away
         out.append({"kind": "rest", "weight": 2.0 + abs(rest) / 7.0,
                     "text": f"{_fmt_team(rested)} has {abs(rest):.0f} more days of rest"})
 
     eb = float(row.get("east_body") or 0)
     tk = float(row.get("travel_diff_k") or 0)
-    if eb > 0:
+    if eb > 0 and uses("east_body"):
         out.append({"kind": "travel", "weight": 2.0 + eb / 3.0,
                     "text": f"{_fmt_team(away)} crosses {eb:.0f} time zones for an early kick"})
-    elif tk >= 1.6:
+    elif tk >= 1.6 and uses("travel_diff_k"):
         out.append({"kind": "travel", "weight": 1.6 + tk / 3.0,
                     "text": f"{_fmt_team(away)} flies {tk * 1000:,.0f} miles"})
 
@@ -952,7 +1033,7 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
         out.append({"kind": "caution", "weight": 1.4,
                     "text": f"Ratings still {int((1 - in_season_weight) * 100)}% last season"})
 
-    if row.get("rivalry"):
+    if row.get("rivalry") and uses("rivalry_compress"):
         out.append({"kind": "rivalry", "weight": 1.5,
                     "text": "Rivalry game, usually closer than ratings say"})
 
@@ -965,13 +1046,13 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
     return [{"kind": d["kind"], "text": d["text"]} for d in out[:2]]
 
 
-def total_drivers(row, off, dfn):
+def total_drivers(row, off, dfn, use_wx=True):
     """Why this total, in concrete numbers."""
     out = []
     home, away = row.get("home_name"), row.get("away_name")
     over = row.get("edge", 0) > 0
 
-    wind = row.get("wind")
+    wind = row.get("wind") if use_wx else None
     if row.get("indoor"):
         out.append({"kind": "weather", "text": "Indoor, weather removed", "weight": 0.4})
     elif wind is not None and wind == wind and float(wind) >= 18:
@@ -1316,6 +1397,7 @@ def main():
         cur, _ = attach_lines(cur, data["cur_lines"], sign=sign)
         # only worth a call once games have actually been played
         has_results = bool(cur["home_pts"].notna().sum())
+        set_live_week(cur)
         cur_to = fetch_team_stats(CURRENT) if has_results else pd.DataFrame()
         cur, _ = attach_turnovers(cur, parse_team_stats(cur_to))
         cur, _ = add_adjusted_margin(cur, shrink=TO_SHRINK)
@@ -1407,7 +1489,7 @@ def main():
         for _, r in frame.iterrows():
             rows.append({
                 "game_id": int(r.game_id),
-                "drivers": total_drivers(r, t_off or {}, t_dfn or {}),
+                "drivers": total_drivers(r, t_off or {}, t_dfn or {}, use_wx),
                 "week": int(r.week) if pd.notna(r.week) else None,
                 "kickoff": r.kickoff.isoformat() if pd.notna(r.kickoff) else None,
                 "away": r.away_name, "home": r.home_name,
@@ -1422,7 +1504,9 @@ def main():
                                if "confidence" in frame.columns and pd.notna(r.get("confidence"))
                                else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": assign_tier(r.get("confidence"), bt_summary.get("tier_cuts")),
+                "tier": assign_tier(r.get("confidence"),
+                                    regime_cuts(bt_summary.get("tier_cuts"),
+                                                in_season_weight=in_season_weight)),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -1446,7 +1530,8 @@ def main():
                 "game_id": int(r.game_id),
                 "drivers": spread_drivers(r, ratings_now or {}, rank_map,
                                           t_off or {}, t_dfn or {}, hfa, gp_now,
-                                          in_season_weight),
+                                          in_season_weight,
+                                          bt_summary.get("situational")),
                 "home_rating": (round(float((ratings_now or {}).get(r.home_team)), 1)
                                 if (ratings_now or {}).get(r.home_team) is not None else None),
                 "away_rating": (round(float((ratings_now or {}).get(r.away_team)), 1)
@@ -1465,7 +1550,9 @@ def main():
                 "sigma": (round(float(r.sigma), 1)
                           if "sigma" in frame.columns and pd.notna(r.get("sigma")) else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": assign_tier(r.get("confidence"), bt_summary.get("tier_cuts")),
+                "tier": assign_tier(r.get("confidence"),
+                                    regime_cuts(bt_summary.get("tier_cuts"),
+                                                in_season_weight=in_season_weight)),
                 "qualified": bool(r.qualified),
             })
         return rows
@@ -1527,6 +1614,10 @@ def main():
         if balance.get(key) and len(frame):
             balance[key]["debias"] = frame.attrs.get("debias_source", "none")
 
+    qb_value = parse_qb_value(data.get("qb", pd.DataFrame()))
+    if qb_value and on_board:
+        qb_value = {k: v for k, v in qb_value.items() if k in on_board} or qb_value
+
     notes = []
     for kind, b in balance.items():
         if b and b["n"] >= 12 and (b["pct"] >= 75 or b["pct"] <= 25):
@@ -1582,6 +1673,7 @@ def main():
         "tier_trend": bt_summary.get("tier_trend", {}),
         "tier_summary": bt_summary.get("tier_summary", {}),
         "tier_cuts": bt_summary.get("tier_cuts"),
+        "tier_regime": ("early" if in_season_weight < 0.35 else "late"),
         "confidence_tiers_holdout": bt_summary.get("confidence_tiers_holdout", []),
         "top_pick_count": TOP_PICK_COUNT,
         "prior_model": {
@@ -1591,6 +1683,8 @@ def main():
         },
         "backtest": bt_summary,
         "teams": team_meta,
+        "qb_value": qb_value,
+        "qb_season": data.get("qb_season"),
         "picks": pick_rows(picks) if len(picks) else [],
         "total_picks": total_pick_rows(total_picks) if len(total_picks) else [],
         "totals": t_summary,
@@ -1618,6 +1712,10 @@ def main():
     print(f"  total picks: {len(payload['total_picks'])} "
           f"({sum(1 for p in payload['total_picks'] if p['qualified'])} qualified)")
     print(f"  logged bets: {len(log)}  |  settled: {payload['record'].get('settled', 0)}")
+    if qb_value:
+        top = sorted(qb_value.items(), key=lambda kv: -kv[1]["points"])[:3]
+        print(f"  QB value ({data.get('qb_season')}): " +
+              ", ".join(f"{k} {v['points']}" for k, v in top))
 
     tiers = payload["backtest"].get("tiers") or []
     if tiers:
