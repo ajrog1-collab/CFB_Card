@@ -179,7 +179,7 @@ def rating_diff(frame, ratings, hfa, default=None):
     return h - a + np.where(frame["neutral"].to_numpy(), 0.0, hfa)
 
 
-def fit_debias(pred, mkt):
+def fit_debias(pred, mkt, min_n=300):
     """Fit pred = a + b*mkt on historical games.
 
     The model's ratings are more regressed toward average than the market's, so
@@ -193,7 +193,7 @@ def fit_debias(pred, mkt):
     pred = np.asarray(pred, dtype=float)
     mkt = np.asarray(mkt, dtype=float)
     ok = np.isfinite(pred) & np.isfinite(mkt)
-    if ok.sum() < 300:
+    if ok.sum() < min_n:
         return 0.0, 1.0
     A = np.column_stack([mkt[ok], np.ones(int(ok.sum()))])
     beta, *_ = np.linalg.lstsq(A, pred[ok], rcond=None)
