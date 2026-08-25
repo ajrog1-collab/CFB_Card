@@ -22,15 +22,14 @@ import numpy as np
 import pandas as pd
 
 from model import (
-    PriorModel, add_adjusted_margin, add_situational, attach_epa, attach_lines,
-    attach_turnovers, attach_venue_weather, blend_prior, blend_ratings, build_games,
-    confidence_features, confidence_score, fetch_venue_forecast, fetch_venue_weather,
-    fit_uncertainty, predict_uncertainty,
-    cfbd_get, col, fit_calibration, fit_points_ratings, fit_ratings,
-    games_played_counts,
+    PriorModel, add_adjusted_margin, add_situational, apply_debias, attach_epa,
+    attach_lines, attach_turnovers, attach_venue_weather, blend_prior, blend_ratings,
+    build_games, cfbd_get, col, confidence_features, confidence_score,
+    fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
+    fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
     infer_home_venues, parse_sp, parse_team_stats, parse_teams, parse_venues,
-    predict_total, rating_diff, season_ratings, situational_matrix, totals_matrix,
-    talent_composite, returning_production,
+    predict_total, predict_uncertainty, rating_diff, returning_production,
+    season_ratings, situational_matrix, talent_composite, totals_matrix,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -47,6 +46,7 @@ HOLDOUT = CONFIG.get("holdout_season")
 TO_SHRINK = float(CONFIG.get("turnover_shrink", 0.7))
 ALLOW_WEEK_BACKFILL = bool(CONFIG.get("allow_week_backfill", True))
 RATING_TARGET = "adj_margin"
+DEBIAS = bool(CONFIG.get("debias", True))
 MIN_EDGE_TOTAL = float(CONFIG.get("min_edge_total", 4.0))
 TOP_PICK_COUNT = int(CONFIG.get("top_pick_count", 5))
 CONF_TIERS = CONFIG.get("confidence_tiers", [0.2, 0.35, 0.5, 0.7])
@@ -417,6 +417,29 @@ def season_breakdown(s, edge_col="edge", outcome_col="margin", line_col="mkt",
     return out
 
 
+def bias_diagnostics(s):
+    """Is the edge systematically pointed at one kind of team?
+
+    A healthy model disagrees with the book in both directions regardless of how
+    big the number is. Correlation near zero between the market number and the
+    edge is what that looks like; a strong negative reading means the model is
+    just taking points everywhere.
+    """
+    f = s.dropna(subset=["edge", "mkt"])
+    if len(f) < 100:
+        return {}
+    x = f["mkt"].to_numpy(dtype=float)
+    y = f["edge"].to_numpy(dtype=float)
+    corr = float(np.corrcoef(x, y)[0, 1]) if x.std() > 0 and y.std() > 0 else 0.0
+    dog = float((((x > 0) != (y > 0))).mean())
+    qual = f[f.edge.abs() >= MIN_EDGE]
+    return {
+        "edge_vs_line_corr": round(corr, 3),
+        "pct_on_underdog": round(dog * 100, 1),
+        "qualified_share": round(len(qual) / len(f) * 100, 1),
+    }
+
+
 def confidence_tier_stats(frame, conf_col="confidence", outcome_col="margin",
                          line_col="mkt", edge_col="edge"):
     """Results grouped by confidence, to test whether confidence sorts winners.
@@ -488,6 +511,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         w_cal, sit_report = fit_calibration(
             cal_x, cal_S, sit_names, cal["margin"].to_numpy(dtype=float))
 
+
         for wk in sorted(d.loc[d.season == season, "week"].unique()):
             so_far = d[(d.season == season) & (d.week < wk)]
             test = d[(d.season == season) & (d.week == wk)]
@@ -506,7 +530,7 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
             rd = rating_diff(test, R, hfa_ref)
             S, _ = situational_matrix(test, rd)
             A = np.column_stack([rd, S, np.ones(len(test))])
-            out["pred"] = np.nan_to_num(A, nan=0.0) @ w_cal
+            out["pred_raw"] = np.nan_to_num(A, nan=0.0) @ w_cal
 
             # a second opinion from the prior alone, for the disagreement feature
             out["pred_alt"] = rating_diff(test, prior, hfa_ref) * w_cal[0] + w_cal[-1]
@@ -518,6 +542,32 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         return pd.DataFrame(), {}
 
     bt = pd.concat(preds, ignore_index=True)
+
+    # ---- second pass: remove the systematic tilt ----------------------------
+    # Fit pred_raw = a + b*line on *earlier* seasons only, then subtract that
+    # line. Doing it here rather than inside the weekly loop matters: the
+    # correction has to be fitted on predictions built exactly the way the ones
+    # being corrected were built, or it under-corrects and the model keeps
+    # leaning on underdogs.
+    deb_a, deb_b = 0.0, 1.0
+    if DEBIAS:
+        bt["pred"] = bt["pred_raw"]
+        for season in sorted(bt["season"].dropna().unique()):
+            hist = bt[(bt.season < season) & bt.mkt.notna() & bt.pred_raw.notna()]
+            if len(hist) >= 300:
+                a, b = fit_debias(hist["pred_raw"], hist["mkt"])
+            else:
+                a, b = 0.0, 1.0
+            m = bt.season == season
+            bt.loc[m, "pred"] = apply_debias(bt.loc[m, "pred_raw"].to_numpy(dtype=float),
+                                             bt.loc[m, "mkt"].to_numpy(dtype=float), a, b)
+        # parameters handed to live picks come from the full history
+        full = bt.dropna(subset=["mkt", "pred_raw"])
+        if len(full) >= 300:
+            deb_a, deb_b = fit_debias(full["pred_raw"], full["mkt"])
+    else:
+        bt["pred"] = bt["pred_raw"]
+
     s = bt.dropna(subset=["mkt", "pred"]).copy()
     if not len(s):
         return bt, {}
@@ -586,6 +636,9 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "early": slice_stats(s[s.week <= 4]),
         "late": slice_stats(s[s.week >= 5]),
         "situational": sit_report,
+        "debias": {"intercept": round(deb_a, 3), "slope": round(deb_b, 3),
+                   "active": bool(DEBIAS)},
+        "bias_check": bias_diagnostics(s),
         "by_season": season_breakdown(s),
         "tier_cuts": cuts,
         "tier_trend": tier_trend,
@@ -888,7 +941,8 @@ def total_drivers(row, off, dfn):
 # ======================================================================
 
 def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
-               conf_w=None, conf_names=None, conf_mae=None, games_played=None):
+               conf_w=None, conf_names=None, conf_mae=None, games_played=None,
+               debias=None):
     """Upcoming FBS-vs-FBS games with a posted line, ranked by disagreement."""
     now = datetime.now(timezone.utc)
     up = cur[
@@ -915,6 +969,13 @@ def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
         up["pred"] = rd * scale + adj
     else:
         up["pred"] = rd
+
+    up["pred_raw"] = up["pred"]
+    if DEBIAS and debias:
+        up["pred"] = apply_debias(up["pred"].to_numpy(dtype=float),
+                                  up["mkt"].to_numpy(dtype=float),
+                                  float(debias.get("intercept", 0.0)),
+                                  float(debias.get("slope", 1.0)))
     up["edge"] = up["pred"] - up["mkt"]
     up = up.dropna(subset=["edge"])
     if not len(up):
@@ -1197,7 +1258,8 @@ def main():
                        conf_w=bt_summary.get("conf_weights"),
                        conf_names=bt_summary.get("conf_names"),
                        conf_mae=bt_summary.get("conf_mae"),
-                       games_played=gp_now)
+                       games_played=gp_now,
+                       debias=bt_summary.get("debias"))
              if len(cur) else pd.DataFrame())
 
     # ---- totals picks ----
@@ -1380,6 +1442,8 @@ def main():
             "returning_field": ret_field,
         },
         "situational": bt_summary.get("situational", {}),
+        "debias": bt_summary.get("debias", {}),
+        "bias_check": bt_summary.get("bias_check", {}),
         "uncertainty": bt_summary.get("uncertainty", {}),
         "confidence_tiers": bt_summary.get("confidence_tiers", []),
         "tier_trend": bt_summary.get("tier_trend", {}),
