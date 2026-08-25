@@ -168,6 +168,16 @@
   .sheet-actions{display:flex;gap:7px;justify-content:center;margin-top:10px;width:100%;
     max-width:390px}
 
+  .stale{display:flex;align-items:flex-start;gap:9px;border-radius:4px;padding:10px 12px;
+    margin:10px 0 0;font-size:13px;line-height:1.4}
+  .stale.warn{background:rgba(180,137,44,.14);border-left:3px solid var(--gold)}
+  .stale.bad{background:rgba(180,87,79,.16);border-left:3px solid #B4574F}
+  .stale-i{font-family:var(--display);font-size:17px;line-height:1;flex:none;margin-top:1px}
+  .stale.warn .stale-i{color:var(--gold)} .stale.bad .stale-i{color:#B4574F}
+  .stale b{font-weight:600}
+  .stale small{display:block;color:var(--mute);font-family:var(--data);font-size:10px;
+    margin-top:3px;letter-spacing:.06em}
+
   .balance{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--data);font-size:9.5px;
     letter-spacing:.1em;font-weight:600;color:var(--mute);margin:6px 0 2px}
   .balance b{color:var(--ink);font-weight:700}
@@ -326,6 +336,8 @@
     </div>
     <div class="stamp" id="stamp"></div>
   </div>
+
+  <div id="staleban"></div>
 
   <nav role="tablist">
     <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">GAMES</button>
@@ -983,7 +995,31 @@ function renderShare(){
     <div class="fold"></div>`;
 }
 
+/* A failed run leaves stale numbers up quietly. This makes that loud. */
+function renderStale(){
+  const box = $('staleban');
+  if(!box) return;
+  const gen = DATA && DATA.generated_at ? new Date(DATA.generated_at) : null;
+  if(!gen || isNaN(gen)){ box.innerHTML = ''; return; }
+
+  const hrs = (Date.now() - gen) / 36e5;
+  if(hrs < 36){ box.innerHTML = ''; return; }   // daily schedule plus slack
+
+  const days = Math.floor(hrs / 24);
+  const age = days >= 1 ? `${days} day${days === 1 ? '' : 's'}` : `${Math.round(hrs)} hours`;
+  const bad = hrs >= 96;
+  box.innerHTML = `
+    <div class="stale ${bad ? 'bad' : 'warn'}">
+      <span class="stale-i">${bad ? '!' : '·'}</span>
+      <div><b>These numbers are ${esc(age)} old.</b>
+        ${bad ? 'The daily update has not run in a while, so lines and picks below are out of date.'
+              : 'The daily update looks like it was missed. Lines may have moved since.'}
+        <small>CHECK GITHUB → ACTIONS FOR A FAILED RUN</small></div>
+    </div>`;
+}
+
 function renderTop(){
+  renderStale();
   const d = DATA, t = new Date(d.generated_at);
   $('stamp').textContent = 'UPDATED ' +
     t.toLocaleDateString([], {month:'short', day:'numeric'}).toUpperCase() + ' ' +
@@ -1060,9 +1096,11 @@ function refreshNotes(){
   <p class="sub">Last update ${when ? when.toLocaleString() : '--'}${age != null ? ` · ${age}h ago` : ''}.</p>
   <dl>
     <dt>It refreshes itself</dt>
-    <dd><b>Wednesday</b> when early lines post — the softest numbers of the week.
-      <b>Saturday morning</b> before kickoff. <b>Sunday</b> to grade results.
-      Nothing to do on your end.</dd>
+    <dd><b>Every day</b> around 10am ET, plus two more passes Saturday as kickoff
+      approaches, plus Sunday to grade results. You never have to trigger it.</dd>
+    <dt>Later weeks</dt>
+    <dd>Games only appear once a book hangs a number. Next week's slate fills in on
+      its own as lines post — nothing is missing, it just isn't priced yet.</dd>
     <dt>Pull the page, not the model</dt>
     <dd>Reloading this page fetches the latest saved numbers. It does not re-run the
       model. If the timestamp above is recent, you already have the newest picks.</dd>
@@ -1070,9 +1108,12 @@ function refreshNotes(){
     <dd>GitHub → <b>Actions</b> → <b>Update model</b> → <b>Run workflow</b>. Takes a few
       minutes. Worth doing after a line moves or a starter is ruled out, since the
       picks are only as fresh as the lines behind them.</dd>
-    <dt>When to bother</dt>
-    <dd>Wednesday for the best numbers, Saturday morning to check nothing moved.
-      Between those, refreshing gains you little — the lines barely move midweek.</dd>
+    <dt>When to run it by hand</dt>
+    <dd>Rarely. The daily pass covers normal line movement. Force a run if a starter
+      is ruled out or a number moves hard and you want the board to reflect it now.</dd>
+    <dt>If the timestamp goes stale</dt>
+    <dd>A failed run leaves the old numbers up quietly. If the time above is more than
+      a couple of days old, check GitHub → Actions for a red X.</dd>
     <dt>Your card clears</dt>
     <dd>Starred games live in the page, not the cloud. A reload empties them, by design.</dd>
     ${st.uses_weather === false || (st.weather_games ?? 0) < 2000 ? `
