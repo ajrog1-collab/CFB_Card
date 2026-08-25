@@ -41,9 +41,9 @@
   .num{font-family:var(--data);font-variant-numeric:tabular-nums;font-weight:600}
 
   /* ---------- masthead ---------- */
-  .top{display:flex;align-items:center;gap:12px;padding:14px 0 10px;flex-wrap:wrap}
+  .top{display:flex;align-items:center;gap:10px;padding:14px 0 8px;flex-wrap:wrap}
   .brand{display:flex;align-items:stretch;background:var(--ticket);color:var(--ticket-ink);
-    border-radius:7px;overflow:hidden;position:relative;flex:none}
+    border-radius:7px;overflow:hidden;position:relative;flex:0 1 auto;min-width:0}
   .brand-l{padding:7px 12px 7px 11px;display:flex;flex-direction:column;justify-content:center}
   .brand-the{font-family:var(--display);font-size:11px;letter-spacing:.26em;line-height:1;
     display:flex;align-items:center;gap:5px}
@@ -51,7 +51,7 @@
     background:var(--ticket-ink);flex:none}
   .brand-card{font-family:var(--display);font-size:31px;line-height:.86;letter-spacing:.02em}
   .brand-rule{width:1px;background:var(--ticket-rule);margin:8px 0}
-  .brand-r{padding:7px 22px 7px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+  .brand-r{padding:7px 20px 7px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px}
   .brand-tag{font-family:var(--data);font-size:8px;letter-spacing:.2em;color:var(--gold);
     font-weight:600}
   .brand-sub{font-family:var(--data);font-size:8px;letter-spacing:.14em;
@@ -62,7 +62,7 @@
   .ticks i{width:1px;background:var(--ticket-rule);height:4px;display:block}
   .ticks i.tall{height:8px;background:var(--gold)}
 
-  .topright{margin-left:auto;display:flex;gap:6px;align-items:center}
+  .topright{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none}
   .iconbtn{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
     width:34px;height:34px;border-radius:5px;cursor:pointer;font-size:15px;line-height:1;
     display:flex;align-items:center;justify-content:center}
@@ -303,6 +303,13 @@
   .watermark .c{font-family:var(--display);font-size:46px;letter-spacing:.05em;color:var(--ink)}
   .watermark .t{font-family:var(--data);font-size:9px;letter-spacing:.3em;color:var(--ink);
     font-weight:700}
+  /* Narrow phones: drop the logo's right panel so the mark and the buttons
+     share one clean row instead of stacking. */
+  @media (max-width:520px){
+    .brand-rule,.brand-r{display:none}
+    .brand-l{padding-right:20px}
+    .sharebtn{font-size:14px;padding:0 10px}
+  }
   @media (max-width:430px){
     .t-side{width:84px}
     .t-name{font-size:22px}
@@ -384,6 +391,7 @@ const sgnInt = n => (n > 0 ? '+' : '') + Math.round(n);
 let DATA = null;
 const FAVS = new Set();
 const FILTERS = { market:'all', quality:'all' };
+let CONF = 'all';
 let SORT = 'confidence';
 let TIER = 'A';
 let VIEW = 'board';
@@ -392,6 +400,8 @@ let SHARE_N = 10;
 
 /* Tier A-E reads as 5-1 stars: more stars, more sure. */
 const TIER_STARS = { A:5, B:4, C:3, D:2, E:1 };
+const POWER4 = ['SEC','Big Ten','ACC','Big 12'];
+const confOf = name => ((DATA.teams || {})[name] || {}).conf || null;
 function stars(tier){
   const n = TIER_STARS[tier] || 0;
   if(!n) return '<span class="stars"><span class="off">☆☆☆☆☆</span></span>';
@@ -425,8 +435,13 @@ function visible(){
     list = list.filter(p => (p.home + ' ' + p.away).toLowerCase().includes(q));
   }
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
-  if(FILTERS.quality === 'top') list = list.filter(p => p.top_pick);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
+  if(CONF !== 'all'){
+    // A game counts if either side is in the conference, so cross-conference
+    // matchups still show when you filter to one league.
+    const inConf = t => CONF === 'p4' ? POWER4.includes(confOf(t)) : confOf(t) === CONF;
+    list = list.filter(p => inConf(p.home) || inConf(p.away));
+  }
   const key = { confidence:p => -(p.confidence ?? 0),
                 edge:p => -Math.abs(p.edge ?? 0),
                 kickoff:p => new Date(p.kickoff || 0).getTime() }[SORT];
@@ -434,6 +449,12 @@ function visible(){
 }
 
 /* Every team with a game on the board, for the search suggestions. */
+function boardConfs(){
+  const set = new Set();
+  allPicks().forEach(p => { [p.home, p.away].forEach(t => { const c = confOf(t); if(c) set.add(c); }); });
+  return [...set].sort();
+}
+
 function boardTeams(){
   const set = new Set();
   allPicks().forEach(p => { set.add(p.home); set.add(p.away); });
@@ -506,31 +527,27 @@ function ticket(p, rank){
 
 function renderBoard(){
   const list = visible();
-  const notes = (DATA.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('');
+  /* Model caveats live in THE MODEL, not on top of the picks. */
   const chip = (g,v,l) => `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${l}</button>`;
   const controls = `
     <div class="filters">
-      ${chip('quality','all','All')}${chip('quality','qual','Qualified')}${chip('quality','top','Top')}
+      ${chip('quality','all','All')}${chip('quality','qual','Qualified')}
       ${chip('market','all','Both')}${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
-    <div class="sortbar"><label for="sortsel">Sort</label>
+    <div class="sortbar">
+      <label for="confsel">Conf</label>
+      <select id="confsel">
+        <option value="all"${CONF==='all'?' selected':''}>All</option>
+        <option value="p4"${CONF==='p4'?' selected':''}>Power 4</option>
+        ${boardConfs().map(c => `<option value="${esc(c)}"${CONF===c?' selected':''}>${esc(c)}</option>`).join('')}
+      </select>
+      <label for="sortsel">Sort</label>
       <select id="sortsel">
         <option value="confidence"${SORT==='confidence'?' selected':''}>Most sure</option>
         <option value="edge"${SORT==='edge'?' selected':''}>Biggest edge</option>
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
       <span class="count">${list.length} PICK${list.length===1?'':'S'}</span></div>`;
-  /* A board that is 90% underdogs is telling you about the model, not the slate. */
-  const bal = DATA.board_balance || {};
-  const balLine = ['spread','total'].map(k => {
-    const b = bal[k]; if(!b || b.n < 5) return '';
-    const off = b.pct >= 70 || b.pct <= 30;
-    return `<span class="${off ? 'warn' : ''}">${k === 'spread' ? 'SPREADS' : 'TOTALS'}
-      <b>${b.pct}%</b> ${b.side.toUpperCase()}${b.corr != null ? ` · r ${b.corr}` : ''}</span>`;
-  }).filter(Boolean).join('');
-  const balance = balLine ? `<div class="balance">${balLine}
-    <span style="opacity:.7">50% IS BALANCED</span></div>` : '';
-
   let rank = 0;
   const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
     : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
@@ -542,7 +559,7 @@ function renderBoard(){
       ${SEARCH ? '<button class="searchclear" id="clearsearch" aria-label="Clear">✕</button>' : ''}
       <div class="sugg" id="sugg" hidden></div>
     </div>`;
-  $('p-board').innerHTML = notes + search + controls + balance +
+  $('p-board').innerHTML = search + controls +
     `<div id="boardlist">${body}</div>`;
   wire($('p-board'));
   wireSearch();
@@ -824,6 +841,26 @@ function renderModel(){
   <h2>THE MODEL</h2>
   <p class="sub">A power-rating model for college football. It prices every game,
   compares its number to the book's, and tracks every pick it flags.</p>
+
+  ${(d.notes || []).length ? `<h3>THIS WEEK'S CAVEATS</h3>` +
+    (d.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('') : ''}
+
+  <h3>BOARD BALANCE</h3>
+  <p class="sub">Which side this week's picks land on. Near 50% is healthy; a lopsided
+  board says more about the model than the slate.</p>
+  ${['spread','type-total'].length ? '' : ''}
+  <div class="tiles">
+    ${['spread','total'].map(k => {
+      const b = (d.board_balance || {})[k];
+      if(!b) return '';
+      const off = b.pct >= 70 || b.pct <= 30;
+      return `<div class="tile"><div class="tile-k">${k === 'spread' ? 'SPREADS' : 'TOTALS'}</div>
+        <div class="tile-v" style="${off ? 'color:var(--gold)' : ''}">${esc(b.pct)}%</div>
+        <div class="tile-sub">${esc(b.side)} · ${esc(b.n)} picks${b.corr != null ? ' · r ' + esc(b.corr) : ''}</div></div>`;
+    }).join('')}
+    <div class="tile"><div class="tile-k">BALANCED</div>
+      <div class="tile-v">50%</div><div class="tile-sub">what to expect</div></div>
+  </div>
 
   <h3>READING A CARD</h3>
   <dl>
