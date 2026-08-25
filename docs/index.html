@@ -108,6 +108,10 @@
   .sortbar select{background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     border-radius:3px;font-family:var(--data);font-size:11px;padding:5px 7px;font-weight:600}
   .count{margin-left:auto}
+  .balance{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--data);font-size:9.5px;
+    letter-spacing:.1em;font-weight:600;color:var(--mute);margin:6px 0 2px}
+  .balance b{color:var(--ink);font-weight:700}
+  .balance .warn{color:var(--gold)}
 
   /* ---------- ticket ---------- */
   .ticket{background:var(--ticket);color:var(--ticket-ink);border-radius:8px;
@@ -418,11 +422,22 @@ function renderBoard(){
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
       <span class="count">${list.length} PICK${list.length===1?'':'S'}</span></div>`;
+  /* A board that is 90% underdogs is telling you about the model, not the slate. */
+  const bal = DATA.board_balance || {};
+  const balLine = ['spread','total'].map(k => {
+    const b = bal[k]; if(!b || b.n < 5) return '';
+    const off = b.pct >= 70 || b.pct <= 30;
+    return `<span class="${off ? 'warn' : ''}">${k === 'spread' ? 'SPREADS' : 'TOTALS'}
+      <b>${b.pct}%</b> ${b.side.toUpperCase()}</span>`;
+  }).filter(Boolean).join('');
+  const balance = balLine ? `<div class="balance">${balLine}
+    <span style="opacity:.7">50% IS BALANCED</span></div>` : '';
+
   let rank = 0;
   const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
     : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
        <div class="empty-p">No upcoming games match, or lines aren't posted yet.</div></div>`;
-  $('p-board').innerHTML = notes + controls + body;
+  $('p-board').innerHTML = notes + controls + balance + body;
   wire($('p-board'));
 }
 
@@ -632,7 +647,7 @@ function renderRecord(){
 function renderModel(){
   const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
   const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
-  const db = d.debias || {}, bias = d.bias_check || {};
+  const db = d.debias || {}, bias = d.bias_check || {}, tbias = d.totals_bias_check || {};
   const be = (d.record || {}).breakeven_pct ?? 52.4;
   const ratings = (d.ratings || []).slice(0,25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
@@ -705,10 +720,23 @@ function renderModel(){
     <dd>${bias.pct_on_underdog != null
       ? `<b>${esc(bias.pct_on_underdog)}%</b> of picks land on the market's less-favoured
          side. Near 50% is healthy.` : 'Not measured this run.'}</dd>
+    <dt>Totals balance</dt>
+    <dd>${tbias.pct_over != null
+      ? `<b>${esc(tbias.pct_over)}%</b> of historical totals picks were overs, with a
+         line-to-edge correlation of ${esc(tbias.edge_vs_line_corr ?? '--')}. The same
+         correction is applied to totals as to spreads.`
+      : 'Not measured this run.'}</dd>
+    <dt>Unknown weather</dt>
+    <dd>Games with no weather yet are treated as <b>typical</b> conditions, not calm.
+      Assuming calm hands every unmeasured game a free pass on the wind penalty and
+      turns the whole board into overs.</dd>
     <dt>Share qualifying</dt>
     <dd>${bias.qualified_share != null
-      ? `<b>${esc(bias.qualified_share)}%</b> of games clear the threshold. If most of the
-         board qualifies, the threshold isn't finding anything.` : '--'}</dd>
+      ? `<b>${esc(bias.qualified_share)}%</b> of games clear the bar. The bar itself is set
+         from the model's own spread of disagreement rather than picked by hand, so it
+         lands near a quarter of the board whatever the model's scale happens to be —
+         currently ${esc(d.min_edge ?? '--')} pts on spreads,
+         ${esc((d.totals||{}).min_edge ?? '--')} on totals.` : '--'}</dd>
     <dt>What this costs</dt>
     <dd>Anchoring to the market number makes the average-miss figure look better than the
       model earns on its own, so <b>read win rate and line value, not accuracy</b>, when
