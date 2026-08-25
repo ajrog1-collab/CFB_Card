@@ -529,6 +529,7 @@ def parse_teams(raw):
     if not school:
         return {}
     abbr = col(raw, "abbreviation", "abbr")
+    conf = col(raw, "conference", "conf")
     color = col(raw, "color")
     alt = col(raw, "alternateColor", "alt_color", "altColor")
     logos = col(raw, "logos")
@@ -540,6 +541,7 @@ def parse_teams(raw):
             continue
         entry = {
             "abbr": (str(r[abbr]) if abbr and pd.notna(r.get(abbr)) else None),
+            "conf": (str(r[conf]) if conf and pd.notna(r.get(conf)) else None),
             "color": (str(r[color]) if color and pd.notna(r.get(color)) else None),
             "alt": (str(r[alt]) if alt and pd.notna(r.get(alt)) else None),
             "logo": None, "logo_dark": None,
