@@ -1,0 +1,10 @@
+{
+  // Tells Cloudflare this is a plain static site and where the files are.
+  // No Worker script, no build step — it just serves the contents of /docs.
+  "name": "thecard",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./docs",
+    "not_found_handling": "single-page-application"
+  }
+}
