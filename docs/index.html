@@ -689,18 +689,21 @@ function equityChart(eq){
 function gapTrend(rows){
   if(!rows || rows.length < 2) return '';
   const W=320,H=132,L=26,R=8,T=10,B=22;
-  const vals=rows.flatMap(r=>[r.spread,r.total,r.all]).filter(v=>v!=null);
+  const vals=rows.flatMap(r=>[r.spread,r.total,r.all,r.spread_raw]).filter(v=>v!=null);
   if(!vals.length) return '';
   const ymax=Math.max(0.4,...vals)*1.15, ymin=Math.min(0,...vals)*1.15;
   const px=i=>L+(rows.length===1?0:i/(rows.length-1)*(W-L-R));
   const py=v=>T+(ymax-v)/Math.max(ymax-ymin,.01)*(H-T-B);
-  const series=[['spread','#B4892C'],['total','#10739E'],['all','var(--ink)']];
+  const hasRaw = rows.some(r => r.spread_raw != null);
+  const series=[['spread','#B4892C'],['total','#10739E'],['all','var(--ink)']]
+    .concat(hasRaw ? [['spread_raw','#8FA3B4']] : []);
   const lines=series.map(([k,c])=>{
     const pts=rows.map((r,i)=>r[k]==null?null:`${px(i).toFixed(1)},${py(r[k]).toFixed(1)}`).filter(Boolean);
     if(pts.length<2) return '';
     const dots=rows.map((r,i)=>r[k]==null?'':`<circle cx="${px(i).toFixed(1)}" cy="${py(r[k]).toFixed(1)}" r="2.4" fill="${c}"/>`).join('');
     return `<polyline points="${pts.join(' ')}" fill="none" stroke="${c}"
-      stroke-width="${k==='all'?2.4:1.6}" stroke-linejoin="round"/>${dots}`;
+      stroke-width="${k==='all'?2.4:1.6}" stroke-linejoin="round"
+      stroke-dasharray="${k==='spread_raw'?'4 3':'none'}"/>${dots}`;
   }).join('');
   const ticks=[ymax,(ymax+ymin)/2,ymin].map(v=>`<text x="${L-5}" y="${py(v)+3}" text-anchor="end"
     font-size="8" fill="currentColor" opacity=".55" font-family="Barlow">${v.toFixed(1)}</text>`).join('');
@@ -715,7 +718,9 @@ function gapTrend(rows){
       ${ticks}${xl}${lines}</svg>
     <div class="legend"><span><i style="background:#B4892C"></i>Spreads</span>
       <span><i style="background:#10739E"></i>Totals</span>
-      <span><i style="background:currentColor"></i>All</span></div></div>`;
+      <span><i style="background:currentColor"></i>All</span>
+      ${hasRaw ? '<span><i style="background:#8FA3B4"></i>Spreads unanchored</span>' : ''}
+      </div></div>`;
 }
 
 function tierTrend(rows, be, label){
@@ -837,7 +842,10 @@ function renderRecord(){
     const sel = tsum[TIER] || {}, rows = ttrend[TIER] || [];
     hb += `<h2>CONFIDENCE</h2>
       <p class="sub">Five stars is the fifth of picks the model was most sure about,
-      one star the least. Break-even is ${esc(be)}%.</p>
+      one star the least. Break-even is ${esc(be)}%.
+      ${d.tier_regime === 'early'
+        ? 'Star bands are currently set from <b>early-season</b> history, matching how these ratings were built.'
+        : 'Star bands are set from <b>in-season</b> history.'}</p>
       <div class="filters">${opts.map(k =>
         `<button class="chip" data-tier="${k}" aria-pressed="${TIER===k}">${k==='ALL'?'All':TIER_STARS[k]+'★'}</button>`).join('')}</div>
       <div class="tiles">
@@ -873,11 +881,16 @@ function renderRecord(){
   if((ts.by_season || []).length){
     hb += `<h2>TOTALS BY SEASON</h2>` + seasonTable(ts.by_season, null, be);
   }
-  hb += `<h2>MODEL VS BOOK</h2><p class="sub">Average miss on the final score. Lower is better.</p>
+  const rawS = (bt.overall || {}).model_mae_raw;
+  hb += `<h2>MODEL VS BOOK</h2>
+    <p class="sub">Average miss on the final score. Lower is better.
+    ${rawS != null ? `<b>Unanchored</b> is the model on its own; the other number is after
+    tying predictions to the book's line, which flatters it.` : ''}</p>
     <div class="tiles">
       <div class="tile"><div class="tile-k">SPREADS</div>
         <div class="tile-v">${bt.overall?esc(bt.overall.model_mae):'--'}</div>
-        <div class="tile-sub">book ${bt.overall?esc(bt.overall.market_mae):'--'}</div></div>
+        <div class="tile-sub">book ${bt.overall?esc(bt.overall.market_mae):'--'}${
+          rawS != null ? ` · unanchored ${esc(rawS)}` : ''}</div></div>
       <div class="tile"><div class="tile-k">TOTALS</div>
         <div class="tile-v">${ts.model_mae!=null?esc(ts.model_mae):'--'}</div>
         <div class="tile-sub">book ${ts.market_mae!=null?esc(ts.market_mae):'--'}</div></div>
@@ -916,6 +929,16 @@ function renderModel(){
   const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
   const db = d.debias || {}, bias = d.bias_check || {}, tbias = d.totals_bias_check || {};
   const bal = d.board_balance || {};
+  const qb = d.qb_value || {};
+  const qbRows = Object.entries(qb)
+    .sort((a,b) => b[1].points - a[1].points)
+    .slice(0, 20)
+    .map(([team, v]) => `
+      <div class="rrow">
+        <div class="rmain"><div class="rpick">${esc(team)}</div>
+          <div class="rsub">${esc(v.starter)} over ${esc(v.backup)}${v.estimated ? ' (est)' : ''}</div></div>
+        <div class="num" style="font-size:14px;color:var(--gold)">${esc(v.points)}</div>
+      </div>`).join('');
   const be = (d.record || {}).breakeven_pct ?? 52.4;
   const ratings = (d.ratings || []).slice(0,25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
@@ -1043,6 +1066,13 @@ function renderModel(){
   <dl>${Object.keys(excl).length ? Object.entries(excl).map(([k,w]) =>
     `<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(w)}</dd>`).join('')
     : '<dd>Nothing dropped this run.</dd>'}</dl>
+
+  <h3>QB VALUE</h3>
+  <p class="sub">Points per game a team stands to lose if its starting quarterback is out,
+  from the gap between his EPA per play and his backup's.
+  <b>This is not in the model</b> — the model never knows who is playing. It's a number to
+  apply by hand when you see injury news${d.qb_season ? `, based on ${esc(d.qb_season)} usage` : ''}.</p>
+  ${qbRows || '<div class="empty"><div class="empty-p">Quarterback data not available this run.</div></div>'}
 
   <h3>HONEST LIMITS</h3>
   <dl>
