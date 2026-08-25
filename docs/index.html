@@ -1086,6 +1086,8 @@ function wire(root){
   }));
   const sel=root.querySelector('#sortsel');
   if(sel) sel.addEventListener('change', e => { SORT=e.target.value; renderBoard(); });
+  const cf=root.querySelector('#confsel');
+  if(cf) cf.addEventListener('change', e => { CONF=e.target.value; renderBoard(); renderTop(); });
 }
 
 function renderAll(){ renderTop(); renderBoard(); renderSlip(); renderRecord(); renderModel(); }
