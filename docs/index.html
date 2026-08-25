@@ -428,7 +428,7 @@ function renderBoard(){
     const b = bal[k]; if(!b || b.n < 5) return '';
     const off = b.pct >= 70 || b.pct <= 30;
     return `<span class="${off ? 'warn' : ''}">${k === 'spread' ? 'SPREADS' : 'TOTALS'}
-      <b>${b.pct}%</b> ${b.side.toUpperCase()}</span>`;
+      <b>${b.pct}%</b> ${b.side.toUpperCase()}${b.corr != null ? ` · r ${b.corr}` : ''}</span>`;
   }).filter(Boolean).join('');
   const balance = balLine ? `<div class="balance">${balLine}
     <span style="opacity:.7">50% IS BALANCED</span></div>` : '';
@@ -648,6 +648,7 @@ function renderModel(){
   const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
   const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
   const db = d.debias || {}, bias = d.bias_check || {}, tbias = d.totals_bias_check || {};
+  const bal = d.board_balance || {};
   const be = (d.record || {}).breakeven_pct ?? 52.4;
   const ratings = (d.ratings || []).slice(0,25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
@@ -710,6 +711,12 @@ function renderModel(){
       ${db.slope != null ? `Measured against history the raw predictions ran at
       <b>${esc(db.slope)}×</b> the market's scale, so that line is subtracted and only
       the disagreement the market number can't explain is kept.` : ''}</dd>
+    <dt>Correction fitted where it's used</dt>
+    <dd>Preseason ratings are compressed harder than mid-season ones, so a slope fitted
+      on past in-season games under-corrects this week's board. When the slate has 30+
+      games the tilt is measured on the slate itself${bal.spread && bal.spread.debias
+        ? ` — currently <b>${esc(bal.spread.debias)}</b>` : ''}. Only posted lines are
+      used, which are public before kickoff.</dd>
     <dt>Line-vs-edge correlation</dt>
     <dd>${bias.edge_vs_line_corr != null
       ? `<b>${esc(bias.edge_vs_line_corr)}</b> — near zero means the model disagrees in
