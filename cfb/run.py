@@ -69,13 +69,19 @@ def fetch_team_stats(year: int) -> pd.DataFrame:
 
     /games/teams rejects a year-only query on current API versions, so we try it
     once and then stop wasting a call per season on it, falling back to a
-    week-by-week loop (~16 calls). Results cache permanently, so the fallback
-    cost is paid once rather than every run.
+    week-by-week loop (~16 calls).
+
+    Completed seasons cache permanently — those box scores will never change.
+    The current season must NOT: caching it freezes turnover data at whatever
+    games had been played the first time this ran, so every rating built on
+    turnover-adjusted margin silently stops learning from new results.
     """
     global _YEAR_LEVEL_TEAM_STATS_WORKS
+    live = (year == CURRENT)
+
     if _YEAR_LEVEL_TEAM_STATS_WORKS:
         ts = cfbd_get("games/teams", {"year": year, "seasonType": "regular"},
-                      required=False)
+                      force=live, required=False)
         if len(ts):
             return ts
         _YEAR_LEVEL_TEAM_STATS_WORKS = False
@@ -83,13 +89,24 @@ def fetch_team_stats(year: int) -> pd.DataFrame:
     if not ALLOW_WEEK_BACKFILL:
         return pd.DataFrame()
 
+    # For the live season, only the last few weeks can still change — earlier
+    # weeks are final and stay cached, so this stays cheap.
     frames = []
     for wk in range(1, 17):
         w = cfbd_get("games/teams", {"year": year, "week": wk, "seasonType": "regular"},
-                      required=False)
+                     force=(live and wk >= _current_week() - 1), required=False)
         if len(w):
             frames.append(w)
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+
+
+def _current_week(default: int = 1) -> int:
+    """Rough season week from the calendar, used only to decide what to refetch."""
+    now = datetime.now(timezone.utc)
+    if now.month < 8:
+        return 16
+    start = datetime(now.year, 8, 24, tzinfo=timezone.utc)
+    return max(default, min(16, int((now - start).days // 7) + 1))
 
 
 # ======================================================================
@@ -1091,7 +1108,7 @@ def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
 # 4. bet log
 # ======================================================================
 
-def update_bet_log(picks, finished, total_picks=None):
+def update_bet_log(picks, finished, total_picks=None, bt_cuts=None):
     """Append newly qualified wagers, then grade any that have completed.
 
     Handles both markets. `market` is 'spread' or 'total'; rows written before
@@ -1218,6 +1235,8 @@ def update_bet_log(picks, finished, total_picks=None):
         "tiers_total": tiers_for(to),
         "by_market": {"spread": market_summary(sp), "total": market_summary(to),
                       "top": market_summary(top)},
+        "clv_by_market": clv_by_market,
+        "clv_by_tier": clv_by_tier,
         "live_season": ({"season": CURRENT, **market_summary(cur_season)}
                         if len(cur_season) else None),
     }
@@ -1365,7 +1384,8 @@ def main():
         if c not in finished.columns:
             finished[c] = np.nan
 
-    log, log_out = update_bet_log(picks, finished, total_picks)
+    log, log_out = update_bet_log(picks, finished, total_picks,
+                                  bt_cuts=bt_summary.get("tier_cuts"))
 
     # ---- ratings table ----
     rank_map = {}
@@ -1583,6 +1603,8 @@ def main():
         "record_tiers": log_out.get("tiers", []),
         "record_tiers_total": log_out.get("tiers_total", []),
         "record_by_market": log_out.get("by_market", {}),
+        "clv_by_market": log_out.get("clv_by_market", {}),
+        "clv_by_tier": log_out.get("clv_by_tier", {}),
         "record_live_season": log_out.get("live_season"),
         "ratings": ratings_rows,
         "notes": notes,
