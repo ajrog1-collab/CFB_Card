@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T22:25:58+00:00",
+  "generated_at": "2026-08-25T23:29:52+00:00",
   "season": 2026,
   "min_edge": 4.9,
   "assumed_price": -110.0,
@@ -10,7 +10,7 @@
     "uses_epa": true,
     "uses_turnovers": true,
     "uses_weather": true,
-    "weather_games": 6279,
+    "weather_games": 6529,
     "domes": 21,
     "uses_sp": true,
     "turnover_points": 5.75,
@@ -37,16 +37,16 @@
     "qualified_share": 24.9
   },
   "totals_bias_check": {
-    "pct_over": 52.4,
+    "pct_over": 52.3,
     "edge_vs_line_corr": 0.07,
-    "qualified_share": 24.7
+    "qualified_share": 25.0
   },
   "board_balance": {
     "spread": {
       "n": 51,
       "pct": 54.9,
       "side": "underdog",
-      "corr": -0.0,
+      "corr": 0.0,
       "debias": "slate"
     },
     "total": {
@@ -58,13 +58,13 @@
     }
   },
   "uncertainty": {
-    "abs_pred": 0.026,
-    "model_disagree": 0.001,
-    "missing_epa": -6.391,
-    "rivalry": -0.396,
-    "wx_unknown": 0.317,
-    "immaturity": 0.196,
-    "baseline": 12.15
+    "abs_pred": 0.025,
+    "model_disagree": 0.002,
+    "missing_epa": -6.287,
+    "rivalry": -0.397,
+    "wx_unknown": -0.031,
+    "immaturity": 0.198,
+    "baseline": 12.18
   },
   "confidence_tiers": [
     {
@@ -80,30 +80,30 @@
     {
       "label": "20-35%",
       "bets": 773,
-      "win_pct": 46.6,
+      "win_pct": 46.5,
       "se": 1.8,
-      "units": -83.18,
-      "roi_pct": -10.8,
+      "units": -85.09,
+      "roi_pct": -11.0,
       "avg_conf": 0.09,
       "avg_edge": 1.2
     },
     {
       "label": "35-50%",
       "bets": 772,
-      "win_pct": 49.0,
+      "win_pct": 49.2,
       "se": 1.8,
-      "units": -48.82,
-      "roi_pct": -6.3,
+      "units": -46.0,
+      "roi_pct": -6.0,
       "avg_conf": 0.16,
       "avg_edge": 2.0
     },
     {
       "label": "50-70%",
       "bets": 1030,
-      "win_pct": 49.8,
+      "win_pct": 49.6,
       "se": 1.6,
-      "units": -50.91,
-      "roi_pct": -4.9,
+      "units": -53.73,
+      "roi_pct": -5.2,
       "avg_conf": 0.25,
       "avg_edge": 3.2
     },
@@ -112,8 +112,8 @@
       "bets": 1546,
       "win_pct": 49.5,
       "se": 1.3,
-      "units": -84.55,
-      "roi_pct": -5.5,
+      "units": -82.64,
+      "roi_pct": -5.3,
       "avg_conf": 0.64,
       "avg_edge": 8.4
     }
@@ -121,369 +121,369 @@
   "tier_trend": {
     "A": [
       {
-        "bets": 435,
-        "wins": 201,
-        "losses": 223,
-        "pushes": 11,
-        "win_pct": 47.4,
-        "units": -40.27,
-        "roi_pct": -9.3,
-        "avg_conf": 0.88,
-        "avg_gap": 11.3,
+        "bets": 473,
+        "wins": 221,
+        "losses": 243,
+        "pushes": 9,
+        "win_pct": 47.6,
+        "units": -42.09,
+        "roi_pct": -8.9,
+        "avg_conf": 0.83,
+        "avg_gap": 10.6,
         "season": 2019
       },
       {
-        "bets": 102,
-        "wins": 54,
-        "losses": 47,
-        "pushes": 1,
-        "win_pct": 53.5,
-        "units": 2.09,
-        "roi_pct": 2.0,
-        "avg_conf": 0.65,
-        "avg_gap": 8.7,
+        "bets": 97,
+        "wins": 44,
+        "losses": 51,
+        "pushes": 2,
+        "win_pct": 46.3,
+        "units": -11.0,
+        "roi_pct": -11.3,
+        "avg_conf": 0.6,
+        "avg_gap": 8.0,
         "season": 2021
       },
       {
-        "bets": 124,
-        "wins": 60,
-        "losses": 61,
-        "pushes": 3,
-        "win_pct": 49.6,
-        "units": -6.45,
-        "roi_pct": -5.2,
-        "avg_conf": 0.69,
-        "avg_gap": 9.4,
+        "bets": 104,
+        "wins": 58,
+        "losses": 45,
+        "pushes": 1,
+        "win_pct": 56.3,
+        "units": 7.73,
+        "roi_pct": 7.4,
+        "avg_conf": 0.67,
+        "avg_gap": 9.0,
         "season": 2022
       },
       {
-        "bets": 126,
-        "wins": 64,
-        "losses": 62,
-        "pushes": 0,
+        "bets": 123,
+        "wins": 62,
+        "losses": 60,
+        "pushes": 1,
         "win_pct": 50.8,
-        "units": -3.82,
+        "units": -3.64,
         "roi_pct": -3.0,
-        "avg_conf": 0.75,
-        "avg_gap": 10.3,
+        "avg_conf": 0.72,
+        "avg_gap": 9.9,
         "season": 2023
       },
       {
-        "bets": 124,
+        "bets": 130,
         "wins": 60,
-        "losses": 64,
-        "pushes": 0,
-        "win_pct": 48.4,
-        "units": -9.45,
-        "roi_pct": -7.6,
-        "avg_conf": 0.68,
-        "avg_gap": 9.2,
+        "losses": 69,
+        "pushes": 1,
+        "win_pct": 46.5,
+        "units": -14.45,
+        "roi_pct": -11.1,
+        "avg_conf": 0.63,
+        "avg_gap": 8.3,
         "season": 2024
       },
       {
-        "bets": 118,
-        "wins": 63,
-        "losses": 54,
+        "bets": 104,
+        "wins": 51,
+        "losses": 52,
         "pushes": 1,
-        "win_pct": 53.8,
-        "units": 3.27,
-        "roi_pct": 2.8,
-        "avg_conf": 0.66,
-        "avg_gap": 9.0,
+        "win_pct": 49.5,
+        "units": -5.64,
+        "roi_pct": -5.4,
+        "avg_conf": 0.62,
+        "avg_gap": 8.4,
         "season": 2025
       }
     ],
     "B": [
       {
-        "bets": 166,
-        "wins": 83,
-        "losses": 82,
-        "pushes": 1,
-        "win_pct": 50.3,
-        "units": -6.55,
-        "roi_pct": -3.9,
-        "avg_conf": 0.35,
-        "avg_gap": 4.5,
+        "bets": 124,
+        "wins": 59,
+        "losses": 60,
+        "pushes": 5,
+        "win_pct": 49.6,
+        "units": -6.36,
+        "roi_pct": -5.1,
+        "avg_conf": 0.36,
+        "avg_gap": 4.6,
         "season": 2019
       },
       {
-        "bets": 178,
-        "wins": 80,
-        "losses": 95,
-        "pushes": 3,
-        "win_pct": 45.7,
-        "units": -22.27,
-        "roi_pct": -12.5,
+        "bets": 185,
+        "wins": 92,
+        "losses": 92,
+        "pushes": 1,
+        "win_pct": 50.0,
+        "units": -8.36,
+        "roi_pct": -4.5,
         "avg_conf": 0.33,
         "avg_gap": 4.3,
         "season": 2021
       },
       {
-        "bets": 170,
+        "bets": 178,
         "wins": 81,
-        "losses": 88,
-        "pushes": 1,
-        "win_pct": 47.9,
-        "units": -14.36,
-        "roi_pct": -8.4,
-        "avg_conf": 0.33,
-        "avg_gap": 4.3,
+        "losses": 95,
+        "pushes": 2,
+        "win_pct": 46.0,
+        "units": -21.36,
+        "roi_pct": -12.0,
+        "avg_conf": 0.36,
+        "avg_gap": 4.7,
         "season": 2022
       },
       {
-        "bets": 159,
-        "wins": 76,
+        "bets": 175,
+        "wins": 94,
         "losses": 80,
-        "pushes": 3,
-        "win_pct": 48.7,
-        "units": -10.91,
-        "roi_pct": -6.9,
-        "avg_conf": 0.32,
-        "avg_gap": 4.2,
+        "pushes": 1,
+        "win_pct": 54.0,
+        "units": 5.45,
+        "roi_pct": 3.1,
+        "avg_conf": 0.31,
+        "avg_gap": 4.1,
         "season": 2023
       },
       {
-        "bets": 175,
-        "wins": 97,
-        "losses": 74,
-        "pushes": 4,
-        "win_pct": 56.7,
-        "units": 14.18,
-        "roi_pct": 8.1,
-        "avg_conf": 0.33,
+        "bets": 179,
+        "wins": 99,
+        "losses": 77,
+        "pushes": 3,
+        "win_pct": 56.2,
+        "units": 13.0,
+        "roi_pct": 7.3,
+        "avg_conf": 0.32,
         "avg_gap": 4.3,
         "season": 2024
       },
       {
-        "bets": 183,
-        "wins": 99,
-        "losses": 82,
+        "bets": 190,
+        "wins": 102,
+        "losses": 86,
         "pushes": 2,
-        "win_pct": 54.7,
-        "units": 8.0,
-        "roi_pct": 4.4,
-        "avg_conf": 0.33,
-        "avg_gap": 4.3,
+        "win_pct": 54.3,
+        "units": 6.73,
+        "roi_pct": 3.5,
+        "avg_conf": 0.35,
+        "avg_gap": 4.6,
         "season": 2025
       }
     ],
     "C": [
       {
-        "bets": 101,
-        "wins": 43,
-        "losses": 54,
-        "pushes": 4,
-        "win_pct": 44.3,
-        "units": -14.91,
-        "roi_pct": -14.8,
-        "avg_conf": 0.19,
-        "avg_gap": 2.5,
+        "bets": 100,
+        "wins": 44,
+        "losses": 56,
+        "pushes": 0,
+        "win_pct": 44.0,
+        "units": -16.0,
+        "roi_pct": -16.0,
+        "avg_conf": 0.21,
+        "avg_gap": 2.8,
         "season": 2019
       },
       {
-        "bets": 186,
-        "wins": 87,
-        "losses": 96,
+        "bets": 192,
+        "wins": 84,
+        "losses": 105,
         "pushes": 3,
-        "win_pct": 47.5,
-        "units": -16.91,
-        "roi_pct": -9.1,
-        "avg_conf": 0.19,
-        "avg_gap": 2.5,
+        "win_pct": 44.4,
+        "units": -28.64,
+        "roi_pct": -14.9,
+        "avg_conf": 0.21,
+        "avg_gap": 2.7,
         "season": 2021
       },
       {
-        "bets": 182,
-        "wins": 86,
-        "losses": 95,
-        "pushes": 1,
-        "win_pct": 47.5,
-        "units": -16.82,
-        "roi_pct": -9.2,
-        "avg_conf": 0.19,
-        "avg_gap": 2.5,
+        "bets": 185,
+        "wins": 94,
+        "losses": 87,
+        "pushes": 4,
+        "win_pct": 51.9,
+        "units": -1.55,
+        "roi_pct": -0.8,
+        "avg_conf": 0.22,
+        "avg_gap": 2.8,
         "season": 2022
       },
       {
-        "bets": 195,
-        "wins": 93,
-        "losses": 96,
-        "pushes": 6,
-        "win_pct": 49.2,
-        "units": -11.45,
-        "roi_pct": -5.9,
-        "avg_conf": 0.19,
-        "avg_gap": 2.5,
+        "bets": 182,
+        "wins": 90,
+        "losses": 87,
+        "pushes": 5,
+        "win_pct": 50.8,
+        "units": -5.18,
+        "roi_pct": -2.8,
+        "avg_conf": 0.2,
+        "avg_gap": 2.6,
         "season": 2023
       },
       {
-        "bets": 195,
-        "wins": 96,
-        "losses": 98,
-        "pushes": 1,
+        "bets": 187,
+        "wins": 91,
+        "losses": 93,
+        "pushes": 3,
         "win_pct": 49.5,
-        "units": -10.73,
+        "units": -10.27,
         "roi_pct": -5.5,
-        "avg_conf": 0.19,
-        "avg_gap": 2.4,
+        "avg_conf": 0.2,
+        "avg_gap": 2.6,
         "season": 2024
       },
       {
-        "bets": 171,
-        "wins": 90,
-        "losses": 80,
-        "pushes": 1,
-        "win_pct": 52.9,
-        "units": 1.82,
-        "roi_pct": 1.1,
-        "avg_conf": 0.19,
-        "avg_gap": 2.4,
+        "bets": 181,
+        "wins": 94,
+        "losses": 85,
+        "pushes": 2,
+        "win_pct": 52.5,
+        "units": 0.45,
+        "roi_pct": 0.3,
+        "avg_conf": 0.21,
+        "avg_gap": 2.7,
         "season": 2025
       }
     ],
     "D": [
       {
-        "bets": 73,
-        "wins": 34,
-        "losses": 38,
-        "pushes": 1,
-        "win_pct": 47.2,
-        "units": -7.09,
-        "roi_pct": -9.7,
-        "avg_conf": 0.11,
-        "avg_gap": 1.4,
+        "bets": 75,
+        "wins": 35,
+        "losses": 37,
+        "pushes": 3,
+        "win_pct": 48.6,
+        "units": -5.18,
+        "roi_pct": -6.9,
+        "avg_conf": 0.13,
+        "avg_gap": 1.6,
         "season": 2019
       },
       {
-        "bets": 202,
-        "wins": 86,
-        "losses": 115,
-        "pushes": 1,
-        "win_pct": 42.8,
-        "units": -36.82,
-        "roi_pct": -18.2,
+        "bets": 186,
+        "wins": 88,
+        "losses": 96,
+        "pushes": 2,
+        "win_pct": 47.8,
+        "units": -16.0,
+        "roi_pct": -8.6,
         "avg_conf": 0.11,
-        "avg_gap": 1.3,
+        "avg_gap": 1.5,
         "season": 2021
       },
       {
-        "bets": 158,
-        "wins": 76,
-        "losses": 76,
-        "pushes": 6,
-        "win_pct": 50.0,
-        "units": -6.91,
-        "roi_pct": -4.4,
-        "avg_conf": 0.1,
-        "avg_gap": 1.3,
+        "bets": 178,
+        "wins": 80,
+        "losses": 94,
+        "pushes": 4,
+        "win_pct": 46.0,
+        "units": -21.27,
+        "roi_pct": -12.0,
+        "avg_conf": 0.11,
+        "avg_gap": 1.4,
         "season": 2022
       },
       {
-        "bets": 207,
-        "wins": 101,
-        "losses": 105,
-        "pushes": 1,
-        "win_pct": 49.0,
-        "units": -13.18,
-        "roi_pct": -6.4,
-        "avg_conf": 0.1,
-        "avg_gap": 1.3,
+        "bets": 198,
+        "wins": 82,
+        "losses": 113,
+        "pushes": 3,
+        "win_pct": 42.1,
+        "units": -38.45,
+        "roi_pct": -19.4,
+        "avg_conf": 0.12,
+        "avg_gap": 1.5,
         "season": 2023
       },
       {
-        "bets": 189,
-        "wins": 82,
-        "losses": 102,
-        "pushes": 5,
-        "win_pct": 44.6,
-        "units": -27.45,
-        "roi_pct": -14.5,
+        "bets": 194,
+        "wins": 91,
+        "losses": 100,
+        "pushes": 3,
+        "win_pct": 47.6,
+        "units": -17.27,
+        "roi_pct": -8.9,
         "avg_conf": 0.11,
-        "avg_gap": 1.3,
+        "avg_gap": 1.4,
         "season": 2024
       },
       {
         "bets": 201,
-        "wins": 92,
-        "losses": 105,
+        "wins": 103,
+        "losses": 94,
         "pushes": 4,
-        "win_pct": 46.7,
-        "units": -21.36,
-        "roi_pct": -10.6,
-        "avg_conf": 0.1,
-        "avg_gap": 1.3,
+        "win_pct": 52.3,
+        "units": -0.36,
+        "roi_pct": -0.2,
+        "avg_conf": 0.11,
+        "avg_gap": 1.4,
         "season": 2025
       }
     ],
     "E": [
       {
-        "bets": 66,
-        "wins": 31,
-        "losses": 35,
+        "bets": 69,
+        "wins": 33,
+        "losses": 36,
         "pushes": 0,
-        "win_pct": 47.0,
-        "units": -6.82,
-        "roi_pct": -10.3,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4,
+        "win_pct": 47.8,
+        "units": -6.0,
+        "roi_pct": -8.7,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5,
         "season": 2019
       },
       {
-        "bets": 181,
-        "wins": 86,
-        "losses": 91,
+        "bets": 189,
+        "wins": 85,
+        "losses": 100,
         "pushes": 4,
-        "win_pct": 48.6,
-        "units": -12.82,
-        "roi_pct": -7.1,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4,
+        "win_pct": 45.9,
+        "units": -22.73,
+        "roi_pct": -12.0,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5,
         "season": 2021
       },
       {
-        "bets": 216,
-        "wins": 119,
-        "losses": 95,
+        "bets": 205,
+        "wins": 109,
+        "losses": 94,
         "pushes": 2,
-        "win_pct": 55.6,
-        "units": 13.18,
-        "roi_pct": 6.1,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4,
+        "win_pct": 53.7,
+        "units": 5.09,
+        "roi_pct": 2.5,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5,
         "season": 2022
       },
       {
-        "bets": 178,
-        "wins": 84,
-        "losses": 90,
+        "bets": 187,
+        "wins": 90,
+        "losses": 93,
         "pushes": 4,
-        "win_pct": 48.3,
-        "units": -13.64,
-        "roi_pct": -7.7,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4,
+        "win_pct": 49.2,
+        "units": -11.18,
+        "roi_pct": -6.0,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5,
         "season": 2023
       },
       {
-        "bets": 175,
-        "wins": 81,
-        "losses": 88,
+        "bets": 168,
+        "wins": 75,
+        "losses": 87,
         "pushes": 6,
-        "win_pct": 47.9,
-        "units": -14.36,
-        "roi_pct": -8.2,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4,
+        "win_pct": 46.3,
+        "units": -18.82,
+        "roi_pct": -11.2,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5,
         "season": 2024
       },
       {
-        "bets": 215,
-        "wins": 108,
-        "losses": 105,
-        "pushes": 2,
-        "win_pct": 50.7,
-        "units": -6.82,
-        "roi_pct": -3.2,
+        "bets": 212,
+        "wins": 102,
+        "losses": 109,
+        "pushes": 1,
+        "win_pct": 48.3,
+        "units": -16.27,
+        "roi_pct": -7.7,
         "avg_conf": 0.03,
         "avg_gap": 0.4,
         "season": 2025
@@ -566,59 +566,59 @@
   },
   "tier_summary": {
     "A": {
-      "bets": 1029,
-      "wins": 502,
-      "losses": 511,
-      "pushes": 16,
-      "win_pct": 49.6,
-      "units": -54.64,
-      "roi_pct": -5.3,
-      "avg_conf": 0.77,
-      "avg_gap": 10.2
+      "bets": 1031,
+      "wins": 496,
+      "losses": 520,
+      "pushes": 15,
+      "win_pct": 48.8,
+      "units": -69.09,
+      "roi_pct": -6.7,
+      "avg_conf": 0.73,
+      "avg_gap": 9.6
     },
     "B": {
       "bets": 1031,
-      "wins": 516,
-      "losses": 501,
+      "wins": 527,
+      "losses": 490,
       "pushes": 14,
-      "win_pct": 50.7,
-      "units": -31.91,
-      "roi_pct": -3.1,
-      "avg_conf": 0.33,
-      "avg_gap": 4.3
+      "win_pct": 51.8,
+      "units": -10.91,
+      "roi_pct": -1.1,
+      "avg_conf": 0.34,
+      "avg_gap": 4.4
     },
     "C": {
-      "bets": 1030,
-      "wins": 495,
-      "losses": 519,
-      "pushes": 16,
-      "win_pct": 48.8,
-      "units": -69.0,
-      "roi_pct": -6.7,
-      "avg_conf": 0.19,
-      "avg_gap": 2.5
+      "bets": 1027,
+      "wins": 497,
+      "losses": 513,
+      "pushes": 17,
+      "win_pct": 49.2,
+      "units": -61.18,
+      "roi_pct": -6.0,
+      "avg_conf": 0.21,
+      "avg_gap": 2.7
     },
     "D": {
-      "bets": 1030,
-      "wins": 471,
-      "losses": 541,
-      "pushes": 18,
-      "win_pct": 46.5,
-      "units": -112.82,
-      "roi_pct": -11.0,
-      "avg_conf": 0.1,
-      "avg_gap": 1.3
+      "bets": 1032,
+      "wins": 479,
+      "losses": 534,
+      "pushes": 19,
+      "win_pct": 47.3,
+      "units": -98.55,
+      "roi_pct": -9.5,
+      "avg_conf": 0.11,
+      "avg_gap": 1.5
     },
     "E": {
-      "bets": 1031,
-      "wins": 509,
-      "losses": 504,
-      "pushes": 18,
-      "win_pct": 50.2,
-      "units": -41.27,
-      "roi_pct": -4.0,
-      "avg_conf": 0.03,
-      "avg_gap": 0.4
+      "bets": 1030,
+      "wins": 494,
+      "losses": 519,
+      "pushes": 17,
+      "win_pct": 48.8,
+      "units": -69.91,
+      "roi_pct": -6.8,
+      "avg_conf": 0.04,
+      "avg_gap": 0.5
     },
     "ALL": {
       "bets": 5151,
@@ -632,12 +632,27 @@
       "avg_gap": 3.7
     }
   },
-  "tier_cuts": [
-    0.4419,
-    0.2469,
-    0.1447,
-    0.0676
-  ],
+  "tier_cuts": {
+    "early": [
+      0.6188,
+      0.378,
+      0.2237,
+      0.1083
+    ],
+    "late": [
+      0.3355,
+      0.1968,
+      0.1188,
+      0.0562
+    ],
+    "all": [
+      0.4421,
+      0.2466,
+      0.1445,
+      0.0674
+    ]
+  },
+  "tier_regime": "early",
   "confidence_tiers_holdout": [
     {
       "label": "bottom 20%",
@@ -662,20 +677,20 @@
     {
       "label": "35-50%",
       "bets": 133,
-      "win_pct": 47.7,
+      "win_pct": 46.9,
       "se": 4.4,
-      "units": -11.64,
-      "roi_pct": -8.7,
+      "units": -13.55,
+      "roi_pct": -10.2,
       "avg_conf": 0.13,
       "avg_edge": 1.6
     },
     {
       "label": "50-70%",
       "bets": 177,
-      "win_pct": 50.6,
+      "win_pct": 51.1,
       "se": 3.8,
-      "units": -6.09,
-      "roi_pct": -3.4,
+      "units": -4.18,
+      "roi_pct": -2.4,
       "avg_conf": 0.21,
       "avg_edge": 2.7
     },
@@ -707,17 +722,20 @@
     "overall": {
       "games": 5151,
       "model_mae": 12.87,
-      "market_mae": 12.12
+      "market_mae": 12.12,
+      "model_mae_raw": 14.17
     },
     "early": {
       "games": 1825,
       "model_mae": 13.5,
-      "market_mae": 12.15
+      "market_mae": 12.15,
+      "model_mae_raw": 15.31
     },
     "late": {
       "games": 3326,
       "model_mae": 12.53,
-      "market_mae": 12.1
+      "market_mae": 12.1,
+      "model_mae_raw": 13.55
     },
     "situational": {
       "rating_scale": 1.5,
@@ -750,7 +768,8 @@
         "roi_pct": -8.2,
         "model_mae": 14.24,
         "market_mae": 11.96,
-        "gap": 2.28
+        "gap": 2.28,
+        "gap_raw": 2.28
       },
       {
         "season": 2021,
@@ -763,7 +782,8 @@
         "roi_pct": 0.1,
         "model_mae": 13.04,
         "market_mae": 12.59,
-        "gap": 0.45
+        "gap": 0.45,
+        "gap_raw": 2.09
       },
       {
         "season": 2022,
@@ -776,7 +796,8 @@
         "roi_pct": -8.5,
         "model_mae": 12.69,
         "market_mae": 12.21,
-        "gap": 0.47
+        "gap": 0.47,
+        "gap_raw": 1.72
       },
       {
         "season": 2023,
@@ -789,7 +810,8 @@
         "roi_pct": -2.1,
         "model_mae": 12.52,
         "market_mae": 11.96,
-        "gap": 0.56
+        "gap": 0.56,
+        "gap_raw": 1.55
       },
       {
         "season": 2024,
@@ -802,7 +824,8 @@
         "roi_pct": -10.5,
         "model_mae": 12.62,
         "market_mae": 12.07,
-        "gap": 0.55
+        "gap": 0.55,
+        "gap_raw": 2.33
       },
       {
         "season": 2025,
@@ -815,382 +838,397 @@
         "roi_pct": 7.7,
         "model_mae": 12.18,
         "market_mae": 11.92,
-        "gap": 0.25
+        "gap": 0.25,
+        "gap_raw": 2.37
       }
     ],
     "min_edge": 4.9,
-    "tier_cuts": [
-      0.4419,
-      0.2469,
-      0.1447,
-      0.0676
-    ],
+    "tier_cuts": {
+      "early": [
+        0.6188,
+        0.378,
+        0.2237,
+        0.1083
+      ],
+      "late": [
+        0.3355,
+        0.1968,
+        0.1188,
+        0.0562
+      ],
+      "all": [
+        0.4421,
+        0.2466,
+        0.1445,
+        0.0674
+      ]
+    },
     "tier_trend": {
       "A": [
         {
-          "bets": 435,
-          "wins": 201,
-          "losses": 223,
-          "pushes": 11,
-          "win_pct": 47.4,
-          "units": -40.27,
-          "roi_pct": -9.3,
-          "avg_conf": 0.88,
-          "avg_gap": 11.3,
+          "bets": 473,
+          "wins": 221,
+          "losses": 243,
+          "pushes": 9,
+          "win_pct": 47.6,
+          "units": -42.09,
+          "roi_pct": -8.9,
+          "avg_conf": 0.83,
+          "avg_gap": 10.6,
           "season": 2019
         },
         {
-          "bets": 102,
-          "wins": 54,
-          "losses": 47,
-          "pushes": 1,
-          "win_pct": 53.5,
-          "units": 2.09,
-          "roi_pct": 2.0,
-          "avg_conf": 0.65,
-          "avg_gap": 8.7,
+          "bets": 97,
+          "wins": 44,
+          "losses": 51,
+          "pushes": 2,
+          "win_pct": 46.3,
+          "units": -11.0,
+          "roi_pct": -11.3,
+          "avg_conf": 0.6,
+          "avg_gap": 8.0,
           "season": 2021
         },
         {
-          "bets": 124,
-          "wins": 60,
-          "losses": 61,
-          "pushes": 3,
-          "win_pct": 49.6,
-          "units": -6.45,
-          "roi_pct": -5.2,
-          "avg_conf": 0.69,
-          "avg_gap": 9.4,
+          "bets": 104,
+          "wins": 58,
+          "losses": 45,
+          "pushes": 1,
+          "win_pct": 56.3,
+          "units": 7.73,
+          "roi_pct": 7.4,
+          "avg_conf": 0.67,
+          "avg_gap": 9.0,
           "season": 2022
         },
         {
-          "bets": 126,
-          "wins": 64,
-          "losses": 62,
-          "pushes": 0,
+          "bets": 123,
+          "wins": 62,
+          "losses": 60,
+          "pushes": 1,
           "win_pct": 50.8,
-          "units": -3.82,
+          "units": -3.64,
           "roi_pct": -3.0,
-          "avg_conf": 0.75,
-          "avg_gap": 10.3,
+          "avg_conf": 0.72,
+          "avg_gap": 9.9,
           "season": 2023
         },
         {
-          "bets": 124,
+          "bets": 130,
           "wins": 60,
-          "losses": 64,
-          "pushes": 0,
-          "win_pct": 48.4,
-          "units": -9.45,
-          "roi_pct": -7.6,
-          "avg_conf": 0.68,
-          "avg_gap": 9.2,
+          "losses": 69,
+          "pushes": 1,
+          "win_pct": 46.5,
+          "units": -14.45,
+          "roi_pct": -11.1,
+          "avg_conf": 0.63,
+          "avg_gap": 8.3,
           "season": 2024
         },
         {
-          "bets": 118,
-          "wins": 63,
-          "losses": 54,
+          "bets": 104,
+          "wins": 51,
+          "losses": 52,
           "pushes": 1,
-          "win_pct": 53.8,
-          "units": 3.27,
-          "roi_pct": 2.8,
-          "avg_conf": 0.66,
-          "avg_gap": 9.0,
+          "win_pct": 49.5,
+          "units": -5.64,
+          "roi_pct": -5.4,
+          "avg_conf": 0.62,
+          "avg_gap": 8.4,
           "season": 2025
         }
       ],
       "B": [
         {
-          "bets": 166,
-          "wins": 83,
-          "losses": 82,
-          "pushes": 1,
-          "win_pct": 50.3,
-          "units": -6.55,
-          "roi_pct": -3.9,
-          "avg_conf": 0.35,
-          "avg_gap": 4.5,
+          "bets": 124,
+          "wins": 59,
+          "losses": 60,
+          "pushes": 5,
+          "win_pct": 49.6,
+          "units": -6.36,
+          "roi_pct": -5.1,
+          "avg_conf": 0.36,
+          "avg_gap": 4.6,
           "season": 2019
         },
         {
-          "bets": 178,
-          "wins": 80,
-          "losses": 95,
-          "pushes": 3,
-          "win_pct": 45.7,
-          "units": -22.27,
-          "roi_pct": -12.5,
+          "bets": 185,
+          "wins": 92,
+          "losses": 92,
+          "pushes": 1,
+          "win_pct": 50.0,
+          "units": -8.36,
+          "roi_pct": -4.5,
           "avg_conf": 0.33,
           "avg_gap": 4.3,
           "season": 2021
         },
         {
-          "bets": 170,
+          "bets": 178,
           "wins": 81,
-          "losses": 88,
-          "pushes": 1,
-          "win_pct": 47.9,
-          "units": -14.36,
-          "roi_pct": -8.4,
-          "avg_conf": 0.33,
-          "avg_gap": 4.3,
+          "losses": 95,
+          "pushes": 2,
+          "win_pct": 46.0,
+          "units": -21.36,
+          "roi_pct": -12.0,
+          "avg_conf": 0.36,
+          "avg_gap": 4.7,
           "season": 2022
         },
         {
-          "bets": 159,
-          "wins": 76,
+          "bets": 175,
+          "wins": 94,
           "losses": 80,
-          "pushes": 3,
-          "win_pct": 48.7,
-          "units": -10.91,
-          "roi_pct": -6.9,
-          "avg_conf": 0.32,
-          "avg_gap": 4.2,
+          "pushes": 1,
+          "win_pct": 54.0,
+          "units": 5.45,
+          "roi_pct": 3.1,
+          "avg_conf": 0.31,
+          "avg_gap": 4.1,
           "season": 2023
         },
         {
-          "bets": 175,
-          "wins": 97,
-          "losses": 74,
-          "pushes": 4,
-          "win_pct": 56.7,
-          "units": 14.18,
-          "roi_pct": 8.1,
-          "avg_conf": 0.33,
+          "bets": 179,
+          "wins": 99,
+          "losses": 77,
+          "pushes": 3,
+          "win_pct": 56.2,
+          "units": 13.0,
+          "roi_pct": 7.3,
+          "avg_conf": 0.32,
           "avg_gap": 4.3,
           "season": 2024
         },
         {
-          "bets": 183,
-          "wins": 99,
-          "losses": 82,
+          "bets": 190,
+          "wins": 102,
+          "losses": 86,
           "pushes": 2,
-          "win_pct": 54.7,
-          "units": 8.0,
-          "roi_pct": 4.4,
-          "avg_conf": 0.33,
-          "avg_gap": 4.3,
+          "win_pct": 54.3,
+          "units": 6.73,
+          "roi_pct": 3.5,
+          "avg_conf": 0.35,
+          "avg_gap": 4.6,
           "season": 2025
         }
       ],
       "C": [
         {
-          "bets": 101,
-          "wins": 43,
-          "losses": 54,
-          "pushes": 4,
-          "win_pct": 44.3,
-          "units": -14.91,
-          "roi_pct": -14.8,
-          "avg_conf": 0.19,
-          "avg_gap": 2.5,
+          "bets": 100,
+          "wins": 44,
+          "losses": 56,
+          "pushes": 0,
+          "win_pct": 44.0,
+          "units": -16.0,
+          "roi_pct": -16.0,
+          "avg_conf": 0.21,
+          "avg_gap": 2.8,
           "season": 2019
         },
         {
-          "bets": 186,
-          "wins": 87,
-          "losses": 96,
+          "bets": 192,
+          "wins": 84,
+          "losses": 105,
           "pushes": 3,
-          "win_pct": 47.5,
-          "units": -16.91,
-          "roi_pct": -9.1,
-          "avg_conf": 0.19,
-          "avg_gap": 2.5,
+          "win_pct": 44.4,
+          "units": -28.64,
+          "roi_pct": -14.9,
+          "avg_conf": 0.21,
+          "avg_gap": 2.7,
           "season": 2021
         },
         {
-          "bets": 182,
-          "wins": 86,
-          "losses": 95,
-          "pushes": 1,
-          "win_pct": 47.5,
-          "units": -16.82,
-          "roi_pct": -9.2,
-          "avg_conf": 0.19,
-          "avg_gap": 2.5,
+          "bets": 185,
+          "wins": 94,
+          "losses": 87,
+          "pushes": 4,
+          "win_pct": 51.9,
+          "units": -1.55,
+          "roi_pct": -0.8,
+          "avg_conf": 0.22,
+          "avg_gap": 2.8,
           "season": 2022
         },
         {
-          "bets": 195,
-          "wins": 93,
-          "losses": 96,
-          "pushes": 6,
-          "win_pct": 49.2,
-          "units": -11.45,
-          "roi_pct": -5.9,
-          "avg_conf": 0.19,
-          "avg_gap": 2.5,
+          "bets": 182,
+          "wins": 90,
+          "losses": 87,
+          "pushes": 5,
+          "win_pct": 50.8,
+          "units": -5.18,
+          "roi_pct": -2.8,
+          "avg_conf": 0.2,
+          "avg_gap": 2.6,
           "season": 2023
         },
         {
-          "bets": 195,
-          "wins": 96,
-          "losses": 98,
-          "pushes": 1,
+          "bets": 187,
+          "wins": 91,
+          "losses": 93,
+          "pushes": 3,
           "win_pct": 49.5,
-          "units": -10.73,
+          "units": -10.27,
           "roi_pct": -5.5,
-          "avg_conf": 0.19,
-          "avg_gap": 2.4,
+          "avg_conf": 0.2,
+          "avg_gap": 2.6,
           "season": 2024
         },
         {
-          "bets": 171,
-          "wins": 90,
-          "losses": 80,
-          "pushes": 1,
-          "win_pct": 52.9,
-          "units": 1.82,
-          "roi_pct": 1.1,
-          "avg_conf": 0.19,
-          "avg_gap": 2.4,
+          "bets": 181,
+          "wins": 94,
+          "losses": 85,
+          "pushes": 2,
+          "win_pct": 52.5,
+          "units": 0.45,
+          "roi_pct": 0.3,
+          "avg_conf": 0.21,
+          "avg_gap": 2.7,
           "season": 2025
         }
       ],
       "D": [
         {
-          "bets": 73,
-          "wins": 34,
-          "losses": 38,
-          "pushes": 1,
-          "win_pct": 47.2,
-          "units": -7.09,
-          "roi_pct": -9.7,
-          "avg_conf": 0.11,
-          "avg_gap": 1.4,
+          "bets": 75,
+          "wins": 35,
+          "losses": 37,
+          "pushes": 3,
+          "win_pct": 48.6,
+          "units": -5.18,
+          "roi_pct": -6.9,
+          "avg_conf": 0.13,
+          "avg_gap": 1.6,
           "season": 2019
         },
         {
-          "bets": 202,
-          "wins": 86,
-          "losses": 115,
-          "pushes": 1,
-          "win_pct": 42.8,
-          "units": -36.82,
-          "roi_pct": -18.2,
+          "bets": 186,
+          "wins": 88,
+          "losses": 96,
+          "pushes": 2,
+          "win_pct": 47.8,
+          "units": -16.0,
+          "roi_pct": -8.6,
           "avg_conf": 0.11,
-          "avg_gap": 1.3,
+          "avg_gap": 1.5,
           "season": 2021
         },
         {
-          "bets": 158,
-          "wins": 76,
-          "losses": 76,
-          "pushes": 6,
-          "win_pct": 50.0,
-          "units": -6.91,
-          "roi_pct": -4.4,
-          "avg_conf": 0.1,
-          "avg_gap": 1.3,
+          "bets": 178,
+          "wins": 80,
+          "losses": 94,
+          "pushes": 4,
+          "win_pct": 46.0,
+          "units": -21.27,
+          "roi_pct": -12.0,
+          "avg_conf": 0.11,
+          "avg_gap": 1.4,
           "season": 2022
         },
         {
-          "bets": 207,
-          "wins": 101,
-          "losses": 105,
-          "pushes": 1,
-          "win_pct": 49.0,
-          "units": -13.18,
-          "roi_pct": -6.4,
-          "avg_conf": 0.1,
-          "avg_gap": 1.3,
+          "bets": 198,
+          "wins": 82,
+          "losses": 113,
+          "pushes": 3,
+          "win_pct": 42.1,
+          "units": -38.45,
+          "roi_pct": -19.4,
+          "avg_conf": 0.12,
+          "avg_gap": 1.5,
           "season": 2023
         },
         {
-          "bets": 189,
-          "wins": 82,
-          "losses": 102,
-          "pushes": 5,
-          "win_pct": 44.6,
-          "units": -27.45,
-          "roi_pct": -14.5,
+          "bets": 194,
+          "wins": 91,
+          "losses": 100,
+          "pushes": 3,
+          "win_pct": 47.6,
+          "units": -17.27,
+          "roi_pct": -8.9,
           "avg_conf": 0.11,
-          "avg_gap": 1.3,
+          "avg_gap": 1.4,
           "season": 2024
         },
         {
           "bets": 201,
-          "wins": 92,
-          "losses": 105,
+          "wins": 103,
+          "losses": 94,
           "pushes": 4,
-          "win_pct": 46.7,
-          "units": -21.36,
-          "roi_pct": -10.6,
-          "avg_conf": 0.1,
-          "avg_gap": 1.3,
+          "win_pct": 52.3,
+          "units": -0.36,
+          "roi_pct": -0.2,
+          "avg_conf": 0.11,
+          "avg_gap": 1.4,
           "season": 2025
         }
       ],
       "E": [
         {
-          "bets": 66,
-          "wins": 31,
-          "losses": 35,
+          "bets": 69,
+          "wins": 33,
+          "losses": 36,
           "pushes": 0,
-          "win_pct": 47.0,
-          "units": -6.82,
-          "roi_pct": -10.3,
-          "avg_conf": 0.03,
-          "avg_gap": 0.4,
+          "win_pct": 47.8,
+          "units": -6.0,
+          "roi_pct": -8.7,
+          "avg_conf": 0.04,
+          "avg_gap": 0.5,
           "season": 2019
         },
         {
-          "bets": 181,
-          "wins": 86,
-          "losses": 91,
+          "bets": 189,
+          "wins": 85,
+          "losses": 100,
           "pushes": 4,
-          "win_pct": 48.6,
-          "units": -12.82,
-          "roi_pct": -7.1,
-          "avg_conf": 0.03,
-          "avg_gap": 0.4,
+          "win_pct": 45.9,
+          "units": -22.73,
+          "roi_pct": -12.0,
+          "avg_conf": 0.04,
+          "avg_gap": 0.5,
           "season": 2021
         },
         {
-          "bets": 216,
-          "wins": 119,
-          "losses": 95,
+          "bets": 205,
+          "wins": 109,
+          "losses": 94,
           "pushes": 2,
-          "win_pct": 55.6,
-          "units": 13.18,
-          "roi_pct": 6.1,
-          "avg_conf": 0.03,
-          "avg_gap": 0.4,
+          "win_pct": 53.7,
+          "units": 5.09,
+          "roi_pct": 2.5,
+          "avg_conf": 0.04,
+          "avg_gap": 0.5,
           "season": 2022
         },
         {
-          "bets": 178,
-          "wins": 84,
-          "losses": 90,
+          "bets": 187,
+          "wins": 90,
+          "losses": 93,
           "pushes": 4,
-          "win_pct": 48.3,
-          "units": -13.64,
-          "roi_pct": -7.7,
-          "avg_conf": 0.03,
-          "avg_gap": 0.4,
+          "win_pct": 49.2,
+          "units": -11.18,
+          "roi_pct": -6.0,
+          "avg_conf": 0.04,
+          "avg_gap": 0.5,
           "season": 2023
         },
         {
-          "bets": 175,
-          "wins": 81,
-          "losses": 88,
+          "bets": 168,
+          "wins": 75,
+          "losses": 87,
           "pushes": 6,
-          "win_pct": 47.9,
-          "units": -14.36,
-          "roi_pct": -8.2,
-          "avg_conf": 0.03,
-          "avg_gap": 0.4,
+          "win_pct": 46.3,
+          "units": -18.82,
+          "roi_pct": -11.2,
+          "avg_conf": 0.04,
+          "avg_gap": 0.5,
           "season": 2024
         },
         {
-          "bets": 215,
-          "wins": 108,
-          "losses": 105,
-          "pushes": 2,
-          "win_pct": 50.7,
-          "units": -6.82,
-          "roi_pct": -3.2,
+          "bets": 212,
+          "wins": 102,
+          "losses": 109,
+          "pushes": 1,
+          "win_pct": 48.3,
+          "units": -16.27,
+          "roi_pct": -7.7,
           "avg_conf": 0.03,
           "avg_gap": 0.4,
           "season": 2025
@@ -1273,59 +1311,59 @@
     },
     "tier_summary": {
       "A": {
-        "bets": 1029,
-        "wins": 502,
-        "losses": 511,
-        "pushes": 16,
-        "win_pct": 49.6,
-        "units": -54.64,
-        "roi_pct": -5.3,
-        "avg_conf": 0.77,
-        "avg_gap": 10.2
+        "bets": 1031,
+        "wins": 496,
+        "losses": 520,
+        "pushes": 15,
+        "win_pct": 48.8,
+        "units": -69.09,
+        "roi_pct": -6.7,
+        "avg_conf": 0.73,
+        "avg_gap": 9.6
       },
       "B": {
         "bets": 1031,
-        "wins": 516,
-        "losses": 501,
+        "wins": 527,
+        "losses": 490,
         "pushes": 14,
-        "win_pct": 50.7,
-        "units": -31.91,
-        "roi_pct": -3.1,
-        "avg_conf": 0.33,
-        "avg_gap": 4.3
+        "win_pct": 51.8,
+        "units": -10.91,
+        "roi_pct": -1.1,
+        "avg_conf": 0.34,
+        "avg_gap": 4.4
       },
       "C": {
-        "bets": 1030,
-        "wins": 495,
-        "losses": 519,
-        "pushes": 16,
-        "win_pct": 48.8,
-        "units": -69.0,
-        "roi_pct": -6.7,
-        "avg_conf": 0.19,
-        "avg_gap": 2.5
+        "bets": 1027,
+        "wins": 497,
+        "losses": 513,
+        "pushes": 17,
+        "win_pct": 49.2,
+        "units": -61.18,
+        "roi_pct": -6.0,
+        "avg_conf": 0.21,
+        "avg_gap": 2.7
       },
       "D": {
-        "bets": 1030,
-        "wins": 471,
-        "losses": 541,
-        "pushes": 18,
-        "win_pct": 46.5,
-        "units": -112.82,
-        "roi_pct": -11.0,
-        "avg_conf": 0.1,
-        "avg_gap": 1.3
+        "bets": 1032,
+        "wins": 479,
+        "losses": 534,
+        "pushes": 19,
+        "win_pct": 47.3,
+        "units": -98.55,
+        "roi_pct": -9.5,
+        "avg_conf": 0.11,
+        "avg_gap": 1.5
       },
       "E": {
-        "bets": 1031,
-        "wins": 509,
-        "losses": 504,
-        "pushes": 18,
-        "win_pct": 50.2,
-        "units": -41.27,
-        "roi_pct": -4.0,
-        "avg_conf": 0.03,
-        "avg_gap": 0.4
+        "bets": 1030,
+        "wins": 494,
+        "losses": 519,
+        "pushes": 17,
+        "win_pct": 48.8,
+        "units": -69.91,
+        "roi_pct": -6.8,
+        "avg_conf": 0.04,
+        "avg_gap": 0.5
       },
       "ALL": {
         "bets": 5151,
@@ -1340,13 +1378,13 @@
       }
     },
     "uncertainty": {
-      "abs_pred": 0.026,
-      "model_disagree": 0.001,
-      "missing_epa": -6.391,
-      "rivalry": -0.396,
-      "wx_unknown": 0.317,
-      "immaturity": 0.196,
-      "baseline": 12.15
+      "abs_pred": 0.025,
+      "model_disagree": 0.002,
+      "missing_epa": -6.287,
+      "rivalry": -0.397,
+      "wx_unknown": -0.031,
+      "immaturity": 0.198,
+      "baseline": 12.18
     },
     "confidence_tiers": [
       {
@@ -1362,30 +1400,30 @@
       {
         "label": "20-35%",
         "bets": 773,
-        "win_pct": 46.6,
+        "win_pct": 46.5,
         "se": 1.8,
-        "units": -83.18,
-        "roi_pct": -10.8,
+        "units": -85.09,
+        "roi_pct": -11.0,
         "avg_conf": 0.09,
         "avg_edge": 1.2
       },
       {
         "label": "35-50%",
         "bets": 772,
-        "win_pct": 49.0,
+        "win_pct": 49.2,
         "se": 1.8,
-        "units": -48.82,
-        "roi_pct": -6.3,
+        "units": -46.0,
+        "roi_pct": -6.0,
         "avg_conf": 0.16,
         "avg_edge": 2.0
       },
       {
         "label": "50-70%",
         "bets": 1030,
-        "win_pct": 49.8,
+        "win_pct": 49.6,
         "se": 1.6,
-        "units": -50.91,
-        "roi_pct": -4.9,
+        "units": -53.73,
+        "roi_pct": -5.2,
         "avg_conf": 0.25,
         "avg_edge": 3.2
       },
@@ -1394,8 +1432,8 @@
         "bets": 1546,
         "win_pct": 49.5,
         "se": 1.3,
-        "units": -84.55,
-        "roi_pct": -5.5,
+        "units": -82.64,
+        "roi_pct": -5.3,
         "avg_conf": 0.64,
         "avg_edge": 8.4
       }
@@ -1424,20 +1462,20 @@
       {
         "label": "35-50%",
         "bets": 133,
-        "win_pct": 47.7,
+        "win_pct": 46.9,
         "se": 4.4,
-        "units": -11.64,
-        "roi_pct": -8.7,
+        "units": -13.55,
+        "roi_pct": -10.2,
         "avg_conf": 0.13,
         "avg_edge": 1.6
       },
       {
         "label": "50-70%",
         "bets": 177,
-        "win_pct": 50.6,
+        "win_pct": 51.1,
         "se": 3.8,
-        "units": -6.09,
-        "roi_pct": -3.4,
+        "units": -4.18,
+        "roi_pct": -2.4,
         "avg_conf": 0.21,
         "avg_edge": 2.7
       },
@@ -1453,13 +1491,13 @@
       }
     ],
     "conf_weights": [
-      0.026207667571881366,
-      0.0010090619340017426,
-      -6.390756886221638,
-      -0.39619768725152327,
-      0.3172657216694387,
-      0.19629203064052764,
-      12.15378215913573
+      0.025458459919729906,
+      0.0023588198863753185,
+      -6.286752559553462,
+      -0.396700833733991,
+      -0.03092244178266756,
+      0.19801956701121995,
+      12.181048410444724
     ],
     "conf_names": [
       "abs_pred",
@@ -1612,7 +1650,8 @@
       "bets": 1818,
       "games": 4263,
       "model_mae": 13.02,
-      "market_mae": 12.16
+      "market_mae": 12.16,
+      "model_mae_raw": 14.15
     },
     "holdout": {
       "season": 2025,
@@ -1620,7 +1659,8 @@
       "bets": 312,
       "games": 888,
       "model_mae": 12.18,
-      "market_mae": 11.92
+      "market_mae": 11.92,
+      "model_mae_raw": 14.29
     },
     "qualified_win_pct": 49.8,
     "qualified_bets": 1262,
@@ -2424,6 +2464,761 @@
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2751.png"
     }
   },
+  "qb_value": {
+    "Akron": {
+      "starter": "Ben Finley",
+      "starter_ppa": 0.133,
+      "backup": "Michael Johnson Jr.",
+      "backup_ppa": -0.239,
+      "points": 11.2,
+      "estimated": false
+    },
+    "Alabama": {
+      "starter": "Ty Simpson",
+      "starter_ppa": 0.322,
+      "backup": "Austin Mack",
+      "backup_ppa": 0.374,
+      "points": -1.6,
+      "estimated": false
+    },
+    "Arkansas State": {
+      "starter": "Ethan Crawford",
+      "starter_ppa": -0.153,
+      "backup": "Josh Flowers",
+      "backup_ppa": -0.291,
+      "points": 4.1,
+      "estimated": false
+    },
+    "Auburn": {
+      "starter": "Ashton Daniels",
+      "starter_ppa": 0.246,
+      "backup": "Jackson Arnold",
+      "backup_ppa": 0.198,
+      "points": 1.4,
+      "estimated": false
+    },
+    "Ball State": {
+      "starter": "Kiael Kelly",
+      "starter_ppa": 0.042,
+      "backup": "Aidan Leffler",
+      "backup_ppa": -0.514,
+      "points": 16.7,
+      "estimated": false
+    },
+    "Baylor": {
+      "starter": "Sawyer Robertson",
+      "starter_ppa": 0.249,
+      "backup": "Nate Bennett",
+      "backup_ppa": 0.119,
+      "points": 3.9,
+      "estimated": false
+    },
+    "Boise State": {
+      "starter": "Maddux Madsen",
+      "starter_ppa": 0.28,
+      "backup": "Max Cutforth",
+      "backup_ppa": 0.035,
+      "points": 7.4,
+      "estimated": false
+    },
+    "Boston College": {
+      "starter": "Grayson James",
+      "starter_ppa": 0.307,
+      "backup": "Dylan Lonergan",
+      "backup_ppa": 0.198,
+      "points": 3.3,
+      "estimated": false
+    },
+    "California": {
+      "starter": "Devin Brown",
+      "starter_ppa": 0.026,
+      "backup": "Jaron-Keawe Sagapolutele",
+      "backup_ppa": 0.2,
+      "points": -5.2,
+      "estimated": false
+    },
+    "Central Michigan": {
+      "starter": "Joey Labas",
+      "starter_ppa": 0.293,
+      "backup": "Angel H Flores",
+      "backup_ppa": 0.247,
+      "points": 1.4,
+      "estimated": false
+    },
+    "Cincinnati": {
+      "starter": "Brady Lichtenberg",
+      "starter_ppa": 0.155,
+      "backup": "Brendan Sorsby",
+      "backup_ppa": 0.446,
+      "points": -8.7,
+      "estimated": false
+    },
+    "Clemson": {
+      "starter": "Cade Klubnik",
+      "starter_ppa": 0.211,
+      "backup": "Christopher Vizzina",
+      "backup_ppa": 0.003,
+      "points": 6.2,
+      "estimated": false
+    },
+    "Coastal Carolina": {
+      "starter": "Samari Collier",
+      "starter_ppa": 0.239,
+      "backup": "MJ Morris",
+      "backup_ppa": 0.238,
+      "points": 0.0,
+      "estimated": false
+    },
+    "Colorado": {
+      "starter": "Kaidon Salter",
+      "starter_ppa": 0.317,
+      "backup": "Ryan Staub",
+      "backup_ppa": 0.231,
+      "points": 2.6,
+      "estimated": false
+    },
+    "Colorado State": {
+      "starter": "Tahj Bullock",
+      "starter_ppa": -0.159,
+      "backup": "Brayden Fowler-Nicolosi",
+      "backup_ppa": 0.281,
+      "points": -13.2,
+      "estimated": false
+    },
+    "Duke": {
+      "starter": "Henry Belin IV",
+      "starter_ppa": -0.006,
+      "backup": "Darian Mensah",
+      "backup_ppa": 0.343,
+      "points": -10.5,
+      "estimated": false
+    },
+    "East Carolina": {
+      "starter": "Mike Wright",
+      "starter_ppa": -0.112,
+      "backup": "Katin Houser",
+      "backup_ppa": 0.314,
+      "points": -12.8,
+      "estimated": false
+    },
+    "Eastern Michigan": {
+      "starter": "Noah Kim",
+      "starter_ppa": 0.235,
+      "backup": "replacement level",
+      "backup_ppa": -0.012,
+      "points": 7.4,
+      "estimated": true
+    },
+    "Florida": {
+      "starter": "D.J. Lagway",
+      "starter_ppa": 0.131,
+      "backup": "Tramell Jones Jr.",
+      "backup_ppa": 0.011,
+      "points": 3.6,
+      "estimated": false
+    },
+    "Florida Atlantic": {
+      "starter": "Zach Gibson",
+      "starter_ppa": 0.133,
+      "backup": "Caden Veltkamp",
+      "backup_ppa": 0.223,
+      "points": -2.7,
+      "estimated": false
+    },
+    "Florida International": {
+      "starter": "Joe Pesansky",
+      "starter_ppa": 0.06,
+      "backup": "Keyone Jenkins",
+      "backup_ppa": 0.131,
+      "points": -2.1,
+      "estimated": false
+    },
+    "Florida State": {
+      "starter": "Thomas Castellanos",
+      "starter_ppa": 0.317,
+      "backup": "Brock Glenn",
+      "backup_ppa": 0.488,
+      "points": -5.1,
+      "estimated": false
+    },
+    "Fresno State": {
+      "starter": "E.J. Warner",
+      "starter_ppa": 0.424,
+      "backup": "Carson Conklin",
+      "backup_ppa": 0.002,
+      "points": 12.7,
+      "estimated": false
+    },
+    "Georgia Tech": {
+      "starter": "Haynes King",
+      "starter_ppa": 0.321,
+      "backup": "Aaron Philo",
+      "backup_ppa": -0.203,
+      "points": 15.7,
+      "estimated": false
+    },
+    "Hawai'i": {
+      "starter": "Micah Alejado",
+      "starter_ppa": 0.277,
+      "backup": "Dermaricus Davis",
+      "backup_ppa": 0.411,
+      "points": -4.0,
+      "estimated": false
+    },
+    "Houston": {
+      "starter": "Conner Weigman",
+      "starter_ppa": 0.284,
+      "backup": "Zeon Chriss",
+      "backup_ppa": 0.079,
+      "points": 6.1,
+      "estimated": false
+    },
+    "Illinois": {
+      "starter": "Luke Altmyer",
+      "starter_ppa": 0.388,
+      "backup": "Ethan Hampton",
+      "backup_ppa": 0.235,
+      "points": 4.6,
+      "estimated": false
+    },
+    "Indiana": {
+      "starter": "Grant Wilson",
+      "starter_ppa": 0.727,
+      "backup": "Fernando Mendoza",
+      "backup_ppa": 0.468,
+      "points": 7.8,
+      "estimated": false
+    },
+    "Iowa": {
+      "starter": "Mark Gronowski",
+      "starter_ppa": 0.289,
+      "backup": "Hank Brown",
+      "backup_ppa": 0.03,
+      "points": 7.8,
+      "estimated": false
+    },
+    "Jacksonville State": {
+      "starter": "Cade Cunningham",
+      "starter_ppa": -1.124,
+      "backup": "Gavin Wimsatt",
+      "backup_ppa": 0.189,
+      "points": -39.4,
+      "estimated": false
+    },
+    "James Madison": {
+      "starter": "Matthew Sluka",
+      "starter_ppa": 0.299,
+      "backup": "Alonza Barnett",
+      "backup_ppa": 0.195,
+      "points": 3.1,
+      "estimated": false
+    },
+    "Kent State": {
+      "starter": "Devin Kargman",
+      "starter_ppa": -0.18,
+      "backup": "CJ Montes",
+      "backup_ppa": -0.13,
+      "points": -1.5,
+      "estimated": false
+    },
+    "LSU": {
+      "starter": "Garrett Nussmeier",
+      "starter_ppa": 0.211,
+      "backup": "Ju'Juan Johnson",
+      "backup_ppa": -0.003,
+      "points": 6.4,
+      "estimated": false
+    },
+    "Liberty": {
+      "starter": "Ethan Vasko",
+      "starter_ppa": 0.187,
+      "backup": "Jayden Bradford",
+      "backup_ppa": 0.747,
+      "points": -16.8,
+      "estimated": false
+    },
+    "Louisville": {
+      "starter": "Miller Moss",
+      "starter_ppa": 0.159,
+      "backup": "Brady Allen",
+      "backup_ppa": 0.059,
+      "points": 3.0,
+      "estimated": false
+    },
+    "Marshall": {
+      "starter": "Carlos Del Rio-Wilson",
+      "starter_ppa": 0.278,
+      "backup": "Zion Turner",
+      "backup_ppa": 0.187,
+      "points": 2.7,
+      "estimated": false
+    },
+    "Massachusetts": {
+      "starter": "Brandon Rose",
+      "starter_ppa": -0.011,
+      "backup": "Grant Jordan",
+      "backup_ppa": 0.004,
+      "points": -0.4,
+      "estimated": false
+    },
+    "Memphis": {
+      "starter": "Brendon Lewis",
+      "starter_ppa": 0.256,
+      "backup": "AJ Hill",
+      "backup_ppa": 0.079,
+      "points": 5.3,
+      "estimated": false
+    },
+    "Miami": {
+      "starter": "Carson Beck",
+      "starter_ppa": 0.318,
+      "backup": "Emory Williams",
+      "backup_ppa": 0.137,
+      "points": 5.4,
+      "estimated": false
+    },
+    "Miami (OH)": {
+      "starter": "Dequan Finn",
+      "starter_ppa": 0.297,
+      "backup": "Henry Hesson",
+      "backup_ppa": -0.036,
+      "points": 10.0,
+      "estimated": false
+    },
+    "Michigan": {
+      "starter": "Jadyn Davis",
+      "starter_ppa": -0.092,
+      "backup": "Bryce Underwood",
+      "backup_ppa": 0.253,
+      "points": -10.3,
+      "estimated": false
+    },
+    "Michigan State": {
+      "starter": "Aidan Chiles",
+      "starter_ppa": 0.431,
+      "backup": "Alessio Milivojevic",
+      "backup_ppa": 0.099,
+      "points": 10.0,
+      "estimated": false
+    },
+    "Mississippi State": {
+      "starter": "Blake Shapen",
+      "starter_ppa": 0.201,
+      "backup": "Luke Kromenhoek",
+      "backup_ppa": 0.225,
+      "points": -0.7,
+      "estimated": false
+    },
+    "Missouri State": {
+      "starter": "Jacob Clark",
+      "starter_ppa": 0.262,
+      "backup": "Cole Feuerbacher",
+      "backup_ppa": -0.057,
+      "points": 9.6,
+      "estimated": false
+    },
+    "NC State": {
+      "starter": "Lex Thomas",
+      "starter_ppa": -0.273,
+      "backup": "CJ Bailey",
+      "backup_ppa": 0.352,
+      "points": -18.8,
+      "estimated": false
+    },
+    "Nebraska": {
+      "starter": "Dylan Raiola",
+      "starter_ppa": 0.277,
+      "backup": "TJ Lateef",
+      "backup_ppa": 0.076,
+      "points": 6.0,
+      "estimated": false
+    },
+    "Nevada": {
+      "starter": "Chubba Purdy",
+      "starter_ppa": 0.02,
+      "backup": "AJ Bianco",
+      "backup_ppa": -0.079,
+      "points": 3.0,
+      "estimated": false
+    },
+    "New Mexico": {
+      "starter": "Jack Layne",
+      "starter_ppa": 0.252,
+      "backup": "James Laubstein",
+      "backup_ppa": 0.295,
+      "points": -1.3,
+      "estimated": false
+    },
+    "New Mexico State": {
+      "starter": "Logan Fife",
+      "starter_ppa": 0.076,
+      "backup": "Adam Damante",
+      "backup_ppa": 0.189,
+      "points": -3.4,
+      "estimated": false
+    },
+    "North Carolina": {
+      "starter": "Max Johnson",
+      "starter_ppa": 0.139,
+      "backup": "Giovanni Lopez",
+      "backup_ppa": 0.229,
+      "points": -2.7,
+      "estimated": false
+    },
+    "North Dakota State": {
+      "starter": "Cole Payton",
+      "starter_ppa": 0.587,
+      "backup": "Nathan Hayes",
+      "backup_ppa": 0.491,
+      "points": 2.9,
+      "estimated": false
+    },
+    "North Texas": {
+      "starter": "Reese Poffenbarger",
+      "starter_ppa": 0.048,
+      "backup": "Chris Jimerson Jr.",
+      "backup_ppa": 0.961,
+      "points": -27.4,
+      "estimated": false
+    },
+    "Northern Illinois": {
+      "starter": "Jackson Proctor",
+      "starter_ppa": -0.108,
+      "backup": "Jalen Macon",
+      "backup_ppa": -0.013,
+      "points": -2.9,
+      "estimated": false
+    },
+    "Notre Dame": {
+      "starter": "Kenny Minchey",
+      "starter_ppa": 0.461,
+      "backup": "C.J. Carr",
+      "backup_ppa": 0.357,
+      "points": 3.1,
+      "estimated": false
+    },
+    "Ohio": {
+      "starter": "Parker Navarro",
+      "starter_ppa": 0.29,
+      "backup": "Nick Poulos",
+      "backup_ppa": 0.26,
+      "points": 0.9,
+      "estimated": false
+    },
+    "Ohio State": {
+      "starter": "Lincoln Kienholz",
+      "starter_ppa": 0.587,
+      "backup": "Julian Sayin",
+      "backup_ppa": 0.482,
+      "points": 3.1,
+      "estimated": false
+    },
+    "Oklahoma": {
+      "starter": "John Mateer",
+      "starter_ppa": 0.2,
+      "backup": "Michael Hawkins Jr.",
+      "backup_ppa": 0.279,
+      "points": -2.4,
+      "estimated": false
+    },
+    "Oklahoma State": {
+      "starter": "Zane Flores",
+      "starter_ppa": 0.02,
+      "backup": "Hauss Hejny",
+      "backup_ppa": 0.786,
+      "points": -23.0,
+      "estimated": false
+    },
+    "Ole Miss": {
+      "starter": "Trinidad Chambliss",
+      "starter_ppa": 0.345,
+      "backup": "AJ Maddox",
+      "backup_ppa": 0.334,
+      "points": 0.3,
+      "estimated": false
+    },
+    "Oregon": {
+      "starter": "Dante Moore",
+      "starter_ppa": 0.382,
+      "backup": "Austin Novosad",
+      "backup_ppa": 0.683,
+      "points": -9.0,
+      "estimated": false
+    },
+    "Oregon State": {
+      "starter": "Maalik Murphy",
+      "starter_ppa": 0.187,
+      "backup": "Gabarri Johnson",
+      "backup_ppa": -0.071,
+      "points": 7.7,
+      "estimated": false
+    },
+    "Penn State": {
+      "starter": "Drew Allar",
+      "starter_ppa": 0.248,
+      "backup": "Jaxon Smolik",
+      "backup_ppa": -0.454,
+      "points": 21.1,
+      "estimated": false
+    },
+    "Pittsburgh": {
+      "starter": "Eli Holstein",
+      "starter_ppa": 0.369,
+      "backup": "Cole Gonzales",
+      "backup_ppa": 0.158,
+      "points": 6.3,
+      "estimated": false
+    },
+    "Rutgers": {
+      "starter": "Athan Kaliakmanis",
+      "starter_ppa": 0.232,
+      "backup": "AJ Surace",
+      "backup_ppa": 0.592,
+      "points": -10.8,
+      "estimated": false
+    },
+    "SMU": {
+      "starter": "Kevin Jennings",
+      "starter_ppa": 0.331,
+      "backup": "Charlie Fiser",
+      "backup_ppa": 0.474,
+      "points": -4.3,
+      "estimated": false
+    },
+    "Sacramento State": {
+      "starter": "Luke Sprague",
+      "starter_ppa": -0.025,
+      "backup": "Jaden Rashada",
+      "backup_ppa": 0.056,
+      "points": -2.4,
+      "estimated": false
+    },
+    "Sam Houston": {
+      "starter": "Mabrey Mettauer",
+      "starter_ppa": -0.064,
+      "backup": "Landyn Locke",
+      "backup_ppa": 0.008,
+      "points": -2.2,
+      "estimated": false
+    },
+    "San Jos\u00e9 State": {
+      "starter": "Xavier Ward",
+      "starter_ppa": -0.489,
+      "backup": "Walker Eget",
+      "backup_ppa": 0.312,
+      "points": -24.0,
+      "estimated": false
+    },
+    "South Carolina": {
+      "starter": "Lanorris Sellers",
+      "starter_ppa": 0.192,
+      "backup": "Air Noland",
+      "backup_ppa": 0.074,
+      "points": 3.5,
+      "estimated": false
+    },
+    "South Florida": {
+      "starter": "Gaston Moore",
+      "starter_ppa": 0.075,
+      "backup": "Byrum Brown",
+      "backup_ppa": 0.409,
+      "points": -10.0,
+      "estimated": false
+    },
+    "Stanford": {
+      "starter": "Ben Gulbranson",
+      "starter_ppa": 0.221,
+      "backup": "Charlie Mirer",
+      "backup_ppa": 0.467,
+      "points": -7.4,
+      "estimated": false
+    },
+    "TCU": {
+      "starter": "Ken Seals",
+      "starter_ppa": 0.096,
+      "backup": "Josh Hoover",
+      "backup_ppa": 0.381,
+      "points": -8.6,
+      "estimated": false
+    },
+    "Texas": {
+      "starter": "Arch Manning",
+      "starter_ppa": 0.253,
+      "backup": "Matthew Caldwell",
+      "backup_ppa": 1.103,
+      "points": -25.5,
+      "estimated": false
+    },
+    "Texas A&M": {
+      "starter": "Jacob Zeno",
+      "starter_ppa": 0.086,
+      "backup": "Marcel Reed",
+      "backup_ppa": 0.312,
+      "points": -6.8,
+      "estimated": false
+    },
+    "Texas State": {
+      "starter": "Holden Geriner",
+      "starter_ppa": 0.356,
+      "backup": "Keldric Luster",
+      "backup_ppa": 0.323,
+      "points": 1.0,
+      "estimated": false
+    },
+    "Toledo": {
+      "starter": "Tucker Gleason",
+      "starter_ppa": 0.323,
+      "backup": "Kalieb Osborne",
+      "backup_ppa": 0.242,
+      "points": 2.4,
+      "estimated": false
+    },
+    "Troy": {
+      "starter": "Will Crowder",
+      "starter_ppa": 0.07,
+      "backup": "Will Crowder",
+      "backup_ppa": 0.07,
+      "points": 0.0,
+      "estimated": false
+    },
+    "Tulane": {
+      "starter": "Brendan Sullivan",
+      "starter_ppa": -0.03,
+      "backup": "Jake Retzlaff",
+      "backup_ppa": 0.301,
+      "points": -9.9,
+      "estimated": false
+    },
+    "Tulsa": {
+      "starter": "Stephen Kittleman",
+      "starter_ppa": 0.104,
+      "backup": "Kirk Francis",
+      "backup_ppa": 0.124,
+      "points": -0.6,
+      "estimated": false
+    },
+    "UAB": {
+      "starter": "Jalen Kitna",
+      "starter_ppa": 0.211,
+      "backup": "Ryder Burton",
+      "backup_ppa": 0.238,
+      "points": -0.8,
+      "estimated": false
+    },
+    "UCLA": {
+      "starter": "Nico Iamaleava",
+      "starter_ppa": 0.227,
+      "backup": "Luke Duncan",
+      "backup_ppa": 0.272,
+      "points": -1.4,
+      "estimated": false
+    },
+    "UL Monroe": {
+      "starter": "Hunter Herring",
+      "starter_ppa": 0.07,
+      "backup": "Aidan Armenta",
+      "backup_ppa": 0.127,
+      "points": -1.7,
+      "estimated": false
+    },
+    "UNLV": {
+      "starter": "Cameron Friel",
+      "starter_ppa": -0.156,
+      "backup": "Alex Orji",
+      "backup_ppa": 0.07,
+      "points": -6.8,
+      "estimated": false
+    },
+    "USC": {
+      "starter": "Sam Huard",
+      "starter_ppa": 3.211,
+      "backup": "Jayden Maiava",
+      "backup_ppa": 0.477,
+      "points": 82.0,
+      "estimated": false
+    },
+    "UTEP": {
+      "starter": "Malachi Nelson",
+      "starter_ppa": 0.034,
+      "backup": "Skyler Locklear",
+      "backup_ppa": 0.021,
+      "points": 0.4,
+      "estimated": false
+    },
+    "Virginia": {
+      "starter": "Chandler Morris",
+      "starter_ppa": 0.325,
+      "backup": "Daniel Kaelin",
+      "backup_ppa": 0.096,
+      "points": 6.9,
+      "estimated": false
+    },
+    "Wake Forest": {
+      "starter": "Robby Ashford",
+      "starter_ppa": 0.294,
+      "backup": "Deshawn Purdie",
+      "backup_ppa": 0.235,
+      "points": 1.8,
+      "estimated": false
+    },
+    "Washington": {
+      "starter": "Kai Horton",
+      "starter_ppa": -0.01,
+      "backup": "Demond Williams Jr.",
+      "backup_ppa": 0.332,
+      "points": -10.3,
+      "estimated": false
+    },
+    "Washington State": {
+      "starter": "Zevi Eckhaus",
+      "starter_ppa": 0.236,
+      "backup": "Jaxon Potter",
+      "backup_ppa": 0.239,
+      "points": -0.1,
+      "estimated": false
+    },
+    "West Virginia": {
+      "starter": "Jaylen Henderson",
+      "starter_ppa": -0.008,
+      "backup": "Nicco Marchiol",
+      "backup_ppa": 0.173,
+      "points": -5.4,
+      "estimated": false
+    },
+    "Western Kentucky": {
+      "starter": "Maverick McIvor",
+      "starter_ppa": 0.265,
+      "backup": "Tucker Parks",
+      "backup_ppa": -0.458,
+      "points": 21.7,
+      "estimated": false
+    },
+    "Western Michigan": {
+      "starter": "Broc Lowry",
+      "starter_ppa": 0.2,
+      "backup": "Mark Konecny",
+      "backup_ppa": -0.549,
+      "points": 22.5,
+      "estimated": false
+    },
+    "Wisconsin": {
+      "starter": "Billy Edwards",
+      "starter_ppa": 0.164,
+      "backup": "Hunter Simmons",
+      "backup_ppa": 0.017,
+      "points": 4.4,
+      "estimated": false
+    },
+    "Wyoming": {
+      "starter": "Kaden Anderson",
+      "starter_ppa": 0.09,
+      "backup": "Mason Drube",
+      "backup_ppa": -0.093,
+      "points": 5.5,
+      "estimated": false
+    }
+  },
+  "qb_season": 2025,
   "picks": [
     {
       "game_id": 401856772,
@@ -2441,10 +3236,10 @@
       "home": "Tulsa",
       "pick": "Tulsa",
       "pick_spread": 14.0,
-      "model_margin": -5.8,
+      "model_margin": -5.9,
       "market_margin": -14.0,
-      "edge": 8.2,
-      "confidence": 0.64,
+      "edge": 8.1,
+      "confidence": 0.63,
       "sigma": 12.9,
       "top_pick": true,
       "tier": "A",
@@ -2476,7 +3271,7 @@
       "confidence": 0.59,
       "sigma": 12.9,
       "top_pick": true,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -2505,7 +3300,7 @@
       "confidence": 0.5,
       "sigma": 12.9,
       "top_pick": true,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -2534,7 +3329,7 @@
       "confidence": 0.46,
       "sigma": 12.9,
       "top_pick": true,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -2545,8 +3340,8 @@
           "text": "Preseason ratings only, no games played"
         },
         {
-          "kind": "travel",
-          "text": "North Texas crosses 1 time zones for an early kick"
+          "kind": "contrarian",
+          "text": "Backing a 40-point underdog"
         }
       ],
       "home_rating": 6.6,
@@ -2582,13 +3377,13 @@
       "home": "Auburn",
       "pick": "Baylor",
       "pick_spread": 7.0,
-      "model_margin": 2.7,
+      "model_margin": 2.6,
       "market_margin": 7.0,
-      "edge": -4.3,
+      "edge": -4.4,
       "confidence": 0.34,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2617,7 +3412,7 @@
       "confidence": 0.3,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2646,7 +3441,7 @@
       "confidence": 0.3,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2675,7 +3470,7 @@
       "confidence": 0.27,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2686,8 +3481,8 @@
           "text": "Preseason ratings only, no games played"
         },
         {
-          "kind": "travel",
-          "text": "Western Kentucky flies 1,808 miles"
+          "kind": "rating",
+          "text": "Model ranks Western Kentucky #65, Nevada #232"
         }
       ],
       "home_rating": -2.7,
@@ -2701,10 +3496,10 @@
       "model_margin": -5.9,
       "market_margin": -2.5,
       "edge": -3.4,
-      "confidence": 0.26,
+      "confidence": 0.27,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2733,7 +3528,7 @@
       "confidence": 0.26,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -2820,6 +3615,35 @@
       "qualified": false
     },
     {
+      "game_id": 401862695,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        },
+        {
+          "kind": "offense",
+          "text": "Memphis offense (+6) meets a defense 5 pts below average"
+        }
+      ],
+      "home_rating": 1.2,
+      "away_rating": -1.5,
+      "week": 1,
+      "kickoff": "2026-09-05T23:00:00+00:00",
+      "away": "Arkansas State",
+      "home": "Memphis",
+      "pick": "Memphis",
+      "pick_spread": -8.5,
+      "model_margin": 11.3,
+      "market_margin": 8.5,
+      "edge": 2.8,
+      "confidence": 0.22,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false
+    },
+    {
       "game_id": 401856668,
       "drivers": [
         {
@@ -2845,7 +3669,7 @@
       "confidence": 0.21,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -2854,10 +3678,6 @@
         {
           "kind": "caution",
           "text": "Preseason ratings only, no games played"
-        },
-        {
-          "kind": "travel",
-          "text": "UNLV flies 2,744 miles"
         }
       ],
       "home_rating": 0.3,
@@ -2868,13 +3688,13 @@
       "home": "Hawai'i",
       "pick": "Hawai'i",
       "pick_spread": 2.5,
-      "model_margin": 0.2,
+      "model_margin": 0.1,
       "market_margin": -2.5,
-      "edge": 2.7,
+      "edge": 2.6,
       "confidence": 0.21,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -2899,7 +3719,7 @@
       "confidence": 0.2,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -2928,7 +3748,7 @@
       "confidence": 0.2,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -2957,7 +3777,7 @@
       "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -2986,7 +3806,7 @@
       "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3015,7 +3835,7 @@
       "confidence": 0.18,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3024,10 +3844,6 @@
         {
           "kind": "caution",
           "text": "Preseason ratings only, no games played"
-        },
-        {
-          "kind": "travel",
-          "text": "San Jos\u00e9 State flies 2,040 miles"
         }
       ],
       "home_rating": -1.4,
@@ -3038,42 +3854,13 @@
       "home": "Eastern Michigan",
       "pick": "Eastern Michigan",
       "pick_spread": -4.5,
-      "model_margin": 6.9,
+      "model_margin": 6.8,
       "market_margin": 4.5,
-      "edge": 2.4,
-      "confidence": 0.18,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false
-    },
-    {
-      "game_id": 401862695,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        },
-        {
-          "kind": "offense",
-          "text": "Memphis offense (+6) meets a defense 5 pts below average"
-        }
-      ],
-      "home_rating": 1.2,
-      "away_rating": -1.5,
-      "week": 1,
-      "kickoff": "2026-09-05T23:00:00+00:00",
-      "away": "Arkansas State",
-      "home": "Memphis",
-      "pick": "Memphis",
-      "pick_spread": -10.0,
-      "model_margin": 12.3,
-      "market_margin": 10.0,
       "edge": 2.3,
       "confidence": 0.18,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3096,13 +3883,13 @@
       "home": "TCU",
       "pick": "North Carolina",
       "pick_spread": 8.5,
-      "model_margin": 6.3,
+      "model_margin": 6.2,
       "market_margin": 8.5,
-      "edge": -2.2,
+      "edge": -2.3,
       "confidence": 0.17,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3131,7 +3918,7 @@
       "confidence": 0.17,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3160,7 +3947,7 @@
       "confidence": 0.17,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3189,7 +3976,32 @@
       "confidence": 0.17,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
+      "qualified": false
+    },
+    {
+      "game_id": 401858209,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "home_rating": 1.3,
+      "away_rating": 1.5,
+      "week": 1,
+      "kickoff": "2026-09-05T19:30:00+00:00",
+      "away": "Tulane",
+      "home": "Duke",
+      "pick": "Tulane",
+      "pick_spread": 9.5,
+      "model_margin": 7.5,
+      "market_margin": 9.5,
+      "edge": -2.0,
+      "confidence": 0.15,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3218,32 +4030,7 @@
       "confidence": 0.15,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
-      "qualified": false
-    },
-    {
-      "game_id": 401858209,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        }
-      ],
-      "home_rating": 1.3,
-      "away_rating": 1.5,
-      "week": 1,
-      "kickoff": "2026-09-05T19:30:00+00:00",
-      "away": "Tulane",
-      "home": "Duke",
-      "pick": "Tulane",
-      "pick_spread": 9.5,
-      "model_margin": 7.5,
-      "market_margin": 9.5,
-      "edge": -2.0,
-      "confidence": 0.15,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3268,7 +4055,7 @@
       "confidence": 0.15,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -3345,9 +4132,9 @@
       "home": "UNLV",
       "pick": "Memphis",
       "pick_spread": 4.5,
-      "model_margin": 2.9,
+      "model_margin": 2.8,
       "market_margin": 4.5,
-      "edge": -1.6,
+      "edge": -1.7,
       "confidence": 0.13,
       "sigma": 12.9,
       "top_pick": false,
@@ -3362,8 +4149,8 @@
           "text": "Preseason ratings only, no games played"
         },
         {
-          "kind": "travel",
-          "text": "Hawai'i flies 2,402 miles"
+          "kind": "rating",
+          "text": "Model ranks Hawai'i #78, Stanford #116"
         }
       ],
       "home_rating": -1.0,
@@ -3374,9 +4161,9 @@
       "home": "Stanford",
       "pick": "Hawai'i",
       "pick_spread": 4.0,
-      "model_margin": 2.4,
+      "model_margin": 2.3,
       "market_margin": 4.0,
-      "edge": -1.6,
+      "edge": -1.7,
       "confidence": 0.13,
       "sigma": 12.9,
       "top_pick": false,
@@ -3442,31 +4229,6 @@
       "qualified": false
     },
     {
-      "game_id": 401858212,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        }
-      ],
-      "home_rating": 3.4,
-      "away_rating": 4.0,
-      "week": 1,
-      "kickoff": "2026-09-07T23:30:00+00:00",
-      "away": "SMU",
-      "home": "Florida State",
-      "pick": "Florida State",
-      "pick_spread": 2.5,
-      "model_margin": -1.0,
-      "market_margin": -2.5,
-      "edge": 1.5,
-      "confidence": 0.11,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false
-    },
-    {
       "game_id": 401858433,
       "drivers": [
         {
@@ -3489,6 +4251,31 @@
       "model_margin": 26.0,
       "market_margin": 24.5,
       "edge": 1.5,
+      "confidence": 0.11,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false
+    },
+    {
+      "game_id": 401858212,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "home_rating": 3.4,
+      "away_rating": 4.0,
+      "week": 1,
+      "kickoff": "2026-09-07T23:30:00+00:00",
+      "away": "SMU",
+      "home": "Florida State",
+      "pick": "Florida State",
+      "pick_spread": 2.5,
+      "model_margin": -1.1,
+      "market_margin": -2.5,
+      "edge": 1.4,
       "confidence": 0.11,
       "sigma": 12.9,
       "top_pick": false,
@@ -3550,7 +4337,7 @@
       "confidence": 0.11,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3575,7 +4362,7 @@
       "confidence": 0.1,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3586,8 +4373,8 @@
           "text": "Preseason ratings only, no games played"
         },
         {
-          "kind": "travel",
-          "text": "Miami flies 2,565 miles"
+          "kind": "rating",
+          "text": "Model ranks Miami #8, Stanford #116"
         }
       ],
       "home_rating": -1.0,
@@ -3598,13 +4385,13 @@
       "home": "Stanford",
       "pick": "Miami",
       "pick_spread": -24.5,
-      "model_margin": -25.7,
+      "model_margin": -25.8,
       "market_margin": -24.5,
-      "edge": -1.2,
+      "edge": -1.3,
       "confidence": 0.1,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3633,7 +4420,7 @@
       "confidence": 0.09,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3644,8 +4431,8 @@
           "text": "Preseason ratings only, no games played"
         },
         {
-          "kind": "travel",
-          "text": "Oregon State crosses 2 time zones for an early kick"
+          "kind": "rating",
+          "text": "Model ranks Houston #37, Oregon State #200"
         }
       ],
       "home_rating": 2.7,
@@ -3662,7 +4449,7 @@
       "confidence": 0.08,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3691,7 +4478,7 @@
       "confidence": 0.07,
       "sigma": 12.9,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -3829,7 +4616,7 @@
       "model_margin": 7.3,
       "market_margin": 7.0,
       "edge": 0.3,
-      "confidence": 0.03,
+      "confidence": 0.02,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -3858,7 +4645,7 @@
       "model_margin": 28.4,
       "market_margin": 28.5,
       "edge": -0.1,
-      "confidence": 0.0,
+      "confidence": 0.01,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -3911,7 +4698,7 @@
       "edge": 11.1,
       "wind": 0.0,
       "indoor": true,
-      "confidence": 0.83,
+      "confidence": 0.84,
       "top_pick": true,
       "tier": "A",
       "qualified": true
@@ -4013,7 +4800,7 @@
       "indoor": false,
       "confidence": 0.59,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -4031,7 +4818,7 @@
       "indoor": false,
       "confidence": 0.53,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -4049,7 +4836,7 @@
       "indoor": false,
       "confidence": 0.5,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -4072,7 +4859,7 @@
       "indoor": false,
       "confidence": 0.48,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -4095,7 +4882,7 @@
       "indoor": false,
       "confidence": 0.48,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
       "qualified": true
     },
     {
@@ -4130,8 +4917,8 @@
       "home": "North Dakota State",
       "pick": "Over",
       "line": 46.0,
-      "model_total": 51.5,
-      "edge": 5.5,
+      "model_total": 51.6,
+      "edge": 5.6,
       "wind": 0.0,
       "indoor": true,
       "confidence": 0.42,
@@ -4231,7 +5018,7 @@
       "indoor": false,
       "confidence": 0.37,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4254,7 +5041,7 @@
       "indoor": false,
       "confidence": 0.37,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4277,7 +5064,7 @@
       "indoor": false,
       "confidence": 0.36,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4289,13 +5076,13 @@
       "home": "TCU",
       "pick": "Over",
       "line": 47.5,
-      "model_total": 51.9,
-      "edge": 4.4,
+      "model_total": 51.8,
+      "edge": 4.3,
       "wind": 14.3,
       "indoor": false,
       "confidence": 0.33,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4313,7 +5100,7 @@
       "indoor": false,
       "confidence": 0.31,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4336,7 +5123,7 @@
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4354,7 +5141,7 @@
       "indoor": false,
       "confidence": 0.26,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4372,7 +5159,7 @@
       "indoor": false,
       "confidence": 0.26,
       "top_pick": false,
-      "tier": "B",
+      "tier": "C",
       "qualified": false
     },
     {
@@ -4431,7 +5218,7 @@
       "indoor": false,
       "confidence": 0.2,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -4443,31 +5230,13 @@
       "home": "USC",
       "pick": "Over",
       "line": 51.5,
-      "model_total": 54.0,
-      "edge": 2.5,
+      "model_total": 53.9,
+      "edge": 2.4,
       "wind": 11.9,
       "indoor": false,
-      "confidence": 0.19,
+      "confidence": 0.18,
       "top_pick": false,
-      "tier": "C",
-      "qualified": false
-    },
-    {
-      "game_id": 401858206,
-      "drivers": [],
-      "week": 1,
-      "kickoff": "2026-09-05T01:00:00+00:00",
-      "away": "Miami",
-      "home": "Stanford",
-      "pick": "Under",
-      "line": 48.5,
-      "model_total": 46.2,
-      "edge": -2.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.17,
-      "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -4485,7 +5254,25 @@
       "indoor": false,
       "confidence": 0.17,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
+      "qualified": false
+    },
+    {
+      "game_id": 401858206,
+      "drivers": [],
+      "week": 1,
+      "kickoff": "2026-09-05T01:00:00+00:00",
+      "away": "Miami",
+      "home": "Stanford",
+      "pick": "Under",
+      "line": 48.5,
+      "model_total": 46.2,
+      "edge": -2.3,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.17,
+      "top_pick": false,
+      "tier": "D",
       "qualified": false
     },
     {
@@ -4503,7 +5290,7 @@
       "indoor": false,
       "confidence": 0.17,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -4526,7 +5313,7 @@
       "indoor": false,
       "confidence": 0.16,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false
     },
     {
@@ -4562,25 +5349,7 @@
       "indoor": false,
       "confidence": 0.1,
       "top_pick": false,
-      "tier": "D",
-      "qualified": false
-    },
-    {
-      "game_id": 401858428,
-      "drivers": [],
-      "week": 1,
-      "kickoff": "2026-09-05T23:30:00+00:00",
-      "away": "Western Michigan",
-      "home": "Michigan",
-      "pick": "Over",
-      "line": 47.5,
-      "model_total": 48.8,
-      "edge": 1.3,
-      "wind": 16.0,
-      "indoor": false,
-      "confidence": 0.1,
-      "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4597,13 +5366,31 @@
       "home": "Rutgers",
       "pick": "Under",
       "line": 54.0,
-      "model_total": 52.8,
-      "edge": -1.2,
+      "model_total": 52.7,
+      "edge": -1.3,
       "wind": null,
       "indoor": false,
       "confidence": 0.09,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
+      "qualified": false
+    },
+    {
+      "game_id": 401858428,
+      "drivers": [],
+      "week": 1,
+      "kickoff": "2026-09-05T23:30:00+00:00",
+      "away": "Western Michigan",
+      "home": "Michigan",
+      "pick": "Over",
+      "line": 47.5,
+      "model_total": 48.7,
+      "edge": 1.2,
+      "wind": 16.0,
+      "indoor": false,
+      "confidence": 0.09,
+      "top_pick": false,
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4621,7 +5408,7 @@
       "indoor": false,
       "confidence": 0.09,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4639,7 +5426,7 @@
       "indoor": false,
       "confidence": 0.08,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4657,25 +5444,7 @@
       "indoor": false,
       "confidence": 0.08,
       "top_pick": false,
-      "tier": "D",
-      "qualified": false
-    },
-    {
-      "game_id": 401864494,
-      "drivers": [],
-      "week": 1,
-      "kickoff": "2026-08-29T19:00:00+00:00",
-      "away": "San Jos\u00e9 State",
-      "home": "USC",
-      "pick": "Over",
-      "line": 60.5,
-      "model_total": 61.5,
-      "edge": 1.0,
-      "wind": 12.0,
-      "indoor": false,
-      "confidence": 0.07,
-      "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4693,7 +5462,7 @@
       "indoor": false,
       "confidence": 0.07,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4711,7 +5480,25 @@
       "indoor": false,
       "confidence": 0.07,
       "top_pick": false,
-      "tier": "D",
+      "tier": "E",
+      "qualified": false
+    },
+    {
+      "game_id": 401864494,
+      "drivers": [],
+      "week": 1,
+      "kickoff": "2026-08-29T19:00:00+00:00",
+      "away": "San Jos\u00e9 State",
+      "home": "USC",
+      "pick": "Over",
+      "line": 60.5,
+      "model_total": 61.4,
+      "edge": 0.9,
+      "wind": 12.0,
+      "indoor": false,
+      "confidence": 0.07,
+      "top_pick": false,
+      "tier": "E",
       "qualified": false
     },
     {
@@ -4787,6 +5574,24 @@
       "qualified": false
     },
     {
+      "game_id": 401856776,
+      "drivers": [],
+      "week": 1,
+      "kickoff": "2026-09-04T00:00:00+00:00",
+      "away": "Colorado",
+      "home": "Georgia Tech",
+      "pick": "Over",
+      "line": 50.5,
+      "model_total": 50.9,
+      "edge": 0.4,
+      "wind": 8.8,
+      "indoor": false,
+      "confidence": 0.03,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false
+    },
+    {
       "game_id": 401864495,
       "drivers": [],
       "week": 1,
@@ -4828,24 +5633,6 @@
       "qualified": false
     },
     {
-      "game_id": 401856776,
-      "drivers": [],
-      "week": 1,
-      "kickoff": "2026-09-04T00:00:00+00:00",
-      "away": "Colorado",
-      "home": "Georgia Tech",
-      "pick": "Over",
-      "line": 50.5,
-      "model_total": 50.7,
-      "edge": 0.2,
-      "wind": 8.8,
-      "indoor": false,
-      "confidence": 0.02,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false
-    },
-    {
       "game_id": 401864570,
       "drivers": [],
       "week": 1,
@@ -4866,10 +5653,10 @@
   ],
   "totals": {
     "games": 3326,
-    "model_mae": 13.26,
+    "model_mae": 13.25,
     "market_mae": 12.46,
-    "qualified_win_pct": 50.8,
-    "qualified_bets": 813,
+    "qualified_win_pct": 50.7,
+    "qualified_bets": 820,
     "holdout": {
       "season": 2025,
       "win_pct": 48.7,
@@ -4878,138 +5665,138 @@
     "tiers": [
       {
         "label": "3-5",
-        "bets": 722,
-        "wins": 340,
-        "losses": 369,
+        "bets": 724,
+        "wins": 350,
+        "losses": 361,
         "pushes": 13,
-        "win_pct": 48.0,
+        "win_pct": 49.2,
         "se": 1.9,
-        "units": -59.91,
-        "roi_pct": -8.3,
+        "units": -42.82,
+        "roi_pct": -5.9,
         "pred_edge": 4.0,
-        "realized_edge": -0.6,
-        "calibration": -0.16
+        "realized_edge": -0.5,
+        "calibration": -0.13
       },
       {
         "label": "5-7",
-        "bets": 514,
-        "wins": 256,
-        "losses": 255,
-        "pushes": 3,
-        "win_pct": 50.1,
+        "bets": 523,
+        "wins": 258,
+        "losses": 261,
+        "pushes": 4,
+        "win_pct": 49.7,
         "se": 2.2,
-        "units": -22.27,
-        "roi_pct": -4.3,
+        "units": -26.45,
+        "roi_pct": -5.1,
         "pred_edge": 5.9,
-        "realized_edge": -0.3,
-        "calibration": -0.05
+        "realized_edge": -0.2,
+        "calibration": -0.04
       },
       {
         "label": "7-10",
-        "bets": 408,
-        "wins": 204,
-        "losses": 197,
+        "bets": 403,
+        "wins": 202,
+        "losses": 194,
         "pushes": 7,
-        "win_pct": 50.9,
+        "win_pct": 51.0,
         "se": 2.5,
-        "units": -11.55,
-        "roi_pct": -2.8,
+        "units": -10.36,
+        "roi_pct": -2.6,
         "pred_edge": 8.3,
-        "realized_edge": 0.0,
-        "calibration": 0.0
+        "realized_edge": 0.1,
+        "calibration": 0.01
       },
       {
         "label": "10-15",
-        "bets": 189,
+        "bets": 188,
         "wins": 88,
-        "losses": 100,
+        "losses": 99,
         "pushes": 1,
-        "win_pct": 46.8,
-        "se": 3.6,
-        "units": -20.0,
-        "roi_pct": -10.6,
+        "win_pct": 47.1,
+        "se": 3.7,
+        "units": -19.0,
+        "roi_pct": -10.1,
         "pred_edge": 11.8,
         "realized_edge": -0.6,
         "calibration": -0.05
       },
       {
         "label": "15+",
-        "bets": 27,
-        "wins": 11,
+        "bets": 28,
+        "wins": 12,
         "losses": 15,
         "pushes": 1,
-        "win_pct": 42.3,
-        "se": 9.7,
-        "units": -5.0,
-        "roi_pct": -18.5,
-        "pred_edge": 18.9,
-        "realized_edge": -2.6,
-        "calibration": -0.14
+        "win_pct": 44.4,
+        "se": 9.6,
+        "units": -4.09,
+        "roi_pct": -14.6,
+        "pred_edge": 18.8,
+        "realized_edge": -2.4,
+        "calibration": -0.13
       }
     ],
     "by_season": [
       {
         "season": 2019,
-        "bets": 149,
-        "wins": 81,
-        "losses": 66,
+        "bets": 152,
+        "wins": 82,
+        "losses": 68,
         "pushes": 2,
-        "win_pct": 55.1,
-        "units": 7.64,
-        "roi_pct": 5.1,
-        "model_mae": 13.6,
+        "win_pct": 54.7,
+        "units": 6.55,
+        "roi_pct": 4.3,
+        "model_mae": 13.56,
         "market_mae": 12.93,
-        "gap": 0.67
+        "gap": 0.63
       },
       {
         "season": 2021,
-        "bets": 128,
-        "wins": 63,
-        "losses": 64,
+        "bets": 127,
+        "wins": 64,
+        "losses": 62,
         "pushes": 1,
-        "win_pct": 49.6,
-        "units": -6.73,
-        "roi_pct": -5.3,
-        "model_mae": 13.28,
+        "win_pct": 50.8,
+        "units": -3.82,
+        "roi_pct": -3.0,
+        "model_mae": 13.25,
         "market_mae": 12.36,
-        "gap": 0.92
+        "gap": 0.89
       },
       {
         "season": 2022,
-        "bets": 155,
-        "wins": 76,
-        "losses": 76,
+        "bets": 153,
+        "wins": 73,
+        "losses": 77,
         "pushes": 3,
-        "win_pct": 50.0,
-        "units": -6.91,
-        "roi_pct": -4.5,
+        "win_pct": 48.7,
+        "units": -10.64,
+        "roi_pct": -7.0,
         "model_mae": 13.26,
         "market_mae": 12.24,
         "gap": 1.02
       },
       {
         "season": 2023,
-        "bets": 139,
-        "wins": 66,
-        "losses": 71,
+        "bets": 144,
+        "wins": 69,
+        "losses": 73,
         "pushes": 2,
-        "win_pct": 48.2,
-        "units": -11.0,
-        "roi_pct": -7.9,
-        "model_mae": 13.14,
+        "win_pct": 48.6,
+        "units": -10.27,
+        "roi_pct": -7.1,
+        "model_mae": 13.11,
         "market_mae": 12.26,
-        "gap": 0.88
+        "gap": 0.85
       },
       {
         "season": 2024,
-        "bets": 135,
-        "wins": 70,
-        "losses": 63,
+        "bets": 137,
+        "wins": 71,
+        "losses": 64,
         "pushes": 2,
         "win_pct": 52.6,
-        "units": 0.64,
-        "roi_pct": 0.5,
-        "model_mae": 13.52,
+        "units": 0.55,
+        "roi_pct": 0.4,
+        "model_mae": 13.51,
         "market_mae": 12.84,
         "gap": 0.67
       },
@@ -5022,9 +5809,9 @@
         "win_pct": 48.7,
         "units": -8.18,
         "roi_pct": -7.0,
-        "model_mae": 12.78,
+        "model_mae": 12.79,
         "market_mae": 12.11,
-        "gap": 0.67
+        "gap": 0.68
       }
     ],
     "seasons": [
@@ -5038,52 +5825,58 @@
     "min_edge": 6.0,
     "uses_weather": true,
     "debias": {
-      "intercept": 2.646,
-      "slope": 0.98,
+      "intercept": 2.526,
+      "slope": 0.983,
       "active": true
     },
     "bias_check": {
-      "pct_over": 52.4,
+      "pct_over": 52.3,
       "edge_vs_line_corr": 0.07,
-      "qualified_share": 24.7
+      "qualified_share": 25.0
     }
   },
   "gap_trend": [
     {
       "season": 2019,
       "spread": 2.28,
-      "total": 0.67,
-      "all": 1.9
+      "spread_raw": 2.28,
+      "total": 0.63,
+      "all": 1.89
     },
     {
       "season": 2021,
       "spread": 0.45,
-      "total": 0.92,
-      "all": 0.67
+      "spread_raw": 2.09,
+      "total": 0.89,
+      "all": 0.65
     },
     {
       "season": 2022,
       "spread": 0.47,
+      "spread_raw": 1.72,
       "total": 1.02,
-      "all": 0.74
+      "all": 0.73
     },
     {
       "season": 2023,
       "spread": 0.56,
-      "total": 0.88,
-      "all": 0.71
+      "spread_raw": 1.55,
+      "total": 0.85,
+      "all": 0.7
     },
     {
       "season": 2024,
       "spread": 0.55,
+      "spread_raw": 2.33,
       "total": 0.67,
-      "all": 0.6
+      "all": 0.61
     },
     {
       "season": 2025,
       "spread": 0.25,
-      "total": 0.67,
-      "all": 0.42
+      "spread_raw": 2.37,
+      "total": 0.68,
+      "all": 0.43
     }
   ],
   "totals_ratings": [
@@ -5916,6 +6709,8 @@
   "record_tiers": [],
   "record_tiers_total": [],
   "record_by_market": {},
+  "clv_by_market": {},
+  "clv_by_tier": {},
   "record_live_season": null,
   "ratings": [
     {
@@ -6670,12 +7465,12 @@
     },
     {
       "rank": 151,
-      "team": "Norfolk State",
+      "team": "Southern Utah",
       "rating": -1.21
     },
     {
       "rank": 152,
-      "team": "Southern Utah",
+      "team": "Norfolk State",
       "rating": -1.21
     },
     {
@@ -6740,12 +7535,12 @@
     },
     {
       "rank": 165,
-      "team": "Idaho State",
+      "team": "Tennessee Tech",
       "rating": -1.23
     },
     {
       "rank": 166,
-      "team": "Tennessee Tech",
+      "team": "Idaho State",
       "rating": -1.23
     },
     {
@@ -6795,12 +7590,12 @@
     },
     {
       "rank": 176,
-      "team": "Southern",
+      "team": "Robert Morris",
       "rating": -1.25
     },
     {
       "rank": 177,
-      "team": "Robert Morris",
+      "team": "Southern",
       "rating": -1.25
     },
     {
@@ -6920,82 +7715,82 @@
     },
     {
       "rank": 201,
-      "team": "Morgan State",
-      "rating": -1.44
-    },
-    {
-      "rank": 202,
-      "team": "Davidson",
-      "rating": -1.44
-    },
-    {
-      "rank": 203,
-      "team": "Wagner",
-      "rating": -1.44
-    },
-    {
-      "rank": 204,
       "team": "North Dakota",
       "rating": -1.44
     },
     {
-      "rank": 205,
+      "rank": 202,
       "team": "Stetson",
       "rating": -1.44
     },
     {
-      "rank": 206,
+      "rank": 203,
       "team": "Dayton",
       "rating": -1.44
     },
     {
-      "rank": 207,
-      "team": "Charleston Southern",
-      "rating": -1.44
-    },
-    {
-      "rank": 208,
-      "team": "Valparaiso",
-      "rating": -1.44
-    },
-    {
-      "rank": 209,
-      "team": "Alcorn State",
-      "rating": -1.44
-    },
-    {
-      "rank": 210,
-      "team": "Drake",
-      "rating": -1.44
-    },
-    {
-      "rank": 211,
+      "rank": 204,
       "team": "Maine",
       "rating": -1.44
     },
     {
-      "rank": 212,
-      "team": "Southeastern Louisiana",
-      "rating": -1.44
-    },
-    {
-      "rank": 213,
+      "rank": 205,
       "team": "Lafayette",
       "rating": -1.44
     },
     {
-      "rank": 214,
-      "team": "Morehead State",
+      "rank": 206,
+      "team": "Wagner",
       "rating": -1.44
     },
     {
-      "rank": 215,
+      "rank": 207,
+      "team": "Drake",
+      "rating": -1.44
+    },
+    {
+      "rank": 208,
+      "team": "Charleston Southern",
+      "rating": -1.44
+    },
+    {
+      "rank": 209,
+      "team": "Southeastern Louisiana",
+      "rating": -1.44
+    },
+    {
+      "rank": 210,
+      "team": "Alcorn State",
+      "rating": -1.44
+    },
+    {
+      "rank": 211,
+      "team": "Indiana State",
+      "rating": -1.44
+    },
+    {
+      "rank": 212,
       "team": "Butler",
       "rating": -1.44
     },
     {
+      "rank": 213,
+      "team": "Morehead State",
+      "rating": -1.44
+    },
+    {
+      "rank": 214,
+      "team": "Davidson",
+      "rating": -1.44
+    },
+    {
+      "rank": 215,
+      "team": "Valparaiso",
+      "rating": -1.44
+    },
+    {
       "rank": 216,
-      "team": "Indiana State",
+      "team": "Morgan State",
       "rating": -1.44
     },
     {
