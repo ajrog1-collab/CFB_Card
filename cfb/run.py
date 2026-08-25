@@ -140,6 +140,10 @@ def load_everything():
 
     # current season: never cached, always fresh
     t = cfbd_get("teams/fbs", {"year": CURRENT})
+    # a cache written before logos were requested would have no logo column;
+    # refetch once so team marks are never stuck on initials
+    if len(t) and not any(c in t.columns for c in ("logos", "logo")):
+        t = cfbd_get("teams/fbs", {"year": CURRENT}, force=True)
     teams_raw = t
     if len(t):
         c = col(t, "school", "team")
