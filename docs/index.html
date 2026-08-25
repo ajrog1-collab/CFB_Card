@@ -417,7 +417,7 @@ function renderBoard(){
         <option value="edge"${SORT==='edge'?' selected':''}>Biggest edge</option>
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
-      <span class="count">${list.length} GAME${list.length===1?'':'S'}</span></div>`;
+      <span class="count">${list.length} PICK${list.length===1?'':'S'}</span></div>`;
   let rank = 0;
   const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
     : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
@@ -437,7 +437,7 @@ function renderSlip(){
   const best = ['A','B','C','D','E'].find(t => picks.some(p => p.tier === t));
   $('p-slip').innerHTML = `
     <div class="tiles">
-      <div class="tile"><div class="tile-k">GAMES</div><div class="tile-v">${picks.length}</div></div>
+      <div class="tile"><div class="tile-k">PICKS</div><div class="tile-v">${picks.length}</div></div>
       <div class="tile"><div class="tile-k">AVG EDGE</div><div class="tile-v">${avg.toFixed(1)}</div></div>
       <div class="tile"><div class="tile-k">BEST</div>
         <div class="tile-v" style="font-size:19px">${best ? stars(best) : '—'}</div>
@@ -632,6 +632,7 @@ function renderRecord(){
 function renderModel(){
   const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
   const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
+  const db = d.debias || {}, bias = d.bias_check || {};
   const be = (d.record || {}).breakeven_pct ?? 52.4;
   const ratings = (d.ratings || []).slice(0,25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
@@ -683,6 +684,35 @@ function renderModel(){
       ${st.uses_weather ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
       : 'Weather still loading — totals are weaker without it.'}</dd>
     <dt>Home field</dt><dd>Worth ${esc(st.home_field ?? '--')} pts, measured not assumed.</dd>
+  </dl>
+
+  <h3>KEEPING THE PICKS HONEST</h3>
+  <dl>
+    <dt>Why every pick isn't an underdog</dt>
+    <dd>The model's ratings sit closer to average than the market's, so on a big
+      favourite it naturally forecasts a smaller margin — and an "edge" on the dog
+      appears in every such game. That's a scale artefact, not a read.
+      ${db.slope != null ? `Measured against history the raw predictions ran at
+      <b>${esc(db.slope)}×</b> the market's scale, so that line is subtracted and only
+      the disagreement the market number can't explain is kept.` : ''}</dd>
+    <dt>Line-vs-edge correlation</dt>
+    <dd>${bias.edge_vs_line_corr != null
+      ? `<b>${esc(bias.edge_vs_line_corr)}</b> — near zero means the model disagrees in
+         both directions regardless of how big the number is. A strongly negative value
+         would mean it's just taking points everywhere.`
+      : 'Not measured this run.'}</dd>
+    <dt>Share on underdogs</dt>
+    <dd>${bias.pct_on_underdog != null
+      ? `<b>${esc(bias.pct_on_underdog)}%</b> of picks land on the market's less-favoured
+         side. Near 50% is healthy.` : 'Not measured this run.'}</dd>
+    <dt>Share qualifying</dt>
+    <dd>${bias.qualified_share != null
+      ? `<b>${esc(bias.qualified_share)}%</b> of games clear the threshold. If most of the
+         board qualifies, the threshold isn't finding anything.` : '--'}</dd>
+    <dt>What this costs</dt>
+    <dd>Anchoring to the market number makes the average-miss figure look better than the
+      model earns on its own, so <b>read win rate and line value, not accuracy</b>, when
+      judging whether there's an edge.</dd>
   </dl>
 
   <h3>THROWN OUT</h3>
