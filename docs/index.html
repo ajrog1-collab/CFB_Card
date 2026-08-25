@@ -1,199 +1,284 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#141b26">
+<meta name="theme-color" content="#0C1B29">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>The Card</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23D7D2CB'/%3E%3Cpath d='M64 44v20H44z' fill='%23B4892C'/%3E%3Ctext x='32' y='46' font-family='Impact,sans-serif' font-size='44' text-anchor='middle' fill='%23002B45'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* Palette: Navy 2965C, Cream 7527C, Gold 7555C, Blue 7690C */
   :root{
-    --ink:#141b26; --panel:#1b2532; --panel-2:#222e3d; --rule:#2c3a4c;
-    --paper:#e9e7e2; --muted:#8b9aad; --brass:#c8973f; --cool:#5b9fcf;
-    --win:#4e9a6b; --loss:#b4574f; --push:#7d8794;
-    --display:'Barlow Condensed',Impact,sans-serif;
-    --body:'IBM Plex Sans',system-ui,sans-serif;
-    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --navy:#002B45; --navy-deep:#0C1B29; --cream:#D7D2CB; --cream-lt:#EFECE6;
+    --gold:#B4892C; --blue:#10739E;
+    --display:'Bebas Neue',Impact,sans-serif;
+    --data:'Barlow',ui-monospace,monospace;      /* DIN 2014 substitute */
+    --body:'Inter',system-ui,sans-serif;
+  }
+  /* dark: navy page, cream tickets */
+  [data-theme="dark"]{
+    --page:#0C1B29; --ticket:#EFECE6; --ticket-ink:#002B45; --ticket-rule:#C3BDB2;
+    --ticket-mute:#6B7683; --panel:#12283B; --panel-2:#183246; --rule:#24455E;
+    --ink:#EFECE6; --mute:#8FA3B4;
+  }
+  /* light: cream page, navy tickets */
+  [data-theme="light"]{
+    --page:#EFECE6; --ticket:#0C1B29; --ticket-ink:#EFECE6; --ticket-rule:#24455E;
+    --ticket-mute:#8FA3B4; --panel:#E2DED6; --panel-2:#D7D2CB; --rule:#C3BDB2;
+    --ink:#002B45; --mute:#5D6B78;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{background:var(--ink);color:var(--paper);font-family:var(--body);
-    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
-    padding:0 0 env(safe-area-inset-bottom)}
-  .wrap{max-width:680px;margin:0 auto;padding:0 14px 60px}
+  body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:15px;
+    line-height:1.5;-webkit-font-smoothing:antialiased;padding:0 0 env(safe-area-inset-bottom);
+    transition:background .2s,color .2s}
+  .wrap{max-width:720px;margin:0 auto;padding:0 12px 60px}
+  .num{font-family:var(--data);font-variant-numeric:tabular-nums;font-weight:600}
 
-  header{padding:20px 0 12px}
-  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--muted)}
-  h1{font-family:var(--display);font-weight:700;font-size:38px;line-height:.92;
-    margin:3px 0 0;text-transform:uppercase}
-  h1 .accent{color:var(--brass)}
-  .stamp{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+  /* ---------- masthead ---------- */
+  .top{display:flex;align-items:center;gap:12px;padding:14px 0 10px;flex-wrap:wrap}
+  .brand{display:flex;align-items:stretch;background:var(--ticket);color:var(--ticket-ink);
+    border-radius:7px;overflow:hidden;position:relative;flex:none}
+  .brand-l{padding:7px 12px 7px 11px;display:flex;flex-direction:column;justify-content:center}
+  .brand-the{font-family:var(--display);font-size:11px;letter-spacing:.26em;line-height:1;
+    display:flex;align-items:center;gap:5px}
+  .brand-the::before{content:'';width:11px;height:2px;background:var(--ticket-ink)}
+  .brand-card{font-family:var(--display);font-size:31px;line-height:.86;letter-spacing:.02em}
+  .brand-rule{width:1px;background:var(--ticket-rule);margin:8px 0}
+  .brand-r{padding:7px 22px 7px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+  .brand-tag{font-family:var(--data);font-size:8px;letter-spacing:.2em;color:var(--gold);
+    font-weight:600}
+  .brand-sub{font-family:var(--data);font-size:8px;letter-spacing:.14em;
+    color:var(--ticket-mute);font-weight:600}
+  .fold{position:absolute;right:0;bottom:0;width:0;height:0;
+    border-left:16px solid transparent;border-bottom:16px solid var(--gold)}
+  .ticks{display:flex;align-items:flex-end;gap:2px;height:8px;margin-top:3px}
+  .ticks i{width:1px;background:var(--ticket-rule);height:4px;display:block}
+  .ticks i.tall{height:8px;background:var(--gold)}
 
-  .summary{display:flex;gap:7px;margin:12px 0 0}
-  .sum{flex:1;background:var(--panel);border-radius:2px;padding:9px 10px;text-align:center}
-  .sum-v{font-family:var(--display);font-size:24px;font-weight:700;line-height:1}
-  .sum-v.brass{color:var(--brass)}
-  .sum-v.pos{color:var(--win)} .sum-v.neg{color:var(--loss)}
-  .sum-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .topright{margin-left:auto;display:flex;gap:6px;align-items:center}
+  .iconbtn{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
+    width:34px;height:34px;border-radius:5px;cursor:pointer;font-size:15px;line-height:1;
+    display:flex;align-items:center;justify-content:center}
+  .iconbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .stamp{font-family:var(--data);font-size:10px;color:var(--mute);letter-spacing:.08em;
+    width:100%;font-weight:500}
 
-  nav{display:flex;gap:2px;margin:14px 0 0;position:sticky;top:0;z-index:30;
-    background:var(--ink);padding:8px 0;border-bottom:1px solid var(--rule)}
-  .tab{flex:1;appearance:none;border:0;cursor:pointer;background:var(--panel);
-    color:var(--muted);font-family:var(--display);font-size:15px;font-weight:600;
-    letter-spacing:.06em;text-transform:uppercase;padding:10px 2px;border-radius:2px;
+  /* ---------- tabs ---------- */
+  nav{display:flex;gap:3px;position:sticky;top:0;z-index:30;background:var(--page);
+    padding:8px 0;border-bottom:1px solid var(--rule)}
+  .tab{flex:1;appearance:none;border:1px solid transparent;cursor:pointer;
+    background:var(--panel);color:var(--mute);font-family:var(--display);font-size:15px;
+    letter-spacing:.09em;padding:9px 4px;border-radius:4px;white-space:nowrap;
     transition:background .15s,color .15s}
-  .tab[aria-selected="true"]{background:var(--brass);color:#17202b}
-  .tab:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
-  .badge-n{font-family:var(--mono);font-size:10px;margin-left:4px;opacity:.85}
+  .tab[aria-selected="true"]{background:var(--gold);color:#0C1B29}
+  .tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .tab .n{font-family:var(--data);font-size:10px;margin-left:4px;opacity:.8;font-weight:600}
   .panel[hidden]{display:none}
 
-  .filters{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px}
-  .chip{appearance:none;border:1px solid var(--rule);background:transparent;
-    color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
-    text-transform:uppercase;padding:6px 10px;border-radius:2px;cursor:pointer;
-    transition:background .15s,color .15s,border-color .15s}
-  .chip[aria-pressed="true"]{background:var(--brass);color:#17202b;border-color:var(--brass)}
-  .chip:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
-  .sortbar{display:flex;align-items:center;gap:8px;margin:8px 0 2px;
-    font-family:var(--mono);font-size:10px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--muted)}
-  .sortbar select{background:var(--panel);color:var(--paper);border:1px solid var(--rule);
-    border-radius:2px;font-family:var(--mono);font-size:11px;padding:5px 7px}
-  .count{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted)}
+  /* ---------- drawer ---------- */
+  .drawer{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:flex;
+    justify-content:flex-end}
+  .drawer[hidden]{display:none}
+  .drawer-in{background:var(--page);width:min(320px,86vw);height:100%;padding:16px 14px;
+    overflow:auto;border-left:1px solid var(--rule)}
+  .drawer-h{display:flex;align-items:center;margin-bottom:10px}
+  .drawer-h .t{font-family:var(--display);font-size:22px;letter-spacing:.06em}
+  .drawer-h button{margin-left:auto}
+  .menu-item{display:block;width:100%;text-align:left;appearance:none;border:0;
+    background:var(--panel);color:var(--ink);font-family:var(--display);font-size:17px;
+    letter-spacing:.07em;padding:11px 12px;border-radius:4px;margin-bottom:6px;cursor:pointer}
+  .menu-item[aria-selected="true"]{background:var(--gold);color:#0C1B29}
 
-  .card{background:var(--panel);border-radius:2px;margin:7px 0;padding:9px 10px 9px 0;
-    display:flex;position:relative;overflow:hidden}
-  .card.qual .tick{background:var(--brass)}
-  .card.top{background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--brass)}
-  .tick{width:3px;flex:none;background:var(--rule);margin-right:10px}
-  .card-body{flex:1;min-width:0}
+  /* ---------- filters ---------- */
+  .filters{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0 4px}
+  .chip{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
+    font-family:var(--data);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    font-weight:600;padding:6px 9px;border-radius:3px;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--gold);color:#0C1B29;border-color:var(--gold)}
+  .chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .sortbar{display:flex;align-items:center;gap:8px;margin:8px 0 2px;font-family:var(--data);
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .sortbar select{background:var(--panel);color:var(--ink);border:1px solid var(--rule);
+    border-radius:3px;font-family:var(--data);font-size:11px;padding:5px 7px;font-weight:600}
+  .count{margin-left:auto}
 
-  .chead{display:flex;align-items:flex-start;gap:8px}
-  .cleft{flex:1;min-width:0}
-  .matchup{font-family:var(--display);font-size:17px;font-weight:600;line-height:1.1}
-  .at{color:var(--muted);font-weight:500;padding:0 3px}
-  .cmeta{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:2px;
-    display:flex;gap:7px;flex-wrap:wrap}
-  .cright{flex:none;text-align:right;display:flex;flex-direction:column;
-    align-items:flex-end;gap:2px}
-  .cpick{font-family:var(--display);font-size:16px;font-weight:700;line-height:1.05;
-    text-transform:uppercase;white-space:nowrap}
-  .cline{font-family:var(--mono);font-size:14px;color:var(--brass);font-weight:600}
-  .tierrow{display:flex;align-items:center;gap:5px}
-  .tierbadge{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;
-    border:1px solid var(--rule);border-radius:1px;padding:1px 5px;color:var(--muted)}
-  .tierbadge.A{background:var(--brass);color:#17202b;border-color:var(--brass)}
-  .tierbadge.B{color:var(--brass);border-color:var(--brass)}
-  .tierbadge.C{color:var(--cool);border-color:var(--cool)}
-  .star{appearance:none;border:0;background:transparent;cursor:pointer;font-size:17px;
-    line-height:1;color:var(--rule);padding:0;transition:color .15s}
-  .star[aria-pressed="true"]{color:var(--brass)}
-  .star:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  /* ---------- ticket ---------- */
+  .ticket{background:var(--ticket);color:var(--ticket-ink);border-radius:8px;
+    margin:9px 0;position:relative;overflow:hidden;display:flex}
+  .ticket .fold{border-left:20px solid transparent;border-bottom:20px solid var(--gold)}
+  .t-main{flex:1;min-width:0;padding:9px 11px 8px}
+  .t-side{width:96px;flex:none;border-left:1px solid var(--ticket-rule);
+    padding:9px 10px 8px;display:flex;flex-direction:column;gap:5px}
+  .t-head{display:flex;align-items:baseline;gap:8px;font-family:var(--data);font-size:9px;
+    letter-spacing:.14em;font-weight:600;color:var(--ticket-mute)}
+  .t-head .when{margin-left:auto;white-space:nowrap}
+  .t-teams{margin-top:5px}
+  .t-team{display:flex;align-items:center;gap:7px;line-height:1}
+  .t-team + .t-team{margin-top:3px}
+  .t-logo{width:19px;height:19px;flex:none;object-fit:contain}
+  .t-logo-fb{width:19px;height:19px;flex:none;border-radius:3px;display:flex;
+    align-items:center;justify-content:center;font-family:var(--display);font-size:10px;
+    color:#fff;letter-spacing:.02em}
+  .t-name{font-family:var(--display);font-size:19px;letter-spacing:.02em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-at{font-family:var(--data);font-size:8.5px;letter-spacing:.18em;color:var(--ticket-mute);
+    font-weight:600;margin:1px 0 1px 26px}
+  .t-rule{display:flex;align-items:flex-end;gap:2px;height:9px;margin:7px 0 6px;opacity:.75}
+  .t-rule i{width:1px;height:4px;background:var(--ticket-rule);display:block}
+  .t-rule i.tall{height:9px;background:var(--gold)}
+  .t-pick{display:flex;align-items:center;gap:7px;background:var(--gold);
+    color:#0C1B29;border-radius:3px;padding:5px 8px}
+  .t-pick-k{font-family:var(--data);font-size:8.5px;letter-spacing:.18em;font-weight:700;
+    opacity:.75}
+  .t-pick-v{font-family:var(--display);font-size:17px;letter-spacing:.03em;line-height:1;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-pick-n{margin-left:auto;font-family:var(--data);font-size:15px;font-weight:700;
+    font-variant-numeric:tabular-nums}
+  .t-foot{display:flex;align-items:center;gap:7px;margin-top:7px}
+  .t-mark{font-family:var(--display);font-size:11px;letter-spacing:.06em;line-height:.9;
+    color:var(--ticket-mute)}
+  .t-mark b{display:block;font-size:13px;color:var(--ticket-ink);font-weight:400}
+  .why{margin-left:auto;appearance:none;border:1px solid var(--ticket-rule);background:transparent;
+    color:var(--ticket-mute);font-family:var(--data);font-size:9px;letter-spacing:.14em;
+    font-weight:700;padding:3px 7px;border-radius:3px;cursor:pointer}
+  .why[aria-expanded="true"]{background:var(--ticket-rule);color:var(--ticket-ink)}
+  .star{appearance:none;border:0;background:transparent;cursor:pointer;font-size:16px;
+    line-height:1;color:var(--ticket-rule);padding:0}
+  .star[aria-pressed="true"]{color:var(--gold)}
 
-  .nums{display:flex;align-items:center;margin-top:7px;padding-top:7px;
-    border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px}
-  .nums .n{flex:1;color:var(--muted)}
-  .nums .n b{color:var(--paper);font-weight:600;font-size:13px;margin-left:4px}
-  .nums .n.gap b{color:var(--brass)}
-  .info{appearance:none;border:1px solid var(--rule);background:transparent;
-    color:var(--muted);font-family:var(--mono);font-size:10px;line-height:1;
-    padding:3px 6px;border-radius:1px;cursor:pointer;flex:none}
-  .info[aria-expanded="true"]{background:var(--rule);color:var(--paper)}
-  .info:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .d-row{display:flex;align-items:baseline;gap:4px}
+  .d-k{font-family:var(--data);font-size:8px;letter-spacing:.15em;font-weight:700;
+    color:var(--ticket-mute)}
+  .d-v{margin-left:auto;font-family:var(--data);font-size:14px;font-weight:700;
+    font-variant-numeric:tabular-nums}
+  .d-v.model{color:var(--blue)}
+  .d-v.edge{color:var(--gold)}
+  .stars{font-size:11px;letter-spacing:1px;color:var(--gold);line-height:1;margin-top:1px}
+  .stars .off{color:var(--ticket-rule)}
 
-  .drivers{margin-top:7px;padding-top:7px;border-top:1px solid var(--rule);
-    display:flex;flex-direction:column;gap:4px}
+  .drivers{padding:0 11px 9px;border-top:1px solid var(--ticket-rule);margin:0 11px 8px 11px;
+    padding-left:0;padding-right:0}
   .drivers[hidden]{display:none}
-  .driver{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.35}
-  .dot{width:5px;height:5px;border-radius:50%;flex:none;margin-top:5px;background:var(--cool)}
-  .dot.caution{background:var(--loss)}
-  .dot.weather,.dot.travel,.dot.rest{background:var(--brass)}
-  .driver.caution{color:var(--muted)}
+  .driver{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.35;
+    margin-top:6px;color:var(--ticket-ink)}
+  .dot{width:5px;height:5px;border-radius:50%;flex:none;margin-top:5px;background:var(--blue)}
+  .dot.caution{background:#B4574F}
+  .dot.weather,.dot.travel,.dot.rest{background:var(--gold)}
+  .driver.caution{color:var(--ticket-mute)}
 
-  .chart{background:var(--panel);border-radius:2px;padding:12px 12px 8px;margin:10px 0}
-  .chart-t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
-    text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-  .legend{display:flex;gap:14px;margin-top:8px;font-family:var(--mono);font-size:10px}
-  .legend span{display:flex;align-items:center;gap:5px;color:var(--muted)}
-  .legend i{width:12px;height:2px;display:inline-block}
+  /* ---------- panels, tiles, charts ---------- */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+  .tile{background:var(--panel);border-radius:4px;padding:10px}
+  .tile-k{font-family:var(--data);font-size:8.5px;letter-spacing:.14em;font-weight:700;
+    color:var(--mute)}
+  .tile-v{font-family:var(--display);font-size:26px;line-height:1.05;margin-top:3px}
+  .tile-v.pos{color:#4E9A6B} .tile-v.neg{color:#B4574F}
+  .tile-sub{font-family:var(--data);font-size:10px;color:var(--mute);margin-top:1px;font-weight:500}
+  .chart{background:var(--panel);border-radius:4px;padding:12px 12px 8px;margin:10px 0}
+  .chart-t{font-family:var(--data);font-size:9px;letter-spacing:.15em;font-weight:700;
+    color:var(--mute);margin-bottom:9px}
   svg{display:block;width:100%}
+  .legend{display:flex;gap:13px;margin-top:8px;font-family:var(--data);font-size:9.5px;
+    font-weight:600}
+  .legend span{display:flex;align-items:center;gap:5px;color:var(--mute)}
+  .legend i{width:12px;height:2px;display:inline-block}
 
-  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
-  .tile{background:var(--panel);border-radius:2px;padding:11px 10px}
-  .tile-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted)}
-  .tile-v{font-family:var(--display);font-size:26px;font-weight:700;line-height:1.05;margin-top:3px}
-  .tile-v.pos{color:var(--win)} .tile-v.neg{color:var(--loss)}
-  .tile-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
-
-  .srow{display:grid;grid-template-columns:52px 1fr 62px 56px;gap:10px;
-    align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
-  .syear{font-family:var(--display);font-size:18px;font-weight:600}
-  .syear .live{font-family:var(--mono);font-size:8.5px;color:var(--brass);
-    display:block;letter-spacing:.12em}
-  .sbar{position:relative;height:16px}
+  .srow{display:grid;grid-template-columns:48px 1fr 60px 54px;gap:9px;align-items:center;
+    padding:9px 0;border-bottom:1px solid var(--rule)}
+  .syear{font-family:var(--display);font-size:18px}
+  .syear .live{font-family:var(--data);font-size:8px;color:var(--gold);display:block;
+    letter-spacing:.12em;font-weight:700}
+  .sbar{position:relative;height:14px}
   .sbar-mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--rule)}
-  .sbar-fill{position:absolute;top:4px;height:8px;border-radius:1px}
-  .sright{font-family:var(--mono);font-size:13px;text-align:right}
-  .sright small{display:block;font-size:9px;color:var(--muted)}
+  .sbar-fill{position:absolute;top:3px;height:8px;border-radius:1px}
+  .sright{font-family:var(--data);font-size:12.5px;text-align:right;font-weight:600}
+  .sright small{display:block;font-size:9px;color:var(--mute);font-weight:500}
 
-  .rrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule)}
-  .badge{font-family:var(--display);font-size:12px;font-weight:700;width:30px;flex:none;
-    text-align:center;padding:3px 0;border-radius:1px}
-  .badge.win{background:var(--win);color:#0f1a13}
-  .badge.loss{background:var(--loss);color:#1e0f0e}
-  .badge.push{background:var(--push);color:#14181d}
+  .rrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--rule)}
+  .badge{font-family:var(--display);font-size:12px;width:28px;flex:none;text-align:center;
+    padding:3px 0;border-radius:2px}
+  .badge.win{background:#4E9A6B;color:#0C1B29}
+  .badge.loss{background:#B4574F;color:#fff}
+  .badge.push{background:var(--rule);color:var(--ink)}
   .rmain{flex:1;min-width:0}
-  .rpick{font-family:var(--display);font-size:16px;font-weight:600}
-  .rsub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:1px}
+  .rpick{font-family:var(--display);font-size:16px;letter-spacing:.02em}
+  .rsub{font-family:var(--data);font-size:10px;color:var(--mute);font-weight:500}
 
-  h2{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:.04em;
-    text-transform:uppercase;margin:20px 0 2px}
-  h3{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.04em;
-    text-transform:uppercase;margin:18px 0 4px;color:var(--brass)}
-  .sub{font-size:12.5px;color:var(--muted);margin:0 0 6px}
-  .empty{background:var(--panel);border-radius:2px;padding:24px 16px;text-align:center;margin:10px 0}
-  .empty-h{font-family:var(--display);font-size:20px;font-weight:600;text-transform:uppercase}
-  .empty-p{font-size:13px;color:var(--muted);margin-top:5px}
-  .note{background:var(--panel);border-left:3px solid var(--cool);padding:10px 12px;
-    margin:10px 0;font-size:13px;border-radius:2px}
-  .note.warn{border-left-color:var(--brass)}
-  dl{margin:0}
-  dt{font-family:var(--display);font-size:15px;font-weight:600;letter-spacing:.03em;
-    margin-top:13px;color:var(--paper)}
-  dd{margin:3px 0 0;font-size:13.5px;color:var(--muted);line-height:1.5}
-  dd b{color:var(--paper);font-weight:500}
-  a{color:var(--cool)}
+  h2{font-family:var(--display);font-size:21px;letter-spacing:.05em;margin:20px 0 2px}
+  h3{font-family:var(--display);font-size:17px;letter-spacing:.05em;margin:18px 0 4px;color:var(--gold)}
+  .sub{font-size:12.5px;color:var(--mute);margin:0 0 6px}
+  .empty{background:var(--panel);border-radius:4px;padding:26px 16px;text-align:center;margin:10px 0}
+  .empty-h{font-family:var(--display);font-size:21px;letter-spacing:.05em}
+  .empty-p{font-size:13px;color:var(--mute);margin-top:5px}
+  .note{background:var(--panel);border-left:3px solid var(--blue);padding:10px 12px;
+    margin:10px 0;font-size:13px;border-radius:0 4px 4px 0}
+  .note.warn{border-left-color:var(--gold)}
+  dl{margin:0} dt{font-family:var(--display);font-size:16px;letter-spacing:.04em;margin-top:13px}
+  dd{margin:3px 0 0;font-size:13.5px;color:var(--mute);line-height:1.5}
+  dd b{color:var(--ink);font-weight:600}
+  .watermark{text-align:center;padding:26px 0 8px;opacity:.22}
+  .watermark .c{font-family:var(--display);font-size:46px;letter-spacing:.05em;color:var(--ink)}
+  .watermark .t{font-family:var(--data);font-size:9px;letter-spacing:.3em;color:var(--ink);
+    font-weight:700}
+  @media (max-width:430px){
+    .t-side{width:86px}
+    .t-name{font-size:17px}
+    .tab{font-size:13.5px;letter-spacing:.05em}
+  }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="eyebrow">College football model</div>
-    <h1>The <span class="accent">Card</span></h1>
+  <div class="top">
+    <div class="brand">
+      <div class="brand-l">
+        <div class="brand-the">THE</div>
+        <div class="brand-card">CARD</div>
+        <div class="ticks" id="brandticks"></div>
+      </div>
+      <div class="brand-rule"></div>
+      <div class="brand-r">
+        <div class="brand-sub">COLLEGE FOOTBALL</div>
+        <div class="brand-sub">ANALYTICS</div>
+        <div class="brand-tag">READ THE CARD</div>
+      </div>
+      <div class="fold"></div>
+    </div>
+    <div class="topright">
+      <button class="iconbtn" id="themebtn" aria-label="Switch theme">◐</button>
+      <button class="iconbtn" id="menubtn" aria-label="Open menu">☰</button>
+    </div>
     <div class="stamp" id="stamp"></div>
-  </header>
-
-  <div class="summary" id="summary"></div>
+  </div>
 
   <nav role="tablist">
-    <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">Board</button>
-    <button class="tab" role="tab" id="t-slip" aria-controls="p-slip" aria-selected="false">Slip</button>
-    <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">Record</button>
-    <button class="tab" role="tab" id="t-model" aria-controls="p-model" aria-selected="false">Model</button>
+    <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">THE CARD</button>
+    <button class="tab" role="tab" id="t-slip" aria-controls="p-slip" aria-selected="false">YOUR CARD</button>
+    <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">RECORD</button>
   </nav>
 
   <section class="panel" id="p-board" role="tabpanel" aria-labelledby="t-board"></section>
   <section class="panel" id="p-slip" role="tabpanel" aria-labelledby="t-slip" hidden></section>
   <section class="panel" id="p-record" role="tabpanel" aria-labelledby="t-record" hidden></section>
-  <section class="panel" id="p-model" role="tabpanel" aria-labelledby="t-model" hidden></section>
+  <section class="panel" id="p-model" role="tabpanel" hidden></section>
+
+  <div class="watermark"><div class="c">C</div><div class="t">READ THE CARD</div></div>
+</div>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-in">
+    <div class="drawer-h"><div class="t">MENU</div>
+      <button class="iconbtn" id="closemenu" aria-label="Close menu">✕</button></div>
+    <button class="menu-item" id="m-model">THE MODEL</button>
+    <button class="menu-item" id="m-theme">SWITCH TO LIGHT</button>
+  </div>
 </div>
 
 <script>
@@ -204,118 +289,132 @@ const sgn = n => (n > 0 ? '+' : '') + Number(n).toFixed(1);
 const sgnInt = n => (n > 0 ? '+' : '') + Math.round(n);
 
 let DATA = null;
-const FAVS = new Set();               // in-memory only, clears on reload
+const FAVS = new Set();
 const FILTERS = { market:'all', quality:'all' };
 let SORT = 'confidence';
 let TIER = 'A';
+let VIEW = 'board';
+
+/* Tier A-E reads as 5-1 stars: more stars, more sure. */
+const TIER_STARS = { A:5, B:4, C:3, D:2, E:1 };
+function stars(tier){
+  const n = TIER_STARS[tier] || 0;
+  if(!n) return '<span class="stars"><span class="off">☆☆☆☆☆</span></span>';
+  return `<span class="stars">${'★'.repeat(n)}<span class="off">${'☆'.repeat(5-n)}</span></span>`;
+}
+
+function tickRow(n, mid){
+  let out = '';
+  for(let i = 0; i < n; i++) out += `<i class="${i === mid ? 'tall' : ''}"></i>`;
+  return out;
+}
 
 function kickText(iso){
   if(!iso) return '';
-  const d = new Date(iso), hrs = (d - new Date()) / 36e5;
-  const when = d.toLocaleDateString([], {weekday:'short'}) + ' ' +
-               d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
-  return hrs < 24 ? `${when} · ${Math.max(0, Math.round(hrs))}h` : when;
+  const d = new Date(iso);
+  return d.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}).toUpperCase()
+    + ' · ' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 }
 const started = p => p.kickoff && new Date(p.kickoff) < new Date();
 
-/* Finished and in-progress games drop off automatically. */
 function allPicks(){
   const s = (DATA.picks || []).map(p => ({...p, market:'spread'}));
   const t = (DATA.total_picks || []).map(p => ({...p, market:'total',
     pick_spread:p.line, model_margin:p.model_total, market_margin:p.line}));
   return s.concat(t).filter(p => !started(p));
 }
-
 function visible(){
   let list = allPicks();
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
   if(FILTERS.quality === 'top') list = list.filter(p => p.top_pick);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
-  const key = {
-    confidence: p => -(p.confidence ?? 0),
-    edge:       p => -Math.abs(p.edge ?? 0),
-    kickoff:    p => new Date(p.kickoff || 0).getTime(),
-  }[SORT];
+  const key = { confidence:p => -(p.confidence ?? 0),
+                edge:p => -Math.abs(p.edge ?? 0),
+                kickoff:p => new Date(p.kickoff || 0).getTime() }[SORT];
   return list.sort((a,b) => key(a) - key(b));
 }
 
-/* Book, model, gap — quoted from the side being picked, so the three numbers
-   read left to right as one sentence. */
-function cardNums(p){
-  let book, model;
-  if(p.market === 'total'){ book = p.line; model = p.model_total; }
-  else { book = p.pick_spread; model = p.edge > 0 ? -p.model_margin : p.model_margin; }
-  if(book == null || model == null) return '';
-  const f = v => p.market === 'total' ? Number(v).toFixed(1) : sgn(v);
-  return `<span class="n">Book<b>${esc(f(book))}</b></span>
-    <span class="n">Model<b>${esc(f(model))}</b></span>
-    <span class="n gap">Gap<b>${esc(Math.abs(p.edge).toFixed(1))}</b></span>`;
+/* Team mark: real logo when available, else initials on the school's colour. */
+function teamMark(name){
+  const t = (DATA.teams || {})[name];
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const url = t && (dark ? t.logo : (t.logo_dark || t.logo));
+  if(url) return `<img class="t-logo" src="${esc(url)}" alt="" loading="lazy"
+    onerror="this.style.visibility='hidden'">`;
+  const col = (t && t.color) ? (t.color.startsWith('#') ? t.color : '#' + t.color) : '#6B7683';
+  const ini = String(name || '?').replace(/[^A-Za-z ]/g,'').split(' ')
+    .map(w => w[0]).join('').slice(0,2).toUpperCase();
+  return `<span class="t-logo-fb" style="background:${esc(col)}">${esc(ini)}</span>`;
 }
 
-function card(p, rank){
+function ticket(p, rank){
   const id = p.market + ':' + p.game_id;
   const fav = FAVS.has(id);
-  const cls = p.top_pick ? 'top qual' : p.qualified ? 'qual' : '';
-  const w = Math.min(3 + Math.abs(p.edge) * 0.8, 10).toFixed(1);
-  const tier = p.tier || '—';
+  const isTotal = p.market === 'total';
+  const book = isTotal ? p.line : p.pick_spread;
+  const model = isTotal ? p.model_total : (p.edge > 0 ? -p.model_margin : p.model_margin);
+  const f = v => isTotal ? Number(v).toFixed(1) : sgn(v);
   const drivers = (p.drivers || []).map(d => `
     <div class="driver ${d.kind === 'caution' ? 'caution' : ''}">
       <span class="dot ${esc(d.kind)}"></span><span>${esc(d.text)}</span></div>`).join('');
   return `
-  <div class="card ${cls}">
-    <div class="tick" style="width:${w}px"></div>
-    <div class="card-body">
-      <div class="chead">
-        <div class="cleft">
-          <div class="matchup">${esc(p.away)}<span class="at">at</span>${esc(p.home)}</div>
-          <div class="cmeta">
-            ${rank ? `<span>#${rank}</span>` : ''}
-            <span>${esc(kickText(p.kickoff))}</span>
-            ${p.market === 'total' ? '<span>total</span>' : ''}
-          </div>
+  <div class="ticket">
+    <div style="flex:1;min-width:0">
+      <div class="t-main">
+        <div class="t-head">
+          <span>${p.week != null ? 'WEEK ' + String(p.week).padStart(2,'0') : ''}</span>
+          ${rank ? `<span style="color:var(--gold)">#${rank}</span>` : ''}
+          <span class="when">${esc(kickText(p.kickoff))}</span>
         </div>
-        <div class="cright">
-          <div class="cpick">${esc(p.pick)}
-            <span class="cline">${p.market === 'total' ? esc(p.line) : sgn(p.pick_spread)}</span></div>
-          <div class="tierrow">
-            <span class="tierbadge ${esc(tier)}">Tier ${esc(tier)}</span>
-            <button class="star" aria-pressed="${fav}" data-fav="${esc(id)}"
-              aria-label="${fav ? 'Remove from slip' : 'Add to slip'}">${fav ? '★' : '☆'}</button>
-          </div>
+        <div class="t-teams">
+          <div class="t-team">${teamMark(p.away)}<span class="t-name">${esc(p.away)}</span></div>
+          <div class="t-at">AT</div>
+          <div class="t-team">${teamMark(p.home)}<span class="t-name">${esc(p.home)}</span></div>
         </div>
-      </div>
-      <div class="nums">
-        ${cardNums(p)}
-        ${drivers ? `<button class="info" data-info="${esc(id)}" aria-expanded="false">Why</button>` : ''}
+        <div class="t-rule">${tickRow(29, 14)}</div>
+        <div class="t-pick">
+          <span class="t-pick-k">PICK</span>
+          <span class="t-pick-v">${esc(p.pick)}</span>
+          <span class="t-pick-n">${esc(f(book))}</span>
+        </div>
+        <div class="t-foot">
+          <div class="t-mark">THE<b>CARD</b></div>
+          ${drivers ? `<button class="why" data-info="${esc(id)}" aria-expanded="false">WHY</button>` : ''}
+          <button class="star" aria-pressed="${fav}" data-fav="${esc(id)}"
+            aria-label="${fav ? 'Remove from your card' : 'Add to your card'}">${fav ? '★' : '☆'}</button>
+        </div>
       </div>
       ${drivers ? `<div class="drivers" id="why-${esc(id)}" hidden>${drivers}</div>` : ''}
     </div>
+    <div class="t-side">
+      <div><div class="d-k">MODEL</div><div class="d-row"><span class="d-v model">${esc(f(model))}</span></div></div>
+      <div><div class="d-k">BOOK</div><div class="d-row"><span class="d-v">${esc(f(book))}</span></div></div>
+      <div><div class="d-k">EDGE</div><div class="d-row"><span class="d-v edge">${esc(Math.abs(p.edge).toFixed(1))}</span></div></div>
+      <div><div class="d-k">CONFIDENCE</div>${stars(p.tier)}</div>
+    </div>
+    <div class="fold"></div>
   </div>`;
 }
 
 function renderBoard(){
   const list = visible();
   const notes = (DATA.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('');
-  const chip = (g, v, label) =>
-    `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${label}</button>`;
+  const chip = (g,v,l) => `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${l}</button>`;
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}${chip('quality','top','Top')}
       ${chip('market','all','Both')}${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
-    <div class="sortbar">
-      <label for="sortsel">Sort</label>
+    <div class="sortbar"><label for="sortsel">Sort</label>
       <select id="sortsel">
         <option value="confidence"${SORT==='confidence'?' selected':''}>Most sure</option>
-        <option value="edge"${SORT==='edge'?' selected':''}>Biggest gap</option>
+        <option value="edge"${SORT==='edge'?' selected':''}>Biggest edge</option>
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
-      <span class="count">${list.length} game${list.length===1?'':'s'}</span>
-    </div>`;
+      <span class="count">${list.length} GAME${list.length===1?'':'S'}</span></div>`;
   let rank = 0;
-  const body = list.length
-    ? list.map(p => card(p, p.top_pick ? ++rank : null)).join('')
-    : `<div class="empty"><div class="empty-h">Nothing here</div>
+  const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
+    : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
        <div class="empty-p">No upcoming games match, or lines aren't posted yet.</div></div>`;
   $('p-board').innerHTML = notes + controls + body;
   wire($('p-board'));
@@ -324,431 +423,367 @@ function renderBoard(){
 function renderSlip(){
   const picks = allPicks().filter(p => FAVS.has(p.market + ':' + p.game_id));
   if(!picks.length){
-    $('p-slip').innerHTML = `<div class="empty"><div class="empty-h">Slip is empty</div>
-      <div class="empty-p">Tap ☆ on the board to shortlist games.</div></div>`;
+    $('p-slip').innerHTML = `<div class="empty"><div class="empty-h">YOUR CARD IS EMPTY</div>
+      <div class="empty-p">Tap ☆ on any game to add it here.</div></div>`;
     return;
   }
   const avg = picks.reduce((a,p) => a + Math.abs(p.edge), 0) / picks.length;
+  const best = ['A','B','C','D','E'].find(t => picks.some(p => p.tier === t));
   $('p-slip').innerHTML = `
     <div class="tiles">
-      <div class="tile"><div class="tile-k">Games</div><div class="tile-v">${picks.length}</div></div>
-      <div class="tile"><div class="tile-k">Avg gap</div><div class="tile-v">${avg.toFixed(1)}</div></div>
-      <div class="tile"><div class="tile-k">Best tier</div>
-        <div class="tile-v">${esc(['A','B','C','D','E'].find(t => picks.some(p => p.tier === t)) || '—')}</div>
-        <div class="tile-sub">${picks.filter(p => p.qualified).length} qualified</div></div>
+      <div class="tile"><div class="tile-k">GAMES</div><div class="tile-v">${picks.length}</div></div>
+      <div class="tile"><div class="tile-k">AVG EDGE</div><div class="tile-v">${avg.toFixed(1)}</div></div>
+      <div class="tile"><div class="tile-k">BEST</div>
+        <div class="tile-v" style="font-size:19px">${best ? stars(best) : '—'}</div>
+        <div class="tile-sub">${picks.filter(p=>p.qualified).length} qualified</div></div>
     </div>
-    <button class="chip" id="clearslip" style="margin:4px 0 8px">Clear slip</button>
-    ${picks.map(p => card(p)).join('')}`;
+    <button class="chip" id="clearslip" style="margin:4px 0 8px">Clear card</button>
+    ${picks.map(p => ticket(p)).join('')}`;
   wire($('p-slip'));
   $('clearslip').addEventListener('click', () => { FAVS.clear(); renderAll(); });
 }
 
 function equityChart(eq){
   if(!eq || eq.length < 3) return '';
-  const W = 320, H = 90, P = 4;
-  const ys = eq.map(d => d.units);
-  const x1 = eq.length, y0 = Math.min(0, ...ys), y1 = Math.max(0, ...ys);
-  const px = i => P + i / Math.max(x1 - 1, 1) * (W - 2*P);
-  const py = v => H - P - (v - y0) / Math.max(y1 - y0, 1) * (H - 2*P);
-  const pts = eq.map((d,i) => `${px(i).toFixed(1)},${py(d.units).toFixed(1)}`).join(' ');
-  const last = ys[ys.length-1];
-  return `<div class="chart">
-    <div class="chart-t">Units over time · ${last > 0 ? '+' : ''}${last.toFixed(1)}</div>
+  const W=320,H=90,P=4, ys=eq.map(d=>d.units);
+  const y0=Math.min(0,...ys), y1=Math.max(0,...ys);
+  const px=i=>P+i/Math.max(eq.length-1,1)*(W-2*P);
+  const py=v=>H-P-(v-y0)/Math.max(y1-y0,1)*(H-2*P);
+  const pts=eq.map((d,i)=>`${px(i).toFixed(1)},${py(d.units).toFixed(1)}`).join(' ');
+  const last=ys[ys.length-1];
+  return `<div class="chart"><div class="chart-t">UNITS OVER TIME · ${last>0?'+':''}${last.toFixed(1)}</div>
     <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:90px">
       <line x1="0" y1="${py(0)}" x2="${W}" y2="${py(0)}" stroke="var(--rule)"/>
-      <polyline points="${pts}" fill="none" stroke="${last >= 0 ? 'var(--win)' : 'var(--loss)'}"
-        stroke-width="2" stroke-linejoin="round"/>
-    </svg></div>`;
+      <polyline points="${pts}" fill="none" stroke="${last>=0?'#4E9A6B':'#B4574F'}"
+        stroke-width="2" stroke-linejoin="round"/></svg></div>`;
 }
 
-/* Win rate per season, drawn relative to break-even: bars right of centre made
-   money, left lost it. The gap column is the steadier signal — win rate on a few
-   hundred picks is mostly noise. */
-/* Points behind the book, by season. Lower is better; the dashed zero line is
-   matching the closing number. Three series so you can see whether one market is
-   carrying the other. */
 function gapTrend(rows){
   if(!rows || rows.length < 2) return '';
-  const W = 320, H = 132, L = 26, R = 8, T = 10, B = 22;
-  const seasons = rows.map(r => r.season);
-  const vals = rows.flatMap(r => [r.spread, r.total, r.all]).filter(v => v != null);
+  const W=320,H=132,L=26,R=8,T=10,B=22;
+  const vals=rows.flatMap(r=>[r.spread,r.total,r.all]).filter(v=>v!=null);
   if(!vals.length) return '';
-  const ymax = Math.max(0.4, ...vals) * 1.15;
-  const ymin = Math.min(0, ...vals) * 1.15;
-  const px = i => L + (rows.length === 1 ? 0 : i / (rows.length - 1) * (W - L - R));
-  const py = v => T + (ymax - v) / Math.max(ymax - ymin, .01) * (H - T - B);
-
-  const series = [
-    ['spread', 'var(--brass)'],
-    ['total',  'var(--cool)'],
-    ['all',    'var(--paper)'],
-  ];
-  const lines = series.map(([key, col]) => {
-    const pts = rows.map((r, i) => r[key] == null ? null : `${px(i).toFixed(1)},${py(r[key]).toFixed(1)}`)
-                    .filter(Boolean);
-    if(pts.length < 2) return '';
-    const dots = rows.map((r, i) => r[key] == null ? '' :
-      `<circle cx="${px(i).toFixed(1)}" cy="${py(r[key]).toFixed(1)}" r="2.4" fill="${col}"/>`).join('');
-    return `<polyline points="${pts.join(' ')}" fill="none" stroke="${col}"
-      stroke-width="${key === 'all' ? 2.4 : 1.6}" stroke-linejoin="round"
-      opacity="${key === 'all' ? 1 : .9}"/>${dots}`;
+  const ymax=Math.max(0.4,...vals)*1.15, ymin=Math.min(0,...vals)*1.15;
+  const px=i=>L+(rows.length===1?0:i/(rows.length-1)*(W-L-R));
+  const py=v=>T+(ymax-v)/Math.max(ymax-ymin,.01)*(H-T-B);
+  const series=[['spread','#B4892C'],['total','#10739E'],['all','var(--ink)']];
+  const lines=series.map(([k,c])=>{
+    const pts=rows.map((r,i)=>r[k]==null?null:`${px(i).toFixed(1)},${py(r[k]).toFixed(1)}`).filter(Boolean);
+    if(pts.length<2) return '';
+    const dots=rows.map((r,i)=>r[k]==null?'':`<circle cx="${px(i).toFixed(1)}" cy="${py(r[k]).toFixed(1)}" r="2.4" fill="${c}"/>`).join('');
+    return `<polyline points="${pts.join(' ')}" fill="none" stroke="${c}"
+      stroke-width="${k==='all'?2.4:1.6}" stroke-linejoin="round"/>${dots}`;
   }).join('');
-
-  const zeroY = py(0);
-  const ticks = [ymax, (ymax + ymin) / 2, ymin].map(v => `
-    <text x="${L - 5}" y="${py(v) + 3}" text-anchor="end" font-size="8"
-      fill="#8b9aad" font-family="monospace">${v.toFixed(1)}</text>`).join('');
-  const xlabs = rows.map((r, i) => `
-    <text x="${px(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="8"
-      fill="#8b9aad" font-family="monospace">${esc(String(r.season).slice(2))}</text>`).join('');
-
-  return `<div class="chart">
-    <div class="chart-t">Points behind the book, by season &middot; lower is better</div>
+  const ticks=[ymax,(ymax+ymin)/2,ymin].map(v=>`<text x="${L-5}" y="${py(v)+3}" text-anchor="end"
+    font-size="8" fill="currentColor" opacity=".55" font-family="Barlow">${v.toFixed(1)}</text>`).join('');
+  const xl=rows.map((r,i)=>`<text x="${px(i).toFixed(1)}" y="${H-6}" text-anchor="middle"
+    font-size="8" fill="currentColor" opacity=".55" font-family="Barlow">${esc(String(r.season).slice(2))}</text>`).join('');
+  return `<div class="chart" style="color:var(--mute)">
+    <div class="chart-t">POINTS BEHIND THE BOOK · LOWER IS BETTER</div>
     <svg viewBox="0 0 ${W} ${H}" style="height:132px">
-      <line x1="${L}" y1="${zeroY}" x2="${W - R}" y2="${zeroY}" stroke="#4e9a6b"
-        stroke-dasharray="3 3" stroke-width="1"/>
-      <text x="${W - R}" y="${zeroY - 4}" text-anchor="end" font-size="7.5"
-        fill="#4e9a6b" font-family="monospace">matches the book</text>
-      ${ticks}${xlabs}${lines}
-    </svg>
-    <div class="legend">
-      <span><i style="background:var(--brass)"></i>Spreads</span>
-      <span><i style="background:var(--cool)"></i>Totals</span>
-      <span><i style="background:var(--paper)"></i>All</span>
-    </div>
-  </div>`;
+      <line x1="${L}" y1="${py(0)}" x2="${W-R}" y2="${py(0)}" stroke="#4E9A6B" stroke-dasharray="3 3"/>
+      <text x="${W-R}" y="${py(0)-4}" text-anchor="end" font-size="7.5" fill="#4E9A6B"
+        font-family="Barlow">MATCHES THE BOOK</text>
+      ${ticks}${xl}${lines}</svg>
+    <div class="legend"><span><i style="background:#B4892C"></i>Spreads</span>
+      <span><i style="background:#10739E"></i>Totals</span>
+      <span><i style="background:currentColor"></i>All</span></div></div>`;
 }
 
-/* One tier, season by season, against break-even. */
 function tierTrend(rows, be, label){
-  const W = 320, H = 118, L = 26, R = 8, T = 10, B = 20;
-  const vals = rows.map(x => x.win_pct).filter(v => v != null);
-  if(vals.length < 2) return '';
-  const lo = Math.min(be - 6, ...vals) - 2, hi = Math.max(be + 6, ...vals) + 2;
-  const px = i => L + (rows.length === 1 ? 0 : i / (rows.length - 1) * (W - L - R));
-  const py = v => T + (hi - v) / Math.max(hi - lo, .01) * (H - T - B);
-  const pts = rows.map((x, i) => x.win_pct == null ? null
-    : `${px(i).toFixed(1)},${py(x.win_pct).toFixed(1)}`).filter(Boolean).join(' ');
-  const dots = rows.map((x, i) => x.win_pct == null ? '' :
-    `<circle cx="${px(i).toFixed(1)}" cy="${py(x.win_pct).toFixed(1)}" r="2.6"
-      fill="${x.win_pct >= be ? 'var(--win)' : 'var(--loss)'}"/>`).join('');
-  const xl = rows.map((x, i) => `<text x="${px(i).toFixed(1)}" y="${H - 5}"
-    text-anchor="middle" font-size="8" fill="#8b9aad" font-family="monospace">${esc(String(x.season).slice(2))}</text>`).join('');
-  return `<div class="chart">
-    <div class="chart-t">Tier ${esc(label === 'ALL' ? 'overall' : label)} win rate by season</div>
+  const W=320,H=118,L=26,R=8,T=10,B=20;
+  const vals=rows.map(x=>x.win_pct).filter(v=>v!=null);
+  if(vals.length<2) return '';
+  const lo=Math.min(be-6,...vals)-2, hi=Math.max(be+6,...vals)+2;
+  const px=i=>L+(rows.length===1?0:i/(rows.length-1)*(W-L-R));
+  const py=v=>T+(hi-v)/Math.max(hi-lo,.01)*(H-T-B);
+  const pts=rows.map((x,i)=>x.win_pct==null?null:`${px(i).toFixed(1)},${py(x.win_pct).toFixed(1)}`).filter(Boolean).join(' ');
+  const dots=rows.map((x,i)=>x.win_pct==null?'':`<circle cx="${px(i).toFixed(1)}" cy="${py(x.win_pct).toFixed(1)}"
+    r="2.6" fill="${x.win_pct>=be?'#4E9A6B':'#B4574F'}"/>`).join('');
+  const xl=rows.map((x,i)=>`<text x="${px(i).toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="8"
+    fill="currentColor" opacity=".55" font-family="Barlow">${esc(String(x.season).slice(2))}</text>`).join('');
+  return `<div class="chart" style="color:var(--mute)">
+    <div class="chart-t">${esc(label==='ALL'?'ALL PICKS':label + ' STARS')} · WIN RATE BY SEASON</div>
     <svg viewBox="0 0 ${W} ${H}" style="height:118px">
-      <line x1="${L}" y1="${py(be)}" x2="${W - R}" y2="${py(be)}" stroke="var(--brass)"
-        stroke-dasharray="3 3"/>
-      <text x="${L - 5}" y="${py(be) + 3}" text-anchor="end" font-size="8"
-        fill="#c8973f" font-family="monospace">${be}</text>
-      <polyline points="${pts}" fill="none" stroke="var(--paper)" stroke-width="2"
-        stroke-linejoin="round"/>${dots}${xl}
-    </svg></div>`;
+      <line x1="${L}" y1="${py(be)}" x2="${W-R}" y2="${py(be)}" stroke="#B4892C" stroke-dasharray="3 3"/>
+      <text x="${L-5}" y="${py(be)+3}" text-anchor="end" font-size="8" fill="#B4892C"
+        font-family="Barlow">${be}</text>
+      <polyline points="${pts}" fill="none" stroke="var(--ink)" stroke-width="2"
+        stroke-linejoin="round"/>${dots}${xl}</svg></div>`;
 }
 
 function seasonTable(rows, live, be){
   if(!rows || !rows.length) return '';
   const all = rows.slice();
-  if(live && live.win_pct != null){
-    all.push({season:live.season, bets:live.settled, win_pct:live.win_pct,
-              units:live.units, roi_pct:live.roi_pct, _live:true});
-  }
-  const SPAN = 12;   // percentage points either side of break-even
+  if(live && live.win_pct != null) all.push({season:live.season, bets:live.settled,
+    win_pct:live.win_pct, units:live.units, roi_pct:live.roi_pct, _live:true});
+  const SPAN = 12;
   return all.map(r => {
-    const wp = r.win_pct ?? be;
-    const d = Math.max(-SPAN, Math.min(SPAN, wp - be));
+    const wp = r.win_pct ?? be, d = Math.max(-SPAN, Math.min(SPAN, wp - be));
     const half = Math.abs(d) / SPAN * 50;
-    const style = d >= 0
-      ? `left:50%;width:${half.toFixed(1)}%;background:var(--win)`
-      : `right:50%;width:${half.toFixed(1)}%;background:var(--loss)`;
-    return `
-      <div class="srow">
-        <div class="syear">${esc(r.season)}${r._live ? '<span class="live">live</span>' : ''}</div>
-        <div class="sbar"><div class="sbar-mid"></div>
-          <div class="sbar-fill" style="${style}"></div></div>
-        <div class="sright">${r.win_pct == null ? '--' : esc(r.win_pct) + '%'}
-          <small>${esc(r.bets)} picks</small></div>
-        <div class="sright" style="color:${r.units > 0 ? 'var(--win)' : 'var(--loss)'}">
-          ${r.units > 0 ? '+' : ''}${esc(r.units)}
-          <small>${r.gap != null ? 'gap ' + esc(r.gap) : (r.roi_pct ?? '--') + '%'}</small></div>
-      </div>`;
+    const style = d >= 0 ? `left:50%;width:${half.toFixed(1)}%;background:#4E9A6B`
+                         : `right:50%;width:${half.toFixed(1)}%;background:#B4574F`;
+    return `<div class="srow">
+      <div class="syear">${esc(r.season)}${r._live?'<span class="live">LIVE</span>':''}</div>
+      <div class="sbar"><div class="sbar-mid"></div><div class="sbar-fill" style="${style}"></div></div>
+      <div class="sright">${r.win_pct==null?'--':esc(r.win_pct)+'%'}<small>${esc(r.bets)} picks</small></div>
+      <div class="sright" style="color:${r.units>0?'#4E9A6B':'#B4574F'}">${r.units>0?'+':''}${esc(r.units)}
+        <small>${r.gap!=null?'gap '+esc(r.gap):(r.roi_pct ?? '--')+'%'}</small></div></div>`;
   }).join('');
 }
 
 function renderRecord(){
   const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
+  const be = r.breakeven_pct ?? 52.4;
   let h = '';
   if(r.settled){
     h += `<div class="tiles">
-      <div class="tile"><div class="tile-k">Record</div>
-        <div class="tile-v">${r.wins}-${r.losses}${r.pushes ? '-' + r.pushes : ''}</div>
-        <div class="tile-sub">${r.win_pct ?? '--'}% · need ${r.breakeven_pct ?? 52.4}%</div></div>
-      <div class="tile"><div class="tile-k">Units</div>
-        <div class="tile-v ${r.units > 0 ? 'pos' : r.units < 0 ? 'neg' : ''}">${r.units > 0 ? '+' : ''}${esc(r.units)}</div>
+      <div class="tile"><div class="tile-k">RECORD</div>
+        <div class="tile-v">${r.wins}-${r.losses}${r.pushes?'-'+r.pushes:''}</div>
+        <div class="tile-sub">${r.win_pct ?? '--'}% · need ${be}%</div></div>
+      <div class="tile"><div class="tile-k">UNITS</div>
+        <div class="tile-v ${r.units>0?'pos':r.units<0?'neg':''}">${r.units>0?'+':''}${esc(r.units)}</div>
         <div class="tile-sub">${r.roi_pct ?? '--'}% return</div></div>
-      <div class="tile"><div class="tile-k">Line value</div>
-        <div class="tile-v ${r.avg_clv > 0 ? 'pos' : r.avg_clv < 0 ? 'neg' : ''}">${r.avg_clv == null ? '--' : (r.avg_clv > 0 ? '+' : '') + r.avg_clv}</div>
-        <div class="tile-sub">vs closing line</div></div>
-    </div>` + equityChart(d.equity);
-    const mrow = (lab,m) => m ? `<div class="tile"><div class="tile-k">${lab}</div>
+      <div class="tile"><div class="tile-k">LINE VALUE</div>
+        <div class="tile-v ${r.avg_clv>0?'pos':r.avg_clv<0?'neg':''}">${r.avg_clv==null?'--':(r.avg_clv>0?'+':'')+r.avg_clv}</div>
+        <div class="tile-sub">vs closing line</div></div></div>` + equityChart(d.equity);
+    const mrow=(l,m)=>m?`<div class="tile"><div class="tile-k">${l}</div>
       <div class="tile-v">${m.wins}-${m.losses}</div>
-      <div class="tile-sub">${m.win_pct ?? '--'}% · ${m.units > 0 ? '+' : ''}${m.units}u</div></div>` : '';
-    if(bm.spread || bm.total || bm.top){
-      h += `<h2>By type</h2><div class="tiles">
-        ${mrow('Spreads',bm.spread)}${mrow('Totals',bm.total)}${mrow('Top picks',bm.top)}</div>`;
-    }
+      <div class="tile-sub">${m.win_pct ?? '--'}% · ${m.units>0?'+':''}${m.units}u</div></div>`:'';
+    if(bm.spread||bm.total||bm.top) h += `<h2>BY TYPE</h2><div class="tiles">
+      ${mrow('SPREADS',bm.spread)}${mrow('TOTALS',bm.total)}${mrow('TOP',bm.top)}</div>`;
   } else {
-    h += `<div class="empty"><div class="empty-h">No results yet</div>
+    h += `<div class="empty"><div class="empty-h">NO RESULTS YET</div>
       <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
-  /* Tier A is the most sure fifth of picks, E the least. Selecting a tier shows
-     whether it held up season to season, which the headline number can't say. */
   const tsum = d.tier_summary || {}, ttrend = d.tier_trend || {};
-  const tiers = ['A','B','C','D','E'].filter(k => tsum[k]);
-  if(tiers.length){
-    const be = r.breakeven_pct ?? 52.4;
-    const opts = tiers.concat(['ALL']);
+  const tks = ['A','B','C','D','E'].filter(k => tsum[k]);
+  if(tks.length){
+    const opts = tks.concat(['ALL']);
     if(!opts.includes(TIER)) TIER = opts[0];
-    const sel = tsum[TIER] || {};
-    const rows = ttrend[TIER] || [];
-
-    h += `<h2>Tier performance</h2>
-      <p class="sub">Tier A is the fifth of picks the model was most sure about,
-      E the least. Break-even is ${esc(be)}%.</p>
+    const sel = tsum[TIER] || {}, rows = ttrend[TIER] || [];
+    h += `<h2>CONFIDENCE</h2>
+      <p class="sub">Five stars is the fifth of picks the model was most sure about,
+      one star the least. Break-even is ${esc(be)}%.</p>
       <div class="filters">${opts.map(k =>
-        `<button class="chip" data-tier="${k}" aria-pressed="${TIER===k}">${k === 'ALL' ? 'All' : 'Tier ' + k}</button>`
-      ).join('')}</div>
+        `<button class="chip" data-tier="${k}" aria-pressed="${TIER===k}">${k==='ALL'?'All':TIER_STARS[k]+'★'}</button>`).join('')}</div>
       <div class="tiles">
-        <div class="tile"><div class="tile-k">Win rate</div>
-          <div class="tile-v ${sel.win_pct >= be ? 'pos' : ''}">${sel.win_pct ?? '--'}%</div>
+        <div class="tile"><div class="tile-k">WIN RATE</div>
+          <div class="tile-v ${sel.win_pct>=be?'pos':''}">${sel.win_pct ?? '--'}%</div>
           <div class="tile-sub">${esc(sel.bets ?? 0)} picks</div></div>
-        <div class="tile"><div class="tile-k">Units</div>
-          <div class="tile-v ${sel.units > 0 ? 'pos' : sel.units < 0 ? 'neg' : ''}">${sel.units > 0 ? '+' : ''}${esc(sel.units ?? '--')}</div>
+        <div class="tile"><div class="tile-k">UNITS</div>
+          <div class="tile-v ${sel.units>0?'pos':sel.units<0?'neg':''}">${sel.units>0?'+':''}${esc(sel.units ?? '--')}</div>
           <div class="tile-sub">${esc(sel.roi_pct ?? '--')}% return</div></div>
-        <div class="tile"><div class="tile-k">Avg gap</div>
+        <div class="tile"><div class="tile-k">AVG EDGE</div>
           <div class="tile-v">${esc(sel.avg_gap ?? '--')}</div>
-          <div class="tile-sub">sure ${esc(sel.avg_conf ?? '--')}</div></div>
-      </div>`;
-
+          <div class="tile-sub">sure ${esc(sel.avg_conf ?? '--')}</div></div></div>`;
     if(rows.length > 1){
-      h += tierTrend(rows, be, TIER);
+      h += tierTrend(rows, be, TIER === 'ALL' ? 'ALL' : String(TIER_STARS[TIER]));
       const yrs = rows.filter(x => x.win_pct != null);
       const above = yrs.filter(x => x.win_pct >= be).length;
-      h += `<div class="note">Tier ${TIER === 'ALL' ? 'overall' : TIER} cleared break-even in
-        <b>${above} of ${yrs.length}</b> seasons. A tier worth trusting would clear it
-        most years, not just on the total.</div>`;
-    } else {
-      h += `<div class="note">Not enough seasons to show a trend for this tier.</div>`;
+      h += `<div class="note">Cleared break-even in <b>${above} of ${yrs.length}</b> seasons.
+        A rating worth trusting clears it most years, not just on the total.</div>`;
     }
   }
 
   const bt = d.backtest || {}, ts = d.totals || {};
-  const be2 = r.breakeven_pct ?? 52.4;
-
   if((d.gap_trend || []).length > 1){
-    h += `<h2>Accuracy trend</h2>
-      <p class="sub">How far behind the book the model landed each season.
-      Falling means improving.</p>` + gapTrend(d.gap_trend);
+    h += `<h2>ACCURACY TREND</h2>
+      <p class="sub">How far behind the book the model landed each season. Falling means improving.</p>`
+      + gapTrend(d.gap_trend);
   }
-
   if((bt.by_season || []).length){
-    h += `<h2>Spreads by season</h2>
-      <p class="sub">Bars show win rate against the ${esc(be2)}% break-even line.
-      Right of centre made money. <b>Gap</b> is how far behind the book the model
-      was that year — the steadier read on whether it's improving.</p>`
-      + seasonTable(bt.by_season, d.record_live_season, be2);
+    h += `<h2>SPREADS BY SEASON</h2>
+      <p class="sub">Bars show win rate against the ${esc(be)}% break-even line.</p>`
+      + seasonTable(bt.by_season, d.record_live_season, be);
   }
   if((ts.by_season || []).length){
-    h += `<h2>Totals by season</h2>`
-      + seasonTable(ts.by_season, null, be2);
+    h += `<h2>TOTALS BY SEASON</h2>` + seasonTable(ts.by_season, null, be);
   }
-
-  h += `<h2>Model vs book</h2>
-    <p class="sub">Average miss on the final score. Lower is better.</p>
+  h += `<h2>MODEL VS BOOK</h2><p class="sub">Average miss on the final score. Lower is better.</p>
     <div class="tiles">
-      <div class="tile"><div class="tile-k">Spreads</div>
-        <div class="tile-v">${bt.overall ? esc(bt.overall.model_mae) : '--'}</div>
-        <div class="tile-sub">book ${bt.overall ? esc(bt.overall.market_mae) : '--'}</div></div>
-      <div class="tile"><div class="tile-k">Totals</div>
-        <div class="tile-v">${ts.model_mae != null ? esc(ts.model_mae) : '--'}</div>
-        <div class="tile-sub">book ${ts.market_mae != null ? esc(ts.market_mae) : '--'}</div></div>
-      <div class="tile"><div class="tile-k">Past picks</div>
-        <div class="tile-v">${bt.qualified_win_pct != null ? esc(bt.qualified_win_pct)+'%' : '--'}</div>
-        <div class="tile-sub">${bt.qualified_bets ?? '--'} graded</div></div>
-    </div>`;
+      <div class="tile"><div class="tile-k">SPREADS</div>
+        <div class="tile-v">${bt.overall?esc(bt.overall.model_mae):'--'}</div>
+        <div class="tile-sub">book ${bt.overall?esc(bt.overall.market_mae):'--'}</div></div>
+      <div class="tile"><div class="tile-k">TOTALS</div>
+        <div class="tile-v">${ts.model_mae!=null?esc(ts.model_mae):'--'}</div>
+        <div class="tile-sub">book ${ts.market_mae!=null?esc(ts.market_mae):'--'}</div></div>
+      <div class="tile"><div class="tile-k">PAST PICKS</div>
+        <div class="tile-v">${bt.qualified_win_pct!=null?esc(bt.qualified_win_pct)+'%':'--'}</div>
+        <div class="tile-sub">${bt.qualified_bets ?? '--'} graded</div></div></div>`;
 
   const hist = d.history || [];
-  if(hist.length){
-    h += `<h2>Every graded pick</h2>` + hist.map(x => `
-      <div class="rrow">
-        <div class="badge ${esc(x.result)}">${x.result === 'push' ? 'P' : x.result === 'win' ? 'W' : 'L'}</div>
-        <div class="rmain"><div class="rpick">${esc(x.pick)} ${x.pick_spread == null ? '' : sgn(x.pick_spread)}</div>
-          <div class="rsub">${esc(x.away)} at ${esc(x.home)}${x.margin == null ? '' : ' · ' + sgnInt(x.margin)}</div></div>
-        <div class="rsub">${x.clv == null ? '' : sgn(x.clv)}</div>
-      </div>`).join('');
-  }
+  if(hist.length) h += `<h2>EVERY GRADED PICK</h2>` + hist.map(x => `
+    <div class="rrow"><div class="badge ${esc(x.result)}">${x.result==='push'?'P':x.result==='win'?'W':'L'}</div>
+      <div class="rmain"><div class="rpick">${esc(x.pick)} ${x.pick_spread==null?'':sgn(x.pick_spread)}</div>
+        <div class="rsub">${esc(x.away)} at ${esc(x.home)}${x.margin==null?'':' · '+sgnInt(x.margin)}</div></div>
+      <div class="rsub">${x.clv==null?'':sgn(x.clv)}</div></div>`).join('');
   $('p-record').innerHTML = h;
   wire($('p-record'));
 }
 
 function renderModel(){
   const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
-  const excl = (d.situational || {})._excluded || {};
-  const co = pm.coefficients || {};
+  const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
   const be = (d.record || {}).breakeven_pct ?? 52.4;
   const ratings = (d.ratings || []).slice(0,25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
       <div class="rmain"><div class="rpick">${esc(r.team)}</div></div>
       <div class="rsub">${sgn(r.rating)}</div></div>`).join('');
-
   $('p-model').innerHTML = `
-  <h2>What this is</h2>
+  <h2>THE MODEL</h2>
   <p class="sub">A power-rating model for college football. It prices every game,
   compares its number to the book's, and tracks every pick it flags.</p>
 
-  <h3>Reading a card</h3>
+  <h3>READING A CARD</h3>
   <dl>
-    <dt>Gap</dt><dd>How far the model is from the book, in points.</dd>
-    <dt>Tier A to E</dt><dd>How sure the model is, which is the gap divided by how
-      wrong it usually is on that kind of game. <b>Tier A is the most sure fifth of
-      all picks, E the least.</b> A small gap on a well-understood game can outrank a
-      big gap on a mystery — that's the whole point of tiers.</dd>
-    <dt>Qualified</dt><dd>The gap clears the threshold
-      (${esc(d.min_edge ?? 3)} pts spreads, ${esc((d.totals||{}).min_edge ?? 4)} totals).
-      Anything below is shown as a lean, for context only.</dd>
-    <dt>Why</dt><dd>Tap it for what's actually driving that number — rest, travel, a
-      unit mismatch, or a reason to doubt it. Red means caution.</dd>
-    <dt>Book / Model / Gap</dt><dd>What you can bet, what the model makes it, and the
-      distance between them. All three quoted from the side being picked.</dd>
+    <dt>Model / Book / Edge</dt><dd>What the model makes the number, what you can bet,
+      and the distance between them. All quoted from the side being picked.</dd>
+    <dt>Confidence stars</dt><dd>Edge divided by how wrong the model usually is on that
+      kind of game. <b>Five stars is the most sure fifth of all picks, one star the
+      least.</b> A small edge on a well-understood game can outrank a big edge on a mystery.</dd>
+    <dt>Qualified</dt><dd>Edge clears ${esc(d.min_edge ?? 3)} pts on spreads,
+      ${esc((d.totals||{}).min_edge ?? 4)} on totals. Below that it's a lean, shown for context.</dd>
+    <dt>Why</dt><dd>What's actually driving that number — rest, travel, a unit mismatch,
+      or a reason to doubt it. Red means caution.</dd>
   </dl>
 
-  <h3>Reading the record</h3>
+  <h3>READING THE RECORD</h3>
   <dl>
-    <dt>Break-even is ${esc(be)}%</dt>
-    <dd>At ${esc(d.assumed_price ?? -110)} pricing you must win that often to stay level.
-      Below it loses money.</dd>
+    <dt>Break-even is ${esc(be)}%</dt><dd>At ${esc(d.assumed_price ?? -110)} pricing you
+      must win that often to stay level. Below it loses money.</dd>
     <dt>Line value</dt><dd>Whether the number moved toward the pick after it was logged.
-      <b>This matters sooner than win rate</b> — it shows up in dozens of picks, where
-      win rate needs hundreds.</dd>
-    <dt>Average miss</dt><dd>How far off the final score, on average. The book is usually
-      better; that gap is mostly injury news the model can't see.</dd>
-    <dt>Tier performance</dt><dd>Pick a tier to see whether it held up year to year.
-      <b>A tier worth trusting clears break-even most seasons</b>, not just on the
-      combined total — one hot year can carry a whole tier.</dd>
-    <dt>Accuracy trend</dt><dd>Points behind the book each season. Falling means
-      improving. Steadier than win rate, which swings on a few hundred picks.</dd>
+      <b>This matters sooner than win rate</b> — it shows up in dozens of picks, where win
+      rate needs hundreds.</dd>
+    <dt>Confidence by season</dt><dd>Whether a star rating held up year to year.
+      <b>One hot season can carry a rating's overall record.</b></dd>
+    <dt>Accuracy trend</dt><dd>Points behind the book each season. Falling means improving,
+      and it's steadier than win rate.</dd>
   </dl>
 
-  <h3>How it works</h3>
+  <h3>HOW IT WORKS</h3>
   <dl>
-    <dt>Ratings</dt><dd>Every team gets a points-above-average number, fit from scoring
-      margin and EPA per play across all games at once — so beating a good team counts
-      more than beating a bad one.</dd>
+    <dt>Ratings</dt><dd>Every team gets a points-above-average number from scoring margin
+      and EPA per play, fit across all games at once — so beating a good team counts more.</dd>
     <dt>Turnover luck</dt><dd>Fumble recoveries are near coin flips.
-      ${st.turnover_points != null
-        ? `Each net turnover was worth ${esc(st.turnover_points)} pts historically;
-           ${Math.round((st.turnover_shrink ?? .7)*100)}% is stripped out before rating teams.`
-        : 'Not active this run.'}</dd>
-    <dt>Preseason</dt><dd>Before teams play, ratings come from last year, returning
-      production, recruiting, and prior-year SP+. Fit on ${esc(pm.team_seasons ?? '--')}
-      team-seasons, R² ${esc(pm.r2 ?? '--')}.
-      ${st.in_season_weight != null ? `Now ${Math.round(st.in_season_weight*100)}% this season.` : ''}</dd>
-    <dt>Totals</dt><dd>A separate model rating offense and defense apart, plus wind, cold
-      and rain. ${st.uses_weather
-        ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
-        : 'Weather still loading — totals are weaker without it.'}</dd>
+      ${st.turnover_points != null ? `Each net turnover was worth ${esc(st.turnover_points)} pts;
+      ${Math.round((st.turnover_shrink ?? .7)*100)}% is stripped out before rating teams.`
+      : 'Not active this run.'}</dd>
+    <dt>Preseason</dt><dd>Before teams play, ratings come from last year, returning production,
+      recruiting, and prior-year SP+. Fit on ${esc(pm.team_seasons ?? '--')} team-seasons,
+      R² ${esc(pm.r2 ?? '--')}.${st.in_season_weight != null ? ` Now ${Math.round(st.in_season_weight*100)}% this season.` : ''}</dd>
+    <dt>Totals</dt><dd>A separate model rating offense and defense apart, plus wind, cold and rain.
+      ${st.uses_weather ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
+      : 'Weather still loading — totals are weaker without it.'}</dd>
     <dt>Home field</dt><dd>Worth ${esc(st.home_field ?? '--')} pts, measured not assumed.</dd>
   </dl>
 
-  <h3>What got thrown out</h3>
+  <h3>THROWN OUT</h3>
   <p class="sub">Effects the data wouldn't support. Dropping them beats trusting a number
   that claims jet lag helps.</p>
-  <dl>${Object.keys(excl).length
-    ? Object.entries(excl).map(([k,why]) =>
-        `<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(why)}</dd>`).join('')
+  <dl>${Object.keys(excl).length ? Object.entries(excl).map(([k,w]) =>
+    `<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(w)}</dd>`).join('')
     : '<dd>Nothing dropped this run.</dd>'}</dl>
 
-  <h3>Honest limits</h3>
+  <h3>HONEST LIMITS</h3>
   <dl>
     <dt>No injury data</dt><dd>The biggest gap. A starting QB is worth several points and
       the model never knows.</dd>
-    <dt>No transfer portal</dt><dd>Incoming transfers aren't counted, so rebuilt rosters
-      are misrated — worst in September.</dd>
+    <dt>No transfer portal</dt><dd>Incoming transfers aren't counted, so rebuilt rosters are
+      misrated — worst in September.</dd>
     <dt>Consensus lines</dt><dd>Numbers come from a consensus feed, not your book.
       Half a point matters.</dd>
     <dt>Past ≠ future</dt><dd>${bt.qualified_win_pct != null
-      ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically against a
-         ${esc(be)}% break-even.` : 'Backtest pending.'}
-      Held-out season: ${bt.holdout && bt.holdout.win_pct != null ? esc(bt.holdout.win_pct)+'%' : '--'}.</dd>
+      ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically against a ${esc(be)}% break-even.`
+      : 'Backtest pending.'} Held-out season:
+      ${bt.holdout && bt.holdout.win_pct != null ? esc(bt.holdout.win_pct)+'%' : '--'}.</dd>
   </dl>
 
-  <h3>Top 25</h3>
+  <h3>TOP 25</h3>
   <p class="sub">Points better than average, neutral field.</p>
   ${ratings || '<div class="empty"><div class="empty-p">Not available.</div></div>'}
 
-  <h3>Preseason weights</h3>
-  <p class="sub" style="font-family:var(--mono);font-size:11px">
+  <h3>PRESEASON WEIGHTS</h3>
+  <p class="sub" style="font-family:var(--data);font-size:11px">
     ${Object.entries(co).map(([k,v]) => `${esc(k)} ${v>0?'+':''}${esc(v)}`).join(' · ') || '--'}</p>
-  <p class="sub">Data: College Football Data API, Open-Meteo.</p>`;
+  <p class="sub">Data: College Football Data API, Open-Meteo. Logos via ESPN.</p>`;
 }
 
 function renderTop(){
   const d = DATA, t = new Date(d.generated_at);
-  $('stamp').textContent = `Updated ${t.toLocaleDateString([], {month:'short', day:'numeric'})} `
-    + t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
-  const live = allPicks(), r = d.record || {};
-  $('summary').innerHTML = `
-    <div class="sum"><div class="sum-v brass">${live.filter(p=>p.qualified).length}</div>
-      <div class="sum-k">Qualified</div></div>
-    <div class="sum"><div class="sum-v">${live.filter(p=>p.top_pick).length}</div>
-      <div class="sum-k">Top picks</div></div>
-    <div class="sum"><div class="sum-v ${r.units>0?'pos':r.units<0?'neg':''}">${r.settled ? (r.units>0?'+':'')+r.units : '--'}</div>
-      <div class="sum-k">Units</div></div>`;
-  const badge = (id,n,label) => { $(id).innerHTML = n ? `${label}<span class="badge-n">${n}</span>` : label; };
-  badge('t-board', live.length, 'Board');
-  badge('t-slip', FAVS.size, 'Slip');
+  $('stamp').textContent = 'UPDATED ' +
+    t.toLocaleDateString([], {month:'short', day:'numeric'}).toUpperCase() + ' ' +
+    t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  const live = allPicks();
+  const set=(id,n,l)=>{ $(id).innerHTML = n ? `${l}<span class="n">${n}</span>` : l; };
+  set('t-board', live.length, 'THE CARD');
+  set('t-slip', FAVS.size, 'YOUR CARD');
 }
 
 function wire(root){
   root.querySelectorAll('[data-fav]').forEach(b => b.addEventListener('click', () => {
-    const id = b.dataset.fav;
-    FAVS.has(id) ? FAVS.delete(id) : FAVS.add(id);
-    renderAll();
+    const id=b.dataset.fav; FAVS.has(id)?FAVS.delete(id):FAVS.add(id); renderAll();
   }));
   root.querySelectorAll('.chip[data-f]').forEach(c => c.addEventListener('click', () => {
-    FILTERS[c.dataset.f] = c.dataset.v;
-    renderBoard(); renderTop();
+    FILTERS[c.dataset.f]=c.dataset.v; renderBoard(); renderTop();
   }));
   root.querySelectorAll('[data-tier]').forEach(b => b.addEventListener('click', () => {
-    TIER = b.dataset.tier; renderRecord();
+    TIER=b.dataset.tier; renderRecord();
   }));
   root.querySelectorAll('[data-info]').forEach(b => b.addEventListener('click', () => {
-    const box = root.querySelector('#why-' + CSS.escape(b.dataset.info));
+    const box=root.querySelector('#why-'+CSS.escape(b.dataset.info));
     if(!box) return;
-    const open = box.hasAttribute('hidden');
-    if(open) box.removeAttribute('hidden'); else box.setAttribute('hidden', '');
+    const open=box.hasAttribute('hidden');
+    if(open) box.removeAttribute('hidden'); else box.setAttribute('hidden','');
     b.setAttribute('aria-expanded', open);
   }));
-  const sel = root.querySelector('#sortsel');
-  if(sel) sel.addEventListener('change', e => { SORT = e.target.value; renderBoard(); });
+  const sel=root.querySelector('#sortsel');
+  if(sel) sel.addEventListener('change', e => { SORT=e.target.value; renderBoard(); });
 }
 
 function renderAll(){ renderTop(); renderBoard(); renderSlip(); renderRecord(); renderModel(); }
 
-const TABS = [['t-board','p-board'],['t-slip','p-slip'],['t-record','p-record'],['t-model','p-model']];
-TABS.forEach(([tid,pid]) => $(tid).addEventListener('click', () => {
-  TABS.forEach(([t,p]) => { $(t).setAttribute('aria-selected', t===tid); $(p).hidden = t!==tid; });
-  window.scrollTo({top:0, behavior:'instant'});
-}));
+/* ---------- navigation ---------- */
+const TABS=[['t-board','p-board','board'],['t-slip','p-slip','slip'],['t-record','p-record','record']];
+function show(view){
+  VIEW=view;
+  TABS.forEach(([t,p,v]) => { $(t).setAttribute('aria-selected', v===view); $(p).hidden = v!==view; });
+  $('p-model').hidden = view !== 'model';
+  $('m-model').setAttribute('aria-selected', view === 'model');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+TABS.forEach(([tid,,v]) => $(tid).addEventListener('click', () => show(v)));
+$('menubtn').addEventListener('click', () => $('drawer').hidden = false);
+$('closemenu').addEventListener('click', () => $('drawer').hidden = true);
+$('drawer').addEventListener('click', e => { if(e.target === $('drawer')) $('drawer').hidden = true; });
+$('m-model').addEventListener('click', () => { show('model'); $('drawer').hidden = true; });
+
+function setTheme(mode){
+  document.documentElement.dataset.theme = mode;
+  $('m-theme').textContent = mode === 'dark' ? 'SWITCH TO LIGHT' : 'SWITCH TO DARK';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if(meta) meta.setAttribute('content', mode === 'dark' ? '#0C1B29' : '#EFECE6');
+  if(DATA) renderAll();
+}
+const toggleTheme = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+$('themebtn').addEventListener('click', toggleTheme);
+$('m-theme').addEventListener('click', () => { toggleTheme(); $('drawer').hidden = true; });
+
+$('brandticks').innerHTML = tickRow(17, 8);
+
+/* Start on the device's preference, then the toggle takes over for the session. */
+const prefersLight = typeof matchMedia === 'function'
+  && matchMedia('(prefers-color-scheme: light)').matches;
+setTheme(prefersLight ? 'light' : 'dark');
 
 fetch('data.json?t=' + Date.now())
   .then(r => { if(!r.ok) throw new Error('data.json ' + r.status); return r.json(); })
   .then(d => { DATA = d; renderAll(); })
   .catch(e => {
-    $('p-board').innerHTML = `<div class="empty"><div class="empty-h">No data yet</div>
+    $('p-board').innerHTML = `<div class="empty"><div class="empty-h">NO DATA YET</div>
       <div class="empty-p">Run the update workflow in GitHub.<br>
-      <span style="font-family:var(--mono);font-size:11px">${esc(e.message)}</span></div></div>`;
+      <span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span></div></div>`;
   });
 </script>
 </body>
