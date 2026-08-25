@@ -830,11 +830,20 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names, debias=None
 
     up["pred_total_raw"] = A @ cal_w
     up["pred_total"] = up["pred_total_raw"]
-    if DEBIAS and debias:
+    debias_source = "none"
+    if DEBIAS:
+        a = float((debias or {}).get("intercept", 0.0))
+        b = float((debias or {}).get("slope", 1.0))
+        debias_source = "history" if debias else "none"
+        fit = up.dropna(subset=["pred_total_raw", "mkt_total"])
+        if len(fit) >= 30 and fit["mkt_total"].std() > 1:
+            sa, sb = fit_debias(fit["pred_total_raw"], fit["mkt_total"], min_n=30)
+            if sb != 1.0 or sa != 0.0:
+                a, b, debias_source = sa, sb, "slate"
         up["pred_total"] = apply_debias(
             up["pred_total_raw"].to_numpy(dtype=float),
-            up["mkt_total"].to_numpy(dtype=float),
-            float(debias.get("intercept", 0.0)), float(debias.get("slope", 1.0)))
+            up["mkt_total"].to_numpy(dtype=float), a, b)
+    up.attrs["debias_source"] = debias_source
     up["edge"] = up["pred_total"] - up["mkt_total"]
     up = up.dropna(subset=["edge"])
     if not len(up):
@@ -1023,11 +1032,26 @@ def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
         up["pred"] = rd
 
     up["pred_raw"] = up["pred"]
-    if DEBIAS and debias:
-        up["pred"] = apply_debias(up["pred"].to_numpy(dtype=float),
-                                  up["mkt"].to_numpy(dtype=float),
-                                  float(debias.get("intercept", 0.0)),
-                                  float(debias.get("slope", 1.0)))
+    debias_source = "none"
+    if DEBIAS:
+        a = float((debias or {}).get("intercept", 0.0))
+        b = float((debias or {}).get("slope", 1.0))
+        debias_source = "history" if debias else "none"
+
+        # Parameters fitted on in-season history under-correct a preseason board,
+        # because preseason ratings are compressed harder than mid-season ones.
+        # With enough games on the slate, fit the tilt on the slate itself. Only
+        # posted lines are used, which are public before kickoff, and only the
+        # systematic part is removed — per-game disagreement survives untouched.
+        fit = up.dropna(subset=["pred_raw", "mkt"])
+        if len(fit) >= 30 and fit["mkt"].std() > 1:
+            sa, sb = fit_debias(fit["pred_raw"], fit["mkt"], min_n=30)
+            if sb != 1.0 or sa != 0.0:
+                a, b, debias_source = sa, sb, "slate"
+
+        up["pred"] = apply_debias(up["pred_raw"].to_numpy(dtype=float),
+                                  up["mkt"].to_numpy(dtype=float), a, b)
+    up.attrs["debias_source"] = debias_source
     up["edge"] = up["pred"] - up["mkt"]
     up = up.dropna(subset=["edge"])
     if not len(up):
@@ -1479,6 +1503,9 @@ def main():
 
     balance = {"spread": board_balance(picks, "spread"),
                "total": board_balance(total_picks, "total")}
+    for key, frame in (("spread", picks), ("total", total_picks)):
+        if balance.get(key) and len(frame):
+            balance[key]["debias"] = frame.attrs.get("debias_source", "none")
 
     notes = []
     for kind, b in balance.items():
