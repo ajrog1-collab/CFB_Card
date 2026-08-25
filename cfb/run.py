@@ -28,7 +28,7 @@ from model import (
     fit_uncertainty, predict_uncertainty,
     cfbd_get, col, fit_calibration, fit_points_ratings, fit_ratings,
     games_played_counts,
-    infer_home_venues, parse_sp, parse_team_stats, parse_venues,
+    infer_home_venues, parse_sp, parse_team_stats, parse_teams, parse_venues,
     predict_total, rating_diff, season_ratings, situational_matrix, totals_matrix,
     talent_composite, returning_production,
 )
@@ -98,6 +98,7 @@ def load_everything():
     print("Fetching data...")
     games_raw, lines_raw, adv_raw = [], [], []
     recruit, returning, fbs = [], [], {}
+    teams_raw = pd.DataFrame()
     sp_by_year, team_stats = {}, []
 
     for yr in HIST_YEARS:
@@ -139,6 +140,7 @@ def load_everything():
 
     # current season: never cached, always fresh
     t = cfbd_get("teams/fbs", {"year": CURRENT})
+    teams_raw = t
     if len(t):
         c = col(t, "school", "team")
         fbs[CURRENT] = set(t[c]) if c else set()
@@ -167,7 +169,7 @@ def load_everything():
         "recruit": cat(recruit), "returning": cat(returning), "fbs": fbs,
         "cur_games": cur_games, "cur_lines": cur_lines,
         "sp": sp_by_year, "team_stats": cat(team_stats),
-        "venues": venues_raw,
+        "venues": venues_raw, "teams_meta": teams_raw,
     }
 
 
@@ -1327,6 +1329,13 @@ def main():
                 "clv": round(float(r.clv), 2) if pd.notna(r.clv) else None,
             })
 
+    all_meta = parse_teams(data.get("teams_meta", pd.DataFrame()))
+    on_board = set()
+    for frame in (picks, total_picks):
+        if len(frame):
+            on_board |= set(frame["home_name"]) | set(frame["away_name"])
+    team_meta = {k: v for k, v in all_meta.items() if k in on_board} or all_meta
+
     notes = []
     if in_season_weight < 0.30:
         notes.append(
@@ -1380,6 +1389,7 @@ def main():
             "coefficients": {k: round(v, 3) for k, v in prior_model.coefficients().items()},
         },
         "backtest": bt_summary,
+        "teams": team_meta,
         "picks": pick_rows(picks) if len(picks) else [],
         "total_picks": total_pick_rows(total_picks) if len(total_picks) else [],
         "totals": t_summary,
