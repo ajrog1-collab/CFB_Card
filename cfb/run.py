@@ -47,6 +47,8 @@ TO_SHRINK = float(CONFIG.get("turnover_shrink", 0.7))
 ALLOW_WEEK_BACKFILL = bool(CONFIG.get("allow_week_backfill", True))
 RATING_TARGET = "adj_margin"
 DEBIAS = bool(CONFIG.get("debias", True))
+AUTO_THRESHOLD = bool(CONFIG.get("auto_threshold", True))
+TARGET_QUALIFIED = float(CONFIG.get("target_qualified_share", 0.25))
 MIN_EDGE_TOTAL = float(CONFIG.get("min_edge_total", 4.0))
 TOP_PICK_COUNT = int(CONFIG.get("top_pick_count", 5))
 CONF_TIERS = CONFIG.get("confidence_tiers", [0.2, 0.35, 0.5, 0.7])
@@ -417,7 +419,7 @@ def season_breakdown(s, edge_col="edge", outcome_col="margin", line_col="mkt",
     return out
 
 
-def bias_diagnostics(s):
+def bias_diagnostics(s, thr=None):
     """Is the edge systematically pointed at one kind of team?
 
     A healthy model disagrees with the book in both directions regardless of how
@@ -432,7 +434,7 @@ def bias_diagnostics(s):
     y = f["edge"].to_numpy(dtype=float)
     corr = float(np.corrcoef(x, y)[0, 1]) if x.std() > 0 and y.std() > 0 else 0.0
     dog = float((((x > 0) != (y > 0))).mean())
-    qual = f[f.edge.abs() >= MIN_EDGE]
+    qual = f[f.edge.abs() >= (MIN_EDGE if thr is None else thr)]
     return {
         "edge_vs_line_corr": round(corr, 3),
         "pct_on_underdog": round(dog * 100, 1),
@@ -605,16 +607,25 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
             "market_mae": round(float(frame.e_mkt.mean()), 2),
         }
 
-    qual = s[(s.edge.abs() >= MIN_EDGE) & s.cover.notna()]
+    # A fixed points threshold is arbitrary: after debiasing, edges are smaller,
+    # so 3 points might select two thirds of the board or none of it. Setting it
+    # at a percentile of the model's own disagreement keeps "qualified" meaning
+    # roughly the same thing from week to week.
+    thr = MIN_EDGE
+    if AUTO_THRESHOLD and len(s) > 300:
+        thr = float(np.quantile(s["edge"].abs().dropna(), 1 - TARGET_QUALIFIED))
+        thr = round(max(thr, 1.0), 1)
+
+    qual = s[(s.edge.abs() >= thr) & s.cover.notna()]
     win = float(np.where(qual.edge > 0, qual.cover, 1 - qual.cover).mean()) if len(qual) > 20 else None
 
     thresholds = []
-    for thr in (0, 2, 3, 4, 6, 8, 10):
-        sub = s[(s.edge.abs() >= thr) & s.cover.notna()]
+    for cut in (0, 2, 3, 4, 6, 8, 10):
+        sub = s[(s.edge.abs() >= cut) & s.cover.notna()]
         if len(sub) < 40:
             continue
         thresholds.append({
-            "edge": thr,
+            "edge": cut,
             "bets": int(len(sub)),
             "win_pct": round(float(np.where(sub.edge > 0, sub.cover, 1 - sub.cover).mean()) * 100, 1),
         })
@@ -638,8 +649,9 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         "situational": sit_report,
         "debias": {"intercept": round(deb_a, 3), "slope": round(deb_b, 3),
                    "active": bool(DEBIAS)},
-        "bias_check": bias_diagnostics(s),
-        "by_season": season_breakdown(s),
+        "bias_check": bias_diagnostics(s, thr),
+        "by_season": season_breakdown(s, min_edge=thr),
+        "min_edge": thr,
         "tier_cuts": cuts,
         "tier_trend": tier_trend,
         "tier_summary": tier_summary,
@@ -701,13 +713,33 @@ def run_totals_backtest(d, use_wx):
             S, _ = totals_matrix(test)
             At = np.nan_to_num(np.column_stack([raw, S, np.ones(len(test))]), nan=0.0)
             out = test.copy()
-            out["pred_total"] = At @ w
+            out["pred_total_raw"] = At @ w
             preds.append(out)
 
     if not preds:
         return pd.DataFrame(), {}
 
     bt = pd.concat(preds, ignore_index=True)
+
+    # Same tilt correction as spreads. Without it the totals model's own scale
+    # decides whether the board is all overs or all unders.
+    t_deb_a, t_deb_b = 0.0, 1.0
+    if DEBIAS:
+        bt["pred_total"] = bt["pred_total_raw"]
+        for season in sorted(bt["season"].dropna().unique()):
+            hist = bt[(bt.season < season) & bt.mkt_total.notna() & bt.pred_total_raw.notna()]
+            a, b = (fit_debias(hist["pred_total_raw"], hist["mkt_total"])
+                    if len(hist) >= 300 else (0.0, 1.0))
+            m = bt.season == season
+            bt.loc[m, "pred_total"] = apply_debias(
+                bt.loc[m, "pred_total_raw"].to_numpy(dtype=float),
+                bt.loc[m, "mkt_total"].to_numpy(dtype=float), a, b)
+        full = bt.dropna(subset=["mkt_total", "pred_total_raw"])
+        if len(full) >= 300:
+            t_deb_a, t_deb_b = fit_debias(full["pred_total_raw"], full["mkt_total"])
+    else:
+        bt["pred_total"] = bt["pred_total_raw"]
+
     s = bt.dropna(subset=["mkt_total", "pred_total", "actual_total"]).copy()
     if not len(s):
         return bt, {}
@@ -719,12 +751,17 @@ def run_totals_backtest(d, use_wx):
     s["cover"] = np.where(s.actual_total > s.mkt_total, 1.0,
                           np.where(s.actual_total < s.mkt_total, 0.0, np.nan))
 
-    qual = s[(s.edge.abs() >= MIN_EDGE_TOTAL) & s.cover.notna()]
+    t_thr = MIN_EDGE_TOTAL
+    if AUTO_THRESHOLD and len(s) > 300:
+        t_thr = round(max(float(np.quantile(s["edge"].abs().dropna(),
+                                            1 - TARGET_QUALIFIED)), 1.0), 1)
+
+    qual = s[(s.edge.abs() >= t_thr) & s.cover.notna()]
     win = (float(np.where(qual.edge > 0, qual.cover, 1 - qual.cover).mean())
            if len(qual) > 20 else None)
 
     hold = s[s.season == HOLDOUT] if HOLDOUT else pd.DataFrame()
-    hq = (hold[(hold.edge.abs() >= MIN_EDGE_TOTAL) & hold.cover.notna()]
+    hq = (hold[(hold.edge.abs() >= t_thr) & hold.cover.notna()]
           if len(hold) else pd.DataFrame())
     hwin = (float(np.where(hq.edge > 0, hq.cover, 1 - hq.cover).mean())
             if len(hq) > 20 else None)
@@ -741,10 +778,18 @@ def run_totals_backtest(d, use_wx):
         "tiers": tier_stats(s, edge_col="edge", margin_col="actual_total",
                             line_col="mkt_total"),
         "by_season": season_breakdown(s, outcome_col="actual_total",
-                                      line_col="mkt_total", min_edge=MIN_EDGE_TOTAL),
+                                      line_col="mkt_total", min_edge=t_thr),
         "seasons": TEST_SEASONS,
-        "min_edge": MIN_EDGE_TOTAL,
+        "min_edge": t_thr,
         "uses_weather": bool(use_wx),
+        "debias": {"intercept": round(t_deb_a, 3), "slope": round(t_deb_b, 3),
+                   "active": bool(DEBIAS)},
+        "bias_check": {
+            "pct_over": round(float((s.edge > 0).mean()) * 100, 1),
+            "edge_vs_line_corr": (round(float(np.corrcoef(
+                s.mkt_total, s.edge)[0, 1]), 3) if len(s) > 100 else None),
+            "qualified_share": round(float((s.edge.abs() >= t_thr).mean()) * 100, 1),
+        },
     }
 
 
@@ -763,7 +808,8 @@ def fit_totals_calibration(d, use_wx):
     return off, dfn, hfa_off, base, w, names
 
 
-def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
+def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names, debias=None,
+                     min_edge=None):
     """Upcoming games with a posted total, ranked by disagreement."""
     now = datetime.now(timezone.utc)
     up = cur[
@@ -782,7 +828,13 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
     if A.shape[1] != len(cal_w):
         return pd.DataFrame()
 
-    up["pred_total"] = A @ cal_w
+    up["pred_total_raw"] = A @ cal_w
+    up["pred_total"] = up["pred_total_raw"]
+    if DEBIAS and debias:
+        up["pred_total"] = apply_debias(
+            up["pred_total_raw"].to_numpy(dtype=float),
+            up["mkt_total"].to_numpy(dtype=float),
+            float(debias.get("intercept", 0.0)), float(debias.get("slope", 1.0)))
     up["edge"] = up["pred_total"] - up["mkt_total"]
     up = up.dropna(subset=["edge"])
     if not len(up):
@@ -791,7 +843,7 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names):
     up["side"] = np.where(up.edge > 0, "over", "under")
     up["pick_team"] = np.where(up.edge > 0, "Over", "Under")
     up["pick_spread"] = up["mkt_total"]
-    up["qualified"] = up.edge.abs() >= MIN_EDGE_TOTAL
+    up["qualified"] = up.edge.abs() >= (MIN_EDGE_TOTAL if min_edge is None else min_edge)
     return up.sort_values("edge", key=lambda c: c.abs(), ascending=False).reset_index(drop=True)
 
 
@@ -942,7 +994,7 @@ def total_drivers(row, off, dfn):
 
 def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
                conf_w=None, conf_names=None, conf_mae=None, games_played=None,
-               debias=None):
+               debias=None, min_edge=None):
     """Upcoming FBS-vs-FBS games with a posted line, ranked by disagreement."""
     now = datetime.now(timezone.utc)
     up = cur[
@@ -985,7 +1037,7 @@ def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
     up["pick_team"] = np.where(up.edge > 0, up.home_name, up.away_name)
     # Spread as it would be quoted for the side we like.
     up["pick_spread"] = np.where(up.edge > 0, -up["mkt"], up["mkt"])
-    up["qualified"] = up.edge.abs() >= MIN_EDGE
+    up["qualified"] = up.edge.abs() >= (MIN_EDGE if min_edge is None else min_edge)
 
     # ---- confidence ----
     up["pred_alt"] = (rating_diff(up, prior, hfa) * scale
@@ -1259,12 +1311,15 @@ def main():
                        conf_names=bt_summary.get("conf_names"),
                        conf_mae=bt_summary.get("conf_mae"),
                        games_played=gp_now,
-                       debias=bt_summary.get("debias"))
+                       debias=bt_summary.get("debias"),
+                       min_edge=bt_summary.get("min_edge"))
              if len(cur) else pd.DataFrame())
 
     # ---- totals picks ----
     t_off, t_dfn, t_hfa, t_base, t_w, t_names = fit_totals_calibration(d, use_wx)
-    total_picks = (find_total_picks(cur, t_off, t_dfn, t_hfa, t_base, t_w, t_names)
+    total_picks = (find_total_picks(cur, t_off, t_dfn, t_hfa, t_base, t_w, t_names,
+                                    debias=t_summary.get("debias"),
+                                    min_edge=t_summary.get("min_edge"))
                    if len(cur) else pd.DataFrame())
     if len(total_picks):
         t_mae = t_summary.get("model_mae") or 13.0
@@ -1402,7 +1457,36 @@ def main():
             on_board |= set(frame["home_name"]) | set(frame["away_name"])
     team_meta = {k: v for k, v in all_meta.items() if k in on_board} or all_meta
 
+    def board_balance(frame, kind):
+        """How lopsided is this week's board? A healthy slate is near 50/50."""
+        if not len(frame):
+            return None
+        e = frame["edge"].dropna()
+        if not len(e):
+            return None
+        if kind == "spread":
+            side = ((frame["mkt"] > 0) != (frame["edge"] > 0)).mean()
+            label = "underdog"
+        else:
+            side = (frame["edge"] > 0).mean()
+            label = "over"
+        out = {"n": int(len(e)), "pct": round(float(side) * 100, 1), "side": label}
+        if len(e) > 10 and frame["edge"].std() > 0:
+            line = frame["mkt"] if kind == "spread" else frame["mkt_total"]
+            if line.std() > 0:
+                out["corr"] = round(float(np.corrcoef(line, frame["edge"])[0, 1]), 3)
+        return out
+
+    balance = {"spread": board_balance(picks, "spread"),
+               "total": board_balance(total_picks, "total")}
+
     notes = []
+    for kind, b in balance.items():
+        if b and b["n"] >= 12 and (b["pct"] >= 75 or b["pct"] <= 25):
+            notes.append(
+                f"{b['pct']}% of {kind} picks are on the {b['side']}. A balanced board "
+                f"sits near 50%, so treat this week's lean as a quirk of the model "
+                f"rather than a read on the slate.")
     if in_season_weight < 0.30:
         notes.append(
             "Early season: ratings are mostly last year's, adjusted for returning "
@@ -1425,7 +1509,7 @@ def main():
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "season": CURRENT,
-        "min_edge": MIN_EDGE,
+        "min_edge": bt_summary.get("min_edge", MIN_EDGE),
         "assumed_price": PRICE,
         "state": {
             "games_played": played,
@@ -1444,6 +1528,8 @@ def main():
         "situational": bt_summary.get("situational", {}),
         "debias": bt_summary.get("debias", {}),
         "bias_check": bt_summary.get("bias_check", {}),
+        "totals_bias_check": t_summary.get("bias_check", {}),
+        "board_balance": balance,
         "uncertainty": bt_summary.get("uncertainty", {}),
         "confidence_tiers": bt_summary.get("confidence_tiers", []),
         "tier_trend": bt_summary.get("tier_trend", {}),
