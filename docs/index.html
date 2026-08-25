@@ -47,7 +47,8 @@
   .brand-l{padding:7px 12px 7px 11px;display:flex;flex-direction:column;justify-content:center}
   .brand-the{font-family:var(--display);font-size:11px;letter-spacing:.26em;line-height:1;
     display:flex;align-items:center;gap:5px}
-  .brand-the::before{content:'';width:11px;height:2px;background:var(--ticket-ink)}
+  .brand-the::before,.brand-the::after{content:'';width:11px;height:2px;
+    background:var(--ticket-ink);flex:none}
   .brand-card{font-family:var(--display);font-size:31px;line-height:.86;letter-spacing:.02em}
   .brand-rule{width:1px;background:var(--ticket-rule);margin:8px 0}
   .brand-r{padding:7px 22px 7px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px}
@@ -118,17 +119,19 @@
   .t-head{display:flex;align-items:baseline;gap:8px;font-family:var(--data);font-size:9px;
     letter-spacing:.14em;font-weight:600;color:var(--ticket-mute)}
   .t-head .when{margin-left:auto;white-space:nowrap}
-  .t-teams{margin-top:5px}
-  .t-team{display:flex;align-items:center;gap:7px;line-height:1}
-  .t-team + .t-team{margin-top:3px}
-  .t-logo{width:19px;height:19px;flex:none;object-fit:contain}
-  .t-logo-fb{width:19px;height:19px;flex:none;border-radius:3px;display:flex;
-    align-items:center;justify-content:center;font-family:var(--display);font-size:10px;
+  .t-teams{margin-top:7px}
+  .t-team{display:flex;align-items:center;gap:9px;line-height:1}
+  .t-team + .t-team{margin-top:5px}
+  .t-logo{width:30px;height:30px;flex:none;object-fit:contain}
+  .t-logo-fb{width:30px;height:30px;flex:none;border-radius:4px;display:flex;
+    align-items:center;justify-content:center;font-family:var(--display);font-size:13px;
     color:#fff;letter-spacing:.02em}
-  .t-name{font-family:var(--display);font-size:19px;letter-spacing:.02em;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .t-at{font-family:var(--data);font-size:8.5px;letter-spacing:.18em;color:var(--ticket-mute);
-    font-weight:600;margin:1px 0 1px 26px}
+  .t-name{font-family:var(--display);font-size:27px;letter-spacing:.015em;flex:1;min-width:0;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:.95}
+  .t-at{font-family:var(--data);font-size:8.5px;letter-spacing:.2em;color:var(--ticket-mute);
+    font-weight:700;margin:4px 0 4px 39px;position:relative}
+  .t-at::after{content:'';position:absolute;left:26px;right:0;top:50%;height:1px;
+    background:var(--ticket-rule);opacity:.5}
   .t-rule{display:flex;align-items:flex-end;gap:2px;height:9px;margin:7px 0 6px;opacity:.75}
   .t-rule i{width:1px;height:4px;background:var(--ticket-rule);display:block}
   .t-rule i.tall{height:9px;background:var(--gold)}
@@ -227,8 +230,9 @@
   .watermark .t{font-family:var(--data);font-size:9px;letter-spacing:.3em;color:var(--ink);
     font-weight:700}
   @media (max-width:430px){
-    .t-side{width:86px}
-    .t-name{font-size:17px}
+    .t-side{width:84px}
+    .t-name{font-size:22px}
+    .t-logo,.t-logo-fb{width:26px;height:26px}
     .tab{font-size:13.5px;letter-spacing:.05em}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -334,16 +338,18 @@ function visible(){
   return list.sort((a,b) => key(a) - key(b));
 }
 
-/* Team mark: real logo when available, else initials on the school's colour. */
+/* Team mark: real logo when available, initials on the school's colour if the
+   image is missing or fails to load. */
 function teamMark(name){
   const t = (DATA.teams || {})[name];
   const dark = document.documentElement.dataset.theme === 'dark';
-  const url = t && (dark ? t.logo : (t.logo_dark || t.logo));
-  if(url) return `<img class="t-logo" src="${esc(url)}" alt="" loading="lazy"
-    onerror="this.style.visibility='hidden'">`;
   const col = (t && t.color) ? (t.color.startsWith('#') ? t.color : '#' + t.color) : '#6B7683';
   const ini = String(name || '?').replace(/[^A-Za-z ]/g,'').split(' ')
     .map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const fb = `<span class=&quot;t-logo-fb&quot; style=&quot;background:${col}&quot;>${ini}</span>`;
+  const url = t && (dark ? t.logo : (t.logo_dark || t.logo));
+  if(url) return `<img class="t-logo" src="${esc(url)}" alt="" loading="lazy"
+    onerror="this.outerHTML='${fb}'">`;
   return `<span class="t-logo-fb" style="background:${esc(col)}">${esc(ini)}</span>`;
 }
 
