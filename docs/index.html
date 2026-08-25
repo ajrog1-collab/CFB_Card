@@ -277,6 +277,19 @@
   .sright{font-family:var(--data);font-size:12.5px;text-align:right;font-weight:600}
   .sright small{display:block;font-size:9px;color:var(--mute);font-weight:500}
 
+  .fold-h{display:flex;align-items:center;gap:8px;width:100%;appearance:none;border:0;
+    background:var(--panel);color:var(--ink);border-radius:4px;padding:11px 12px;
+    margin:16px 0 0;cursor:pointer;text-align:left}
+  .fold-h .t{font-family:var(--display);font-size:17px;letter-spacing:.05em}
+  .fold-h .s{font-family:var(--data);font-size:9.5px;color:var(--mute);font-weight:600;
+    letter-spacing:.08em;margin-left:auto}
+  .fold-h .cv{font-family:var(--data);font-size:12px;color:var(--gold);
+    transition:transform .15s;flex:none}
+  .fold-h[aria-expanded="true"] .cv{transform:rotate(90deg)}
+  .fold-h:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .fold-b[hidden]{display:none}
+  .fold-b{padding-top:2px}
+
   .rrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--rule)}
   .badge{font-family:var(--display);font-size:12px;width:28px;flex:none;text-align:center;
     padding:3px 0;border-radius:2px}
@@ -404,6 +417,7 @@ const FILTERS = { market:'all', quality:'all' };
 let CONF = 'all';
 let SORT = 'confidence';
 let TIER = 'A';
+const OPEN = { history:false, allpicks:false };
 let VIEW = 'board';
 let SEARCH = '';
 let SHARE_N = 10;
@@ -542,7 +556,8 @@ function renderBoard(){
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}
-      ${chip('market','all','Both')}${chip('market','spread','Spreads')}${chip('market','total','Totals')}
+      <span style="width:6px"></span>
+      ${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
     <div class="sortbar">
       <label for="confsel">Conf</label>
@@ -745,6 +760,18 @@ function seasonTable(rows, live, be){
   }).join('');
 }
 
+/* Collapsible block. The season is what you check weekly; the backtest is
+   reference material and shouldn't push it off the screen. */
+function foldSection(key, title, sub, body){
+  const open = !!OPEN[key];
+  return `
+    <button class="fold-h" data-fold="${key}" aria-expanded="${open}">
+      <span class="cv">▶</span><span class="t">${esc(title)}</span>
+      <span class="s">${esc(sub)}</span>
+    </button>
+    <div class="fold-b" id="fold-${key}" ${open ? '' : 'hidden'}>${body}</div>`;
+}
+
 function renderRecord(){
   const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
   const be = r.breakeven_pct ?? 52.4;
@@ -799,13 +826,16 @@ function renderRecord(){
           : `Flat against the close. No evidence of beating the number yet.`}</div>`;
   }
 
+  /* Everything below is backtest reference, folded away by default so the
+     season stays the focus. */
+  let hb = '';
   const tsum = d.tier_summary || {}, ttrend = d.tier_trend || {};
   const tks = ['A','B','C','D','E'].filter(k => tsum[k]);
   if(tks.length){
     const opts = tks.concat(['ALL']);
     if(!opts.includes(TIER)) TIER = opts[0];
     const sel = tsum[TIER] || {}, rows = ttrend[TIER] || [];
-    h += `<h2>CONFIDENCE</h2>
+    hb += `<h2>CONFIDENCE</h2>
       <p class="sub">Five stars is the fifth of picks the model was most sure about,
       one star the least. Break-even is ${esc(be)}%.</p>
       <div class="filters">${opts.map(k =>
@@ -821,29 +851,29 @@ function renderRecord(){
           <div class="tile-v">${esc(sel.avg_gap ?? '--')}</div>
           <div class="tile-sub">sure ${esc(sel.avg_conf ?? '--')}</div></div></div>`;
     if(rows.length > 1){
-      h += tierTrend(rows, be, TIER === 'ALL' ? 'ALL' : String(TIER_STARS[TIER]));
+      hb += tierTrend(rows, be, TIER === 'ALL' ? 'ALL' : String(TIER_STARS[TIER]));
       const yrs = rows.filter(x => x.win_pct != null);
       const above = yrs.filter(x => x.win_pct >= be).length;
-      h += `<div class="note">Cleared break-even in <b>${above} of ${yrs.length}</b> seasons.
+      hb += `<div class="note">Cleared break-even in <b>${above} of ${yrs.length}</b> seasons.
         A rating worth trusting clears it most years, not just on the total.</div>`;
     }
   }
 
   const bt = d.backtest || {}, ts = d.totals || {};
   if((d.gap_trend || []).length > 1){
-    h += `<h2>ACCURACY TREND</h2>
+    hb += `<h2>ACCURACY TREND</h2>
       <p class="sub">How far behind the book the model landed each season. Falling means improving.</p>`
       + gapTrend(d.gap_trend);
   }
   if((bt.by_season || []).length){
-    h += `<h2>SPREADS BY SEASON</h2>
+    hb += `<h2>SPREADS BY SEASON</h2>
       <p class="sub">Bars show win rate against the ${esc(be)}% break-even line.</p>`
       + seasonTable(bt.by_season, d.record_live_season, be);
   }
   if((ts.by_season || []).length){
-    h += `<h2>TOTALS BY SEASON</h2>` + seasonTable(ts.by_season, null, be);
+    hb += `<h2>TOTALS BY SEASON</h2>` + seasonTable(ts.by_season, null, be);
   }
-  h += `<h2>MODEL VS BOOK</h2><p class="sub">Average miss on the final score. Lower is better.</p>
+  hb += `<h2>MODEL VS BOOK</h2><p class="sub">Average miss on the final score. Lower is better.</p>
     <div class="tiles">
       <div class="tile"><div class="tile-k">SPREADS</div>
         <div class="tile-v">${bt.overall?esc(bt.overall.model_mae):'--'}</div>
@@ -855,12 +885,28 @@ function renderRecord(){
         <div class="tile-v">${bt.qualified_win_pct!=null?esc(bt.qualified_win_pct)+'%':'--'}</div>
         <div class="tile-sub">${bt.qualified_bets ?? '--'} graded</div></div></div>`;
 
+
+  const seasons = ((d.backtest || {}).seasons || []);
+  const span = seasons.length ? `${seasons[0]}–${seasons[seasons.length-1]}` : 'backtest';
+  const historyFold = foldSection('history', 'MODEL HISTORY', span, hb);
+
   const hist = d.history || [];
-  if(hist.length) h += `<h2>EVERY GRADED PICK</h2>` + hist.map(x => `
-    <div class="rrow"><div class="badge ${esc(x.result)}">${x.result==='push'?'P':x.result==='win'?'W':'L'}</div>
-      <div class="rmain"><div class="rpick">${esc(x.pick)} ${x.pick_spread==null?'':sgn(x.pick_spread)}</div>
-        <div class="rsub">${esc(x.away)} at ${esc(x.home)}${x.margin==null?'':' · '+sgnInt(x.margin)}</div></div>
-      <div class="rsub">${x.clv==null?'':sgn(x.clv)}</div></div>`).join('');
+  if(hist.length){
+    const row = x => `
+      <div class="rrow"><div class="badge ${esc(x.result)}">${x.result==='push'?'P':x.result==='win'?'W':'L'}</div>
+        <div class="rmain"><div class="rpick">${esc(x.pick)} ${x.pick_spread==null?'':sgn(x.pick_spread)}</div>
+          <div class="rsub">${esc(x.away)} at ${esc(x.home)}${x.margin==null?'':' · '+sgnInt(x.margin)}</div></div>
+        <div class="rsub">${x.clv==null?'':sgn(x.clv)}</div></div>`;
+    const RECENT = 12;
+    h += `<h2>RESULTS</h2>` + hist.slice(0, RECENT).map(row).join('');
+    if(hist.length > RECENT){
+      h += foldSection('allpicks', 'EARLIER PICKS',
+        `${hist.length - RECENT} more`, hist.slice(RECENT).map(row).join(''));
+    }
+  }
+  // Backtest reference goes last, after this season's results.
+  h += historyFold;
+
   $('p-record').innerHTML = h;
   wire($('p-record'));
 }
@@ -1112,10 +1158,21 @@ function wire(root){
     const id=b.dataset.fav; FAVS.has(id)?FAVS.delete(id):FAVS.add(id); renderAll();
   }));
   root.querySelectorAll('.chip[data-f]').forEach(c => c.addEventListener('click', () => {
-    FILTERS[c.dataset.f]=c.dataset.v; renderBoard(); renderTop();
+    const g = c.dataset.f, v = c.dataset.v;
+    // Spreads and Totals toggle: tapping the active one clears back to both,
+    // so All/Qualified combine freely with either market or neither.
+    FILTERS[g] = (g === 'market' && FILTERS[g] === v) ? 'all' : v;
+    renderBoard(); renderTop();
   }));
   root.querySelectorAll('[data-tier]').forEach(b => b.addEventListener('click', () => {
     TIER=b.dataset.tier; renderRecord();
+  }));
+  root.querySelectorAll('[data-fold]').forEach(b => b.addEventListener('click', () => {
+    const k=b.dataset.fold;
+    OPEN[k]=!OPEN[k];
+    const box=root.querySelector('#fold-'+k);
+    if(box){ if(OPEN[k]) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); }
+    b.setAttribute('aria-expanded', OPEN[k]);
   }));
   root.querySelectorAll('[data-info]').forEach(b => b.addEventListener('click', () => {
     const box=root.querySelector('#why-'+CSS.escape(b.dataset.info));
