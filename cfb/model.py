@@ -1064,10 +1064,28 @@ def attach_venue_weather(d, wx_daily, venues):
     if "indoor" not in d.columns:
         d["indoor"] = 0.0
 
-    d["wind_excess"] = np.clip(d["wind"].fillna(8.0) - 10.0, 0, 30)
-    d["cold"] = np.clip(40.0 - d["temp"].fillna(60.0), 0, 60) / 10.0
+    # Unknown weather must mean "typical", not "calm". Filling wind with a low
+    # constant gives every unmeasured game a free pass on the wind penalty, which
+    # pushes its predicted total up and turns the whole board into overs.
+    known_wind = d.loc[d["wind"].notna(), "wind"]
+    known_temp = d.loc[d["temp"].notna(), "temp"]
+    fill_wind = float(known_wind.mean()) if len(known_wind) > 200 else 11.0
+    fill_temp = float(known_temp.mean()) if len(known_temp) > 200 else 60.0
+    fill_excess = max(fill_wind - 10.0, 0.0)
+
+    d["wind_excess"] = np.where(d["wind"].notna(),
+                                np.clip(d["wind"].fillna(0) - 10.0, 0, 30),
+                                fill_excess)
+    d["cold"] = np.where(d["temp"].notna(),
+                         np.clip(40.0 - d["temp"].fillna(0), 0, 60) / 10.0,
+                         max(40.0 - fill_temp, 0.0) / 10.0)
     d["precip_flag"] = (d["precip"].fillna(0.0) > 0.05).astype(float)
     d["wx_known"] = d["wind"].notna().astype(float)
+    # indoor games really are calm; that is knowledge, not a gap
+    if "indoor" in d.columns:
+        ind = d["indoor"] > 0
+        d.loc[ind, "wind_excess"] = 0.0
+        d.loc[ind, "precip_flag"] = 0.0
     covered = int(d["wind"].notna().sum())
     return d, bool(covered > 500)
 
