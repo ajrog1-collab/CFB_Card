@@ -179,6 +179,42 @@ def rating_diff(frame, ratings, hfa, default=None):
     return h - a + np.where(frame["neutral"].to_numpy(), 0.0, hfa)
 
 
+def fit_debias(pred, mkt):
+    """Fit pred = a + b*mkt on historical games.
+
+    The model's ratings are more regressed toward average than the market's, so
+    b comes out below 1: on a 21-point favourite the model says 17, and an edge
+    appears on the underdog in every such game. That is a scale artefact, not a
+    read on the matchup, and it is why two thirds of the board can "qualify".
+
+    Removing the fitted line leaves only the part of the prediction the market
+    number does not explain, which is the only part that could be an edge.
+    """
+    pred = np.asarray(pred, dtype=float)
+    mkt = np.asarray(mkt, dtype=float)
+    ok = np.isfinite(pred) & np.isfinite(mkt)
+    if ok.sum() < 300:
+        return 0.0, 1.0
+    A = np.column_stack([mkt[ok], np.ones(int(ok.sum()))])
+    beta, *_ = np.linalg.lstsq(A, pred[ok], rcond=None)
+    b, a = float(beta[0]), float(beta[1])
+    if not np.isfinite(b) or b <= 0.2 or b > 3.0:
+        return 0.0, 1.0
+    return a, b
+
+
+def apply_debias(pred, mkt, a, b):
+    """Market number plus the model's unexplained disagreement.
+
+    Parameters come from past seasons, never from the games being predicted, so
+    no future information enters.
+    """
+    pred = np.asarray(pred, dtype=float)
+    mkt = np.asarray(mkt, dtype=float)
+    resid = pred - (a + b * mkt)
+    return np.where(np.isfinite(mkt), mkt + resid, pred)
+
+
 def blend_prior(prior, in_season, games_played, k=6.0):
     """Per-team weighted blend. w = n/(n+k): 0 at week 1, rising with games."""
     if in_season is None:
