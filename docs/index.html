@@ -399,8 +399,6 @@
       <button class="iconbtn" id="closemenu" aria-label="Close menu">✕</button></div>
     <button class="menu-item" id="m-card">THE CARD · TOP 10</button>
     <button class="menu-item" id="m-model">THE MODEL</button>
-    <button class="menu-item" id="m-refresh">REFRESH NOTES</button>
-    <button class="menu-item" id="m-theme">SWITCH TO LIGHT</button>
   </div>
 </div>
 
@@ -926,176 +924,145 @@ function renderRecord(){
 
 function renderModel(){
   const d = DATA, st = d.state || {}, pm = d.prior_model || {}, bt = d.backtest || {};
-  const excl = (d.situational || {})._excluded || {}, co = pm.coefficients || {};
+  const excl = (d.situational || {})._excluded || {}, sit = d.situational || {};
   const db = d.debias || {}, bias = d.bias_check || {}, tbias = d.totals_bias_check || {};
-  const bal = d.board_balance || {};
-  const qb = d.qb_value || {};
-  const qbRows = Object.entries(qb)
-    .sort((a,b) => b[1].points - a[1].points)
-    .slice(0, 20)
-    .map(([team, v]) => `
-      <div class="rrow">
-        <div class="rmain"><div class="rpick">${esc(team)}</div>
-          <div class="rsub">${esc(v.starter)} over ${esc(v.backup)}${v.estimated ? ' (est)' : ''}</div></div>
-        <div class="num" style="font-size:14px;color:var(--gold)">${esc(v.points)}</div>
-      </div>`).join('');
+  const bal = d.board_balance || {}, qb = d.qb_value || {};
   const be = (d.record || {}).breakeven_pct ?? 52.4;
-  const ratings = (d.ratings || []).slice(0,25).map(r => `
+  const gen = d.generated_at ? new Date(d.generated_at) : null;
+  const used = Object.entries(sit).filter(([k, v]) =>
+    k !== 'rating_scale' && k !== '_excluded' && typeof v === 'number' && Math.abs(v) > 0);
+
+  const card = `
+    <dl>
+      <dt>Model / Book / Edge</dt><dd>Model's number, the posted number, the gap. All from
+        the side picked.</dd>
+      <dt>Stars</dt><dd>Edge divided by the model's typical error on that kind of game.
+        5★ = most sure fifth of picks, 1★ = least. Bands come from
+        ${d.tier_regime === 'early' ? 'early-season' : 'in-season'} history to match how
+        today's ratings were built.</dd>
+      <dt>Qualified</dt><dd>Edge over ${esc(d.min_edge ?? '--')} pts on spreads,
+        ${esc((d.totals || {}).min_edge ?? '--')} on totals. The bar is set from the model's
+        own spread of disagreement, so roughly a quarter of games clear it.</dd>
+      <dt>Why</dt><dd>Reasons specific to that game. Only shows factors the data actually
+        supports. Red = caution.</dd>
+    </dl>`;
+
+  const record = `
+    <dl>
+      <dt>Break-even ${esc(be)}%</dt><dd>At ${esc(d.assumed_price ?? -110)} you must win that
+        often to stay level.</dd>
+      <dt>Line value</dt><dd>Did the number move toward the pick after logging.
+        <b>Meaningful at ~30 bets; win rate needs hundreds.</b></dd>
+      <dt>Average miss</dt><dd>Points off the final score. <b>Unanchored</b> is the model
+        alone; the headline figure is after tying predictions to the book's line, which
+        flatters it.</dd>
+      <dt>Stars by season</dt><dd>Whether a band held up year to year. One hot season can
+        carry a whole band.</dd>
+    </dl>`;
+
+  const how = `
+    <dl>
+      <dt>Ratings</dt><dd>Points above average per team, from scoring margin and EPA per
+        play, fit across all games at once.</dd>
+      <dt>Turnover luck</dt><dd>${st.turnover_points != null
+        ? `Each net turnover was worth ${esc(st.turnover_points)} pts;
+           ${Math.round((st.turnover_shrink ?? .7) * 100)}% stripped out before rating.`
+        : 'Inactive this run.'}</dd>
+      <dt>Preseason</dt><dd>Last year's rating, returning production, recruiting, prior-year
+        SP+. Fit on ${esc(pm.team_seasons ?? '--')} team-seasons, R² ${esc(pm.r2 ?? '--')}.
+        ${st.in_season_weight != null
+          ? `Now ${Math.round(st.in_season_weight * 100)}% this season.` : ''}</dd>
+      <dt>Totals</dt><dd>Offense and defense rated separately, plus wind, cold, rain.
+        ${st.uses_weather
+          ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
+          : 'Weather still loading.'}</dd>
+      <dt>Home field</dt><dd>${esc(st.home_field ?? '--')} pts, measured not assumed.</dd>
+      <dt>Situational</dt><dd>${used.length
+        ? used.map(([k, v]) => `${esc(k.replace(/_/g, ' '))} ${v > 0 ? '+' : ''}${esc(v)}`).join(' · ')
+        : 'None survived testing this run — travel, rest and rivalry all contribute zero.'}</dd>
+    </dl>`;
+
+  const honest = `
+    <dl>
+      <dt>Why picks aren't all underdogs</dt><dd>The model's ratings sit closer to average
+        than the market's, so it under-rates big favourites and an "edge" appears on every
+        dog. ${db.slope != null ? `Raw predictions ran at <b>${esc(db.slope)}×</b> the book's
+        scale; that line is subtracted.` : ''}</dd>
+      <dt>Line vs edge</dt><dd>${bias.edge_vs_line_corr != null
+        ? `<b>${esc(bias.edge_vs_line_corr)}</b>. Near zero is healthy.` : '--'}</dd>
+      <dt>This week's board</dt><dd>${['spread', 'total'].map(k => {
+          const b = bal[k]; return b ? `${k === 'spread' ? 'Spreads' : 'Totals'}
+          <b>${esc(b.pct)}%</b> ${esc(b.side)}` : ''; }).filter(Boolean).join(' · ') || '--'}
+        ${' '}· 50% is balanced.</dd>
+      <dt>Totals history</dt><dd>${tbias.pct_over != null
+        ? `${esc(tbias.pct_over)}% overs, correlation ${esc(tbias.edge_vs_line_corr ?? '--')}.`
+        : '--'}</dd>
+      <dt>The cost</dt><dd>Anchoring to the book improves the accuracy figure without the
+        model earning it. <b>Judge by win rate and line value.</b></dd>
+    </dl>`;
+
+  const qbRows = Object.entries(qb).sort((a, b) => b[1].points - a[1].points).slice(0, 20)
+    .map(([team, v]) => `<div class="rrow">
+      <div class="rmain"><div class="rpick">${esc(team)}</div>
+        <div class="rsub">${esc(v.starter)} over ${esc(v.backup)}${v.estimated ? ' (est)' : ''}</div></div>
+      <div class="num" style="font-size:14px;color:var(--gold)">${esc(v.points)}</div></div>`).join('');
+  const qbBody = `<p class="sub">Points per game lost if the starter sits, from his EPA per
+    play minus his backup's. <b>Not in the model</b> — apply by hand when you see news${
+    d.qb_season ? `. Based on ${esc(d.qb_season)} usage` : ''}.</p>
+    ${qbRows || '<p class="sub">Not available this run.</p>'}`;
+
+  const dropped = `<p class="sub">Effects the data wouldn't support. Dropping beats trusting
+    a number that says jet lag helps.</p><dl>${Object.keys(excl).length
+    ? Object.entries(excl).map(([k, w]) =>
+        `<dt>${esc(k.replace(/_/g, ' '))}</dt><dd>${esc(w)}</dd>`).join('')
+    : '<dd>Nothing dropped this run.</dd>'}</dl>`;
+
+  const limits = `
+    <dl>
+      <dt>No injuries</dt><dd>Biggest gap. See QB value above.</dd>
+      <dt>No transfer portal</dt><dd>Incoming transfers aren't counted. Worst in September.</dd>
+      <dt>Consensus lines</dt><dd>Not your book. Half a point matters.</dd>
+      <dt>Past ≠ future</dt><dd>${bt.qualified_win_pct != null
+        ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically vs ${esc(be)}% break-even.`
+        : 'Backtest pending.'}</dd>
+      <dt>Held-out season</dt><dd>${bt.holdout && bt.holdout.win_pct != null
+        ? `${esc(bt.holdout.season)} scored ${esc(bt.holdout.win_pct)}%, but it has been
+           examined repeatedly since. The live season is the clean test now.`
+        : '--'}</dd>
+    </dl>`;
+
+  const refresh = `
+    <dl>
+      <dt>Automatic</dt><dd>Daily ~10am ET, twice more Saturday, Sunday to grade.
+        Nothing to trigger.</dd>
+      <dt>Reloading</dt><dd>Fetches the latest saved numbers; it does not re-run the model.</dd>
+      <dt>Force a run</dt><dd>GitHub → Actions → Update model → Run workflow. Worth it if a
+        starter is ruled out or a number moves hard.</dd>
+      <dt>Later weeks</dt><dd>Games appear once a book posts a number.</dd>
+      <dt>Your card</dt><dd>Clears on reload, by design.</dd>
+      <dt>Last update</dt><dd>${gen ? esc(gen.toLocaleString()) : '--'}</dd>
+    </dl>`;
+
+  const ratings = (d.ratings || []).slice(0, 25).map(r => `
     <div class="rrow"><div class="rsub" style="width:22px;text-align:right">${r.rank}</div>
       <div class="rmain"><div class="rpick">${esc(r.team)}</div></div>
       <div class="rsub">${sgn(r.rating)}</div></div>`).join('');
+
   $('p-model').innerHTML = `
-  <h2>THE MODEL</h2>
-  <p class="sub">A power-rating model for college football. It prices every game,
-  compares its number to the book's, and tracks every pick it flags.</p>
-
-  ${(d.notes || []).length ? `<h3>THIS WEEK'S CAVEATS</h3>` +
-    (d.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('') : ''}
-
-  <h3>BOARD BALANCE</h3>
-  <p class="sub">Which side this week's picks land on. Near 50% is healthy; a lopsided
-  board says more about the model than the slate.</p>
-  ${['spread','type-total'].length ? '' : ''}
-  <div class="tiles">
-    ${['spread','total'].map(k => {
-      const b = (d.board_balance || {})[k];
-      if(!b) return '';
-      const off = b.pct >= 70 || b.pct <= 30;
-      return `<div class="tile"><div class="tile-k">${k === 'spread' ? 'SPREADS' : 'TOTALS'}</div>
-        <div class="tile-v" style="${off ? 'color:var(--gold)' : ''}">${esc(b.pct)}%</div>
-        <div class="tile-sub">${esc(b.side)} · ${esc(b.n)} picks${b.corr != null ? ' · r ' + esc(b.corr) : ''}</div></div>`;
-    }).join('')}
-    <div class="tile"><div class="tile-k">BALANCED</div>
-      <div class="tile-v">50%</div><div class="tile-sub">what to expect</div></div>
-  </div>
-
-  <h3>READING A CARD</h3>
-  <dl>
-    <dt>Model / Book / Edge</dt><dd>What the model makes the number, what you can bet,
-      and the distance between them. All quoted from the side being picked.</dd>
-    <dt>Confidence stars</dt><dd>Edge divided by how wrong the model usually is on that
-      kind of game. <b>Five stars is the most sure fifth of all picks, one star the
-      least.</b> A small edge on a well-understood game can outrank a big edge on a mystery.</dd>
-    <dt>Qualified</dt><dd>Edge clears ${esc(d.min_edge ?? 3)} pts on spreads,
-      ${esc((d.totals||{}).min_edge ?? 4)} on totals. Below that it's a lean, shown for context.</dd>
-    <dt>Why</dt><dd>What's actually driving that number — rest, travel, a unit mismatch,
-      or a reason to doubt it. Red means caution.</dd>
-  </dl>
-
-  <h3>READING THE RECORD</h3>
-  <dl>
-    <dt>Break-even is ${esc(be)}%</dt><dd>At ${esc(d.assumed_price ?? -110)} pricing you
-      must win that often to stay level. Below it loses money.</dd>
-    <dt>Line value</dt><dd>Whether the number moved toward the pick after it was logged.
-      <b>This matters sooner than win rate</b> — it shows up in dozens of picks, where win
-      rate needs hundreds.</dd>
-    <dt>Confidence by season</dt><dd>Whether a star rating held up year to year.
-      <b>One hot season can carry a rating's overall record.</b></dd>
-    <dt>Accuracy trend</dt><dd>Points behind the book each season. Falling means improving,
-      and it's steadier than win rate.</dd>
-  </dl>
-
-  <h3>HOW IT WORKS</h3>
-  <dl>
-    <dt>Ratings</dt><dd>Every team gets a points-above-average number from scoring margin
-      and EPA per play, fit across all games at once — so beating a good team counts more.</dd>
-    <dt>Turnover luck</dt><dd>Fumble recoveries are near coin flips.
-      ${st.turnover_points != null ? `Each net turnover was worth ${esc(st.turnover_points)} pts;
-      ${Math.round((st.turnover_shrink ?? .7)*100)}% is stripped out before rating teams.`
-      : 'Not active this run.'}</dd>
-    <dt>Preseason</dt><dd>Before teams play, ratings come from last year, returning production,
-      recruiting, and prior-year SP+. Fit on ${esc(pm.team_seasons ?? '--')} team-seasons,
-      R² ${esc(pm.r2 ?? '--')}.${st.in_season_weight != null ? ` Now ${Math.round(st.in_season_weight*100)}% this season.` : ''}</dd>
-    <dt>Totals</dt><dd>A separate model rating offense and defense apart, plus wind, cold and rain.
-      ${st.uses_weather ? `${esc(st.weather_games ?? 0)} games have weather, ${esc(st.domes ?? 0)} venues indoors.`
-      : 'Weather still loading — totals are weaker without it.'}</dd>
-    <dt>Home field</dt><dd>Worth ${esc(st.home_field ?? '--')} pts, measured not assumed.</dd>
-  </dl>
-
-  <h3>KEEPING THE PICKS HONEST</h3>
-  <dl>
-    <dt>Why every pick isn't an underdog</dt>
-    <dd>The model's ratings sit closer to average than the market's, so on a big
-      favourite it naturally forecasts a smaller margin — and an "edge" on the dog
-      appears in every such game. That's a scale artefact, not a read.
-      ${db.slope != null ? `Measured against history the raw predictions ran at
-      <b>${esc(db.slope)}×</b> the market's scale, so that line is subtracted and only
-      the disagreement the market number can't explain is kept.` : ''}</dd>
-    <dt>Correction fitted where it's used</dt>
-    <dd>Preseason ratings are compressed harder than mid-season ones, so a slope fitted
-      on past in-season games under-corrects this week's board. When the slate has 30+
-      games the tilt is measured on the slate itself${bal.spread && bal.spread.debias
-        ? ` — currently <b>${esc(bal.spread.debias)}</b>` : ''}. Only posted lines are
-      used, which are public before kickoff.</dd>
-    <dt>Line-vs-edge correlation</dt>
-    <dd>${bias.edge_vs_line_corr != null
-      ? `<b>${esc(bias.edge_vs_line_corr)}</b> — near zero means the model disagrees in
-         both directions regardless of how big the number is. A strongly negative value
-         would mean it's just taking points everywhere.`
-      : 'Not measured this run.'}</dd>
-    <dt>Share on underdogs</dt>
-    <dd>${bias.pct_on_underdog != null
-      ? `<b>${esc(bias.pct_on_underdog)}%</b> of picks land on the market's less-favoured
-         side. Near 50% is healthy.` : 'Not measured this run.'}</dd>
-    <dt>Totals balance</dt>
-    <dd>${tbias.pct_over != null
-      ? `<b>${esc(tbias.pct_over)}%</b> of historical totals picks were overs, with a
-         line-to-edge correlation of ${esc(tbias.edge_vs_line_corr ?? '--')}. The same
-         correction is applied to totals as to spreads.`
-      : 'Not measured this run.'}</dd>
-    <dt>Unknown weather</dt>
-    <dd>Games with no weather yet are treated as <b>typical</b> conditions, not calm.
-      Assuming calm hands every unmeasured game a free pass on the wind penalty and
-      turns the whole board into overs.</dd>
-    <dt>Share qualifying</dt>
-    <dd>${bias.qualified_share != null
-      ? `<b>${esc(bias.qualified_share)}%</b> of games clear the bar. The bar itself is set
-         from the model's own spread of disagreement rather than picked by hand, so it
-         lands near a quarter of the board whatever the model's scale happens to be —
-         currently ${esc(d.min_edge ?? '--')} pts on spreads,
-         ${esc((d.totals||{}).min_edge ?? '--')} on totals.` : '--'}</dd>
-    <dt>What this costs</dt>
-    <dd>Anchoring to the market number makes the average-miss figure look better than the
-      model earns on its own, so <b>read win rate and line value, not accuracy</b>, when
-      judging whether there's an edge.</dd>
-  </dl>
-
-  <h3>THROWN OUT</h3>
-  <p class="sub">Effects the data wouldn't support. Dropping them beats trusting a number
-  that claims jet lag helps.</p>
-  <dl>${Object.keys(excl).length ? Object.entries(excl).map(([k,w]) =>
-    `<dt>${esc(k.replace(/_/g,' '))}</dt><dd>${esc(w)}</dd>`).join('')
-    : '<dd>Nothing dropped this run.</dd>'}</dl>
-
-  <h3>QB VALUE</h3>
-  <p class="sub">Points per game a team stands to lose if its starting quarterback is out,
-  from the gap between his EPA per play and his backup's.
-  <b>This is not in the model</b> — the model never knows who is playing. It's a number to
-  apply by hand when you see injury news${d.qb_season ? `, based on ${esc(d.qb_season)} usage` : ''}.</p>
-  ${qbRows || '<div class="empty"><div class="empty-p">Quarterback data not available this run.</div></div>'}
-
-  <h3>HONEST LIMITS</h3>
-  <dl>
-    <dt>No injury data</dt><dd>The biggest gap. A starting QB is worth several points and
-      the model never knows.</dd>
-    <dt>No transfer portal</dt><dd>Incoming transfers aren't counted, so rebuilt rosters are
-      misrated — worst in September.</dd>
-    <dt>Consensus lines</dt><dd>Numbers come from a consensus feed, not your book.
-      Half a point matters.</dd>
-    <dt>Past ≠ future</dt><dd>${bt.qualified_win_pct != null
-      ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically against a ${esc(be)}% break-even.`
-      : 'Backtest pending.'} Held-out season:
-      ${bt.holdout && bt.holdout.win_pct != null ? esc(bt.holdout.win_pct)+'%' : '--'}.</dd>
-  </dl>
-
-  <h3>TOP 25</h3>
-  <p class="sub">Points better than average, neutral field.</p>
-  ${ratings || '<div class="empty"><div class="empty-p">Not available.</div></div>'}
-
-  <h3>PRESEASON WEIGHTS</h3>
-  <p class="sub" style="font-family:var(--data);font-size:11px">
-    ${Object.entries(co).map(([k,v]) => `${esc(k)} ${v>0?'+':''}${esc(v)}`).join(' · ') || '--'}</p>
-  <p class="sub">Data: College Football Data API, Open-Meteo. Logos via ESPN.</p>`;
+    <h2>THE MODEL</h2>
+    <p class="sub">Rates every team, prices every game, compares its number to the book's,
+    and tracks every pick it flags.</p>
+    ${(d.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('')}
+    ${foldSection('m1', 'READING A CARD', '', card)}
+    ${foldSection('m2', 'READING THE RECORD', '', record)}
+    ${foldSection('m3', 'HOW IT WORKS', '', how)}
+    ${foldSection('m4', 'KEEPING PICKS HONEST', '', honest)}
+    ${foldSection('m5', 'QB VALUE', Object.keys(qb).length ? `${Object.keys(qb).length} teams` : '', qbBody)}
+    ${foldSection('m6', 'DROPPED', Object.keys(excl).length ? `${Object.keys(excl).length}` : '', dropped)}
+    ${foldSection('m7', 'LIMITS', '', limits)}
+    ${foldSection('m8', 'REFRESHING', '', refresh)}
+    ${foldSection('m9', 'TOP 25', '', ratings || '<p class="sub">Not available.</p>')}`;
+  wire($('p-model'));
 }
 
 /* ---------- shareable card ----------
@@ -1114,7 +1081,8 @@ function renderShare(){
     .slice(0, SHARE_N);
   const d = DATA;
   const when = new Date(d.generated_at);
-  const wk = picks.length && picks[0].week != null ? 'WEEK ' + String(picks[0].week).padStart(2,'0') : '';
+  const wk = picks.length && picks[0].week != null
+    ? 'WEEK ' + String(picks[0].week).padStart(2,'0') : '';
 
   const rows = picks.map((p, i) => {
     const isTot = p.market === 'total';
@@ -1140,8 +1108,7 @@ function renderShare(){
     ${rows || '<div class="sc-row"><div class="sc-g"><div class="sc-p">NO QUALIFIED PICKS</div></div></div>'}
     <div class="sc-foot">
       <div class="sc-tag">READ THE CARD</div>
-      <div class="sc-note">MODEL VS BOOK · ${esc((d.backtest && d.backtest.overall) ? d.backtest.overall.model_mae : '--')}
-        / ${esc((d.backtest && d.backtest.overall) ? d.backtest.overall.market_mae : '--')}</div>
+      <div class="sc-note">NEED ${esc((d.record || {}).breakeven_pct ?? 52.4)}% TO BREAK EVEN</div>
     </div>
     <div class="fold"></div>`;
 }
@@ -1245,61 +1212,15 @@ $('sharemore').addEventListener('click', e => {
   renderShare();
 });
 
-$('m-refresh').addEventListener('click', () => {
-  $('drawer').hidden = true;
-  show('model');
-  const box = $('p-model');
-  box.innerHTML = refreshNotes() + box.innerHTML;
-  window.scrollTo({top:0, behavior:'instant'});
-});
-
-function refreshNotes(){
-  const d = DATA || {}, st = d.state || {};
-  const when = d.generated_at ? new Date(d.generated_at) : null;
-  const age = when ? Math.round((Date.now() - when) / 36e5) : null;
-  return `
-  <h2>REFRESH NOTES</h2>
-  <p class="sub">Last update ${when ? when.toLocaleString() : '--'}${age != null ? ` · ${age}h ago` : ''}.</p>
-  <dl>
-    <dt>It refreshes itself</dt>
-    <dd><b>Every day</b> around 10am ET, plus two more passes Saturday as kickoff
-      approaches, plus Sunday to grade results. You never have to trigger it.</dd>
-    <dt>Later weeks</dt>
-    <dd>Games only appear once a book hangs a number. Next week's slate fills in on
-      its own as lines post — nothing is missing, it just isn't priced yet.</dd>
-    <dt>Pull the page, not the model</dt>
-    <dd>Reloading this page fetches the latest saved numbers. It does not re-run the
-      model. If the timestamp above is recent, you already have the newest picks.</dd>
-    <dt>Forcing a run</dt>
-    <dd>GitHub → <b>Actions</b> → <b>Update model</b> → <b>Run workflow</b>. Takes a few
-      minutes. Worth doing after a line moves or a starter is ruled out, since the
-      picks are only as fresh as the lines behind them.</dd>
-    <dt>When to run it by hand</dt>
-    <dd>Rarely. The daily pass covers normal line movement. Force a run if a starter
-      is ruled out or a number moves hard and you want the board to reflect it now.</dd>
-    <dt>If the timestamp goes stale</dt>
-    <dd>A failed run leaves the old numbers up quietly. If the time above is more than
-      a couple of days old, check GitHub → Actions for a red X.</dd>
-    <dt>Your card clears</dt>
-    <dd>Starred games live in the page, not the cloud. A reload empties them, by design.</dd>
-    ${st.uses_weather === false || (st.weather_games ?? 0) < 2000 ? `
-    <dt>Weather is still filling in</dt>
-    <dd>${esc(st.weather_games ?? 0)} games have weather so far. It backfills a batch per
-      run, so a few more runs will finish it. Totals get sharper as it does.</dd>` : ''}
-  </dl>
-  <hr style="border:0;border-top:1px solid var(--rule);margin:18px 0">`;
-}
 
 function setTheme(mode){
   document.documentElement.dataset.theme = mode;
-  $('m-theme').textContent = mode === 'dark' ? 'SWITCH TO LIGHT' : 'SWITCH TO DARK';
   const meta = document.querySelector('meta[name="theme-color"]');
   if(meta) meta.setAttribute('content', mode === 'dark' ? '#0C1B29' : '#EFECE6');
   if(DATA) renderAll();
 }
 const toggleTheme = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 $('themebtn').addEventListener('click', toggleTheme);
-$('m-theme').addEventListener('click', () => { toggleTheme(); $('drawer').hidden = true; });
 
 $('brandticks').innerHTML = tickRow(17, 8);
 
