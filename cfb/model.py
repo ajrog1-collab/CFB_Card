@@ -787,6 +787,65 @@ def fit_calibration(rating_col, S, names, y, ridge=25.0):
 
 
 # ----------------------------------------------------------------------
+# quarterback replacement value
+# ----------------------------------------------------------------------
+
+def parse_qb_value(raw, dropbacks_per_game=30.0, min_plays=40):
+    """Points per game a team stands to lose if its starting QB is out.
+
+    The market's single biggest input is quarterback availability, and no free
+    feed carries injury news. What is free is each quarterback's EPA per play,
+    so the gap between a team's most-used QB and their next one can be priced:
+
+        (starter EPA/play - backup EPA/play) x dropbacks per game
+
+    That number does not enter the model. It is a lookup for the reader: when a
+    starter is ruled out, this is roughly what to shade the line by, applied by
+    hand rather than guessed.
+    """
+    if not len(raw):
+        return {}
+
+    team = col(raw, "team", "school")
+    name = col(raw, "name", "player")
+    plays = col(raw, "countablePlays", "countable_plays", "plays")
+    ppa = col(raw, "averagePPA.all", "averagePPA", "average_ppa", "ppa")
+    if not (team and name and ppa):
+        return {}
+
+    df = raw.copy()
+    df["_ppa"] = pd.to_numeric(df[ppa], errors="coerce")
+    df["_plays"] = pd.to_numeric(df[plays], errors="coerce") if plays else 1.0
+    df = df.dropna(subset=["_ppa"])
+    if plays:
+        df = df[df["_plays"].fillna(0) >= min_plays]
+    if not len(df):
+        return {}
+
+    # a replacement-level baseline for teams with only one qualifying QB
+    baseline = float(df["_ppa"].quantile(0.25))
+
+    out = {}
+    for school, grp in df.groupby(team):
+        g = grp.sort_values("_plays", ascending=False) if plays else grp
+        if not len(g):
+            continue
+        starter = g.iloc[0]
+        backup_ppa = float(g.iloc[1]["_ppa"]) if len(g) > 1 else baseline
+        backup_name = str(g.iloc[1][name]) if len(g) > 1 else "replacement level"
+        gap = (float(starter["_ppa"]) - backup_ppa) * dropbacks_per_game
+        out[str(school)] = {
+            "starter": str(starter[name]),
+            "starter_ppa": round(float(starter["_ppa"]), 3),
+            "backup": backup_name,
+            "backup_ppa": round(backup_ppa, 3),
+            "points": round(gap, 1),
+            "estimated": bool(len(g) == 1),
+        }
+    return out
+
+
+# ----------------------------------------------------------------------
 # totals: offense / defense points ratings
 # ----------------------------------------------------------------------
 
