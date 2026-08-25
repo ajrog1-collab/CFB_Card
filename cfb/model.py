@@ -485,6 +485,40 @@ def haversine(lat1, lon1, lat2, lon2):
     return 2 * R * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
 
 
+def parse_teams(raw):
+    """school -> {abbr, color, alt, logo, logo_dark} from /teams/fbs."""
+    if not len(raw):
+        return {}
+    school = col(raw, "school", "team")
+    if not school:
+        return {}
+    abbr = col(raw, "abbreviation", "abbr")
+    color = col(raw, "color")
+    alt = col(raw, "alternateColor", "alt_color", "altColor")
+    logos = col(raw, "logos")
+
+    out = {}
+    for _, r in raw.iterrows():
+        name = r[school]
+        if not isinstance(name, str):
+            continue
+        entry = {
+            "abbr": (str(r[abbr]) if abbr and pd.notna(r.get(abbr)) else None),
+            "color": (str(r[color]) if color and pd.notna(r.get(color)) else None),
+            "alt": (str(r[alt]) if alt and pd.notna(r.get(alt)) else None),
+            "logo": None, "logo_dark": None,
+        }
+        if logos:
+            L = r.get(logos)
+            if isinstance(L, (list, tuple, np.ndarray)) and len(L):
+                urls = [str(u).replace("http://", "https://") for u in L if u]
+                if urls:
+                    entry["logo"] = urls[0]
+                    entry["logo_dark"] = urls[1] if len(urls) > 1 else urls[0]
+        out[name] = entry
+    return out
+
+
 def parse_venues(raw):
     """venue_id -> {lat, lon, tz}."""
     if not len(raw):
