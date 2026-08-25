@@ -108,6 +108,66 @@
   .sortbar select{background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     border-radius:3px;font-family:var(--data);font-size:11px;padding:5px 7px;font-weight:600}
   .count{margin-left:auto}
+  .searchwrap{position:relative;margin:10px 0 2px}
+  .search{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--rule);
+    border-radius:4px;font-family:var(--body);font-size:14px;padding:9px 32px 9px 11px}
+  .search::placeholder{color:var(--mute)}
+  .search:focus{outline:2px solid var(--blue);outline-offset:1px}
+  .searchclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    appearance:none;border:0;background:transparent;color:var(--mute);font-size:15px;
+    cursor:pointer;padding:4px 6px}
+  .sugg{position:absolute;left:0;right:0;top:calc(100% + 3px);z-index:40;background:var(--panel);
+    border:1px solid var(--rule);border-radius:4px;max-height:210px;overflow:auto}
+  .sugg[hidden]{display:none}
+  .sugg button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;
+    appearance:none;border:0;background:transparent;color:var(--ink);font-family:var(--body);
+    font-size:14px;padding:8px 11px;cursor:pointer}
+  .sugg button:hover,.sugg button.on{background:var(--panel-2)}
+  .sugg img{width:18px;height:18px;object-fit:contain;flex:none}
+
+  .sharebtn{appearance:none;border:0;cursor:pointer;background:var(--gold);color:#0C1B29;
+    font-family:var(--display);font-size:15px;letter-spacing:.1em;padding:0 13px;height:34px;
+    border-radius:5px;display:flex;align-items:center;gap:6px;position:relative;overflow:hidden}
+  .sharebtn::after{content:'';position:absolute;right:0;bottom:0;width:0;height:0;
+    border-left:9px solid transparent;border-bottom:9px solid rgba(0,0,0,.28)}
+
+  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:70;overflow:auto;
+    padding:14px;display:flex;justify-content:center;align-items:flex-start}
+  .sheet[hidden]{display:none}
+  .sc{width:100%;max-width:390px;background:var(--ticket);color:var(--ticket-ink);
+    border-radius:10px;position:relative;overflow:hidden;padding:12px 13px 10px}
+  .sc .fold{border-left:24px solid transparent;border-bottom:24px solid var(--gold)}
+  .sc-head{display:flex;align-items:flex-end;gap:9px;padding-bottom:8px;
+    border-bottom:1px solid var(--ticket-rule)}
+  .sc-the{font-family:var(--display);font-size:10px;letter-spacing:.26em;line-height:1;
+    display:flex;align-items:center;gap:4px}
+  .sc-the::before,.sc-the::after{content:'';width:9px;height:2px;background:var(--ticket-ink)}
+  .sc-card{font-family:var(--display);font-size:29px;line-height:.82}
+  .sc-meta{margin-left:auto;text-align:right;font-family:var(--data);font-size:8.5px;
+    letter-spacing:.13em;font-weight:700;color:var(--ticket-mute);line-height:1.5}
+  .sc-row{display:grid;grid-template-columns:15px 1fr auto;gap:7px;align-items:center;
+    padding:5px 0;border-bottom:1px solid var(--ticket-rule)}
+  .sc-row:last-of-type{border-bottom:0}
+  .sc-n{font-family:var(--data);font-size:10px;font-weight:700;color:var(--ticket-mute);
+    text-align:right}
+  .sc-g{min-width:0}
+  .sc-m{font-family:var(--data);font-size:9px;letter-spacing:.06em;color:var(--ticket-mute);
+    font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sc-p{font-family:var(--display);font-size:16px;line-height:1;letter-spacing:.02em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sc-r{text-align:right;white-space:nowrap}
+  .sc-line{font-family:var(--data);font-size:14px;font-weight:700}
+  .sc-st{font-size:8px;letter-spacing:.5px;color:var(--gold);line-height:1}
+  .sc-st .off{color:var(--ticket-rule)}
+  .sc-foot{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:7px;
+    border-top:1px solid var(--ticket-rule)}
+  .sc-tag{font-family:var(--data);font-size:8.5px;letter-spacing:.2em;color:var(--gold);
+    font-weight:700}
+  .sc-note{margin-left:auto;font-family:var(--data);font-size:8px;color:var(--ticket-mute);
+    font-weight:600;letter-spacing:.08em}
+  .sheet-actions{display:flex;gap:7px;justify-content:center;margin-top:10px;width:100%;
+    max-width:390px}
+
   .balance{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--data);font-size:9.5px;
     letter-spacing:.1em;font-weight:600;color:var(--mute);margin:6px 0 2px}
   .balance b{color:var(--ink);font-weight:700}
@@ -260,6 +320,7 @@
       <div class="fold"></div>
     </div>
     <div class="topright">
+      <button class="sharebtn" id="sharebtn">THE CARD</button>
       <button class="iconbtn" id="themebtn" aria-label="Switch theme">◐</button>
       <button class="iconbtn" id="menubtn" aria-label="Open menu">☰</button>
     </div>
@@ -267,7 +328,7 @@
   </div>
 
   <nav role="tablist">
-    <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">THE CARD</button>
+    <button class="tab" role="tab" id="t-board" aria-controls="p-board" aria-selected="true">GAMES</button>
     <button class="tab" role="tab" id="t-slip" aria-controls="p-slip" aria-selected="false">YOUR CARD</button>
     <button class="tab" role="tab" id="t-record" aria-controls="p-record" aria-selected="false">RECORD</button>
   </nav>
@@ -280,11 +341,23 @@
   <div class="watermark"><div class="c">C</div><div class="t">READ THE CARD</div></div>
 </div>
 
+<div class="sheet" id="sheet" hidden>
+  <div style="width:100%;max-width:390px">
+    <div class="sc" id="sharecard"></div>
+    <div class="sheet-actions">
+      <button class="chip" id="closesheet">Close</button>
+      <button class="chip" id="sharemore" aria-pressed="false">Show 5 / 10</button>
+    </div>
+  </div>
+</div>
+
 <div class="drawer" id="drawer" hidden>
   <div class="drawer-in">
     <div class="drawer-h"><div class="t">MENU</div>
       <button class="iconbtn" id="closemenu" aria-label="Close menu">✕</button></div>
+    <button class="menu-item" id="m-card">THE CARD · TOP 10</button>
     <button class="menu-item" id="m-model">THE MODEL</button>
+    <button class="menu-item" id="m-refresh">REFRESH NOTES</button>
     <button class="menu-item" id="m-theme">SWITCH TO LIGHT</button>
   </div>
 </div>
@@ -302,6 +375,8 @@ const FILTERS = { market:'all', quality:'all' };
 let SORT = 'confidence';
 let TIER = 'A';
 let VIEW = 'board';
+let SEARCH = '';
+let SHARE_N = 10;
 
 /* Tier A-E reads as 5-1 stars: more stars, more sure. */
 const TIER_STARS = { A:5, B:4, C:3, D:2, E:1 };
@@ -333,6 +408,10 @@ function allPicks(){
 }
 function visible(){
   let list = allPicks();
+  if(SEARCH){
+    const q = SEARCH.toLowerCase();
+    list = list.filter(p => (p.home + ' ' + p.away).toLowerCase().includes(q));
+  }
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
   if(FILTERS.quality === 'top') list = list.filter(p => p.top_pick);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
@@ -340,6 +419,13 @@ function visible(){
                 edge:p => -Math.abs(p.edge ?? 0),
                 kickoff:p => new Date(p.kickoff || 0).getTime() }[SORT];
   return list.sort((a,b) => key(a) - key(b));
+}
+
+/* Every team with a game on the board, for the search suggestions. */
+function boardTeams(){
+  const set = new Set();
+  allPicks().forEach(p => { set.add(p.home); set.add(p.away); });
+  return [...set].sort();
 }
 
 /* Team mark: real logo when available, initials on the school's colour if the
@@ -437,8 +523,76 @@ function renderBoard(){
   const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
     : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
        <div class="empty-p">No upcoming games match, or lines aren't posted yet.</div></div>`;
-  $('p-board').innerHTML = notes + controls + balance + body;
+  const search = `
+    <div class="searchwrap">
+      <input class="search" id="teamsearch" type="text" autocomplete="off"
+        placeholder="Search a team" value="${esc(SEARCH)}" aria-label="Search a team">
+      ${SEARCH ? '<button class="searchclear" id="clearsearch" aria-label="Clear">✕</button>' : ''}
+      <div class="sugg" id="sugg" hidden></div>
+    </div>`;
+  $('p-board').innerHTML = notes + search + controls + balance +
+    `<div id="boardlist">${body}</div>`;
   wire($('p-board'));
+  wireSearch();
+}
+
+/* Typing only redraws the list, so the input keeps focus and the caret. */
+function updateBoardList(){
+  const list = visible();
+  let rank = 0;
+  const box = $('boardlist');
+  if(box) box.innerHTML = list.length
+    ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
+    : `<div class="empty"><div class="empty-h">NO MATCHES</div>
+       <div class="empty-p">${SEARCH ? 'No games for “' + esc(SEARCH) + '”.' : "Nothing matches those filters."}</div></div>`;
+  const c = document.querySelector('.count');
+  if(c) c.textContent = `${list.length} PICK${list.length===1?'':'S'}`;
+  if(box) wire(box);
+}
+
+function wireSearch(){
+  const inp = $('teamsearch'), sug = $('sugg');
+  if(!inp) return;
+  const teams = boardTeams();
+  let idx = -1;
+
+  const closeSugg = () => { sug.hidden = true; idx = -1; };
+  const paint = q => {
+    const hits = q ? teams.filter(t => t.toLowerCase().includes(q.toLowerCase())).slice(0, 8) : [];
+    if(!hits.length){ closeSugg(); return; }
+    sug.innerHTML = hits.map((t, i) => {
+      const m = (DATA.teams || {})[t];
+      const dark = document.documentElement.dataset.theme === 'dark';
+      const url = m && (dark ? m.logo : (m.logo_dark || m.logo));
+      return `<button data-team="${esc(t)}" class="${i===idx?'on':''}">
+        ${url ? `<img src="${esc(url)}" alt="">` : ''}<span>${esc(t)}</span></button>`;
+    }).join('');
+    sug.hidden = false;
+    sug.querySelectorAll('[data-team]').forEach(b => b.addEventListener('mousedown', e => {
+      e.preventDefault();
+      SEARCH = b.dataset.team;
+      renderBoard(); renderTop();
+    }));
+  };
+
+  inp.addEventListener('input', e => { SEARCH = e.target.value; paint(SEARCH); updateBoardList(); });
+  inp.addEventListener('focus', () => paint(inp.value));
+  inp.addEventListener('blur', () => setTimeout(closeSugg, 120));
+  inp.addEventListener('keydown', e => {
+    const btns = [...sug.querySelectorAll('[data-team]')];
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(!btns.length) return;
+      idx = e.key === 'ArrowDown' ? Math.min(idx+1, btns.length-1) : Math.max(idx-1, 0);
+      btns.forEach((b,i) => b.classList.toggle('on', i===idx));
+    } else if(e.key === 'Enter'){
+      e.preventDefault();
+      const pick = btns[idx] || btns[0];
+      if(pick){ SEARCH = pick.dataset.team; renderBoard(); renderTop(); }
+    } else if(e.key === 'Escape'){ closeSugg(); }
+  });
+  const clr = $('clearsearch');
+  if(clr) clr.addEventListener('click', () => { SEARCH=''; renderBoard(); renderTop(); });
 }
 
 function renderSlip(){
@@ -781,6 +935,54 @@ function renderModel(){
   <p class="sub">Data: College Football Data API, Open-Meteo. Logos via ESPN.</p>`;
 }
 
+/* ---------- shareable card ----------
+   Built to fit a single phone screenshot: abbreviations, tight rows, and the
+   whole thing capped so it never runs past one screen. */
+function shortName(name){
+  const m = (DATA.teams || {})[name];
+  if(m && m.abbr && m.abbr.length <= 5) return m.abbr;
+  return name.length > 14 ? name.slice(0, 13) + '…' : name;
+}
+
+function renderShare(){
+  const picks = allPicks()
+    .filter(p => p.qualified)
+    .sort((a,b) => (b.confidence ?? 0) - (a.confidence ?? 0))
+    .slice(0, SHARE_N);
+  const d = DATA;
+  const when = new Date(d.generated_at);
+  const wk = picks.length && picks[0].week != null ? 'WEEK ' + String(picks[0].week).padStart(2,'0') : '';
+
+  const rows = picks.map((p, i) => {
+    const isTot = p.market === 'total';
+    const line = isTot ? Number(p.line).toFixed(1) : sgn(p.pick_spread);
+    const n = TIER_STARS[p.tier] || 0;
+    return `<div class="sc-row">
+      <div class="sc-n">${i+1}</div>
+      <div class="sc-g">
+        <div class="sc-p">${esc(isTot ? p.pick.toUpperCase() + ' ' + shortName(p.home) : p.pick)}</div>
+        <div class="sc-m">${esc(shortName(p.away))} AT ${esc(shortName(p.home))}${isTot ? ' · TOTAL' : ''}</div>
+      </div>
+      <div class="sc-r"><div class="sc-line">${esc(line)}</div>
+        <div class="sc-st">${'★'.repeat(n)}<span class="off">${'☆'.repeat(5-n)}</span></div></div>
+    </div>`;
+  }).join('');
+
+  $('sharecard').innerHTML = `
+    <div class="sc-head">
+      <div><div class="sc-the">THE</div><div class="sc-card">CARD</div></div>
+      <div class="sc-meta">${esc(wk)}<br>${esc(when.toLocaleDateString([], {month:'short', day:'numeric'}).toUpperCase())}
+        <br>TOP ${picks.length}</div>
+    </div>
+    ${rows || '<div class="sc-row"><div class="sc-g"><div class="sc-p">NO QUALIFIED PICKS</div></div></div>'}
+    <div class="sc-foot">
+      <div class="sc-tag">READ THE CARD</div>
+      <div class="sc-note">MODEL VS BOOK · ${esc((d.backtest && d.backtest.overall) ? d.backtest.overall.model_mae : '--')}
+        / ${esc((d.backtest && d.backtest.overall) ? d.backtest.overall.market_mae : '--')}</div>
+    </div>
+    <div class="fold"></div>`;
+}
+
 function renderTop(){
   const d = DATA, t = new Date(d.generated_at);
   $('stamp').textContent = 'UPDATED ' +
@@ -788,7 +990,7 @@ function renderTop(){
     t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
   const live = allPicks();
   const set=(id,n,l)=>{ $(id).innerHTML = n ? `${l}<span class="n">${n}</span>` : l; };
-  set('t-board', live.length, 'THE CARD');
+  set('t-board', live.length, 'GAMES');
   set('t-slip', FAVS.size, 'YOUR CARD');
 }
 
@@ -829,6 +1031,57 @@ $('menubtn').addEventListener('click', () => $('drawer').hidden = false);
 $('closemenu').addEventListener('click', () => $('drawer').hidden = true);
 $('drawer').addEventListener('click', e => { if(e.target === $('drawer')) $('drawer').hidden = true; });
 $('m-model').addEventListener('click', () => { show('model'); $('drawer').hidden = true; });
+
+function openShare(){ renderShare(); $('sheet').hidden = false; }
+$('sharebtn').addEventListener('click', openShare);
+$('m-card').addEventListener('click', () => { $('drawer').hidden = true; openShare(); });
+$('closesheet').addEventListener('click', () => $('sheet').hidden = true);
+$('sheet').addEventListener('click', e => { if(e.target === $('sheet')) $('sheet').hidden = true; });
+$('sharemore').addEventListener('click', e => {
+  SHARE_N = SHARE_N === 10 ? 5 : 10;
+  e.target.setAttribute('aria-pressed', SHARE_N === 5);
+  renderShare();
+});
+
+$('m-refresh').addEventListener('click', () => {
+  $('drawer').hidden = true;
+  show('model');
+  const box = $('p-model');
+  box.innerHTML = refreshNotes() + box.innerHTML;
+  window.scrollTo({top:0, behavior:'instant'});
+});
+
+function refreshNotes(){
+  const d = DATA || {}, st = d.state || {};
+  const when = d.generated_at ? new Date(d.generated_at) : null;
+  const age = when ? Math.round((Date.now() - when) / 36e5) : null;
+  return `
+  <h2>REFRESH NOTES</h2>
+  <p class="sub">Last update ${when ? when.toLocaleString() : '--'}${age != null ? ` · ${age}h ago` : ''}.</p>
+  <dl>
+    <dt>It refreshes itself</dt>
+    <dd><b>Wednesday</b> when early lines post — the softest numbers of the week.
+      <b>Saturday morning</b> before kickoff. <b>Sunday</b> to grade results.
+      Nothing to do on your end.</dd>
+    <dt>Pull the page, not the model</dt>
+    <dd>Reloading this page fetches the latest saved numbers. It does not re-run the
+      model. If the timestamp above is recent, you already have the newest picks.</dd>
+    <dt>Forcing a run</dt>
+    <dd>GitHub → <b>Actions</b> → <b>Update model</b> → <b>Run workflow</b>. Takes a few
+      minutes. Worth doing after a line moves or a starter is ruled out, since the
+      picks are only as fresh as the lines behind them.</dd>
+    <dt>When to bother</dt>
+    <dd>Wednesday for the best numbers, Saturday morning to check nothing moved.
+      Between those, refreshing gains you little — the lines barely move midweek.</dd>
+    <dt>Your card clears</dt>
+    <dd>Starred games live in the page, not the cloud. A reload empties them, by design.</dd>
+    ${st.uses_weather === false || (st.weather_games ?? 0) < 2000 ? `
+    <dt>Weather is still filling in</dt>
+    <dd>${esc(st.weather_games ?? 0)} games have weather so far. It backfills a batch per
+      run, so a few more runs will finish it. Totals get sharper as it does.</dd>` : ''}
+  </dl>
+  <hr style="border:0;border-top:1px solid var(--rule);margin:18px 0">`;
+}
 
 function setTheme(mode){
   document.documentElement.dataset.theme = mode;
