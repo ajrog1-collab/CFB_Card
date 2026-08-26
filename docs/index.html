@@ -482,7 +482,7 @@ const FILTERS = { market:'all', quality:'all' };
 let CONF = 'all';
 let SORT = 'confidence';
 let TIER = 'A';
-const OPEN = { history:false, allpicks:false };
+const OPEN = { history:false, allpicks:false, historyTouched:false };
 let VIEW = 'board';
 let SEARCH = '';
 let SHARE_N = 10;
@@ -855,6 +855,10 @@ function foldSection(key, title, sub, body){
 function renderRecord(){
   const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
   const be = r.breakeven_pct ?? 52.4;
+  // With no graded picks the backtest is the only content on this tab, so
+  // leaving it collapsed makes the page look empty. Open it until real results
+  // exist, then fold it away so the season leads.
+  if(!r.settled && !OPEN.historyTouched) OPEN.history = true;
   let h = '';
   if(r.settled){
     h += `<div class="tiles">
@@ -1263,7 +1267,7 @@ function loadSport(sport){
   FAVS.clear();
   CONF = 'all'; SEARCH = ''; SORT = 'confidence'; TIER = 'A';
   FILTERS.market = 'all'; FILTERS.quality = 'all';
-  OPEN.history = false; OPEN.allpicks = false;
+  OPEN.history = false; OPEN.allpicks = false; OPEN.historyTouched = false;
 
   if(CACHE[sport]){ DATA = CACHE[sport]; renderAll(); return; }
   clearPanels('LOADING');
@@ -1327,6 +1331,7 @@ function wire(root){
   root.querySelectorAll('[data-fold]').forEach(b => b.addEventListener('click', () => {
     const k=b.dataset.fold;
     OPEN[k]=!OPEN[k];
+    if(k==='history') OPEN.historyTouched = true;
     const box=root.querySelector('#fold-'+k);
     if(box){ if(OPEN[k]) box.removeAttribute('hidden'); else box.setAttribute('hidden',''); }
     b.setAttribute('aria-expanded', OPEN[k]);
