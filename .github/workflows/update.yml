@@ -37,11 +37,19 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run model
+      - name: Run college model
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
           PYTHONUNBUFFERED: "1"     # stream progress live instead of buffering
         run: python -u cfb/run.py
+
+      # Separate step so a failure in one sport still leaves the other updated,
+      # and the log makes it obvious which one broke.
+      - name: Run pro model
+        if: always()
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python -u cfb/nfl_run.py
 
       - name: Commit results
         if: always()          # keep partial cache even if the run timed out
