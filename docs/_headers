@@ -6,3 +6,26 @@
 
 /data.json
   Cache-Control: no-cache, must-revalidate
+
+# Font, icons and manifest never change between model runs, so cache them hard.
+/BebasNeue-Regular.ttf
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/logo-lockup.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/icon-180.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/icon-192.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/icon-512.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/icon-maskable-512.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400
