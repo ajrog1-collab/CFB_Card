@@ -42,7 +42,9 @@ CACHE = ROOT / "data" / "cache"
 BET_LOG = ROOT / "data" / "bet_log_nfl.csv"
 OUT = ROOT / "docs" / "data-nfl.json"
 
-GAMES_URL = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv"
+GAMES_URL  = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv"
+LOGOS_URL  = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/logos.csv"
+COLORS_URL = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/teamcolors.csv"
 
 CURRENT = int(CONFIG["current_season"])
 HIST_START = int(CONFIG["history_start"])
@@ -84,8 +86,26 @@ NAMES = {
     "NYJ": "Jets", "PHI": "Eagles", "PIT": "Steelers", "SEA": "Seahawks",
     "SF": "49ers", "TB": "Buccaneers", "TEN": "Titans", "WAS": "Commanders",
 }
-LOGO = "https://a.espncdn.com/i/teamlogos/nfl/500/{}.png"
-LOGO_DARK = "https://a.espncdn.com/i/teamlogos/nfl/500-dark/{}.png"
+# Fallback colours, used if the colour file cannot be fetched. Logos come from
+# nflverse rather than a guessed URL pattern: their abbreviations do not all
+# match ESPN's slugs (LA vs lar, WAS vs wsh), and hand-mapping invites 404s.
+FALLBACK_COLORS = {
+    "ARI": "#97233F", "ATL": "#A71930", "BAL": "#241773", "BUF": "#00338D",
+    "CAR": "#0085CA", "CHI": "#0B162A", "CIN": "#FB4F14", "CLE": "#311D00",
+    "DAL": "#003594", "DEN": "#FB4F14", "DET": "#0076B6", "GB":  "#203731",
+    "HOU": "#03202F", "IND": "#002C5F", "JAX": "#101820", "KC":  "#E31837",
+    "LA":  "#003594", "LAC": "#0080C6", "LV":  "#000000", "MIA": "#008E97",
+    "MIN": "#4F2683", "NE":  "#002244", "NO":  "#D3BC8D", "NYG": "#0B2265",
+    "NYJ": "#125740", "PHI": "#004C54", "PIT": "#FFB612", "SEA": "#002244",
+    "SF":  "#AA0000", "TB":  "#D50A0A", "TEN": "#0C2340", "WAS": "#5A1414",
+}
+
+CONF_GROUPS = [
+    {"value": "afc", "label": "AFC",
+     "members": ["AFC East", "AFC North", "AFC South", "AFC West"]},
+    {"value": "nfc", "label": "NFC",
+     "members": ["NFC East", "NFC North", "NFC South", "NFC West"]},
+]
 
 
 def american_to_profit(price: float) -> float:
@@ -122,6 +142,45 @@ def load_games(force: bool = True) -> pd.DataFrame:
             print(f"  falling back to cache: {len(df):,} games")
             return df
         raise RuntimeError("Could not load NFL schedule data and no cache exists.")
+
+
+def load_team_meta() -> dict:
+    """Logos and colours straight from nflverse, keyed by the same abbreviations
+    the schedule uses. Degrades to initials on the team colour if unavailable."""
+    meta = {t: {"abbr": t, "conf": DIVISIONS.get(t),
+                "color": FALLBACK_COLORS.get(t), "alt": None,
+                "logo": None, "logo_dark": None} for t in NAMES}
+    try:
+        lg = pd.read_csv(io.StringIO(requests.get(LOGOS_URL, timeout=45).text))
+        tcol = next((c for c in lg.columns if c.lower() in ("team", "team_abbr", "abbr")), None)
+        url = next((c for c in lg.columns
+                    if "url" in c.lower() or c.lower() in ("logo", "team_logo_espn")), None)
+        dark = next((c for c in lg.columns if "dark" in c.lower() or "wordmark" in c.lower()), None)
+        if tcol and url:
+            for _, r in lg.iterrows():
+                k = str(r[tcol])
+                if k in meta and isinstance(r[url], str):
+                    meta[k]["logo"] = r[url].replace("http://", "https://")
+                    d = r[dark] if dark and isinstance(r.get(dark), str) else r[url]
+                    meta[k]["logo_dark"] = str(d).replace("http://", "https://")
+            print(f"  logos for {sum(1 for v in meta.values() if v['logo'])} teams")
+    except Exception as e:
+        print(f"  logo file unavailable ({e}); using initials")
+
+    try:
+        tc = pd.read_csv(io.StringIO(requests.get(COLORS_URL, timeout=45).text))
+        tcol = next((c for c in tc.columns if c.lower() in ("team", "team_abbr", "abbr")), None)
+        pcol = next((c for c in tc.columns
+                     if c.lower() in ("color", "color1", "primary", "team_color")), None)
+        if tcol and pcol:
+            for _, r in tc.iterrows():
+                k = str(r[tcol])
+                if k in meta and isinstance(r[pcol], str):
+                    meta[k]["color"] = r[pcol]
+    except Exception as e:
+        print(f"  colour file unavailable ({e}); using defaults")
+
+    return {NAMES[k]: v for k, v in meta.items()}
 
 
 def build(df: pd.DataFrame) -> pd.DataFrame:
@@ -862,9 +921,7 @@ def main():
             res.append(base)
         return res
 
-    teams_meta = {NAMES[t]: {"abbr": t, "conf": DIVISIONS.get(t), "color": None, "alt": None,
-                             "logo": LOGO.format(t.lower()),
-                             "logo_dark": LOGO_DARK.format(t.lower())} for t in NAMES}
+    teams_meta = load_team_meta()
 
     equity, hist_rows = [], []
     if "rows" in log_out and len(log_out["rows"]):
@@ -927,6 +984,7 @@ def main():
                         "team_seasons": prior_model.n_train,
                         "coefficients": {k: round(v, 3) for k, v in prior_model.coefficients().items()}},
         "backtest": bts, "totals": tts,
+        "conf_label": "Div", "conf_groups": CONF_GROUPS,
         "gap_trend": [], "teams": teams_meta,
         "picks": rows(picks) if len(picks) else [],
         "total_picks": rows(total_picks, True) if len(total_picks) else [],
