@@ -546,8 +546,7 @@ function allPicks(){
 function visible(){
   let list = allPicks();
   if(SEARCH){
-    const q = SEARCH.toLowerCase();
-    list = list.filter(p => (p.home + ' ' + p.away).toLowerCase().includes(q));
+    list = list.filter(p => teamMatches(p.home, SEARCH) || teamMatches(p.away, SEARCH));
   }
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
@@ -575,6 +574,14 @@ function boardTeams(){
   const set = new Set();
   allPicks().forEach(p => { set.add(p.home); set.add(p.away); });
   return [...set].sort();
+}
+
+/* Cards show short names, so match the abbreviation and city too — "KC",
+   "Kansas City" and "Chiefs" should all find the same team. */
+function teamMatches(name, q){
+  const t = (DATA.teams || {})[name] || {};
+  const hay = [name, t.abbr, t.alias].filter(Boolean).join(' ').toLowerCase();
+  return hay.includes(q.toLowerCase());
 }
 
 /* Team mark: real logo when available, initials on the school's colour if the
@@ -704,7 +711,7 @@ function wireSearch(){
 
   const closeSugg = () => { sug.hidden = true; idx = -1; };
   const paint = q => {
-    const hits = q ? teams.filter(t => t.toLowerCase().includes(q.toLowerCase())).slice(0, 8) : [];
+    const hits = q ? teams.filter(t => teamMatches(t, q)).slice(0, 8) : [];
     if(!hits.length){ closeSugg(); return; }
     sug.innerHTML = hits.map((t, i) => {
       const m = (DATA.teams || {})[t];
