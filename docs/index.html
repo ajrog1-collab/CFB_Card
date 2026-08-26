@@ -1242,24 +1242,45 @@ function applyBrand(){
     SPORT === 'nfl' ? (dark ? '#0B2541' : '#F6F0DD') : (dark ? '#0C1B29' : '#EFECE6'));
 }
 
+/* Every panel must be emptied on a sport switch. Leaving the previously
+   rendered ones in place meant college results stayed on screen under a pro
+   header until — or unless — the new fetch resolved. */
+function clearPanels(head, body){
+  const block = `<div class="empty"><div class="empty-h">${esc(head)}</div>
+    ${body ? `<div class="empty-p">${body}</div>` : ''}</div>`;
+  ['p-board', 'p-slip', 'p-record', 'p-model'].forEach(id => { $(id).innerHTML = block; });
+  $('stamp').textContent = '';
+  $('staleban').innerHTML = '';
+  $('t-board').textContent = 'GAMES';
+  $('t-slip').innerHTML = 'YOUR CARD';
+}
+
 function loadSport(sport){
   SPORT = sport;
+  DATA = null;
   applyBrand();
   FAVS.clear();
-  CONF = 'all'; SEARCH = ''; FILTERS.market = 'all'; FILTERS.quality = 'all';
+  CONF = 'all'; SEARCH = ''; SORT = 'confidence'; TIER = 'A';
+  FILTERS.market = 'all'; FILTERS.quality = 'all';
+  OPEN.history = false; OPEN.allpicks = false;
+
   if(CACHE[sport]){ DATA = CACHE[sport]; renderAll(); return; }
-  $('p-board').innerHTML = `<div class="empty"><div class="empty-h">LOADING</div></div>`;
+  clearPanels('LOADING');
   fetch(SPORTS[sport].file + '?t=' + Date.now())
     .then(r => { if(!r.ok) throw new Error(SPORTS[sport].file + ' ' + r.status); return r.json(); })
-    .then(d => { CACHE[sport] = d; DATA = d; renderAll(); })
+    .then(d => {
+      // guard against a stale response landing after another switch
+      if(SPORT !== sport) return;
+      CACHE[sport] = d; DATA = d; renderAll();
+    })
     .catch(e => {
+      if(SPORT !== sport) return;
       DATA = null;
-      $('p-board').innerHTML = `<div class="empty"><div class="empty-h">NO DATA YET</div>
-        <div class="empty-p">${sport === 'nfl'
-          ? 'The pro model has not run yet. Trigger the workflow in GitHub.'
-          : 'Run the update workflow in GitHub.'}<br>
-        <span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span></div></div>`;
-      $('stamp').textContent = '';
+      clearPanels('NO DATA YET',
+        (sport === 'nfl'
+          ? 'The pro model has not run yet. Run the update workflow in GitHub.'
+          : 'Run the update workflow in GitHub.') +
+        `<br><span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span>`);
     });
 }
 
