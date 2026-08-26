@@ -100,6 +100,22 @@ FALLBACK_COLORS = {
     "SF":  "#AA0000", "TB":  "#D50A0A", "TEN": "#0C2340", "WAS": "#5A1414",
 }
 
+# Cards show the nickname, but people search by city or abbreviation. These are
+# matched against as well, without ever being displayed.
+CITIES = {
+    "ARI": "Arizona Phoenix", "ATL": "Atlanta", "BAL": "Baltimore",
+    "BUF": "Buffalo", "CAR": "Carolina", "CHI": "Chicago",
+    "CIN": "Cincinnati", "CLE": "Cleveland", "DAL": "Dallas",
+    "DEN": "Denver", "DET": "Detroit", "GB": "Green Bay",
+    "HOU": "Houston", "IND": "Indianapolis", "JAX": "Jacksonville",
+    "KC": "Kansas City", "LA": "Los Angeles LA", "LAC": "Los Angeles LA",
+    "LV": "Las Vegas Oakland", "MIA": "Miami", "MIN": "Minnesota",
+    "NE": "New England Patriots Boston", "NO": "New Orleans",
+    "NYG": "New York", "NYJ": "New York", "PHI": "Philadelphia",
+    "PIT": "Pittsburgh", "SEA": "Seattle", "SF": "San Francisco Niners",
+    "TB": "Tampa Bay", "TEN": "Tennessee", "WAS": "Washington",
+}
+
 CONF_GROUPS = [
     {"value": "afc", "label": "AFC",
      "members": ["AFC East", "AFC North", "AFC South", "AFC West"]},
@@ -149,6 +165,7 @@ def load_team_meta() -> dict:
     the schedule uses. Degrades to initials on the team colour if unavailable."""
     meta = {t: {"abbr": t, "conf": DIVISIONS.get(t),
                 "color": FALLBACK_COLORS.get(t), "alt": None,
+                "alias": f"{CITIES.get(t, '')} {t}".strip(),
                 "logo": None, "logo_dark": None} for t in NAMES}
     try:
         lg = pd.read_csv(io.StringIO(requests.get(LOGOS_URL, timeout=45).text))
