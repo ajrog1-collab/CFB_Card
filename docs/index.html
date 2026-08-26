@@ -499,8 +499,24 @@ const SPORTS = {
 
 /* Tier A-E reads as 5-1 stars: more stars, more sure. */
 const TIER_STARS = { A:5, B:4, C:3, D:2, E:1 };
-const POWER4 = ['SEC','Big Ten','ACC','Big 12'];
 const confOf = name => ((DATA.teams || {})[name] || {}).conf || null;
+/* A group is a named set of conferences or divisions — Power 4 for college,
+   AFC and NFC for the pro side. Defined by whichever model wrote the payload. */
+const DEFAULT_GROUPS = {
+  cfb: [{ value:'p4', label:'Power 4', members:['SEC','Big Ten','ACC','Big 12'] }],
+  nfl: [{ value:'afc', label:'AFC',
+          members:['AFC East','AFC North','AFC South','AFC West'] },
+        { value:'nfc', label:'NFC',
+          members:['NFC East','NFC North','NFC South','NFC West'] }],
+};
+// payload wins; the defaults keep the dropdown working against a data file
+// written before the model started emitting groups
+const confGroups = () => (DATA && DATA.conf_groups) || DEFAULT_GROUPS[SPORT] || [];
+const confLabel = () => (DATA && DATA.conf_label) || (SPORT === 'nfl' ? 'Div' : 'Conf');
+const groupMembers = value => {
+  const g = confGroups().find(x => x.value === value);
+  return g ? g.members : null;
+};
 function stars(tier){
   const n = TIER_STARS[tier] || 0;
   if(!n) return '<span class="stars"><span class="off">☆☆☆☆☆</span></span>';
@@ -538,7 +554,8 @@ function visible(){
   if(CONF !== 'all'){
     // A game counts if either side is in the conference, so cross-conference
     // matchups still show when you filter to one league.
-    const inConf = t => CONF === 'p4' ? POWER4.includes(confOf(t)) : confOf(t) === CONF;
+    const members = groupMembers(CONF);
+    const inConf = t => members ? members.includes(confOf(t)) : confOf(t) === CONF;
     list = list.filter(p => inConf(p.home) || inConf(p.away));
   }
   const key = { confidence:p => -(p.confidence ?? 0),
@@ -635,10 +652,11 @@ function renderBoard(){
       ${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
     <div class="sortbar">
-      <label for="confsel">Conf</label>
+      <label for="confsel">${esc(confLabel())}</label>
       <select id="confsel">
         <option value="all"${CONF==='all'?' selected':''}>All</option>
-        <option value="p4"${CONF==='p4'?' selected':''}>Power 4</option>
+        ${confGroups().map(g =>
+          `<option value="${esc(g.value)}"${CONF===g.value?' selected':''}>${esc(g.label)}</option>`).join('')}
         ${boardConfs().map(c => `<option value="${esc(c)}"${CONF===c?' selected':''}>${esc(c)}</option>`).join('')}
       </select>
       <label for="sortsel">Sort</label>
@@ -855,11 +873,6 @@ function foldSection(key, title, sub, body){
 function renderRecord(){
   const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
   const be = r.breakeven_pct ?? 52.4;
-  // Collapsed is right once there is anything else to read. It only opens on
-  // its own for a sport with no live record yet and no picks on the board — the
-  // state where the tab would otherwise be blank.
-  const nothingElse = !r.settled && !(d.picks || []).length && !(d.total_picks || []).length;
-  if(nothingElse && !OPEN.historyTouched) OPEN.history = true;
   let h = '';
   if(r.settled){
     h += `<div class="tiles">
