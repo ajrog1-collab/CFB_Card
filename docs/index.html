@@ -855,10 +855,11 @@ function foldSection(key, title, sub, body){
 function renderRecord(){
   const d = DATA, r = d.record || {}, bm = d.record_by_market || {};
   const be = r.breakeven_pct ?? 52.4;
-  // With no graded picks the backtest is the only content on this tab, so
-  // leaving it collapsed makes the page look empty. Open it until real results
-  // exist, then fold it away so the season leads.
-  if(!r.settled && !OPEN.historyTouched) OPEN.history = true;
+  // Collapsed is right once there is anything else to read. It only opens on
+  // its own for a sport with no live record yet and no picks on the board — the
+  // state where the tab would otherwise be blank.
+  const nothingElse = !r.settled && !(d.picks || []).length && !(d.total_picks || []).length;
+  if(nothingElse && !OPEN.historyTouched) OPEN.history = true;
   let h = '';
   if(r.settled){
     h += `<div class="tiles">
