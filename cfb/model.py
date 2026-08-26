@@ -215,6 +215,43 @@ def apply_debias(pred, mkt, a, b):
     return np.where(np.isfinite(mkt), mkt + resid, pred)
 
 
+TIER_NAMES = ["A", "B", "C", "D", "E"]
+
+def regime_cuts(cuts, week=None, in_season_weight=None):
+    """Pick the cutpoint set matching how the ratings were built.
+
+    Accepts the old flat list too, so an older cached payload still works.
+    """
+    if not cuts:
+        return None
+    if isinstance(cuts, list):
+        return cuts
+    early = week is not None and week <= 4
+    if in_season_weight is not None:
+        early = in_season_weight < 0.35
+    return cuts.get("early" if early else "late") or cuts.get("all")
+
+def tier_cutpoints(conf_series):
+    """Confidence values splitting picks into five equal-sized tiers.
+
+    Returns four descending cutoffs. A pick lands in tier A if its confidence is
+    at or above the first cutoff, B above the second, and so on.
+    """
+    s = pd.Series(conf_series).dropna()
+    if len(s) < 100:
+        return None
+    return [round(float(s.quantile(q)), 4) for q in (0.8, 0.6, 0.4, 0.2)]
+
+def assign_tier(conf, cuts):
+    """Tier letter for a confidence score."""
+    if cuts is None or conf is None or conf != conf:
+        return None
+    for name, c in zip(TIER_NAMES, cuts):
+        if conf >= c:
+            return name
+    return TIER_NAMES[-1]
+
+
 def blend_prior(prior, in_season, games_played, k=6.0):
     """Per-team weighted blend. w = n/(n+k): 0 at week 1, rising with games."""
     if in_season is None:

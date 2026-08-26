@@ -22,14 +22,16 @@ import numpy as np
 import pandas as pd
 
 from model import (
-    PriorModel, add_adjusted_margin, add_situational, apply_debias, attach_epa,
+    PriorModel, TIER_NAMES, add_adjusted_margin, add_situational, apply_debias,
+    assign_tier, attach_epa,
     attach_lines, attach_turnovers, attach_venue_weather, blend_prior, blend_ratings,
     build_games, cfbd_get, col, confidence_features, confidence_score,
     fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
     fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
     infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
     parse_venues,
-    predict_total, predict_uncertainty, rating_diff, returning_production,
+    predict_total, predict_uncertainty, rating_diff, regime_cuts,
+    returning_production, tier_cutpoints,
     season_ratings, situational_matrix, talent_composite, totals_matrix,
 )
 
@@ -295,46 +297,6 @@ def tier_stats(frame, edge_col="edge", margin_col="margin", line_col="mkt"):
 # ======================================================================
 # confidence tiers (A = most sure)
 # ======================================================================
-
-TIER_NAMES = ["A", "B", "C", "D", "E"]
-
-
-def regime_cuts(cuts, week=None, in_season_weight=None):
-    """Pick the cutpoint set matching how the ratings were built.
-
-    Accepts the old flat list too, so an older cached payload still works.
-    """
-    if not cuts:
-        return None
-    if isinstance(cuts, list):
-        return cuts
-    early = week is not None and week <= 4
-    if in_season_weight is not None:
-        early = in_season_weight < 0.35
-    return cuts.get("early" if early else "late") or cuts.get("all")
-
-
-def tier_cutpoints(conf_series):
-    """Confidence values splitting picks into five equal-sized tiers.
-
-    Returns four descending cutoffs. A pick lands in tier A if its confidence is
-    at or above the first cutoff, B above the second, and so on.
-    """
-    s = pd.Series(conf_series).dropna()
-    if len(s) < 100:
-        return None
-    return [round(float(s.quantile(q)), 4) for q in (0.8, 0.6, 0.4, 0.2)]
-
-
-def assign_tier(conf, cuts):
-    """Tier letter for a confidence score."""
-    if cuts is None or conf is None or conf != conf:
-        return None
-    for name, c in zip(TIER_NAMES, cuts):
-        if conf >= c:
-            return name
-    return TIER_NAMES[-1]
-
 
 def tier_season_trend(s, cuts, edge_col="edge", outcome_col="margin", line_col="mkt"):
     """Per-tier, per-season results, plus an overall row for each tier.
