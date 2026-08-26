@@ -2,12 +2,16 @@ name: Update model
 
 on:
   schedule:
-    # Wednesday 15:00 UTC — early lines are up, numbers are softest
-    - cron: "0 15 * * 3"
-    # Saturday 13:00 UTC — before the early slate kicks
-    - cron: "0 13 * * 6"
-    # Sunday 12:00 UTC — grade the week that just finished
-    - cron: "0 12 * * 0"
+    # GitHub queues scheduled runs on shared capacity and documents that they can
+    # be delayed — or dropped — when load is high, with the top of the hour being
+    # the worst. Every time below is deliberately off :00, and the day gets two
+    # attempts so a dropped run does not leave the board stale.
+    - cron: "23 13 * * *"     # 13:23 UTC — 07:23 MT / 09:23 ET
+    - cron: "47 16 * * *"     # 16:47 UTC — 10:47 MT / 12:47 ET, catches a miss
+    # Saturday moves fastest, so two more passes toward kickoff
+    - cron: "19 17 * * 6"
+    - cron: "19 21 * * 6"
+    - cron: "38 12 * * 0"     # Sunday, grade the weekend
   workflow_dispatch:        # lets you run it by hand from the Actions tab
 
 permissions:
