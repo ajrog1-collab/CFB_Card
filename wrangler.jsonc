@@ -4,7 +4,9 @@
   "name": "thecard",
   "compatibility_date": "2026-08-01",
   "assets": {
-    "directory": "./docs",
-    "not_found_handling": "single-page-application"
+    "directory": "./docs"
+    // No SPA fallback: this is one page with no client-side routing, and the
+    // fallback made a missing data file return index.html, so fetch() got HTML
+    // and reported a JSON parse error instead of a plain 404.
   }
 }
