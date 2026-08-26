@@ -5,18 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0C1B29">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="The Card">
+<meta name="application-name" content="The Card">
 <title>The Card</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23D7D2CB'/%3E%3Cpath d='M64 44v20H44z' fill='%23B4892C'/%3E%3Ctext x='32' y='46' font-family='Impact,sans-serif' font-size='44' text-anchor='middle' fill='%23002B45'%3EC%3C/text%3E%3C/svg%3E">
+<!-- iOS reads apple-touch-icon and ignores the manifest for home-screen icons,
+     so both are declared. Real PNGs, not data URIs, which iOS will not use. -->
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Bebas Neue served from this repo, not Google. Networks that block Google
+     Fonts were silently falling back to a rounded system face, which is why the
+     wordmark looked wrong. Subset to the characters used: 57KB -> 14KB.
+     SIL Open Font Licence, text in BebasNeue-OFL.txt. */
+  @font-face{
+    font-family:'Bebas Neue Local';
+    src:url('BebasNeue-Regular.ttf') format('truetype');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+</style>
 <style>
   /* Palette: Navy 2965C, Cream 7527C, Gold 7555C, Blue 7690C */
   :root{
     --navy:#002B45; --navy-deep:#0C1B29; --cream:#D7D2CB; --cream-lt:#EFECE6;
     --gold:#B4892C; --blue:#10739E;
-    --display:'Bebas Neue',Impact,sans-serif;
+    --display:'Bebas Neue Local','Bebas Neue',Impact,'Arial Narrow',sans-serif;
     --data:'Barlow',ui-monospace,monospace;      /* DIN 2014 substitute */
     --body:'Inter',system-ui,sans-serif;
   }
@@ -42,25 +60,12 @@
 
   /* ---------- masthead ---------- */
   .top{display:flex;align-items:center;gap:10px;padding:14px 0 8px;flex-wrap:wrap}
-  .brand{display:flex;align-items:stretch;background:var(--ticket);color:var(--ticket-ink);
-    border-radius:7px;overflow:hidden;position:relative;flex:0 1 auto;min-width:0}
-  .brand-l{padding:7px 12px 7px 11px;display:flex;flex-direction:column;justify-content:center}
-  .brand-the{font-family:var(--display);font-size:11px;letter-spacing:.26em;line-height:1;
-    display:flex;align-items:center;gap:5px}
-  .brand-the::before,.brand-the::after{content:'';width:11px;height:2px;
-    background:var(--ticket-ink);flex:none}
-  .brand-card{font-family:var(--display);font-size:31px;line-height:.86;letter-spacing:.02em}
-  .brand-rule{width:1px;background:var(--ticket-rule);margin:8px 0}
-  .brand-r{padding:7px 20px 7px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px}
-  .brand-tag{font-family:var(--data);font-size:8px;letter-spacing:.2em;color:var(--gold);
-    font-weight:600}
-  .brand-sub{font-family:var(--data);font-size:8px;letter-spacing:.14em;
-    color:var(--ticket-mute);font-weight:600}
-  .fold{position:absolute;right:0;bottom:0;width:0;height:0;
-    border-left:16px solid transparent;border-bottom:16px solid var(--gold)}
-  .ticks{display:flex;align-items:flex-end;gap:2px;height:8px;margin-top:3px}
-  .ticks i{width:1px;background:var(--ticket-rule);height:4px;display:block}
-  .ticks i.tall{height:8px;background:var(--gold)}
+  /* Supplied lockup artwork: it already contains the card, divider, tick rule
+     and folded corner, so nothing is drawn around it. */
+  .brand{flex:0 1 auto;min-width:0;display:flex;align-items:center}
+  .brand-img{display:block;height:52px;width:auto;max-width:100%}
+  @media (max-width:520px){ .brand-img{height:44px} }
+  @media (max-width:380px){ .brand-img{height:38px} }
 
   .topright{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none}
   .iconbtn{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
@@ -320,8 +325,6 @@
      logo and the buttons still share one row. */
   @media (max-width:520px){
     .brand-l{padding:6px 9px 6px 9px}
-    .brand-card{font-size:26px}
-    .brand-the{font-size:10px;letter-spacing:.22em}
     .brand-r{padding:6px 15px 6px 8px;gap:0}
     .brand-sub,.brand-tag{font-size:7px;letter-spacing:.13em}
     .brand .fold{border-left-width:13px;border-bottom-width:13px}
@@ -346,18 +349,8 @@
 <div class="wrap">
   <div class="top">
     <div class="brand">
-      <div class="brand-l">
-        <div class="brand-the">THE</div>
-        <div class="brand-card">CARD</div>
-        <div class="ticks" id="brandticks"></div>
-      </div>
-      <div class="brand-rule"></div>
-      <div class="brand-r">
-        <div class="brand-sub">COLLEGE FOOTBALL</div>
-        <div class="brand-sub">ANALYTICS</div>
-        <div class="brand-tag">READ THE CARD</div>
-      </div>
-      <div class="fold"></div>
+      <img class="brand-img" src="logo-lockup.png"
+           alt="The Card — college football analytics" width="900" height="284">
     </div>
     <div class="topright">
       <button class="sharebtn" id="sharebtn">THE CARD</button>
@@ -1222,7 +1215,6 @@ function setTheme(mode){
 const toggleTheme = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 $('themebtn').addEventListener('click', toggleTheme);
 
-$('brandticks').innerHTML = tickRow(17, 8);
 
 /* Start on the device's preference, then the toggle takes over for the session. */
 const prefersLight = typeof matchMedia === 'function'
