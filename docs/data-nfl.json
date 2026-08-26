@@ -1,0 +1,1950 @@
+{
+  "sport": "nfl",
+  "title": "THE PRO CARD",
+  "generated_at": "2026-08-26T18:24:31+00:00",
+  "season": 2026,
+  "min_edge": 1.3,
+  "assumed_price": -110.0,
+  "top_pick_count": 5,
+  "state": {
+    "games_played": 0,
+    "in_season_weight": 0.0,
+    "home_field": 1.83,
+    "uses_epa": false,
+    "uses_turnovers": false,
+    "uses_weather": true,
+    "weather_games": 1795,
+    "domes": 17,
+    "turnover_points": null,
+    "turnover_shrink": null,
+    "returning_field": null,
+    "uses_sp": false
+  },
+  "prior_model": {
+    "r2": 0.215,
+    "team_seasons": 256,
+    "coefficients": {
+      "r_prev": 0.408,
+      "r_prev2": 0.114,
+      "intercept": -0.012
+    }
+  },
+  "backtest": {
+    "overall": {
+      "games": 1693,
+      "model_mae": 9.91,
+      "market_mae": 9.77,
+      "model_mae_raw": 10.55
+    },
+    "early": {
+      "games": 383,
+      "model_mae": 9.77,
+      "market_mae": 9.52,
+      "model_mae_raw": 10.28
+    },
+    "late": {
+      "games": 1310,
+      "model_mae": 9.95,
+      "market_mae": 9.84,
+      "model_mae_raw": 10.63
+    },
+    "qualified_win_pct": 53.1,
+    "qualified_bets": 437,
+    "holdout": {
+      "season": 2025,
+      "win_pct": 47.4,
+      "bets": 38
+    },
+    "tiers": [
+      {
+        "label": "1-2",
+        "bets": 365,
+        "wins": 174,
+        "losses": 185,
+        "pushes": 6,
+        "win_pct": 48.5,
+        "se": 2.6,
+        "units": -26.82,
+        "roi_pct": -7.3,
+        "pred_edge": 1.4,
+        "realized_edge": -0.6,
+        "calibration": -0.4
+      },
+      {
+        "label": "2-3",
+        "bets": 81,
+        "wins": 46,
+        "losses": 35,
+        "pushes": 0,
+        "win_pct": 56.8,
+        "se": 5.5,
+        "units": 6.82,
+        "roi_pct": 8.4,
+        "pred_edge": 2.4,
+        "realized_edge": 0.9,
+        "calibration": 0.38
+      },
+      {
+        "label": "3-4.5",
+        "bets": 74,
+        "wins": 40,
+        "losses": 34,
+        "pushes": 0,
+        "win_pct": 54.1,
+        "se": 5.8,
+        "units": 2.36,
+        "roi_pct": 3.2,
+        "pred_edge": 3.6,
+        "realized_edge": 1.2,
+        "calibration": 0.33
+      },
+      {
+        "label": "4.5-7",
+        "bets": 53,
+        "wins": 31,
+        "losses": 22,
+        "pushes": 0,
+        "win_pct": 58.5,
+        "se": 6.8,
+        "units": 6.18,
+        "roi_pct": 11.7,
+        "pred_edge": 5.5,
+        "realized_edge": 1.5,
+        "calibration": 0.28
+      },
+      {
+        "label": "7+",
+        "bets": 42,
+        "wins": 24,
+        "losses": 18,
+        "pushes": 0,
+        "win_pct": 57.1,
+        "se": 7.6,
+        "units": 3.82,
+        "roi_pct": 9.1,
+        "pred_edge": 9.4,
+        "realized_edge": -1.7,
+        "calibration": -0.18
+      }
+    ],
+    "seasons": [
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "by_season": [
+      {
+        "season": 2020,
+        "bets": 206,
+        "wins": 114,
+        "losses": 92,
+        "pushes": 0,
+        "win_pct": 55.3,
+        "units": 11.64,
+        "roi_pct": 5.6,
+        "model_mae": 10.48,
+        "market_mae": 9.79,
+        "gap": 0.69,
+        "gap_raw": 0.69
+      },
+      {
+        "season": 2021,
+        "bets": 77,
+        "wins": 43,
+        "losses": 34,
+        "pushes": 0,
+        "win_pct": 55.8,
+        "units": 5.09,
+        "roi_pct": 6.6,
+        "model_mae": 10.72,
+        "market_mae": 10.67,
+        "gap": 0.05,
+        "gap_raw": 0.91
+      },
+      {
+        "season": 2022,
+        "bets": 47,
+        "wins": 25,
+        "losses": 21,
+        "pushes": 1,
+        "win_pct": 54.3,
+        "units": 1.73,
+        "roi_pct": 3.7,
+        "model_mae": 8.8,
+        "market_mae": 8.78,
+        "gap": 0.01,
+        "gap_raw": 0.4
+      },
+      {
+        "season": 2023,
+        "bets": 31,
+        "wins": 15,
+        "losses": 16,
+        "pushes": 0,
+        "win_pct": 48.4,
+        "units": -2.36,
+        "roi_pct": -7.6,
+        "model_mae": 10.05,
+        "market_mae": 9.98,
+        "gap": 0.07,
+        "gap_raw": 0.8
+      },
+      {
+        "season": 2024,
+        "bets": 39,
+        "wins": 17,
+        "losses": 22,
+        "pushes": 0,
+        "win_pct": 43.6,
+        "units": -6.55,
+        "roi_pct": -16.8,
+        "model_mae": 9.75,
+        "market_mae": 9.7,
+        "gap": 0.04,
+        "gap_raw": 1.0
+      },
+      {
+        "season": 2025,
+        "bets": 38,
+        "wins": 18,
+        "losses": 20,
+        "pushes": 0,
+        "win_pct": 47.4,
+        "units": -3.64,
+        "roi_pct": -9.6,
+        "model_mae": 9.71,
+        "market_mae": 9.67,
+        "gap": 0.04,
+        "gap_raw": 0.92
+      }
+    ],
+    "min_edge": 1.3,
+    "tier_cuts": {
+      "early": [
+        0.1748,
+        0.1033,
+        0.0664,
+        0.0321
+      ],
+      "late": [
+        0.152,
+        0.0884,
+        0.0557,
+        0.0256
+      ],
+      "all": [
+        0.1555,
+        0.0928,
+        0.057,
+        0.027
+      ]
+    },
+    "tier_trend": {
+      "A": [
+        {
+          "bets": 198,
+          "wins": 109,
+          "losses": 89,
+          "pushes": 0,
+          "win_pct": 55.1,
+          "units": 10.09,
+          "roi_pct": 5.1,
+          "avg_conf": 0.52,
+          "avg_gap": 5.0,
+          "season": 2020
+        },
+        {
+          "bets": 52,
+          "wins": 30,
+          "losses": 22,
+          "pushes": 0,
+          "win_pct": 57.7,
+          "units": 5.27,
+          "roi_pct": 10.1,
+          "avg_conf": 0.23,
+          "avg_gap": 2.3,
+          "season": 2021
+        },
+        {
+          "bets": 30,
+          "wins": 16,
+          "losses": 13,
+          "pushes": 1,
+          "win_pct": 55.2,
+          "units": 1.55,
+          "roi_pct": 5.2,
+          "avg_conf": 0.21,
+          "avg_gap": 2.1,
+          "season": 2022
+        },
+        {
+          "bets": 19,
+          "wins": 8,
+          "losses": 11,
+          "pushes": 0,
+          "win_pct": 42.1,
+          "units": -3.73,
+          "roi_pct": -19.6,
+          "avg_conf": 0.2,
+          "avg_gap": 2.0,
+          "season": 2023
+        },
+        {
+          "bets": 23,
+          "wins": 10,
+          "losses": 13,
+          "pushes": 0,
+          "win_pct": 43.5,
+          "units": -3.91,
+          "roi_pct": -17.0,
+          "avg_conf": 0.21,
+          "avg_gap": 2.1,
+          "season": 2024
+        },
+        {
+          "bets": 19,
+          "wins": 6,
+          "losses": 13,
+          "pushes": 0,
+          "win_pct": 31.6,
+          "units": -7.55,
+          "roi_pct": -39.7,
+          "avg_conf": 0.2,
+          "avg_gap": 2.0,
+          "season": 2025
+        }
+      ],
+      "B": [
+        {
+          "bets": 24,
+          "wins": 14,
+          "losses": 10,
+          "pushes": 0,
+          "win_pct": 58.3,
+          "units": 2.73,
+          "roi_pct": 11.4,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2020
+        },
+        {
+          "bets": 74,
+          "wins": 33,
+          "losses": 40,
+          "pushes": 1,
+          "win_pct": 45.2,
+          "units": -10.0,
+          "roi_pct": -13.5,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2021
+        },
+        {
+          "bets": 61,
+          "wins": 31,
+          "losses": 29,
+          "pushes": 1,
+          "win_pct": 51.7,
+          "units": -0.82,
+          "roi_pct": -1.3,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2022
+        },
+        {
+          "bets": 50,
+          "wins": 23,
+          "losses": 24,
+          "pushes": 3,
+          "win_pct": 48.9,
+          "units": -3.09,
+          "roi_pct": -6.2,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2023
+        },
+        {
+          "bets": 68,
+          "wins": 33,
+          "losses": 34,
+          "pushes": 1,
+          "win_pct": 49.3,
+          "units": -4.0,
+          "roi_pct": -5.9,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2024
+        },
+        {
+          "bets": 59,
+          "wins": 30,
+          "losses": 29,
+          "pushes": 0,
+          "win_pct": 50.8,
+          "units": -1.73,
+          "roi_pct": -2.9,
+          "avg_conf": 0.12,
+          "avg_gap": 1.2,
+          "season": 2025
+        }
+      ],
+      "C": [
+        {
+          "bets": 17,
+          "wins": 10,
+          "losses": 7,
+          "pushes": 0,
+          "win_pct": 58.8,
+          "units": 2.09,
+          "roi_pct": 12.3,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2020
+        },
+        {
+          "bets": 48,
+          "wins": 23,
+          "losses": 23,
+          "pushes": 2,
+          "win_pct": 50.0,
+          "units": -2.09,
+          "roi_pct": -4.4,
+          "avg_conf": 0.08,
+          "avg_gap": 0.8,
+          "season": 2021
+        },
+        {
+          "bets": 64,
+          "wins": 29,
+          "losses": 32,
+          "pushes": 3,
+          "win_pct": 47.5,
+          "units": -5.64,
+          "roi_pct": -8.8,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2022
+        },
+        {
+          "bets": 88,
+          "wins": 44,
+          "losses": 38,
+          "pushes": 6,
+          "win_pct": 53.7,
+          "units": 2.0,
+          "roi_pct": 2.3,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2023
+        },
+        {
+          "bets": 66,
+          "wins": 38,
+          "losses": 27,
+          "pushes": 1,
+          "win_pct": 58.5,
+          "units": 7.55,
+          "roi_pct": 11.4,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2024
+        },
+        {
+          "bets": 56,
+          "wins": 31,
+          "losses": 24,
+          "pushes": 1,
+          "win_pct": 56.4,
+          "units": 4.18,
+          "roi_pct": 7.5,
+          "avg_conf": 0.08,
+          "avg_gap": 0.8,
+          "season": 2025
+        }
+      ],
+      "D": [
+        {
+          "bets": 14,
+          "wins": 5,
+          "losses": 9,
+          "pushes": 0,
+          "win_pct": 35.7,
+          "units": -4.45,
+          "roi_pct": -31.8,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2020
+        },
+        {
+          "bets": 61,
+          "wins": 25,
+          "losses": 35,
+          "pushes": 1,
+          "win_pct": 41.7,
+          "units": -12.27,
+          "roi_pct": -20.1,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2021
+        },
+        {
+          "bets": 57,
+          "wins": 24,
+          "losses": 30,
+          "pushes": 3,
+          "win_pct": 44.4,
+          "units": -8.18,
+          "roi_pct": -14.4,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2022
+        },
+        {
+          "bets": 61,
+          "wins": 27,
+          "losses": 32,
+          "pushes": 2,
+          "win_pct": 45.8,
+          "units": -7.45,
+          "roi_pct": -12.2,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2023
+        },
+        {
+          "bets": 68,
+          "wins": 32,
+          "losses": 36,
+          "pushes": 0,
+          "win_pct": 47.1,
+          "units": -6.91,
+          "roi_pct": -10.2,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2024
+        },
+        {
+          "bets": 77,
+          "wins": 39,
+          "losses": 38,
+          "pushes": 0,
+          "win_pct": 50.6,
+          "units": -2.55,
+          "roi_pct": -3.3,
+          "avg_conf": 0.04,
+          "avg_gap": 0.4,
+          "season": 2025
+        }
+      ],
+      "E": [
+        {
+          "bets": 16,
+          "wins": 8,
+          "losses": 8,
+          "pushes": 0,
+          "win_pct": 50.0,
+          "units": -0.73,
+          "roi_pct": -4.5,
+          "avg_conf": 0.02,
+          "avg_gap": 0.1,
+          "season": 2020
+        },
+        {
+          "bets": 50,
+          "wins": 20,
+          "losses": 30,
+          "pushes": 0,
+          "win_pct": 40.0,
+          "units": -11.82,
+          "roi_pct": -23.6,
+          "avg_conf": 0.01,
+          "avg_gap": 0.1,
+          "season": 2021
+        },
+        {
+          "bets": 72,
+          "wins": 33,
+          "losses": 37,
+          "pushes": 2,
+          "win_pct": 47.1,
+          "units": -7.0,
+          "roi_pct": -9.7,
+          "avg_conf": 0.01,
+          "avg_gap": 0.1,
+          "season": 2022
+        },
+        {
+          "bets": 67,
+          "wins": 29,
+          "losses": 35,
+          "pushes": 3,
+          "win_pct": 45.3,
+          "units": -8.64,
+          "roi_pct": -12.9,
+          "avg_conf": 0.02,
+          "avg_gap": 0.1,
+          "season": 2023
+        },
+        {
+          "bets": 60,
+          "wins": 26,
+          "losses": 32,
+          "pushes": 2,
+          "win_pct": 44.8,
+          "units": -8.36,
+          "roi_pct": -13.9,
+          "avg_conf": 0.02,
+          "avg_gap": 0.2,
+          "season": 2024
+        },
+        {
+          "bets": 74,
+          "wins": 42,
+          "losses": 32,
+          "pushes": 0,
+          "win_pct": 56.8,
+          "units": 6.18,
+          "roi_pct": 8.4,
+          "avg_conf": 0.01,
+          "avg_gap": 0.1,
+          "season": 2025
+        }
+      ],
+      "ALL": [
+        {
+          "bets": 269,
+          "wins": 146,
+          "losses": 123,
+          "pushes": 0,
+          "win_pct": 54.3,
+          "units": 9.73,
+          "roi_pct": 3.6,
+          "avg_conf": 0.4,
+          "avg_gap": 3.9,
+          "season": 2020
+        },
+        {
+          "bets": 285,
+          "wins": 131,
+          "losses": 150,
+          "pushes": 4,
+          "win_pct": 46.6,
+          "units": -30.91,
+          "roi_pct": -10.8,
+          "avg_conf": 0.1,
+          "avg_gap": 1.0,
+          "season": 2021
+        },
+        {
+          "bets": 284,
+          "wins": 133,
+          "losses": 141,
+          "pushes": 10,
+          "win_pct": 48.5,
+          "units": -20.09,
+          "roi_pct": -7.1,
+          "avg_conf": 0.08,
+          "avg_gap": 0.7,
+          "season": 2022
+        },
+        {
+          "bets": 285,
+          "wins": 131,
+          "losses": 140,
+          "pushes": 14,
+          "win_pct": 48.3,
+          "units": -20.91,
+          "roi_pct": -7.3,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2023
+        },
+        {
+          "bets": 285,
+          "wins": 139,
+          "losses": 142,
+          "pushes": 4,
+          "win_pct": 49.5,
+          "units": -15.64,
+          "roi_pct": -5.5,
+          "avg_conf": 0.08,
+          "avg_gap": 0.8,
+          "season": 2024
+        },
+        {
+          "bets": 285,
+          "wins": 148,
+          "losses": 136,
+          "pushes": 1,
+          "win_pct": 52.1,
+          "units": -1.45,
+          "roi_pct": -0.5,
+          "avg_conf": 0.07,
+          "avg_gap": 0.7,
+          "season": 2025
+        }
+      ]
+    },
+    "tier_summary": {
+      "A": {
+        "bets": 341,
+        "wins": 179,
+        "losses": 161,
+        "pushes": 1,
+        "win_pct": 52.6,
+        "units": 1.73,
+        "roi_pct": 0.5,
+        "avg_conf": 0.39,
+        "avg_gap": 3.8
+      },
+      "B": {
+        "bets": 336,
+        "wins": 164,
+        "losses": 166,
+        "pushes": 6,
+        "win_pct": 49.7,
+        "units": -16.91,
+        "roi_pct": -5.0,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2
+      },
+      "C": {
+        "bets": 339,
+        "wins": 175,
+        "losses": 151,
+        "pushes": 13,
+        "win_pct": 53.7,
+        "units": 8.09,
+        "roi_pct": 2.4,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7
+      },
+      "D": {
+        "bets": 338,
+        "wins": 152,
+        "losses": 180,
+        "pushes": 6,
+        "win_pct": 45.8,
+        "units": -41.82,
+        "roi_pct": -12.4,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4
+      },
+      "E": {
+        "bets": 339,
+        "wins": 158,
+        "losses": 174,
+        "pushes": 7,
+        "win_pct": 47.6,
+        "units": -30.36,
+        "roi_pct": -9.0,
+        "avg_conf": 0.01,
+        "avg_gap": 0.1
+      },
+      "ALL": {
+        "bets": 1693,
+        "wins": 828,
+        "losses": 832,
+        "pushes": 33,
+        "win_pct": 49.9,
+        "units": -79.27,
+        "roi_pct": -4.7,
+        "avg_conf": 0.13,
+        "avg_gap": 1.3
+      }
+    },
+    "situational": {
+      "rest_diff": 0.15,
+      "rivalry_compress": -0.121,
+      "rating_scale": 0.44
+    },
+    "bias_check": {
+      "edge_vs_line_corr": -0.477,
+      "pct_on_underdog": 69.9,
+      "qualified_share": 25.9
+    },
+    "debias": {
+      "intercept": 1.346,
+      "slope": 0.239,
+      "active": true
+    },
+    "conf_weights": [
+      0.06047293116423122,
+      0.05340493345927233,
+      -0.05440043288034832,
+      -0.42444771489760236,
+      -0.08438862443957923,
+      9.718782974976097
+    ],
+    "conf_names": [
+      "abs_pred",
+      "model_disagree",
+      "rivalry",
+      "wx_unknown",
+      "immaturity"
+    ],
+    "conf_mae": 9.91
+  },
+  "totals": {
+    "games": 1164,
+    "model_mae": 11.73,
+    "market_mae": 10.36,
+    "qualified_win_pct": 31.4,
+    "qualified_bets": 35,
+    "min_edge": 13.8,
+    "tiers": [
+      {
+        "label": "1-2",
+        "bets": 160,
+        "wins": 83,
+        "losses": 77,
+        "pushes": 0,
+        "win_pct": 51.9,
+        "se": 4.0,
+        "units": -1.55,
+        "roi_pct": -1.0,
+        "pred_edge": 1.5,
+        "realized_edge": 0.2,
+        "calibration": 0.14
+      },
+      {
+        "label": "2-3",
+        "bets": 165,
+        "wins": 73,
+        "losses": 88,
+        "pushes": 4,
+        "win_pct": 45.3,
+        "se": 3.9,
+        "units": -21.64,
+        "roi_pct": -13.1,
+        "pred_edge": 2.6,
+        "realized_edge": -0.8,
+        "calibration": -0.33
+      },
+      {
+        "label": "3-4.5",
+        "bets": 209,
+        "wins": 102,
+        "losses": 103,
+        "pushes": 4,
+        "win_pct": 49.8,
+        "se": 3.5,
+        "units": -10.27,
+        "roi_pct": -4.9,
+        "pred_edge": 3.7,
+        "realized_edge": 0.7,
+        "calibration": 0.19
+      },
+      {
+        "label": "4.5-7",
+        "bets": 232,
+        "wins": 103,
+        "losses": 126,
+        "pushes": 3,
+        "win_pct": 45.0,
+        "se": 3.3,
+        "units": -32.36,
+        "roi_pct": -13.9,
+        "pred_edge": 5.6,
+        "realized_edge": -0.6,
+        "calibration": -0.1
+      },
+      {
+        "label": "7+",
+        "bets": 218,
+        "wins": 101,
+        "losses": 115,
+        "pushes": 2,
+        "win_pct": 46.8,
+        "se": 3.4,
+        "units": -23.18,
+        "roi_pct": -10.6,
+        "pred_edge": 10.9,
+        "realized_edge": -1.8,
+        "calibration": -0.17
+      }
+    ],
+    "by_season": [
+      {
+        "season": 2022,
+        "bets": 10,
+        "wins": 3,
+        "losses": 7,
+        "pushes": 0,
+        "win_pct": 30.0,
+        "units": -4.27,
+        "roi_pct": -42.7,
+        "model_mae": 11.53,
+        "market_mae": 10.12,
+        "gap": 1.41
+      }
+    ],
+    "seasons": [
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "uses_weather": true,
+    "debias": {
+      "intercept": -4.561,
+      "slope": 1.122,
+      "active": true
+    },
+    "bias_check": {
+      "pct_over": 54.4,
+      "edge_vs_line_corr": 0.072,
+      "qualified_share": 3.1
+    }
+  },
+  "gap_trend": [
+    {
+      "season": 2020,
+      "spread": 0.69,
+      "spread_raw": 0.69,
+      "total": null,
+      "all": 0.69
+    },
+    {
+      "season": 2021,
+      "spread": 0.05,
+      "spread_raw": 0.91,
+      "total": null,
+      "all": 0.05
+    },
+    {
+      "season": 2022,
+      "spread": 0.01,
+      "spread_raw": 0.4,
+      "total": 1.41,
+      "all": 0.71
+    },
+    {
+      "season": 2023,
+      "spread": 0.07,
+      "spread_raw": 0.8,
+      "total": null,
+      "all": 0.07
+    },
+    {
+      "season": 2024,
+      "spread": 0.04,
+      "spread_raw": 1.0,
+      "total": null,
+      "all": 0.04
+    },
+    {
+      "season": 2025,
+      "spread": 0.04,
+      "spread_raw": 0.92,
+      "total": null,
+      "all": 0.04
+    }
+  ],
+  "teams": {
+    "Cardinals": {
+      "abbr": "ARI",
+      "conf": "NFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png"
+    },
+    "Falcons": {
+      "abbr": "ATL",
+      "conf": "NFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png"
+    },
+    "Ravens": {
+      "abbr": "BAL",
+      "conf": "AFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png"
+    },
+    "Bills": {
+      "abbr": "BUF",
+      "conf": "AFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png"
+    },
+    "Panthers": {
+      "abbr": "CAR",
+      "conf": "NFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/car.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
+    },
+    "Bears": {
+      "abbr": "CHI",
+      "conf": "NFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png"
+    },
+    "Bengals": {
+      "abbr": "CIN",
+      "conf": "AFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png"
+    },
+    "Browns": {
+      "abbr": "CLE",
+      "conf": "AFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png"
+    },
+    "Cowboys": {
+      "abbr": "DAL",
+      "conf": "NFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png"
+    },
+    "Broncos": {
+      "abbr": "DEN",
+      "conf": "AFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/den.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png"
+    },
+    "Lions": {
+      "abbr": "DET",
+      "conf": "NFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png"
+    },
+    "Packers": {
+      "abbr": "GB",
+      "conf": "NFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/gb.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png"
+    },
+    "Texans": {
+      "abbr": "HOU",
+      "conf": "AFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
+    },
+    "Colts": {
+      "abbr": "IND",
+      "conf": "AFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png"
+    },
+    "Jaguars": {
+      "abbr": "JAX",
+      "conf": "AFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/jax.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png"
+    },
+    "Chiefs": {
+      "abbr": "KC",
+      "conf": "AFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
+    },
+    "Rams": {
+      "abbr": "LA",
+      "conf": "NFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/la.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/la.png"
+    },
+    "Chargers": {
+      "abbr": "LAC",
+      "conf": "AFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png"
+    },
+    "Raiders": {
+      "abbr": "LV",
+      "conf": "AFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png"
+    },
+    "Dolphins": {
+      "abbr": "MIA",
+      "conf": "AFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/mia.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png"
+    },
+    "Vikings": {
+      "abbr": "MIN",
+      "conf": "NFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/min.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png"
+    },
+    "Patriots": {
+      "abbr": "NE",
+      "conf": "AFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png"
+    },
+    "Saints": {
+      "abbr": "NO",
+      "conf": "NFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/no.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png"
+    },
+    "Giants": {
+      "abbr": "NYG",
+      "conf": "NFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/nyg.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png"
+    },
+    "Jets": {
+      "abbr": "NYJ",
+      "conf": "AFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/nyj.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png"
+    },
+    "Eagles": {
+      "abbr": "PHI",
+      "conf": "NFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/phi.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png"
+    },
+    "Steelers": {
+      "abbr": "PIT",
+      "conf": "AFC North",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
+    },
+    "Seahawks": {
+      "abbr": "SEA",
+      "conf": "NFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png"
+    },
+    "49ers": {
+      "abbr": "SF",
+      "conf": "NFC West",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png"
+    },
+    "Buccaneers": {
+      "abbr": "TB",
+      "conf": "NFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png"
+    },
+    "Titans": {
+      "abbr": "TEN",
+      "conf": "AFC South",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png"
+    },
+    "Commanders": {
+      "abbr": "WAS",
+      "conf": "NFC East",
+      "color": null,
+      "alt": null,
+      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/was.png",
+      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/was.png"
+    }
+  },
+  "picks": [],
+  "total_picks": [],
+  "history": [],
+  "equity": [],
+  "record": {},
+  "record_by_market": {},
+  "clv_by_market": {},
+  "clv_by_tier": {},
+  "record_tiers": [],
+  "record_tiers_total": [],
+  "tier_trend": {
+    "A": [
+      {
+        "bets": 198,
+        "wins": 109,
+        "losses": 89,
+        "pushes": 0,
+        "win_pct": 55.1,
+        "units": 10.09,
+        "roi_pct": 5.1,
+        "avg_conf": 0.52,
+        "avg_gap": 5.0,
+        "season": 2020
+      },
+      {
+        "bets": 52,
+        "wins": 30,
+        "losses": 22,
+        "pushes": 0,
+        "win_pct": 57.7,
+        "units": 5.27,
+        "roi_pct": 10.1,
+        "avg_conf": 0.23,
+        "avg_gap": 2.3,
+        "season": 2021
+      },
+      {
+        "bets": 30,
+        "wins": 16,
+        "losses": 13,
+        "pushes": 1,
+        "win_pct": 55.2,
+        "units": 1.55,
+        "roi_pct": 5.2,
+        "avg_conf": 0.21,
+        "avg_gap": 2.1,
+        "season": 2022
+      },
+      {
+        "bets": 19,
+        "wins": 8,
+        "losses": 11,
+        "pushes": 0,
+        "win_pct": 42.1,
+        "units": -3.73,
+        "roi_pct": -19.6,
+        "avg_conf": 0.2,
+        "avg_gap": 2.0,
+        "season": 2023
+      },
+      {
+        "bets": 23,
+        "wins": 10,
+        "losses": 13,
+        "pushes": 0,
+        "win_pct": 43.5,
+        "units": -3.91,
+        "roi_pct": -17.0,
+        "avg_conf": 0.21,
+        "avg_gap": 2.1,
+        "season": 2024
+      },
+      {
+        "bets": 19,
+        "wins": 6,
+        "losses": 13,
+        "pushes": 0,
+        "win_pct": 31.6,
+        "units": -7.55,
+        "roi_pct": -39.7,
+        "avg_conf": 0.2,
+        "avg_gap": 2.0,
+        "season": 2025
+      }
+    ],
+    "B": [
+      {
+        "bets": 24,
+        "wins": 14,
+        "losses": 10,
+        "pushes": 0,
+        "win_pct": 58.3,
+        "units": 2.73,
+        "roi_pct": 11.4,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2020
+      },
+      {
+        "bets": 74,
+        "wins": 33,
+        "losses": 40,
+        "pushes": 1,
+        "win_pct": 45.2,
+        "units": -10.0,
+        "roi_pct": -13.5,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2021
+      },
+      {
+        "bets": 61,
+        "wins": 31,
+        "losses": 29,
+        "pushes": 1,
+        "win_pct": 51.7,
+        "units": -0.82,
+        "roi_pct": -1.3,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2022
+      },
+      {
+        "bets": 50,
+        "wins": 23,
+        "losses": 24,
+        "pushes": 3,
+        "win_pct": 48.9,
+        "units": -3.09,
+        "roi_pct": -6.2,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2023
+      },
+      {
+        "bets": 68,
+        "wins": 33,
+        "losses": 34,
+        "pushes": 1,
+        "win_pct": 49.3,
+        "units": -4.0,
+        "roi_pct": -5.9,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2024
+      },
+      {
+        "bets": 59,
+        "wins": 30,
+        "losses": 29,
+        "pushes": 0,
+        "win_pct": 50.8,
+        "units": -1.73,
+        "roi_pct": -2.9,
+        "avg_conf": 0.12,
+        "avg_gap": 1.2,
+        "season": 2025
+      }
+    ],
+    "C": [
+      {
+        "bets": 17,
+        "wins": 10,
+        "losses": 7,
+        "pushes": 0,
+        "win_pct": 58.8,
+        "units": 2.09,
+        "roi_pct": 12.3,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2020
+      },
+      {
+        "bets": 48,
+        "wins": 23,
+        "losses": 23,
+        "pushes": 2,
+        "win_pct": 50.0,
+        "units": -2.09,
+        "roi_pct": -4.4,
+        "avg_conf": 0.08,
+        "avg_gap": 0.8,
+        "season": 2021
+      },
+      {
+        "bets": 64,
+        "wins": 29,
+        "losses": 32,
+        "pushes": 3,
+        "win_pct": 47.5,
+        "units": -5.64,
+        "roi_pct": -8.8,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2022
+      },
+      {
+        "bets": 88,
+        "wins": 44,
+        "losses": 38,
+        "pushes": 6,
+        "win_pct": 53.7,
+        "units": 2.0,
+        "roi_pct": 2.3,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2023
+      },
+      {
+        "bets": 66,
+        "wins": 38,
+        "losses": 27,
+        "pushes": 1,
+        "win_pct": 58.5,
+        "units": 7.55,
+        "roi_pct": 11.4,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2024
+      },
+      {
+        "bets": 56,
+        "wins": 31,
+        "losses": 24,
+        "pushes": 1,
+        "win_pct": 56.4,
+        "units": 4.18,
+        "roi_pct": 7.5,
+        "avg_conf": 0.08,
+        "avg_gap": 0.8,
+        "season": 2025
+      }
+    ],
+    "D": [
+      {
+        "bets": 14,
+        "wins": 5,
+        "losses": 9,
+        "pushes": 0,
+        "win_pct": 35.7,
+        "units": -4.45,
+        "roi_pct": -31.8,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2020
+      },
+      {
+        "bets": 61,
+        "wins": 25,
+        "losses": 35,
+        "pushes": 1,
+        "win_pct": 41.7,
+        "units": -12.27,
+        "roi_pct": -20.1,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2021
+      },
+      {
+        "bets": 57,
+        "wins": 24,
+        "losses": 30,
+        "pushes": 3,
+        "win_pct": 44.4,
+        "units": -8.18,
+        "roi_pct": -14.4,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2022
+      },
+      {
+        "bets": 61,
+        "wins": 27,
+        "losses": 32,
+        "pushes": 2,
+        "win_pct": 45.8,
+        "units": -7.45,
+        "roi_pct": -12.2,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2023
+      },
+      {
+        "bets": 68,
+        "wins": 32,
+        "losses": 36,
+        "pushes": 0,
+        "win_pct": 47.1,
+        "units": -6.91,
+        "roi_pct": -10.2,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2024
+      },
+      {
+        "bets": 77,
+        "wins": 39,
+        "losses": 38,
+        "pushes": 0,
+        "win_pct": 50.6,
+        "units": -2.55,
+        "roi_pct": -3.3,
+        "avg_conf": 0.04,
+        "avg_gap": 0.4,
+        "season": 2025
+      }
+    ],
+    "E": [
+      {
+        "bets": 16,
+        "wins": 8,
+        "losses": 8,
+        "pushes": 0,
+        "win_pct": 50.0,
+        "units": -0.73,
+        "roi_pct": -4.5,
+        "avg_conf": 0.02,
+        "avg_gap": 0.1,
+        "season": 2020
+      },
+      {
+        "bets": 50,
+        "wins": 20,
+        "losses": 30,
+        "pushes": 0,
+        "win_pct": 40.0,
+        "units": -11.82,
+        "roi_pct": -23.6,
+        "avg_conf": 0.01,
+        "avg_gap": 0.1,
+        "season": 2021
+      },
+      {
+        "bets": 72,
+        "wins": 33,
+        "losses": 37,
+        "pushes": 2,
+        "win_pct": 47.1,
+        "units": -7.0,
+        "roi_pct": -9.7,
+        "avg_conf": 0.01,
+        "avg_gap": 0.1,
+        "season": 2022
+      },
+      {
+        "bets": 67,
+        "wins": 29,
+        "losses": 35,
+        "pushes": 3,
+        "win_pct": 45.3,
+        "units": -8.64,
+        "roi_pct": -12.9,
+        "avg_conf": 0.02,
+        "avg_gap": 0.1,
+        "season": 2023
+      },
+      {
+        "bets": 60,
+        "wins": 26,
+        "losses": 32,
+        "pushes": 2,
+        "win_pct": 44.8,
+        "units": -8.36,
+        "roi_pct": -13.9,
+        "avg_conf": 0.02,
+        "avg_gap": 0.2,
+        "season": 2024
+      },
+      {
+        "bets": 74,
+        "wins": 42,
+        "losses": 32,
+        "pushes": 0,
+        "win_pct": 56.8,
+        "units": 6.18,
+        "roi_pct": 8.4,
+        "avg_conf": 0.01,
+        "avg_gap": 0.1,
+        "season": 2025
+      }
+    ],
+    "ALL": [
+      {
+        "bets": 269,
+        "wins": 146,
+        "losses": 123,
+        "pushes": 0,
+        "win_pct": 54.3,
+        "units": 9.73,
+        "roi_pct": 3.6,
+        "avg_conf": 0.4,
+        "avg_gap": 3.9,
+        "season": 2020
+      },
+      {
+        "bets": 285,
+        "wins": 131,
+        "losses": 150,
+        "pushes": 4,
+        "win_pct": 46.6,
+        "units": -30.91,
+        "roi_pct": -10.8,
+        "avg_conf": 0.1,
+        "avg_gap": 1.0,
+        "season": 2021
+      },
+      {
+        "bets": 284,
+        "wins": 133,
+        "losses": 141,
+        "pushes": 10,
+        "win_pct": 48.5,
+        "units": -20.09,
+        "roi_pct": -7.1,
+        "avg_conf": 0.08,
+        "avg_gap": 0.7,
+        "season": 2022
+      },
+      {
+        "bets": 285,
+        "wins": 131,
+        "losses": 140,
+        "pushes": 14,
+        "win_pct": 48.3,
+        "units": -20.91,
+        "roi_pct": -7.3,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2023
+      },
+      {
+        "bets": 285,
+        "wins": 139,
+        "losses": 142,
+        "pushes": 4,
+        "win_pct": 49.5,
+        "units": -15.64,
+        "roi_pct": -5.5,
+        "avg_conf": 0.08,
+        "avg_gap": 0.8,
+        "season": 2024
+      },
+      {
+        "bets": 285,
+        "wins": 148,
+        "losses": 136,
+        "pushes": 1,
+        "win_pct": 52.1,
+        "units": -1.45,
+        "roi_pct": -0.5,
+        "avg_conf": 0.07,
+        "avg_gap": 0.7,
+        "season": 2025
+      }
+    ]
+  },
+  "tier_summary": {
+    "A": {
+      "bets": 341,
+      "wins": 179,
+      "losses": 161,
+      "pushes": 1,
+      "win_pct": 52.6,
+      "units": 1.73,
+      "roi_pct": 0.5,
+      "avg_conf": 0.39,
+      "avg_gap": 3.8
+    },
+    "B": {
+      "bets": 336,
+      "wins": 164,
+      "losses": 166,
+      "pushes": 6,
+      "win_pct": 49.7,
+      "units": -16.91,
+      "roi_pct": -5.0,
+      "avg_conf": 0.12,
+      "avg_gap": 1.2
+    },
+    "C": {
+      "bets": 339,
+      "wins": 175,
+      "losses": 151,
+      "pushes": 13,
+      "win_pct": 53.7,
+      "units": 8.09,
+      "roi_pct": 2.4,
+      "avg_conf": 0.07,
+      "avg_gap": 0.7
+    },
+    "D": {
+      "bets": 338,
+      "wins": 152,
+      "losses": 180,
+      "pushes": 6,
+      "win_pct": 45.8,
+      "units": -41.82,
+      "roi_pct": -12.4,
+      "avg_conf": 0.04,
+      "avg_gap": 0.4
+    },
+    "E": {
+      "bets": 339,
+      "wins": 158,
+      "losses": 174,
+      "pushes": 7,
+      "win_pct": 47.6,
+      "units": -30.36,
+      "roi_pct": -9.0,
+      "avg_conf": 0.01,
+      "avg_gap": 0.1
+    },
+    "ALL": {
+      "bets": 1693,
+      "wins": 828,
+      "losses": 832,
+      "pushes": 33,
+      "win_pct": 49.9,
+      "units": -79.27,
+      "roi_pct": -4.7,
+      "avg_conf": 0.13,
+      "avg_gap": 1.3
+    }
+  },
+  "tier_cuts": {
+    "early": [
+      0.1748,
+      0.1033,
+      0.0664,
+      0.0321
+    ],
+    "late": [
+      0.152,
+      0.0884,
+      0.0557,
+      0.0256
+    ],
+    "all": [
+      0.1555,
+      0.0928,
+      0.057,
+      0.027
+    ]
+  },
+  "tier_regime": "early",
+  "situational": {
+    "rest_diff": 0.15,
+    "rivalry_compress": -0.121,
+    "rating_scale": 0.44
+  },
+  "debias": {
+    "intercept": 1.346,
+    "slope": 0.239,
+    "active": true
+  },
+  "bias_check": {
+    "edge_vs_line_corr": -0.477,
+    "pct_on_underdog": 69.9,
+    "qualified_share": 25.9
+  },
+  "totals_bias_check": {
+    "pct_over": 54.4,
+    "edge_vs_line_corr": 0.072,
+    "qualified_share": 3.1
+  },
+  "board_balance": {
+    "spread": null,
+    "total": null
+  },
+  "ratings": [
+    {
+      "rank": 1,
+      "team": "Seahawks",
+      "rating": 3.95
+    },
+    {
+      "rank": 2,
+      "team": "Rams",
+      "rating": 3.12
+    },
+    {
+      "rank": 3,
+      "team": "Bills",
+      "rating": 2.33
+    },
+    {
+      "rank": 4,
+      "team": "Texans",
+      "rating": 2.28
+    },
+    {
+      "rank": 5,
+      "team": "Lions",
+      "rating": 1.98
+    },
+    {
+      "rank": 6,
+      "team": "Jaguars",
+      "rating": 1.7
+    },
+    {
+      "rank": 7,
+      "team": "Eagles",
+      "rating": 1.61
+    },
+    {
+      "rank": 8,
+      "team": "Patriots",
+      "rating": 1.49
+    },
+    {
+      "rank": 9,
+      "team": "Broncos",
+      "rating": 1.44
+    },
+    {
+      "rank": 10,
+      "team": "Ravens",
+      "rating": 1.18
+    },
+    {
+      "rank": 11,
+      "team": "49ers",
+      "rating": 0.95
+    },
+    {
+      "rank": 12,
+      "team": "Packers",
+      "rating": 0.9
+    },
+    {
+      "rank": 13,
+      "team": "Colts",
+      "rating": 0.88
+    },
+    {
+      "rank": 14,
+      "team": "Chiefs",
+      "rating": 0.77
+    },
+    {
+      "rank": 15,
+      "team": "Chargers",
+      "rating": 0.51
+    },
+    {
+      "rank": 16,
+      "team": "Vikings",
+      "rating": 0.51
+    },
+    {
+      "rank": 17,
+      "team": "Buccaneers",
+      "rating": 0.15
+    },
+    {
+      "rank": 18,
+      "team": "Bears",
+      "rating": 0.07
+    },
+    {
+      "rank": 19,
+      "team": "Steelers",
+      "rating": -0.01
+    },
+    {
+      "rank": 20,
+      "team": "Falcons",
+      "rating": -0.96
+    },
+    {
+      "rank": 21,
+      "team": "Bengals",
+      "rating": -1.15
+    },
+    {
+      "rank": 22,
+      "team": "Commanders",
+      "rating": -1.2
+    },
+    {
+      "rank": 23,
+      "team": "Cowboys",
+      "rating": -1.44
+    },
+    {
+      "rank": 24,
+      "team": "Cardinals",
+      "rating": -1.46
+    },
+    {
+      "rank": 25,
+      "team": "Giants",
+      "rating": -1.58
+    },
+    {
+      "rank": 26,
+      "team": "Saints",
+      "rating": -1.62
+    },
+    {
+      "rank": 27,
+      "team": "Dolphins",
+      "rating": -1.66
+    },
+    {
+      "rank": 28,
+      "team": "Panthers",
+      "rating": -1.78
+    },
+    {
+      "rank": 29,
+      "team": "Browns",
+      "rating": -2.6
+    },
+    {
+      "rank": 30,
+      "team": "Titans",
+      "rating": -3.23
+    },
+    {
+      "rank": 31,
+      "team": "Raiders",
+      "rating": -3.52
+    },
+    {
+      "rank": 32,
+      "team": "Jets",
+      "rating": -3.62
+    },
+    {
+      "rank": 33,
+      "team": "NON_FBS",
+      "rating": -22.0
+    }
+  ],
+  "qb_value": {},
+  "qb_season": null,
+  "notes": [
+    "Early season: ratings lean on last year. The model does not know about injuries, holdouts or scheme changes.",
+    "272 regular-season games a year means far fewer picks than college and wider error bars on every number here.",
+    "Totals are shown for context but rarely qualify. Without play-level data the pro totals model ran 1.4 points behind the book and lost money in backtest, so the bar for a totals pick is set very high."
+  ]
+}
