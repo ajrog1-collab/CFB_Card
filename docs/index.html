@@ -1235,6 +1235,7 @@ function applyBrand(){
   img.hidden = false; fb.hidden = true;
   // the pro lockup ships in two versions; the dark one is built for a navy page
   img.src = dark ? s.logoDark : s.logo;
+  $('sharebtn').textContent = SPORT === 'nfl' ? 'THE PRO CARD' : 'THE CARD';
   $('s-cfb').setAttribute('aria-selected', SPORT === 'cfb');
   $('s-nfl').setAttribute('aria-selected', SPORT === 'nfl');
   const meta = document.querySelector('meta[name="theme-color"]');
@@ -1267,7 +1268,17 @@ function loadSport(sport){
   if(CACHE[sport]){ DATA = CACHE[sport]; renderAll(); return; }
   clearPanels('LOADING');
   fetch(SPORTS[sport].file + '?t=' + Date.now())
-    .then(r => { if(!r.ok) throw new Error(SPORTS[sport].file + ' ' + r.status); return r.json(); })
+    .then(r => {
+      if(!r.ok) throw new Error('not found');
+      const type = r.headers && r.headers.get && r.headers.get('content-type');
+      if(type && type.indexOf('json') === -1) throw new Error('not found');
+      return r.text();
+    })
+    .then(txt => {
+      // some hosts answer a missing file with the page itself
+      if(txt.trim().slice(0, 1) === '<') throw new Error('not found');
+      return JSON.parse(txt);
+    })
     .then(d => {
       // guard against a stale response landing after another switch
       if(SPORT !== sport) return;
@@ -1276,11 +1287,12 @@ function loadSport(sport){
     .catch(e => {
       if(SPORT !== sport) return;
       DATA = null;
-      clearPanels('NO DATA YET',
+      const known = e.message === 'not found';
+      clearPanels(sport === 'nfl' ? 'NO PRO DATA YET' : 'NO DATA YET',
         (sport === 'nfl'
-          ? 'The pro model has not run yet. Run the update workflow in GitHub.'
+          ? "The pro model hasn't run yet. GitHub → Actions → Update model → Run workflow."
           : 'Run the update workflow in GitHub.') +
-        `<br><span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span>`);
+        (known ? '' : `<br><span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span>`));
     });
 }
 
