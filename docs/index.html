@@ -38,6 +38,22 @@
     --data:'Barlow',ui-monospace,monospace;      /* DIN 2014 substitute */
     --body:'Inter',system-ui,sans-serif;
   }
+  /* PRO overrides. Sampled from the NFL Shield lockups: navy #153D78, red
+     #B1131A on cream; the dark card sits on #0B2541. Red replaces gold as the
+     accent so the pro side reads differently at a glance. */
+  [data-sport="nfl"]{
+    --navy:#153D78; --navy-deep:#0B2541; --gold:#B1131A; --blue:#153D78;
+  }
+  [data-sport="nfl"][data-theme="dark"]{
+    --page:#0B2541; --panel:#12355C; --panel-2:#1A4272; --rule:#28527F;
+    --ink:#F6F0DD; --mute:#93AAC7;
+  }
+  [data-sport="nfl"][data-theme="light"]{
+    --page:#F6F0DD; --ticket:#0B2541; --ticket-ink:#F6F0DD; --ticket-rule:#28527F;
+    --ticket-mute:#93AAC7; --panel:#E6DFC9; --panel-2:#DAD2B9; --rule:#C3BBA2;
+    --ink:#153D78; --mute:#5A6B84;
+  }
+
   /* dark: navy page, cream tickets */
   [data-theme="dark"]{
     --page:#0C1B29; --ticket:#EFECE6; --ticket-ink:#002B45; --ticket-rule:#C3BDB2;
@@ -65,6 +81,7 @@
      status bar keeps them legible in both themes. Zero height in a browser. */
   body::before{content:'';position:fixed;top:0;left:0;right:0;z-index:200;
     height:env(safe-area-inset-top, 0px);background:#0C1B29}
+  [data-sport="nfl"] body::before,body[data-sport="nfl"]::before{background:#0B2541}
 
   .wrap{max-width:720px;margin:0 auto;
     padding:0 calc(12px + env(safe-area-inset-right, 0px)) 60px
@@ -95,6 +112,27 @@
     font-weight:500;text-align:right;white-space:nowrap}
 
   /* ---------- tabs ---------- */
+  .sportbar{display:flex;gap:3px;margin-top:2px;background:var(--panel);border-radius:5px;
+    padding:3px}
+  .sport{flex:1;appearance:none;border:0;cursor:pointer;background:transparent;
+    color:var(--mute);font-family:var(--display);font-size:14px;letter-spacing:.14em;
+    padding:7px 4px;border-radius:3px;transition:background .15s,color .15s}
+  .sport[aria-selected="true"]{background:var(--ticket);color:var(--ticket-ink)}
+  .sport:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  .brand-fallback{background:var(--ticket);color:var(--ticket-ink);border-radius:7px;
+    padding:8px 22px 8px 12px;position:relative;overflow:hidden}
+  .brand-fallback[hidden]{display:none}
+  .bf-the{font-family:var(--display);font-size:11px;letter-spacing:.26em;line-height:1;
+    display:flex;align-items:center;gap:5px}
+  .bf-the::before,.bf-the::after{content:'';width:11px;height:2px;
+    background:var(--ticket-ink);flex:none}
+  .bf-name{font-family:var(--display);font-size:31px;line-height:.86;letter-spacing:.02em}
+  .bf-sub{font-family:var(--data);font-size:8px;letter-spacing:.2em;color:var(--gold);
+    font-weight:700;margin-top:2px}
+  .brand-fallback::after{content:'';position:absolute;right:0;bottom:0;width:0;height:0;
+    border-left:16px solid transparent;border-bottom:16px solid var(--gold)}
+
   nav{display:flex;gap:3px;position:sticky;top:env(safe-area-inset-top, 0px);z-index:30;
     background:var(--page);padding:8px 0;border-bottom:1px solid var(--rule)}
   .tab{flex:1 1 0;min-width:0;appearance:none;border:1px solid transparent;cursor:pointer;
@@ -170,7 +208,7 @@
   .sc-the{font-family:var(--display);font-size:10px;letter-spacing:.26em;line-height:1;
     display:flex;align-items:center;gap:4px}
   .sc-the::before,.sc-the::after{content:'';width:9px;height:2px;background:var(--ticket-ink)}
-  .sc-card{font-family:var(--display);font-size:29px;line-height:.82}
+  .sc-card{font-family:var(--display);font-size:29px;line-height:.82;white-space:nowrap}
   .sc-meta{margin-left:auto;text-align:right;font-family:var(--data);font-size:8.5px;
     letter-spacing:.13em;font-weight:700;color:var(--ticket-mute);line-height:1.5}
   .sc-row{display:grid;grid-template-columns:15px 1fr auto;gap:7px;align-items:center;
@@ -372,8 +410,14 @@
 <div class="wrap">
   <div class="top">
     <div class="brand">
-      <img class="brand-img" src="logo-lockup.png"
-           alt="The Card — college football analytics" width="900" height="284">
+      <img class="brand-img" id="brandimg" src="logo-lockup.png"
+           alt="The Card" width="900" height="284">
+      <!-- Used only if the pro lockup art is missing, so the site still reads
+           correctly before that file exists. -->
+      <div class="brand-fallback" id="brandfallback" hidden>
+        <div class="bf-the">THE</div><div class="bf-name">PRO CARD</div>
+        <div class="bf-sub">NFL ANALYTICS</div>
+      </div>
     </div>
     <div class="topright">
       <div class="topbtns">
@@ -383,6 +427,11 @@
       </div>
       <div class="stamp" id="stamp"></div>
     </div>
+  </div>
+
+  <div class="sportbar" role="tablist" aria-label="Sport">
+    <button class="sport" id="s-cfb" role="tab" aria-selected="true">COLLEGE</button>
+    <button class="sport" id="s-nfl" role="tab" aria-selected="false">PRO</button>
   </div>
 
   <div id="staleban"></div>
@@ -437,6 +486,16 @@ const OPEN = { history:false, allpicks:false };
 let VIEW = 'board';
 let SEARCH = '';
 let SHARE_N = 10;
+let SPORT = 'cfb';
+const CACHE = {};                       // one fetch per sport per session
+const SPORTS = {
+  cfb: { file:'data.json',     label:'THE CARD',     logo:'logo-lockup.png',
+         logoDark:'logo-lockup.png',
+         alt:'The Card — college football analytics' },
+  nfl: { file:'data-nfl.json', label:'THE PRO CARD', logo:'logo-lockup-pro.png',
+         logoDark:'logo-lockup-pro-dark.png',
+         alt:'The Pro Card — NFL analytics' },
+};
 
 /* Tier A-E reads as 5-1 stars: more stars, more sure. */
 const TIER_STARS = { A:5, B:4, C:3, D:2, E:1 };
@@ -1038,7 +1097,13 @@ function renderModel(){
   const limits = `
     <dl>
       <dt>No injuries</dt><dd>Biggest gap. See QB value above.</dd>
-      <dt>No transfer portal</dt><dd>Incoming transfers aren't counted. Worst in September.</dd>
+      ${SPORT === 'nfl'
+        ? `<dt>Small sample</dt><dd>272 regular-season games a year against roughly 800 in
+             college. Every number here carries wider error bars, and one season proves
+             nothing.</dd>
+           <dt>Sharpest market there is</dt><dd>NFL lines are the most heavily bet and most
+             efficiently priced in sport. Beating them is harder than college.</dd>`
+        : `<dt>No transfer portal</dt><dd>Incoming transfers aren't counted. Worst in September.</dd>`}
       <dt>Consensus lines</dt><dd>Not your book. Half a point matters.</dd>
       <dt>Past ≠ future</dt><dd>${bt.qualified_win_pct != null
         ? `Qualified picks hit ${esc(bt.qualified_win_pct)}% historically vs ${esc(be)}% break-even.`
@@ -1071,8 +1136,9 @@ function renderModel(){
 
   $('p-model').innerHTML = `
     <h2>THE MODEL</h2>
-    <p class="sub">Rates every team, prices every game, compares its number to the book's,
-    and tracks every pick it flags.</p>
+    <p class="sub">Rates every ${SPORT === 'nfl' ? 'NFL' : 'college'} team, prices every game,
+    compares its number to the book's, and tracks every pick it flags.
+    ${SPORT === 'nfl' ? 'Data from nflverse.' : 'Data from the College Football Data API.'}</p>
     ${(d.notes || []).map(n => `<div class="note warn">${esc(n)}</div>`).join('')}
     ${foldSection('m1', 'READING A CARD', '', card)}
     ${foldSection('m2', 'READING THE RECORD', '', record)}
@@ -1122,7 +1188,7 @@ function renderShare(){
 
   $('sharecard').innerHTML = `
     <div class="sc-head">
-      <div><div class="sc-the">THE</div><div class="sc-card">CARD</div></div>
+      <div><div class="sc-the">THE</div><div class="sc-card">${SPORT === 'nfl' ? 'PRO CARD' : 'CARD'}</div></div>
       <div class="sc-meta">${esc(wk)}<br>${esc(when.toLocaleDateString([], {month:'short', day:'numeric'}).toUpperCase())}
         <br>TOP ${picks.length}</div>
     </div>
@@ -1155,6 +1221,46 @@ function renderStale(){
               : 'The daily update looks like it was missed. Lines may have moved since.'}
         <small>CHECK GITHUB → ACTIONS FOR A FAILED RUN</small></div>
     </div>`;
+}
+
+function applyBrand(){
+  const s = SPORTS[SPORT];
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const img = $('brandimg'), fb = $('brandfallback');
+  document.documentElement.dataset.sport = SPORT;
+  document.title = s.label;
+  img.alt = s.alt;
+  img.onerror = () => { img.hidden = true; fb.hidden = false; };
+  img.onload  = () => { img.hidden = false; fb.hidden = true; };
+  img.hidden = false; fb.hidden = true;
+  // the pro lockup ships in two versions; the dark one is built for a navy page
+  img.src = dark ? s.logoDark : s.logo;
+  $('s-cfb').setAttribute('aria-selected', SPORT === 'cfb');
+  $('s-nfl').setAttribute('aria-selected', SPORT === 'nfl');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if(meta) meta.setAttribute('content',
+    SPORT === 'nfl' ? (dark ? '#0B2541' : '#F6F0DD') : (dark ? '#0C1B29' : '#EFECE6'));
+}
+
+function loadSport(sport){
+  SPORT = sport;
+  applyBrand();
+  FAVS.clear();
+  CONF = 'all'; SEARCH = ''; FILTERS.market = 'all'; FILTERS.quality = 'all';
+  if(CACHE[sport]){ DATA = CACHE[sport]; renderAll(); return; }
+  $('p-board').innerHTML = `<div class="empty"><div class="empty-h">LOADING</div></div>`;
+  fetch(SPORTS[sport].file + '?t=' + Date.now())
+    .then(r => { if(!r.ok) throw new Error(SPORTS[sport].file + ' ' + r.status); return r.json(); })
+    .then(d => { CACHE[sport] = d; DATA = d; renderAll(); })
+    .catch(e => {
+      DATA = null;
+      $('p-board').innerHTML = `<div class="empty"><div class="empty-h">NO DATA YET</div>
+        <div class="empty-p">${sport === 'nfl'
+          ? 'The pro model has not run yet. Trigger the workflow in GitHub.'
+          : 'Run the update workflow in GitHub.'}<br>
+        <span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span></div></div>`;
+      $('stamp').textContent = '';
+    });
 }
 
 function renderTop(){
@@ -1236,6 +1342,7 @@ $('sharemore').addEventListener('click', e => {
 
 function setTheme(mode){
   document.documentElement.dataset.theme = mode;
+  if(typeof applyBrand === 'function' && $('brandimg')) applyBrand();
   const meta = document.querySelector('meta[name="theme-color"]');
   if(meta) meta.setAttribute('content', mode === 'dark' ? '#0C1B29' : '#EFECE6');
   if(DATA) renderAll();
@@ -1249,14 +1356,10 @@ const prefersLight = typeof matchMedia === 'function'
   && matchMedia('(prefers-color-scheme: light)').matches;
 setTheme(prefersLight ? 'light' : 'dark');
 
-fetch('data.json?t=' + Date.now())
-  .then(r => { if(!r.ok) throw new Error('data.json ' + r.status); return r.json(); })
-  .then(d => { DATA = d; renderAll(); })
-  .catch(e => {
-    $('p-board').innerHTML = `<div class="empty"><div class="empty-h">NO DATA YET</div>
-      <div class="empty-p">Run the update workflow in GitHub.<br>
-      <span style="font-family:var(--data);font-size:11px">${esc(e.message)}</span></div></div>`;
-  });
+$('s-cfb').addEventListener('click', () => { if(SPORT !== 'cfb') loadSport('cfb'); });
+$('s-nfl').addEventListener('click', () => { if(SPORT !== 'nfl') loadSport('nfl'); });
+
+loadSport('cfb');
 </script>
 </body>
 </html>
