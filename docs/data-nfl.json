@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-08-26T18:24:31+00:00",
+  "generated_at": "2026-08-26T18:39:36+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "assumed_price": -110.0,
@@ -772,12 +772,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423122,
-      0.05340493345927233,
-      -0.05440043288034832,
-      -0.42444771489760236,
-      -0.08438862443957923,
-      9.718782974976097
+      0.06047293116423176,
+      0.05340493345927344,
+      -0.05440043288033939,
+      -0.42444771489760597,
+      -0.08438862443957941,
+      9.718782974976095
     ],
     "conf_names": [
       "abs_pred",
@@ -902,6 +902,29 @@
       "qualified_share": 3.1
     }
   },
+  "conf_label": "Div",
+  "conf_groups": [
+    {
+      "value": "afc",
+      "label": "AFC",
+      "members": [
+        "AFC East",
+        "AFC North",
+        "AFC South",
+        "AFC West"
+      ]
+    },
+    {
+      "value": "nfc",
+      "label": "NFC",
+      "members": [
+        "NFC East",
+        "NFC North",
+        "NFC South",
+        "NFC West"
+      ]
+    }
+  ],
   "gap_trend": [
     {
       "season": 2020,
@@ -950,258 +973,290 @@
     "Cardinals": {
       "abbr": "ARI",
       "conf": "NFC West",
-      "color": null,
+      "color": "#97233f",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png"
+      "alias": "Arizona Phoenix ARI",
+      "logo": null,
+      "logo_dark": null
     },
     "Falcons": {
       "abbr": "ATL",
       "conf": "NFC South",
-      "color": null,
+      "color": "#a71930",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png"
+      "alias": "Atlanta ATL",
+      "logo": null,
+      "logo_dark": null
     },
     "Ravens": {
       "abbr": "BAL",
       "conf": "AFC North",
-      "color": null,
+      "color": "#241773",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png"
+      "alias": "Baltimore BAL",
+      "logo": null,
+      "logo_dark": null
     },
     "Bills": {
       "abbr": "BUF",
       "conf": "AFC East",
-      "color": null,
+      "color": "#00338d",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png"
+      "alias": "Buffalo BUF",
+      "logo": null,
+      "logo_dark": null
     },
     "Panthers": {
       "abbr": "CAR",
       "conf": "NFC South",
-      "color": null,
+      "color": "#0085ca",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/car.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
+      "alias": "Carolina CAR",
+      "logo": null,
+      "logo_dark": null
     },
     "Bears": {
       "abbr": "CHI",
       "conf": "NFC North",
-      "color": null,
+      "color": "#0b162a",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png"
+      "alias": "Chicago CHI",
+      "logo": null,
+      "logo_dark": null
     },
     "Bengals": {
       "abbr": "CIN",
       "conf": "AFC North",
-      "color": null,
+      "color": "#000000",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png"
+      "alias": "Cincinnati CIN",
+      "logo": null,
+      "logo_dark": null
     },
     "Browns": {
       "abbr": "CLE",
       "conf": "AFC North",
-      "color": null,
+      "color": "#fb4f14",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png"
+      "alias": "Cleveland CLE",
+      "logo": null,
+      "logo_dark": null
     },
     "Cowboys": {
       "abbr": "DAL",
       "conf": "NFC East",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png"
+      "alias": "Dallas DAL",
+      "logo": null,
+      "logo_dark": null
     },
     "Broncos": {
       "abbr": "DEN",
       "conf": "AFC West",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/den.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png"
+      "alias": "Denver DEN",
+      "logo": null,
+      "logo_dark": null
     },
     "Lions": {
       "abbr": "DET",
       "conf": "NFC North",
-      "color": null,
+      "color": "#005a8b",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png"
+      "alias": "Detroit DET",
+      "logo": null,
+      "logo_dark": null
     },
     "Packers": {
       "abbr": "GB",
       "conf": "NFC North",
-      "color": null,
+      "color": "#203731",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/gb.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png"
+      "alias": "Green Bay GB",
+      "logo": null,
+      "logo_dark": null
     },
     "Texans": {
       "abbr": "HOU",
       "conf": "AFC South",
-      "color": null,
+      "color": "#03202f",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
+      "alias": "Houston HOU",
+      "logo": null,
+      "logo_dark": null
     },
     "Colts": {
       "abbr": "IND",
       "conf": "AFC South",
-      "color": null,
+      "color": "#002c5f",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png"
+      "alias": "Indianapolis IND",
+      "logo": null,
+      "logo_dark": null
     },
     "Jaguars": {
       "abbr": "JAX",
       "conf": "AFC South",
-      "color": null,
+      "color": "#000000",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/jax.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png"
+      "alias": "Jacksonville JAX",
+      "logo": null,
+      "logo_dark": null
     },
     "Chiefs": {
       "abbr": "KC",
       "conf": "AFC West",
-      "color": null,
+      "color": "#e31837",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
+      "alias": "Kansas City KC",
+      "logo": null,
+      "logo_dark": null
     },
     "Rams": {
       "abbr": "LA",
       "conf": "NFC West",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/la.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/la.png"
+      "alias": "Los Angeles LA LA",
+      "logo": null,
+      "logo_dark": null
     },
     "Chargers": {
       "abbr": "LAC",
       "conf": "AFC West",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png"
+      "alias": "Los Angeles LA LAC",
+      "logo": null,
+      "logo_dark": null
     },
     "Raiders": {
       "abbr": "LV",
       "conf": "AFC West",
-      "color": null,
+      "color": "#a5acaf",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png"
+      "alias": "Las Vegas Oakland LV",
+      "logo": null,
+      "logo_dark": null
     },
     "Dolphins": {
       "abbr": "MIA",
       "conf": "AFC East",
-      "color": null,
+      "color": "#008e97",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/mia.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png"
+      "alias": "Miami MIA",
+      "logo": null,
+      "logo_dark": null
     },
     "Vikings": {
       "abbr": "MIN",
       "conf": "NFC North",
-      "color": null,
+      "color": "#4f2683",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/min.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png"
+      "alias": "Minnesota MIN",
+      "logo": null,
+      "logo_dark": null
     },
     "Patriots": {
       "abbr": "NE",
       "conf": "AFC East",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png"
+      "alias": "New England Patriots Boston NE",
+      "logo": null,
+      "logo_dark": null
     },
     "Saints": {
       "abbr": "NO",
       "conf": "NFC South",
-      "color": null,
+      "color": "#9f8958",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/no.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png"
+      "alias": "New Orleans NO",
+      "logo": null,
+      "logo_dark": null
     },
     "Giants": {
       "abbr": "NYG",
       "conf": "NFC East",
-      "color": null,
+      "color": "#0b2265",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/nyg.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png"
+      "alias": "New York NYG",
+      "logo": null,
+      "logo_dark": null
     },
     "Jets": {
       "abbr": "NYJ",
       "conf": "AFC East",
-      "color": null,
+      "color": "#203731",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/nyj.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png"
+      "alias": "New York NYJ",
+      "logo": null,
+      "logo_dark": null
     },
     "Eagles": {
       "abbr": "PHI",
       "conf": "NFC East",
-      "color": null,
+      "color": "#004953",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/phi.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png"
+      "alias": "Philadelphia PHI",
+      "logo": null,
+      "logo_dark": null
     },
     "Steelers": {
       "abbr": "PIT",
       "conf": "AFC North",
-      "color": null,
+      "color": "#000000",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
+      "alias": "Pittsburgh PIT",
+      "logo": null,
+      "logo_dark": null
     },
     "Seahawks": {
       "abbr": "SEA",
       "conf": "NFC West",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png"
+      "alias": "Seattle SEA",
+      "logo": null,
+      "logo_dark": null
     },
     "49ers": {
       "abbr": "SF",
       "conf": "NFC West",
-      "color": null,
+      "color": "#aa0000",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png"
+      "alias": "San Francisco Niners SF",
+      "logo": null,
+      "logo_dark": null
     },
     "Buccaneers": {
       "abbr": "TB",
       "conf": "NFC South",
-      "color": null,
+      "color": "#d50a0a",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png"
+      "alias": "Tampa Bay TB",
+      "logo": null,
+      "logo_dark": null
     },
     "Titans": {
       "abbr": "TEN",
       "conf": "AFC South",
-      "color": null,
+      "color": "#002244",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png"
+      "alias": "Tennessee TEN",
+      "logo": null,
+      "logo_dark": null
     },
     "Commanders": {
       "abbr": "WAS",
       "conf": "NFC East",
-      "color": null,
+      "color": "#773141",
       "alt": null,
-      "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/was.png",
-      "logo_dark": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/was.png"
+      "alias": "Washington WAS",
+      "logo": null,
+      "logo_dark": null
     }
   },
   "picks": [],
