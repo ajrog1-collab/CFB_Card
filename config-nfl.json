@@ -1,0 +1,16 @@
+{
+  "current_season": 2026,
+  "history_start": 2016,
+  "backtest_seasons": [2020, 2021, 2022, 2023, 2024, 2025],
+  "holdout_season": 2025,
+  "min_edge": 2.0,
+  "min_edge_total": 3.0,
+  "auto_threshold": true,
+  "target_qualified_share": 0.25,
+  "debias": true,
+  "blend_k": 4.0,
+  "lookahead_days": 9,
+  "assumed_price": -110,
+  "top_pick_count": 5,
+  "tier_edges": [1, 2, 3, 4.5, 7]
+}
