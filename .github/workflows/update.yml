@@ -56,7 +56,9 @@ jobs:
         run: |
           git config user.name  "cfb-model-bot"
           git config user.email "actions@github.com"
-          git add docs/data.json data/
+          # Both payloads. An earlier version listed only docs/data.json, so the
+          # pro model wrote its file every run and none of them were ever committed.
+          git add docs/data.json docs/data-nfl.json data/
           if git diff --staged --quiet; then
             echo "Nothing changed."
           else
