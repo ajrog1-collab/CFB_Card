@@ -1051,8 +1051,11 @@ function renderModel(){
 
   const refresh = `
     <dl>
-      <dt>Automatic</dt><dd>Daily ~10am ET, twice more Saturday, Sunday to grade.
-        Nothing to trigger.</dd>
+      <dt>Automatic</dt><dd>Twice daily (early morning and late morning), two more
+        passes Saturday, Sunday to grade. Nothing to trigger.</dd>
+      <dt>Timing drifts</dt><dd>GitHub runs these on shared capacity and can delay them
+        by an hour or more, occasionally skipping one. That is why there are two attempts
+        a day — <b>a late update is normal, a missing one is not.</b></dd>
       <dt>Reloading</dt><dd>Fetches the latest saved numbers; it does not re-run the model.</dd>
       <dt>Force a run</dt><dd>GitHub → Actions → Update model → Run workflow. Worth it if a
         starter is ruled out or a number moves hard.</dd>
