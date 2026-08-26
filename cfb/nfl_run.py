@@ -57,6 +57,11 @@ TOP_PICK_COUNT = int(CONFIG.get("top_pick_count", 5))
 DEBIAS = bool(CONFIG.get("debias", True))
 AUTO_THRESHOLD = bool(CONFIG.get("auto_threshold", True))
 TARGET_QUALIFIED = float(CONFIG.get("target_qualified_share", 0.25))
+# Totals get their own, much stricter share. The pro model has no play-level
+# data to rate offence and defence with, and backtested 1.4 points worse than
+# the book while losing money. The picks stay visible for context; almost none
+# of them should clear the bar.
+TARGET_QUALIFIED_TOTAL = float(CONFIG.get("target_qualified_share_total", TARGET_QUALIFIED))
 TIER_EDGES = CONFIG.get("tier_edges", [2, 3, 4, 6, 9])
 
 DIVISIONS = {
@@ -503,7 +508,8 @@ def run_totals(d):
 
     thr = MIN_EDGE_TOTAL
     if AUTO_THRESHOLD and len(s) > 200:
-        thr = round(max(float(np.quantile(s["edge"].abs().dropna(), 1 - TARGET_QUALIFIED)), 0.5), 1)
+        thr = round(max(float(np.quantile(s["edge"].abs().dropna(), 1 - TARGET_QUALIFIED_TOTAL)),
+                        MIN_EDGE_TOTAL), 1)
     qual = s[(s.edge.abs() >= thr) & s.cover.notna()]
     win = float(np.where(qual.edge > 0, qual.cover, 1 - qual.cover).mean()) if len(qual) > 20 else None
 
@@ -885,6 +891,9 @@ def main():
                      "about injuries, holdouts or scheme changes.")
     notes.append("272 regular-season games a year means far fewer picks than college and "
                  "wider error bars on every number here.")
+    notes.append("Totals are shown for context but rarely qualify. Without play-level data "
+                 "the pro totals model ran 1.4 points behind the book and lost money in "
+                 "backtest, so the bar for a totals pick is set very high.")
 
     def balance(frame, kind):
         if not len(frame):
