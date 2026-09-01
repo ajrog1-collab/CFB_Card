@@ -1170,7 +1170,13 @@ def update_bet_log(picks, finished, total_picks=None, bt_cuts=None):
         nonlocal log
         if frame is None or not len(frame):
             return
-        new = frame[frame.qualified].copy()
+        # Only the current week is logged. Lines two weeks out are softer, which
+        # would flatter closing-line value, and the record is meant to describe
+        # wagers that would actually have been placed.
+        keep = frame.qualified
+        if "current_week" in frame.columns:
+            keep = keep & frame["current_week"]
+        new = frame[keep].copy()
         if not len(new):
             return
         new["market"] = market
@@ -1498,6 +1504,7 @@ def main():
                                     regime_cuts(bt_summary.get("tier_cuts"),
                                                 in_season_weight=in_season_weight)),
                 "qualified": bool(r.qualified),
+                "current_week": bool(r.get("current_week", True)),
             })
         return rows
 
@@ -1544,6 +1551,7 @@ def main():
                                     regime_cuts(bt_summary.get("tier_cuts"),
                                                 in_season_weight=in_season_weight)),
                 "qualified": bool(r.qualified),
+                "current_week": bool(r.get("current_week", True)),
             })
         return rows
 
@@ -1638,6 +1646,7 @@ def main():
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "season": CURRENT,
         "min_edge": bt_summary.get("min_edge", MIN_EDGE),
+        "board_week": board_week,
         "assumed_price": PRICE,
         "state": {
             "games_played": played,
