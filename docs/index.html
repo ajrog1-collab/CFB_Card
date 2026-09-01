@@ -480,6 +480,7 @@ let DATA = null;
 const FAVS = new Set();
 const FILTERS = { market:'all', quality:'all' };
 let CONF = 'all';
+let WEEKS = 'this';   // this | next | all
 let SORT = 'confidence';
 let TIER = 'A';
 const OPEN = { history:false, allpicks:false, historyTouched:false };
@@ -547,6 +548,13 @@ function visible(){
   let list = allPicks();
   if(SEARCH){
     list = list.filter(p => teamMatches(p.home, SEARCH) || teamMatches(p.away, SEARCH));
+  }
+  /* Default to the week you can actually bet. Lines two weeks out are visible
+     on request but are not what the record is built from. */
+  const bw = DATA.board_week;
+  if(WEEKS !== 'all' && bw != null){
+    const limit = WEEKS === 'this' ? bw : bw + 1;
+    list = list.filter(p => p.week == null || p.week <= limit);
   }
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
@@ -659,6 +667,12 @@ function renderBoard(){
       ${chip('market','spread','Spreads')}${chip('market','total','Totals')}
     </div>
     <div class="sortbar">
+      <label for="weeksel">Week</label>
+      <select id="weeksel">
+        <option value="this"${WEEKS==='this'?' selected':''}>This week</option>
+        <option value="next"${WEEKS==='next'?' selected':''}>+ next week</option>
+        <option value="all"${WEEKS==='all'?' selected':''}>All posted</option>
+      </select>
       <label for="confsel">${esc(confLabel())}</label>
       <select id="confsel">
         <option value="all"${CONF==='all'?' selected':''}>All</option>
@@ -1042,6 +1056,10 @@ function renderModel(){
         5★ = most sure fifth of picks, 1★ = least. Bands come from
         ${d.tier_regime === 'early' ? 'early-season' : 'in-season'} history to match how
         today's ratings were built.</dd>
+      <dt>This week only</dt><dd>The board defaults to the earliest unplayed week, and
+        <b>only those picks are logged</b>. Lines two weeks out are softer, so logging them
+        would flatter line value and record wagers you would not have placed. Widen the
+        Week selector to look ahead without affecting the record.</dd>
       <dt>Qualified</dt><dd>Edge over ${esc(d.min_edge ?? '--')} pts on spreads,
         ${esc((d.totals || {}).min_edge ?? '--')} on totals. The bar is set from the model's
         own spread of disagreement, so roughly a quarter of games clear it.</dd>
@@ -1187,8 +1205,9 @@ function shortName(name){
 }
 
 function renderShare(){
+  const bw = DATA.board_week;
   const picks = allPicks()
-    .filter(p => p.qualified)
+    .filter(p => p.qualified && (bw == null || p.week == null || p.week === bw))
     .sort((a,b) => (b.confidence ?? 0) - (a.confidence ?? 0))
     .slice(0, SHARE_N);
   const d = DATA;
@@ -1286,7 +1305,7 @@ function loadSport(sport){
   DATA = null;
   applyBrand();
   FAVS.clear();
-  CONF = 'all'; SEARCH = ''; SORT = 'confidence'; TIER = 'A';
+  CONF = 'all'; WEEKS = 'this'; SEARCH = ''; SORT = 'confidence'; TIER = 'A';
   FILTERS.market = 'all'; FILTERS.quality = 'all';
   OPEN.history = false; OPEN.allpicks = false; OPEN.historyTouched = false;
 
@@ -1367,6 +1386,8 @@ function wire(root){
   const sel=root.querySelector('#sortsel');
   if(sel) sel.addEventListener('change', e => { SORT=e.target.value; renderBoard(); });
   const cf=root.querySelector('#confsel');
+  const wk=root.querySelector('#weeksel');
+  if(wk) wk.addEventListener('change', e => { WEEKS=e.target.value; renderBoard(); renderTop(); });
   if(cf) cf.addEventListener('change', e => { CONF=e.target.value; renderBoard(); renderTop(); });
 }
 
