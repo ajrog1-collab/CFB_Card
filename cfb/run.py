@@ -1271,6 +1271,34 @@ def update_bet_log(picks, finished, total_picks=None, bt_cuts=None):
         if "season" in graded.columns else graded.iloc[0:0]
     top = graded[graded.get("top_pick", pd.Series(False, index=graded.index)) == True]
 
+    def clv_stats(frame):
+        """Closing line value only. This is the number that moves first when a
+        model is genuinely beating the number — win rate needs hundreds of bets,
+        CLV shows up in dozens."""
+        c = frame.dropna(subset=["clv"]) if "clv" in frame.columns else frame.iloc[0:0]
+        if len(c) < 3:
+            return None
+        return {
+            "n": int(len(c)),
+            "avg": round(float(c.clv.mean()), 2),
+            "beat_pct": round(float((c.clv > 0).mean()) * 100, 1),
+            "median": round(float(c.clv.median()), 2),
+        }
+
+    clv_by_market = {"spread": clv_stats(sp), "total": clv_stats(to),
+                     "all": clv_stats(graded)}
+    clv_by_tier = {}
+    if "confidence" in graded.columns and bt_cuts:
+        tier_of = [assign_tier(c, regime_cuts(bt_cuts, week=w))
+                   for c, w in zip(graded["confidence"],
+                                   graded.get("week", pd.Series([9] * len(graded),
+                                                                index=graded.index)))]
+        graded = graded.assign(_tier=tier_of)
+        for name in TIER_NAMES:
+            st = clv_stats(graded[graded._tier == name])
+            if st:
+                clv_by_tier[name] = st
+
     return log, {
         "summary": summary,
         "rows": graded,
