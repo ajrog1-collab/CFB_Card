@@ -718,7 +718,13 @@ def update_log(picks, total_picks, finished, cuts):
         nonlocal log
         if frame is None or not len(frame):
             return
-        new = frame[frame.qualified].copy()
+        # Only the current week is logged. Lines two weeks out are softer, which
+        # would flatter closing-line value, and the record is meant to describe
+        # wagers that would actually have been placed.
+        keep = frame.qualified
+        if "current_week" in frame.columns:
+            keep = keep & frame["current_week"]
+        new = frame[keep].copy()
         if not len(new):
             return
         new["market"] = market
@@ -868,6 +874,13 @@ def main():
                                     tts.get("debias"), tts.get("min_edge", MIN_EDGE_TOTAL))
                    if len(cur) else pd.DataFrame())
 
+    _wks = [int(f["week"].min()) for f in (picks, total_picks)
+            if len(f) and f["week"].notna().any()]
+    board_week = min(_wks) if _wks else None
+    for _f in (picks, total_picks):
+        if len(_f):
+            _f["current_week"] = (_f["week"] == board_week) if board_week is not None else True
+
     finished = d[d.home_pts.notna()][["game_id", "margin", "mkt", "actual_total", "mkt_total"]]
     log, log_out = update_log(picks, total_picks, finished, bts.get("tier_cuts"))
 
@@ -923,6 +936,7 @@ def main():
                                     regime_cuts(bts.get("tier_cuts"),
                                                 in_season_weight=in_season_weight)),
                 "top_pick": bool(r.top_pick), "qualified": bool(r.qualified),
+                "current_week": bool(r.get("current_week", True)),
                 "drivers": drivers(r, is_total),
             }
             if is_total:
@@ -988,6 +1002,7 @@ def main():
         "sport": "nfl", "title": "THE PRO CARD",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "season": CURRENT, "min_edge": bts.get("min_edge", MIN_EDGE),
+        "board_week": board_week,
         "assumed_price": PRICE, "top_pick_count": TOP_PICK_COUNT,
         "state": {"games_played": int(len(played)),
                   "in_season_weight": round(in_season_weight, 3),
