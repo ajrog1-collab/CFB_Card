@@ -168,7 +168,10 @@
   .chip[aria-pressed="true"]{background:var(--gold);color:#0C1B29;border-color:var(--gold)}
   .chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .sortbar{display:flex;align-items:center;gap:8px;margin:8px 0 2px;font-family:var(--data);
-    font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);
+    font-weight:600;flex-wrap:wrap}
+  .sortbar select{max-width:46vw}
+  .chipgap{width:7px;flex:none}
   .sortbar select{background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     border-radius:3px;font-family:var(--data);font-size:11px;padding:5px 7px;font-weight:600}
   .count{margin-left:auto}
@@ -480,7 +483,7 @@ let DATA = null;
 const FAVS = new Set();
 const FILTERS = { market:'all', quality:'all' };
 let CONF = 'all';
-let WEEKS = 'this';   // this | next | all
+let WEEKS = 'this';   // this | all
 let SORT = 'confidence';
 let TIER = 'A';
 const OPEN = { history:false, allpicks:false, historyTouched:false };
@@ -552,9 +555,8 @@ function visible(){
   /* Default to the week you can actually bet. Lines two weeks out are visible
      on request but are not what the record is built from. */
   const bw = DATA.board_week;
-  if(WEEKS !== 'all' && bw != null){
-    const limit = WEEKS === 'this' ? bw : bw + 1;
-    list = list.filter(p => p.week == null || p.week <= limit);
+  if(WEEKS === 'this' && bw != null){
+    list = list.filter(p => p.week == null || p.week === bw);
   }
   if(FILTERS.market !== 'all') list = list.filter(p => p.market === FILTERS.market);
   if(FILTERS.quality === 'qual') list = list.filter(p => p.qualified);
@@ -660,19 +662,19 @@ function renderBoard(){
   const list = visible();
   /* Model caveats live in THE MODEL, not on top of the picks. */
   const chip = (g,v,l) => `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${l}</button>`;
+  const bwLabel = DATA.board_week != null ? `Week ${DATA.board_week}` : 'This week';
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}
-      <span style="width:6px"></span>
+      <span class="chipgap"></span>
       ${chip('market','spread','Spreads')}${chip('market','total','Totals')}
+      <span class="chipgap"></span>
+      <button class="chip" data-weeks="this" aria-pressed="${WEEKS==='this'}"
+        title="Only games in the week you can bet now">${bwLabel}</button>
+      <button class="chip" data-weeks="all" aria-pressed="${WEEKS==='all'}"
+        title="Every game with a posted line, including later weeks">Later too</button>
     </div>
     <div class="sortbar">
-      <label for="weeksel">Week</label>
-      <select id="weeksel">
-        <option value="this"${WEEKS==='this'?' selected':''}>This week</option>
-        <option value="next"${WEEKS==='next'?' selected':''}>+ next week</option>
-        <option value="all"${WEEKS==='all'?' selected':''}>All posted</option>
-      </select>
       <label for="confsel">${esc(confLabel())}</label>
       <select id="confsel">
         <option value="all"${CONF==='all'?' selected':''}>All</option>
@@ -1386,8 +1388,9 @@ function wire(root){
   const sel=root.querySelector('#sortsel');
   if(sel) sel.addEventListener('change', e => { SORT=e.target.value; renderBoard(); });
   const cf=root.querySelector('#confsel');
-  const wk=root.querySelector('#weeksel');
-  if(wk) wk.addEventListener('change', e => { WEEKS=e.target.value; renderBoard(); renderTop(); });
+  root.querySelectorAll('[data-weeks]').forEach(b => b.addEventListener('click', () => {
+    WEEKS = b.dataset.weeks; renderBoard(); renderTop();
+  }));
   if(cf) cf.addEventListener('change', e => { CONF=e.target.value; renderBoard(); renderTop(); });
 }
 
