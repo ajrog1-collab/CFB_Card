@@ -161,18 +161,16 @@
   .menu-item[aria-selected="true"]{background:var(--gold);color:#0C1B29}
 
   /* ---------- filters ---------- */
-  .filters{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0 4px}
+  .filters{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0 4px;align-items:stretch}
+  /* Chips grow to share the row rather than clustering at the left, so the
+     control bar reads as one deliberate block instead of five small buttons. */
   .chip{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
-    font-family:var(--data);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
-    font-weight:600;padding:6px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
-  @media (max-width:460px){
-    .chip{font-size:9.5px;letter-spacing:.06em;padding:6px 7px}
-    .chipgap{display:none}
-  }
-  /* Five chips plus a two-digit week label is the tightest case; keep them on
-     one row on the narrowest phones still in use. */
-  @media (max-width:400px){
-    .chip{font-size:9px;letter-spacing:.03em;padding:6px 6px}
+    font-family:var(--data);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    font-weight:600;padding:9px 6px;border-radius:4px;cursor:pointer;white-space:nowrap;
+    flex:1 1 auto;text-align:center;line-height:1}
+  .chipgap{display:none}
+  @media (max-width:420px){
+    .chip{font-size:10px;letter-spacing:.04em;padding:9px 4px}
     .filters{gap:4px}
   }
   .chip[aria-pressed="true"]{background:var(--gold);color:#0C1B29;border-color:var(--gold)}
