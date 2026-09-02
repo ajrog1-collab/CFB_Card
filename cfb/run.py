@@ -1452,6 +1452,16 @@ def main():
         tq = total_picks.index[total_picks.qualified][:TOP_PICK_COUNT]
         total_picks.loc[tq, "top_pick"] = True
 
+    # The board's current week is the earliest week still unplayed across both
+    # markets, so spreads and totals agree on what "this week" means.
+    _wks = [int(f["week"].min()) for f in (picks, total_picks)
+            if len(f) and "week" in f.columns and f["week"].notna().any()]
+    board_week = min(_wks) if _wks else None
+    for _f in (picks, total_picks):
+        if len(_f) and "week" in _f.columns:
+            _f["current_week"] = ((_f["week"] == board_week)
+                                  if board_week is not None else True)
+
     fin_cols = ["game_id", "margin", "mkt", "actual_total", "mkt_total"]
     finished = d[[c for c in fin_cols if c in d.columns]].copy()
     if len(cur):
