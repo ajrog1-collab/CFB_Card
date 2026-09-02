@@ -164,7 +164,17 @@
   .filters{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0 4px}
   .chip{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--mute);
     font-family:var(--data);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
-    font-weight:600;padding:6px 9px;border-radius:3px;cursor:pointer}
+    font-weight:600;padding:6px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
+  @media (max-width:460px){
+    .chip{font-size:9.5px;letter-spacing:.06em;padding:6px 7px}
+    .chipgap{display:none}
+  }
+  /* Five chips plus a two-digit week label is the tightest case; keep them on
+     one row on the narrowest phones still in use. */
+  @media (max-width:400px){
+    .chip{font-size:9px;letter-spacing:.03em;padding:6px 6px}
+    .filters{gap:4px}
+  }
   .chip[aria-pressed="true"]{background:var(--gold);color:#0C1B29;border-color:var(--gold)}
   .chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .sortbar{display:flex;align-items:center;gap:8px;margin:8px 0 2px;font-family:var(--data);
@@ -662,17 +672,16 @@ function renderBoard(){
   const list = visible();
   /* Model caveats live in THE MODEL, not on top of the picks. */
   const chip = (g,v,l) => `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${l}</button>`;
-  const bwLabel = DATA.board_week != null ? `Week ${DATA.board_week}` : 'This week';
+  const bwLabel = DATA.board_week != null ? `Week ${DATA.board_week} only` : 'This week only';
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}
       <span class="chipgap"></span>
       ${chip('market','spread','Spreads')}${chip('market','total','Totals')}
       <span class="chipgap"></span>
-      <button class="chip" data-weeks="this" aria-pressed="${WEEKS==='this'}"
-        title="Only games in the week you can bet now">${bwLabel}</button>
-      <button class="chip" data-weeks="all" aria-pressed="${WEEKS==='all'}"
-        title="Every game with a posted line, including later weeks">Later too</button>
+      <button class="chip" data-weeks="toggle" aria-pressed="${WEEKS==='this'}"
+        title="On: only the week you can bet now. Off: every game with a posted line."
+        >${bwLabel}</button>
     </div>
     <div class="sortbar">
       <label for="confsel">${esc(confLabel())}</label>
@@ -1389,7 +1398,8 @@ function wire(root){
   if(sel) sel.addEventListener('change', e => { SORT=e.target.value; renderBoard(); });
   const cf=root.querySelector('#confsel');
   root.querySelectorAll('[data-weeks]').forEach(b => b.addEventListener('click', () => {
-    WEEKS = b.dataset.weeks; renderBoard(); renderTop();
+    WEEKS = WEEKS === 'this' ? 'all' : 'this';
+    renderBoard(); renderTop();
   }));
   if(cf) cf.addEventListener('change', e => { CONF=e.target.value; renderBoard(); renderTop(); });
 }
