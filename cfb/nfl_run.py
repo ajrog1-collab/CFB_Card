@@ -116,6 +116,18 @@ CITIES = {
     "TB": "Tampa Bay", "TEN": "Tennessee", "WAS": "Washington",
 }
 
+# ESPN logo slugs. Used as a fallback: nflverse publishes a logo file but its
+# column names are not guaranteed, and a missed column silently leaves every
+# team without a mark. Most slugs are the lowercase abbreviation; these differ.
+ESPN_SLUG = {"LA": "lar", "WAS": "wsh", "LAR": "lar", "OAK": "lv", "SD": "lac", "STL": "lar"}
+
+
+def espn_logo(abbr: str, dark: bool = False) -> str:
+    slug = ESPN_SLUG.get(abbr, abbr.lower())
+    kind = "500-dark" if dark else "500"
+    return f"https://a.espncdn.com/i/teamlogos/nfl/{kind}/{slug}.png"
+
+
 CONF_GROUPS = [
     {"value": "afc", "label": "AFC",
      "members": ["AFC East", "AFC North", "AFC South", "AFC West"]},
@@ -183,6 +195,15 @@ def load_team_meta() -> dict:
             print(f"  logos for {sum(1 for v in meta.values() if v['logo'])} teams")
     except Exception as e:
         print(f"  logo file unavailable ({e}); using initials")
+
+    # Anything still without a logo gets the ESPN URL, so the board always has
+    # marks even if the upstream file changes shape.
+    missing = [k for k, v in meta.items() if not v["logo"]]
+    for k in missing:
+        meta[k]["logo"] = espn_logo(k)
+        meta[k]["logo_dark"] = espn_logo(k, dark=True)
+    if missing:
+        print(f"  {len(missing)} teams fell back to ESPN logos")
 
     try:
         tc = pd.read_csv(io.StringIO(requests.get(COLORS_URL, timeout=45).text))
