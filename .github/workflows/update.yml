@@ -37,6 +37,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Runs in a second and fails loudly. Every outage this project has had was a
+      # patch whose *use* of a variable landed while its *definition* did not:
+      # the file still compiles and still imports, so it only dies at runtime.
+      # Catching it here names the variable instead of burying a traceback.
+      - name: Check for undefined names
+        run: python tools/check_names.py cfb/model.py cfb/run.py cfb/nfl_run.py
+
       - name: Run college model
         env:
           CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
