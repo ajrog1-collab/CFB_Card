@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-09-04T16:55:16+00:00",
+  "generated_at": "2026-09-04T19:09:56+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 1,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423122,
-      0.05340493345927233,
-      -0.05440043288034832,
-      -0.42444771489760236,
-      -0.08438862443957923,
-      9.718782974976097
+      0.060472931164231095,
+      0.05340493345927322,
+      -0.054400432880343824,
+      -0.4244477148975992,
+      -0.08438862443957643,
+      9.718782974976092
     ],
     "conf_names": [
       "abs_pred",
@@ -1262,6 +1262,30 @@
   },
   "picks": [
     {
+      "game_id": "2026_01_TB_CIN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Buccaneers",
+      "home": "Bengals",
+      "pick": "TB",
+      "edge": -2.0,
+      "confidence": 0.22,
+      "tier": "A",
+      "top_pick": true,
+      "qualified": true,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": 3.5,
+      "model_margin": 1.5,
+      "market_margin": 3.5,
+      "sigma": 9.1
+    },
+    {
       "game_id": "2026_01_SF_LA",
       "week": 1,
       "kickoff": "2026-09-11T01:35:00+00:00",
@@ -1290,6 +1314,134 @@
       "sigma": 9.0
     },
     {
+      "game_id": "2026_01_ATL_PIT",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Falcons",
+      "home": "Steelers",
+      "pick": "ATL",
+      "edge": -1.0,
+      "confidence": 0.11,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": 3.5,
+      "model_margin": 2.5,
+      "market_margin": 3.5,
+      "sigma": 9.1
+    },
+    {
+      "game_id": "2026_01_CHI_CAR",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Bears",
+      "home": "Panthers",
+      "pick": "CHI",
+      "edge": -0.8,
+      "confidence": 0.08,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": -2.5,
+      "model_margin": -3.3,
+      "market_margin": -2.5,
+      "sigma": 9.2
+    },
+    {
+      "game_id": "2026_01_NYJ_TEN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Jets",
+      "home": "Titans",
+      "pick": "NYJ",
+      "edge": -0.7,
+      "confidence": 0.08,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": 1.5,
+      "model_margin": 0.8,
+      "market_margin": 1.5,
+      "sigma": 9.0
+    },
+    {
+      "game_id": "2026_01_NO_DET",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Saints",
+      "home": "Lions",
+      "pick": "NO",
+      "edge": -0.6,
+      "confidence": 0.07,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Lions #5, Saints #26"
+        }
+      ],
+      "pick_spread": 7.0,
+      "model_margin": 6.4,
+      "market_margin": 7.0,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_01_CLE_JAX",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Browns",
+      "home": "Jaguars",
+      "pick": "CLE",
+      "edge": -0.4,
+      "confidence": 0.05,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Jaguars #6, Browns #29"
+        }
+      ],
+      "pick_spread": 7.5,
+      "model_margin": 7.1,
+      "market_margin": 7.5,
+      "sigma": 9.4
+    },
+    {
       "game_id": "2026_01_NE_SEA",
       "week": 1,
       "kickoff": "2026-09-10T01:20:00+00:00",
@@ -1312,9 +1464,81 @@
       "model_margin": 3.2,
       "market_margin": 3.5,
       "sigma": 9.2
+    },
+    {
+      "game_id": "2026_01_BUF_HOU",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Bills",
+      "home": "Texans",
+      "pick": "BUF",
+      "edge": -0.2,
+      "confidence": 0.02,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": -1.5,
+      "model_margin": -1.7,
+      "market_margin": -1.5,
+      "sigma": 9.1
+    },
+    {
+      "game_id": "2026_01_BAL_IND",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Ravens",
+      "home": "Colts",
+      "pick": "IND",
+      "edge": 0.2,
+      "confidence": 0.02,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "pick_spread": 3.5,
+      "model_margin": -3.3,
+      "market_margin": -3.5,
+      "sigma": 9.2
     }
   ],
   "total_picks": [
+    {
+      "game_id": "2026_01_CHI_CAR",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Bears",
+      "home": "Panthers",
+      "pick": "Under",
+      "edge": -7.0,
+      "confidence": 0.58,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 47.5,
+      "model_total": 40.5,
+      "wind": null,
+      "indoor": false
+    },
     {
       "game_id": "2026_01_SF_LA",
       "week": 1,
@@ -1344,6 +1568,126 @@
       "indoor": true
     },
     {
+      "game_id": "2026_01_NYJ_TEN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Jets",
+      "home": "Titans",
+      "pick": "Over",
+      "edge": 3.8,
+      "confidence": 0.31,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 38.5,
+      "model_total": 42.3,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_TB_CIN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Buccaneers",
+      "home": "Bengals",
+      "pick": "Under",
+      "edge": -3.5,
+      "confidence": 0.29,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 51.5,
+      "model_total": 48.0,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_CLE_JAX",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Browns",
+      "home": "Jaguars",
+      "pick": "Over",
+      "edge": 2.7,
+      "confidence": 0.22,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 40.5,
+      "model_total": 43.2,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_ATL_PIT",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Falcons",
+      "home": "Steelers",
+      "pick": "Over",
+      "edge": 2.5,
+      "confidence": 0.2,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 42.5,
+      "model_total": 45.0,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_BAL_IND",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Ravens",
+      "home": "Colts",
+      "pick": "Under",
+      "edge": -1.8,
+      "confidence": 0.15,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 48.5,
+      "model_total": 46.7,
+      "wind": null,
+      "indoor": false
+    },
+    {
       "game_id": "2026_01_NE_SEA",
       "week": 1,
       "kickoff": "2026-09-10T01:20:00+00:00",
@@ -1366,6 +1710,58 @@
       "model_total": 43.6,
       "wind": null,
       "indoor": false
+    },
+    {
+      "game_id": "2026_01_BUF_HOU",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Bills",
+      "home": "Texans",
+      "pick": "Over",
+      "edge": 0.8,
+      "confidence": 0.06,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 44.5,
+      "model_total": 45.3,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_NO_DET",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Saints",
+      "home": "Lions",
+      "pick": "Under",
+      "edge": -0.0,
+      "confidence": 0.0,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        },
+        {
+          "kind": "weather",
+          "text": "Indoors, weather removed"
+        }
+      ],
+      "line": 49.5,
+      "model_total": 49.5,
+      "wind": null,
+      "indoor": true
     }
   ],
   "history": [],
@@ -1933,14 +2329,16 @@
   },
   "board_balance": {
     "spread": {
-      "n": 2,
-      "pct": 100.0,
-      "side": "underdog"
+      "n": 10,
+      "pct": 80.0,
+      "side": "underdog",
+      "corr": -0.344
     },
     "total": {
-      "n": 2,
-      "pct": 0.0,
-      "side": "over"
+      "n": 10,
+      "pct": 40.0,
+      "side": "over",
+      "corr": -0.772
     }
   },
   "ratings": [
