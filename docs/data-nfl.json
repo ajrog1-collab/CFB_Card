@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-09-07T18:19:03+00:00",
+  "generated_at": "2026-09-07T20:10:54+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 1,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423263,
-      0.05340493345927322,
-      -0.054400432880341215,
-      -0.4244477148976016,
-      -0.08438862443958038,
-      9.71878297497609
+      0.06047293116423146,
+      0.05340493345927255,
+      -0.05440043288034474,
+      -0.4244477148976019,
+      -0.08438862443957829,
+      9.718782974976097
     ],
     "conf_names": [
       "abs_pred",
@@ -1700,11 +1700,11 @@
       "indoor": false
     },
     {
-      "game_id": "2026_01_MIA_LV",
+      "game_id": "2026_01_NO_DET",
       "week": 1,
-      "kickoff": "2026-09-13T21:25:00+00:00",
-      "away": "Dolphins",
-      "home": "Raiders",
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Saints",
+      "home": "Lions",
       "pick": "Over",
       "edge": 3.2,
       "confidence": 0.26,
@@ -1722,20 +1722,20 @@
           "text": "Indoors, weather removed"
         }
       ],
-      "line": 40.5,
-      "model_total": 43.7,
+      "line": 49.5,
+      "model_total": 52.7,
       "wind": null,
       "indoor": true
     },
     {
-      "game_id": "2026_01_NO_DET",
+      "game_id": "2026_01_MIA_LV",
       "week": 1,
-      "kickoff": "2026-09-13T18:00:00+00:00",
-      "away": "Saints",
-      "home": "Lions",
+      "kickoff": "2026-09-13T21:25:00+00:00",
+      "away": "Dolphins",
+      "home": "Raiders",
       "pick": "Over",
-      "edge": 2.7,
-      "confidence": 0.23,
+      "edge": 3.1,
+      "confidence": 0.26,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
@@ -1750,8 +1750,8 @@
           "text": "Indoors, weather removed"
         }
       ],
-      "line": 50.5,
-      "model_total": 53.2,
+      "line": 40.5,
+      "model_total": 43.6,
       "wind": null,
       "indoor": true
     },
@@ -1838,6 +1838,30 @@
       "away": "Patriots",
       "home": "Seahawks",
       "pick": "Under",
+      "edge": -1.2,
+      "confidence": 0.1,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 44.5,
+      "model_total": 43.3,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_NYJ_TEN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Jets",
+      "home": "Titans",
+      "pick": "Under",
       "edge": -1.1,
       "confidence": 0.09,
       "tier": "C",
@@ -1850,8 +1874,8 @@
           "text": "Preseason ratings only, no games played"
         }
       ],
-      "line": 44.5,
-      "model_total": 43.4,
+      "line": 39.5,
+      "model_total": 38.4,
       "wind": null,
       "indoor": false
     },
@@ -1886,7 +1910,7 @@
       "away": "Commanders",
       "home": "Eagles",
       "pick": "Over",
-      "edge": 1.1,
+      "edge": 1.0,
       "confidence": 0.09,
       "tier": "C",
       "top_pick": false,
@@ -1899,19 +1923,19 @@
         }
       ],
       "line": 44.5,
-      "model_total": 45.6,
+      "model_total": 45.5,
       "wind": null,
       "indoor": false
     },
     {
-      "game_id": "2026_01_NYJ_TEN",
+      "game_id": "2026_01_DEN_KC",
       "week": 1,
-      "kickoff": "2026-09-13T18:00:00+00:00",
-      "away": "Jets",
-      "home": "Titans",
+      "kickoff": "2026-09-15T01:15:00+00:00",
+      "away": "Broncos",
+      "home": "Chiefs",
       "pick": "Under",
-      "edge": -1.0,
-      "confidence": 0.09,
+      "edge": -0.8,
+      "confidence": 0.07,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
@@ -1922,8 +1946,8 @@
           "text": "Preseason ratings only, no games played"
         }
       ],
-      "line": 39.5,
-      "model_total": 38.5,
+      "line": 43.5,
+      "model_total": 42.7,
       "wind": null,
       "indoor": false
     },
@@ -1948,30 +1972,6 @@
       ],
       "line": 42.5,
       "model_total": 43.3,
-      "wind": null,
-      "indoor": false
-    },
-    {
-      "game_id": "2026_01_DEN_KC",
-      "week": 1,
-      "kickoff": "2026-09-15T01:15:00+00:00",
-      "away": "Broncos",
-      "home": "Chiefs",
-      "pick": "Under",
-      "edge": -0.8,
-      "confidence": 0.06,
-      "tier": "D",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        }
-      ],
-      "line": 43.5,
-      "model_total": 42.7,
       "wind": null,
       "indoor": false
     },
@@ -2006,7 +2006,7 @@
       "away": "Browns",
       "home": "Jaguars",
       "pick": "Under",
-      "edge": -0.3,
+      "edge": -0.4,
       "confidence": 0.03,
       "tier": "E",
       "top_pick": false,
@@ -2019,7 +2019,7 @@
         }
       ],
       "line": 40.5,
-      "model_total": 40.2,
+      "model_total": 40.1,
       "wind": null,
       "indoor": false
     },
@@ -2058,7 +2058,7 @@
       "away": "Packers",
       "home": "Vikings",
       "pick": "Over",
-      "edge": 0.3,
+      "edge": 0.2,
       "confidence": 0.02,
       "tier": "E",
       "top_pick": false,
@@ -2075,7 +2075,7 @@
         }
       ],
       "line": 46.5,
-      "model_total": 46.8,
+      "model_total": 46.7,
       "wind": null,
       "indoor": true
     }
