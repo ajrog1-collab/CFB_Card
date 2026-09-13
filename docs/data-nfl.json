@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-09-13T16:37:11+00:00",
+  "generated_at": "2026-09-13T17:00:29+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 1,
@@ -773,11 +773,11 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423122,
-      0.05340493345927233,
-      -0.05440043288034832,
-      -0.42444771489760236,
-      -0.08438862443957923,
+      0.06047293116423103,
+      0.053404933459271886,
+      -0.05440043288033235,
+      -0.4244477148976078,
+      -0.08438862443958017,
       9.718782974976097
     ],
     "conf_names": [
@@ -2034,7 +2034,7 @@
       "away": "Jaguars",
       "home": "Broncos",
       "pick": "Under",
-      "edge": -5.3,
+      "edge": -5.2,
       "confidence": 0.44,
       "tier": "A",
       "top_pick": false,
@@ -2047,7 +2047,7 @@
         }
       ],
       "line": 43.5,
-      "model_total": 38.2,
+      "model_total": 38.3,
       "wind": null,
       "indoor": false
     },
@@ -2058,7 +2058,7 @@
       "away": "Vikings",
       "home": "Bears",
       "pick": "Under",
-      "edge": -4.5,
+      "edge": -4.4,
       "confidence": 0.37,
       "tier": "A",
       "top_pick": false,
@@ -2071,7 +2071,7 @@
         }
       ],
       "line": 45.5,
-      "model_total": 41.0,
+      "model_total": 41.1,
       "wind": null,
       "indoor": false
     },
@@ -2134,7 +2134,7 @@
       "away": "Steelers",
       "home": "Patriots",
       "pick": "Under",
-      "edge": -2.8,
+      "edge": -2.7,
       "confidence": 0.23,
       "tier": "A",
       "top_pick": false,
@@ -2151,7 +2151,7 @@
         }
       ],
       "line": 43.5,
-      "model_total": 40.7,
+      "model_total": 40.8,
       "wind": null,
       "indoor": false
     },
@@ -2190,7 +2190,7 @@
       "away": "Browns",
       "home": "Buccaneers",
       "pick": "Over",
-      "edge": 2.2,
+      "edge": 2.3,
       "confidence": 0.19,
       "tier": "A",
       "top_pick": false,
@@ -2203,7 +2203,7 @@
         }
       ],
       "line": 42.5,
-      "model_total": 44.7,
+      "model_total": 44.8,
       "wind": null,
       "indoor": false
     },
@@ -2267,7 +2267,7 @@
       "home": "Steelers",
       "pick": "Over",
       "edge": 1.6,
-      "confidence": 0.13,
+      "confidence": 0.14,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -2290,7 +2290,7 @@
       "away": "Lions",
       "home": "Bills",
       "pick": "Over",
-      "edge": 1.6,
+      "edge": 1.5,
       "confidence": 0.13,
       "tier": "B",
       "top_pick": false,
@@ -2303,31 +2303,7 @@
         }
       ],
       "line": 52.5,
-      "model_total": 54.1,
-      "wind": null,
-      "indoor": false
-    },
-    {
-      "game_id": "2026_01_DAL_NYG",
-      "week": 1,
-      "kickoff": "2026-09-14T01:20:00+00:00",
-      "away": "Cowboys",
-      "home": "Giants",
-      "pick": "Under",
-      "edge": -1.4,
-      "confidence": 0.12,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        }
-      ],
-      "line": 47.5,
-      "model_total": 46.1,
+      "model_total": 54.0,
       "wind": null,
       "indoor": false
     },
@@ -2339,7 +2315,7 @@
       "home": "Chargers",
       "pick": "Over",
       "edge": 1.4,
-      "confidence": 0.11,
+      "confidence": 0.12,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -2358,6 +2334,54 @@
       "model_total": 43.9,
       "wind": null,
       "indoor": true
+    },
+    {
+      "game_id": "2026_01_DAL_NYG",
+      "week": 1,
+      "kickoff": "2026-09-14T01:20:00+00:00",
+      "away": "Cowboys",
+      "home": "Giants",
+      "pick": "Under",
+      "edge": -1.4,
+      "confidence": 0.11,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 47.5,
+      "model_total": 46.1,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_01_NYJ_TEN",
+      "week": 1,
+      "kickoff": "2026-09-13T18:00:00+00:00",
+      "away": "Jets",
+      "home": "Titans",
+      "pick": "Under",
+      "edge": -1.0,
+      "confidence": 0.09,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Preseason ratings only, no games played"
+        }
+      ],
+      "line": 39.5,
+      "model_total": 38.5,
+      "wind": null,
+      "indoor": false
     },
     {
       "game_id": "2026_01_DEN_KC",
@@ -2390,7 +2414,7 @@
       "away": "Buccaneers",
       "home": "Bengals",
       "pick": "Over",
-      "edge": 1.0,
+      "edge": 0.9,
       "confidence": 0.08,
       "tier": "C",
       "top_pick": false,
@@ -2403,7 +2427,7 @@
         }
       ],
       "line": 50.5,
-      "model_total": 51.5,
+      "model_total": 51.4,
       "wind": null,
       "indoor": false
     },
@@ -2416,7 +2440,7 @@
       "pick": "Over",
       "edge": 0.8,
       "confidence": 0.07,
-      "tier": "D",
+      "tier": "C",
       "top_pick": false,
       "qualified": false,
       "current_week": true,
@@ -2466,8 +2490,8 @@
       "away": "Eagles",
       "home": "Titans",
       "pick": "Over",
-      "edge": 0.6,
-      "confidence": 0.05,
+      "edge": 0.7,
+      "confidence": 0.06,
       "tier": "D",
       "top_pick": false,
       "qualified": false,
@@ -2479,31 +2503,7 @@
         }
       ],
       "line": 42.5,
-      "model_total": 43.1,
-      "wind": null,
-      "indoor": false
-    },
-    {
-      "game_id": "2026_01_NYJ_TEN",
-      "week": 1,
-      "kickoff": "2026-09-13T18:00:00+00:00",
-      "away": "Jets",
-      "home": "Titans",
-      "pick": "Under",
-      "edge": -0.6,
-      "confidence": 0.05,
-      "tier": "D",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Preseason ratings only, no games played"
-        }
-      ],
-      "line": 38.5,
-      "model_total": 37.9,
+      "model_total": 43.2,
       "wind": null,
       "indoor": false
     },
@@ -2515,7 +2515,7 @@
       "home": "Jaguars",
       "pick": "Under",
       "edge": -0.4,
-      "confidence": 0.04,
+      "confidence": 0.03,
       "tier": "D",
       "top_pick": false,
       "qualified": false,
@@ -2538,7 +2538,7 @@
       "away": "Bills",
       "home": "Texans",
       "pick": "Over",
-      "edge": 0.2,
+      "edge": 0.3,
       "confidence": 0.02,
       "tier": "E",
       "top_pick": false,
@@ -2551,7 +2551,7 @@
         }
       ],
       "line": 44.5,
-      "model_total": 44.7,
+      "model_total": 44.8,
       "wind": null,
       "indoor": false
     },
@@ -2662,8 +2662,8 @@
       "away": "Packers",
       "home": "Jets",
       "pick": "Over",
-      "edge": 0.0,
-      "confidence": 0.0,
+      "edge": 0.1,
+      "confidence": 0.01,
       "tier": "E",
       "top_pick": false,
       "qualified": false,
@@ -2675,7 +2675,7 @@
         }
       ],
       "line": 42.5,
-      "model_total": 42.5,
+      "model_total": 42.6,
       "wind": null,
       "indoor": false
     },
