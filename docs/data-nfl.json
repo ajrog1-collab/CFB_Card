@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-09-14T16:12:26+00:00",
+  "generated_at": "2026-09-14T16:57:26+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 1,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423158,
-      0.05340493345927233,
-      -0.054400432880346544,
-      -0.42444771489760125,
-      -0.08438862443957967,
-      9.718782974976097
+      0.06047293116423207,
+      0.053404933459272774,
+      -0.054400432880343005,
+      -0.4244477148976017,
+      -0.0843886244395792,
+      9.718782974976092
     ],
     "conf_names": [
       "abs_pred",
@@ -1325,7 +1325,7 @@
       "home": "Falcons",
       "pick": "ATL",
       "edge": 1.0,
-      "confidence": 0.12,
+      "confidence": 0.11,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -1376,9 +1376,9 @@
       "away": "Vikings",
       "home": "Bears",
       "pick": "MIN",
-      "edge": -1.0,
+      "edge": -0.9,
       "confidence": 0.1,
-      "tier": "B",
+      "tier": "C",
       "top_pick": false,
       "qualified": false,
       "current_week": false,
@@ -1393,7 +1393,7 @@
         }
       ],
       "pick_spread": 5.5,
-      "model_margin": 4.5,
+      "model_margin": 4.6,
       "market_margin": 5.5,
       "sigma": 9.2
     },
@@ -1460,9 +1460,9 @@
       "away": "Dolphins",
       "home": "49ers",
       "pick": "MIA",
-      "edge": -0.6,
-      "confidence": 0.06,
-      "tier": "D",
+      "edge": -0.7,
+      "confidence": 0.07,
+      "tier": "C",
       "top_pick": false,
       "qualified": false,
       "current_week": false,
@@ -1476,9 +1476,9 @@
           "text": "49ers on 3 more days of rest"
         }
       ],
-      "pick_spread": 12.5,
-      "model_margin": 11.9,
-      "market_margin": 12.5,
+      "pick_spread": 13.5,
+      "model_margin": 12.8,
+      "market_margin": 13.5,
       "sigma": 9.7
     },
     {
@@ -1510,6 +1510,34 @@
       "sigma": 9.1
     },
     {
+      "game_id": "2026_02_GB_NYJ",
+      "week": 2,
+      "kickoff": "2026-09-20T18:00:00+00:00",
+      "away": "Packers",
+      "home": "Jets",
+      "pick": "GB",
+      "edge": -0.4,
+      "confidence": 0.04,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Only 1 game of data"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Packers #12, Jets #32"
+        }
+      ],
+      "pick_spread": -4.5,
+      "model_margin": -4.9,
+      "market_margin": -4.5,
+      "sigma": 9.3
+    },
+    {
       "game_id": "2026_01_DEN_KC",
       "week": 1,
       "kickoff": "2026-09-15T01:15:00+00:00",
@@ -1536,34 +1564,6 @@
       "model_margin": 2.2,
       "market_margin": 2.5,
       "sigma": 9.0
-    },
-    {
-      "game_id": "2026_02_GB_NYJ",
-      "week": 2,
-      "kickoff": "2026-09-20T18:00:00+00:00",
-      "away": "Packers",
-      "home": "Jets",
-      "pick": "GB",
-      "edge": -0.3,
-      "confidence": 0.04,
-      "tier": "D",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": false,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Only 1 game of data"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Packers #12, Jets #32"
-        }
-      ],
-      "pick_spread": -4.5,
-      "model_margin": -4.8,
-      "market_margin": -4.5,
-      "sigma": 9.2
     },
     {
       "game_id": "2026_02_DET_BUF",
@@ -1620,8 +1620,8 @@
       "away": "Raiders",
       "home": "Chargers",
       "pick": "LAC",
-      "edge": 0.1,
-      "confidence": 0.01,
+      "edge": 0.2,
+      "confidence": 0.02,
       "tier": "E",
       "top_pick": false,
       "qualified": false,
@@ -1637,7 +1637,7 @@
         }
       ],
       "pick_spread": -7.0,
-      "model_margin": 7.1,
+      "model_margin": 7.2,
       "market_margin": 7.0,
       "sigma": 9.3
     },
@@ -1648,8 +1648,8 @@
       "away": "Eagles",
       "home": "Titans",
       "pick": "TEN",
-      "edge": 0.1,
-      "confidence": 0.01,
+      "edge": 0.0,
+      "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
       "qualified": false,
@@ -1665,7 +1665,7 @@
         }
       ],
       "pick_spread": 7.0,
-      "model_margin": -6.9,
+      "model_margin": -7.0,
       "market_margin": -7.0,
       "sigma": 9.4
     },
@@ -1676,8 +1676,8 @@
       "away": "Browns",
       "home": "Buccaneers",
       "pick": "CLE",
-      "edge": -0.1,
-      "confidence": 0.01,
+      "edge": -0.0,
+      "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
       "qualified": false,
@@ -1693,7 +1693,7 @@
         }
       ],
       "pick_spread": 8.5,
-      "model_margin": 8.4,
+      "model_margin": 8.5,
       "market_margin": 8.5,
       "sigma": 9.5
     },
@@ -1703,8 +1703,8 @@
       "kickoff": "2026-09-20T18:00:00+00:00",
       "away": "Saints",
       "home": "Ravens",
-      "pick": "NO",
-      "edge": -0.0,
+      "pick": "BAL",
+      "edge": 0.0,
       "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
@@ -1720,7 +1720,7 @@
           "text": "Model ranks Ravens #10, Saints #26"
         }
       ],
-      "pick_spread": 8.5,
+      "pick_spread": -8.5,
       "model_margin": 8.5,
       "market_margin": 8.5,
       "sigma": 9.5
@@ -2902,9 +2902,9 @@
   "board_balance": {
     "spread": {
       "n": 17,
-      "pct": 64.7,
+      "pct": 58.8,
       "side": "underdog",
-      "corr": -0.0
+      "corr": 0.0
     },
     "total": {
       "n": 17,
