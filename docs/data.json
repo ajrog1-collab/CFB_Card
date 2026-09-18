@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T17:08:44+00:00",
+  "generated_at": "2026-09-18T19:13:11+00:00",
   "season": 2026,
   "min_edge": 4.9,
   "board_week": 3,
@@ -54,7 +54,7 @@
       "n": 70,
       "pct": 48.6,
       "side": "over",
-      "corr": -0.0,
+      "corr": 0.0,
       "debias": "slate"
     }
   },
@@ -63,7 +63,7 @@
     "model_disagree": 0.002,
     "missing_epa": -6.291,
     "rivalry": -0.397,
-    "wx_unknown": -0.0,
+    "wx_unknown": 0.0,
     "immaturity": 0.198,
     "baseline": 12.18
   },
@@ -1383,7 +1383,7 @@
       "model_disagree": 0.002,
       "missing_epa": -6.291,
       "rivalry": -0.397,
-      "wx_unknown": -0.0,
+      "wx_unknown": 0.0,
       "immaturity": 0.198,
       "baseline": 12.18
     },
@@ -1492,13 +1492,13 @@
       }
     ],
     "conf_weights": [
-      0.02550085262589482,
-      0.002300952619073593,
-      -6.291480528847742,
-      -0.3974449087067244,
-      -8.881784197001252e-16,
-      0.19788176606071703,
-      12.179657147797657
+      0.02550085262589492,
+      0.0023009526190727048,
+      -6.291480528847761,
+      -0.39744490870672766,
+      0.0,
+      0.1978817660607162,
+      12.179657147797663
     ],
     "conf_names": [
       "abs_pred",
@@ -5802,8 +5802,8 @@
       "home": "Auburn",
       "pick": "Under",
       "line": 53.5,
-      "model_total": 46.3,
-      "edge": -7.2,
+      "model_total": 46.2,
+      "edge": -7.3,
       "wind": null,
       "indoor": false,
       "confidence": 0.55,
@@ -5894,30 +5894,6 @@
       "current_week": true
     },
     {
-      "game_id": 401858469,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +15 combined"
-        }
-      ],
-      "week": 4,
-      "kickoff": "2026-09-26T23:30:00+00:00",
-      "away": "Oregon",
-      "home": "USC",
-      "pick": "Over",
-      "line": 62.5,
-      "model_total": 68.7,
-      "edge": 6.2,
-      "wind": 9.9,
-      "indoor": false,
-      "confidence": 0.47,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": false
-    },
-    {
       "game_id": 401858463,
       "drivers": [
         {
@@ -5933,7 +5909,7 @@
       "line": 39.5,
       "model_total": 33.3,
       "edge": -6.2,
-      "wind": 8.8,
+      "wind": 9.2,
       "indoor": false,
       "confidence": 0.47,
       "top_pick": false,
@@ -5978,6 +5954,30 @@
       "tier": "B",
       "qualified": true,
       "current_week": true
+    },
+    {
+      "game_id": 401858469,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +15 combined"
+        }
+      ],
+      "week": 4,
+      "kickoff": "2026-09-26T23:30:00+00:00",
+      "away": "Oregon",
+      "home": "USC",
+      "pick": "Over",
+      "line": 62.5,
+      "model_total": 68.5,
+      "edge": 6.0,
+      "wind": 11.1,
+      "indoor": false,
+      "confidence": 0.46,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": false
     },
     {
       "game_id": 401871047,
@@ -6219,7 +6219,7 @@
       "line": 52.5,
       "model_total": 57.0,
       "edge": 4.5,
-      "wind": 8.8,
+      "wind": 8.6,
       "indoor": false,
       "confidence": 0.34,
       "top_pick": false,
@@ -6255,11 +6255,11 @@
       "home": "Indiana",
       "pick": "Under",
       "line": 60.5,
-      "model_total": 56.5,
-      "edge": -4.0,
+      "model_total": 56.4,
+      "edge": -4.1,
       "wind": null,
       "indoor": false,
-      "confidence": 0.3,
+      "confidence": 0.31,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
@@ -6322,8 +6322,8 @@
       "home": "Southern Miss",
       "pick": "Under",
       "line": 54.5,
-      "model_total": 51.4,
-      "edge": -3.1,
+      "model_total": 51.3,
+      "edge": -3.2,
       "wind": null,
       "indoor": false,
       "confidence": 0.24,
@@ -6365,8 +6365,8 @@
       "home": "Old Dominion",
       "pick": "Over",
       "line": 49.0,
-      "model_total": 52.1,
-      "edge": 3.1,
+      "model_total": 52.0,
+      "edge": 3.0,
       "wind": null,
       "indoor": false,
       "confidence": 0.23,
@@ -6670,8 +6670,8 @@
       "home": "Ohio State",
       "pick": "Over",
       "line": 59.5,
-      "model_total": 61.2,
-      "edge": 1.7,
+      "model_total": 61.1,
+      "edge": 1.6,
       "wind": null,
       "indoor": false,
       "confidence": 0.12,
@@ -6717,25 +6717,6 @@
       "edge": -1.5,
       "wind": null,
       "indoor": false,
-      "confidence": 0.12,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856799,
-      "drivers": [],
-      "week": 3,
-      "kickoff": "2026-09-20T00:00:00+00:00",
-      "away": "Arkansas State",
-      "home": "TCU",
-      "pick": "Over",
-      "line": 56.5,
-      "model_total": 58.0,
-      "edge": 1.5,
-      "wind": null,
-      "indoor": false,
       "confidence": 0.11,
       "top_pick": false,
       "tier": "D",
@@ -6753,6 +6734,25 @@
       "line": 50.5,
       "model_total": 49.0,
       "edge": -1.5,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.11,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856799,
+      "drivers": [],
+      "week": 3,
+      "kickoff": "2026-09-20T00:00:00+00:00",
+      "away": "Arkansas State",
+      "home": "TCU",
+      "pick": "Over",
+      "line": 56.5,
+      "model_total": 58.0,
+      "edge": 1.5,
       "wind": null,
       "indoor": false,
       "confidence": 0.11,
@@ -6924,25 +6924,6 @@
       "current_week": true
     },
     {
-      "game_id": 401858457,
-      "drivers": [],
-      "week": 3,
-      "kickoff": "2026-09-19T19:30:00+00:00",
-      "away": "USC",
-      "home": "Rutgers",
-      "pick": "Under",
-      "line": 58.5,
-      "model_total": 57.8,
-      "edge": -0.7,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.05,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401858231,
       "drivers": [
         {
@@ -7061,6 +7042,25 @@
       "wind": null,
       "indoor": false,
       "confidence": 0.02,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858457,
+      "drivers": [],
+      "week": 3,
+      "kickoff": "2026-09-19T19:30:00+00:00",
+      "away": "USC",
+      "home": "Rutgers",
+      "pick": "Under",
+      "line": 57.5,
+      "model_total": 57.4,
+      "edge": -0.1,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.01,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -10769,12 +10769,12 @@
     },
     {
       "rank": 183,
-      "team": "Southern",
+      "team": "Robert Morris",
       "rating": -1.25
     },
     {
       "rank": 184,
-      "team": "Robert Morris",
+      "team": "Southern",
       "rating": -1.25
     },
     {
@@ -10889,52 +10889,52 @@
     },
     {
       "rank": 207,
-      "team": "Southeastern Louisiana",
-      "rating": -1.44
-    },
-    {
-      "rank": 208,
-      "team": "Maine",
-      "rating": -1.44
-    },
-    {
-      "rank": 209,
-      "team": "Butler",
-      "rating": -1.44
-    },
-    {
-      "rank": 210,
       "team": "Dayton",
       "rating": -1.44
     },
     {
-      "rank": 211,
-      "team": "Indiana State",
-      "rating": -1.44
-    },
-    {
-      "rank": 212,
-      "team": "Morehead State",
-      "rating": -1.44
-    },
-    {
-      "rank": 213,
-      "team": "Drake",
-      "rating": -1.44
-    },
-    {
-      "rank": 214,
+      "rank": 208,
       "team": "Wagner",
       "rating": -1.44
     },
     {
-      "rank": 215,
+      "rank": 209,
+      "team": "North Dakota",
+      "rating": -1.44
+    },
+    {
+      "rank": 210,
       "team": "Stetson",
       "rating": -1.44
     },
     {
+      "rank": 211,
+      "team": "Alcorn State",
+      "rating": -1.44
+    },
+    {
+      "rank": 212,
+      "team": "Charleston Southern",
+      "rating": -1.44
+    },
+    {
+      "rank": 213,
+      "team": "Butler",
+      "rating": -1.44
+    },
+    {
+      "rank": 214,
+      "team": "Morgan State",
+      "rating": -1.44
+    },
+    {
+      "rank": 215,
+      "team": "Morehead State",
+      "rating": -1.44
+    },
+    {
       "rank": 216,
-      "team": "Davidson",
+      "team": "Lafayette",
       "rating": -1.44
     },
     {
@@ -10944,27 +10944,27 @@
     },
     {
       "rank": 218,
-      "team": "Charleston Southern",
+      "team": "Davidson",
       "rating": -1.44
     },
     {
       "rank": 219,
-      "team": "Morgan State",
+      "team": "Maine",
       "rating": -1.44
     },
     {
       "rank": 220,
-      "team": "Alcorn State",
+      "team": "Drake",
       "rating": -1.44
     },
     {
       "rank": 221,
-      "team": "North Dakota",
+      "team": "Southeastern Louisiana",
       "rating": -1.44
     },
     {
       "rank": 222,
-      "team": "Lafayette",
+      "team": "Indiana State",
       "rating": -1.44
     },
     {
