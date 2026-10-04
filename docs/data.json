@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T16:59:51+00:00",
+  "generated_at": "2026-10-04T17:42:05+00:00",
   "season": 2026,
   "min_edge": 4.9,
   "board_week": 6,
@@ -54,7 +54,7 @@
       "n": 22,
       "pct": 54.5,
       "side": "over",
-      "corr": -0.504,
+      "corr": -0.51,
       "debias": "history"
     }
   },
@@ -63,7 +63,7 @@
     "model_disagree": 0.002,
     "missing_epa": -6.238,
     "rivalry": -0.384,
-    "wx_unknown": 0.0,
+    "wx_unknown": -0.0,
     "immaturity": 0.2,
     "baseline": 12.17
   },
@@ -1383,7 +1383,7 @@
       "model_disagree": 0.002,
       "missing_epa": -6.238,
       "rivalry": -0.384,
-      "wx_unknown": 0.0,
+      "wx_unknown": -0.0,
       "immaturity": 0.2,
       "baseline": 12.17
     },
@@ -1492,13 +1492,13 @@
       }
     ],
     "conf_weights": [
-      0.025384219609551936,
-      0.002329993055697477,
-      -6.238478749475004,
-      -0.38432370580762026,
-      0.0,
-      0.19983516361533418,
-      12.173401359958602
+      0.025384219609552023,
+      0.002329993055698587,
+      -6.238478749475009,
+      -0.3843237058076238,
+      -8.881784197001252e-16,
+      0.19983516361533438,
+      12.173401359958593
     ],
     "conf_names": [
       "abs_pred",
@@ -2950,11 +2950,11 @@
       "home": "Oklahoma",
       "pick": "Over",
       "line": 41.5,
-      "model_total": 59.9,
-      "edge": 18.4,
-      "wind": 10.1,
+      "model_total": 60.6,
+      "edge": 19.1,
+      "wind": 7.0,
       "indoor": false,
-      "confidence": 1.39,
+      "confidence": 1.44,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -2974,30 +2974,6 @@
       "wind": null,
       "indoor": false,
       "confidence": 0.64,
-      "top_pick": true,
-      "tier": "A",
-      "qualified": true,
-      "current_week": true
-    },
-    {
-      "game_id": 401871066,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate poorly, -14 combined"
-        }
-      ],
-      "week": 6,
-      "kickoff": "2026-10-07T23:30:00+00:00",
-      "away": "New Mexico State",
-      "home": "Florida International",
-      "pick": "Over",
-      "line": 47.5,
-      "model_total": 55.8,
-      "edge": 8.3,
-      "wind": 9.1,
-      "indoor": false,
-      "confidence": 0.63,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -3054,6 +3030,30 @@
       "tier": "B",
       "qualified": true,
       "current_week": false
+    },
+    {
+      "game_id": 401871066,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate poorly, -14 combined"
+        }
+      ],
+      "week": 6,
+      "kickoff": "2026-10-07T23:30:00+00:00",
+      "away": "New Mexico State",
+      "home": "Florida International",
+      "pick": "Over",
+      "line": 47.5,
+      "model_total": 55.4,
+      "edge": 7.9,
+      "wind": 12.5,
+      "indoor": false,
+      "confidence": 0.6,
+      "top_pick": true,
+      "tier": "B",
+      "qualified": true,
+      "current_week": true
     },
     {
       "game_id": 401858492,
@@ -3226,13 +3226,13 @@
       "home": "Michigan",
       "pick": "Under",
       "line": 51.5,
-      "model_total": 48.5,
-      "edge": -3.0,
-      "wind": 11.0,
+      "model_total": 49.4,
+      "edge": -2.1,
+      "wind": 9.2,
       "indoor": false,
-      "confidence": 0.23,
+      "confidence": 0.16,
       "top_pick": false,
-      "tier": "C",
+      "tier": "D",
       "qualified": false,
       "current_week": false
     },
@@ -8222,12 +8222,12 @@
     },
     {
       "rank": 150,
-      "team": "Southern Utah",
+      "team": "Norfolk State",
       "rating": -1.21
     },
     {
       "rank": 151,
-      "team": "Norfolk State",
+      "team": "Southern Utah",
       "rating": -1.21
     },
     {
@@ -8292,12 +8292,12 @@
     },
     {
       "rank": 164,
-      "team": "Tennessee Tech",
+      "team": "Idaho State",
       "rating": -1.23
     },
     {
       "rank": 165,
-      "team": "Idaho State",
+      "team": "Tennessee Tech",
       "rating": -1.23
     },
     {
@@ -8357,12 +8357,12 @@
     },
     {
       "rank": 177,
-      "team": "Southern",
+      "team": "Robert Morris",
       "rating": -1.25
     },
     {
       "rank": 178,
-      "team": "Robert Morris",
+      "team": "Southern",
       "rating": -1.25
     },
     {
@@ -8497,17 +8497,17 @@
     },
     {
       "rank": 205,
-      "team": "Stetson",
-      "rating": -1.44
-    },
-    {
-      "rank": 206,
       "team": "Butler",
       "rating": -1.44
     },
     {
+      "rank": 206,
+      "team": "Drake",
+      "rating": -1.44
+    },
+    {
       "rank": 207,
-      "team": "Charleston Southern",
+      "team": "Stetson",
       "rating": -1.44
     },
     {
@@ -8517,62 +8517,62 @@
     },
     {
       "rank": 209,
-      "team": "Morehead State",
-      "rating": -1.44
-    },
-    {
-      "rank": 210,
-      "team": "Davidson",
-      "rating": -1.44
-    },
-    {
-      "rank": 211,
-      "team": "Wagner",
-      "rating": -1.44
-    },
-    {
-      "rank": 212,
-      "team": "Maine",
-      "rating": -1.44
-    },
-    {
-      "rank": 213,
-      "team": "Dayton",
-      "rating": -1.44
-    },
-    {
-      "rank": 214,
-      "team": "Morgan State",
-      "rating": -1.44
-    },
-    {
-      "rank": 215,
       "team": "Alcorn State",
       "rating": -1.44
     },
     {
-      "rank": 216,
-      "team": "Valparaiso",
-      "rating": -1.44
-    },
-    {
-      "rank": 217,
-      "team": "Lafayette",
-      "rating": -1.44
-    },
-    {
-      "rank": 218,
+      "rank": 210,
       "team": "Southeastern Louisiana",
       "rating": -1.44
     },
     {
+      "rank": 211,
+      "team": "Dayton",
+      "rating": -1.44
+    },
+    {
+      "rank": 212,
+      "team": "Lafayette",
+      "rating": -1.44
+    },
+    {
+      "rank": 213,
+      "team": "Maine",
+      "rating": -1.44
+    },
+    {
+      "rank": 214,
+      "team": "Wagner",
+      "rating": -1.44
+    },
+    {
+      "rank": 215,
+      "team": "Valparaiso",
+      "rating": -1.44
+    },
+    {
+      "rank": 216,
+      "team": "Morgan State",
+      "rating": -1.44
+    },
+    {
+      "rank": 217,
+      "team": "Morehead State",
+      "rating": -1.44
+    },
+    {
+      "rank": 218,
+      "team": "Davidson",
+      "rating": -1.44
+    },
+    {
       "rank": 219,
-      "team": "Drake",
+      "team": "Indiana State",
       "rating": -1.44
     },
     {
       "rank": 220,
-      "team": "Indiana State",
+      "team": "Charleston Southern",
       "rating": -1.44
     },
     {
