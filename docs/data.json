@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T18:58:11+00:00",
+  "generated_at": "2026-10-06T21:15:31+00:00",
   "season": 2026,
   "min_edge": 4.9,
   "board_week": 6,
@@ -47,14 +47,14 @@
       "n": 67,
       "pct": 49.3,
       "side": "underdog",
-      "corr": 0.0,
+      "corr": -0.0,
       "debias": "slate"
     },
     "total": {
       "n": 67,
-      "pct": 61.2,
+      "pct": 62.7,
       "side": "over",
-      "corr": -0.608,
+      "corr": -0.595,
       "debias": "history"
     }
   },
@@ -1493,12 +1493,12 @@
     ],
     "conf_weights": [
       0.025384219609551933,
-      0.002329993055697699,
-      -6.238478749474989,
-      -0.3843237058076152,
+      0.002329993055698143,
+      -6.238478749474988,
+      -0.38432370580762054,
       8.881784197001252e-16,
-      0.19983516361533785,
-      12.173401359958595
+      0.19983516361533685,
+      12.173401359958596
     ],
     "conf_names": [
       "abs_pred",
@@ -3710,10 +3710,10 @@
       "home": "Oregon State",
       "pick": "San Diego State",
       "pick_spread": 14.5,
-      "model_margin": 10.0,
+      "model_margin": 10.1,
       "market_margin": 14.5,
-      "edge": -4.5,
-      "confidence": 0.35,
+      "edge": -4.4,
+      "confidence": 0.34,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3736,10 +3736,10 @@
       "home": "Bowling Green",
       "pick": "Sacramento State",
       "pick_spread": 7.5,
-      "model_margin": 3.4,
+      "model_margin": 3.5,
       "market_margin": 7.5,
-      "edge": -4.1,
-      "confidence": 0.32,
+      "edge": -4.0,
+      "confidence": 0.31,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3829,7 +3829,7 @@
       "model_margin": -6.0,
       "market_margin": -3.0,
       "edge": -3.0,
-      "confidence": 0.23,
+      "confidence": 0.24,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3889,10 +3889,40 @@
       "model_margin": 14.4,
       "market_margin": 11.5,
       "edge": 2.9,
-      "confidence": 0.22,
+      "confidence": 0.23,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856827,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Utah offense (+4) meets a defense 5 pts below average"
+        },
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": 5.5,
+      "away_rating": 0.6,
+      "week": 6,
+      "kickoff": "2026-10-11T02:15:00+00:00",
+      "away": "Kansas",
+      "home": "Utah",
+      "pick": "Utah",
+      "pick_spread": -15.5,
+      "model_margin": 18.4,
+      "market_margin": 15.5,
+      "edge": 2.9,
+      "confidence": 0.22,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
       "qualified": false,
       "current_week": true
     },
@@ -3916,45 +3946,15 @@
       "home": "Oregon",
       "pick": "Nebraska",
       "pick_spread": 21.5,
-      "model_margin": 18.6,
+      "model_margin": 18.7,
       "market_margin": 21.5,
-      "edge": -2.9,
+      "edge": -2.8,
       "confidence": 0.22,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
       "current_week": false
-    },
-    {
-      "game_id": 401856827,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Utah offense (+4) meets a defense 5 pts below average"
-        },
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": 5.5,
-      "away_rating": 0.6,
-      "week": 6,
-      "kickoff": "2026-10-11T02:15:00+00:00",
-      "away": "Kansas",
-      "home": "Utah",
-      "pick": "Utah",
-      "pick_spread": -15.5,
-      "model_margin": 18.3,
-      "market_margin": 15.5,
-      "edge": 2.8,
-      "confidence": 0.22,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
     },
     {
       "game_id": 401856717,
@@ -4069,32 +4069,6 @@
       "current_week": true
     },
     {
-      "game_id": 401871090,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": -1.1,
-      "away_rating": -1.1,
-      "week": 6,
-      "kickoff": "2026-10-07T00:00:00+00:00",
-      "away": "Southern Miss",
-      "home": "Troy",
-      "pick": "Southern Miss",
-      "pick_spread": 10.0,
-      "model_margin": 7.6,
-      "market_margin": 10.0,
-      "edge": -2.4,
-      "confidence": 0.19,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401871052,
       "drivers": [
         {
@@ -4117,6 +4091,32 @@
       "model_margin": 4.9,
       "market_margin": 2.5,
       "edge": 2.4,
+      "confidence": 0.19,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401871090,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": -1.1,
+      "away_rating": -1.1,
+      "week": 6,
+      "kickoff": "2026-10-07T00:00:00+00:00",
+      "away": "Southern Miss",
+      "home": "Troy",
+      "pick": "Southern Miss",
+      "pick_spread": 10.0,
+      "model_margin": 7.6,
+      "market_margin": 10.0,
+      "edge": -2.4,
       "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
@@ -4153,36 +4153,6 @@
       "tier": "D",
       "qualified": false,
       "current_week": false
-    },
-    {
-      "game_id": 401866437,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Toledo #35, Buffalo #243"
-        }
-      ],
-      "home_rating": 2.3,
-      "away_rating": -3.4,
-      "week": 6,
-      "kickoff": "2026-10-10T19:30:00+00:00",
-      "away": "Buffalo",
-      "home": "Toledo",
-      "pick": "Toledo",
-      "pick_spread": -20.5,
-      "model_margin": 22.8,
-      "market_margin": 20.5,
-      "edge": 2.3,
-      "confidence": 0.18,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
     },
     {
       "game_id": 401869943,
@@ -4275,32 +4245,6 @@
       "current_week": true
     },
     {
-      "game_id": 401858490,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": 2.9,
-      "away_rating": 3.6,
-      "week": 7,
-      "kickoff": "2026-10-17T04:00:00+00:00",
-      "away": "Penn State",
-      "home": "Michigan",
-      "pick": "Penn State",
-      "pick_spread": 6.5,
-      "model_margin": 4.3,
-      "market_margin": 6.5,
-      "edge": -2.2,
-      "confidence": 0.17,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": false
-    },
-    {
       "game_id": 401866438,
       "drivers": [
         {
@@ -4331,6 +4275,62 @@
       "current_week": true
     },
     {
+      "game_id": 401858490,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": 2.9,
+      "away_rating": 3.6,
+      "week": 7,
+      "kickoff": "2026-10-17T04:00:00+00:00",
+      "away": "Penn State",
+      "home": "Michigan",
+      "pick": "Penn State",
+      "pick_spread": 6.5,
+      "model_margin": 4.3,
+      "market_margin": 6.5,
+      "edge": -2.2,
+      "confidence": 0.17,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401866437,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Toledo #35, Buffalo #243"
+        }
+      ],
+      "home_rating": 2.3,
+      "away_rating": -3.4,
+      "week": 6,
+      "kickoff": "2026-10-10T19:30:00+00:00",
+      "away": "Buffalo",
+      "home": "Toledo",
+      "pick": "Toledo",
+      "pick_spread": -21.0,
+      "model_margin": 23.2,
+      "market_margin": 21.0,
+      "edge": 2.2,
+      "confidence": 0.17,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
       "game_id": 401858260,
       "drivers": [
         {
@@ -4346,9 +4346,39 @@
       "home": "NC State",
       "pick": "NC State",
       "pick_spread": 4.0,
-      "model_margin": -1.9,
+      "model_margin": -2.0,
       "market_margin": -4.0,
-      "edge": 2.1,
+      "edge": 2.0,
+      "confidence": 0.16,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858257,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Notre Dame #2, Stanford #233"
+        }
+      ],
+      "home_rating": 7.1,
+      "away_rating": -2.5,
+      "week": 6,
+      "kickoff": "2026-10-10T19:30:00+00:00",
+      "away": "Stanford",
+      "home": "Notre Dame",
+      "pick": "Notre Dame",
+      "pick_spread": -38.0,
+      "model_margin": 40.0,
+      "market_margin": 38.0,
+      "edge": 2.0,
       "confidence": 0.16,
       "sigma": 12.9,
       "top_pick": false,
@@ -4387,7 +4417,7 @@
       "current_week": false
     },
     {
-      "game_id": 401858257,
+      "game_id": 401856826,
       "drivers": [
         {
           "kind": "caution",
@@ -4395,19 +4425,19 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Notre Dame #2, Stanford #233"
+          "text": "Model ranks BYU #12, Iowa State #56"
         }
       ],
-      "home_rating": 7.1,
-      "away_rating": -2.5,
+      "home_rating": 4.1,
+      "away_rating": 1.1,
       "week": 6,
-      "kickoff": "2026-10-10T19:30:00+00:00",
-      "away": "Stanford",
-      "home": "Notre Dame",
-      "pick": "Notre Dame",
-      "pick_spread": -38.0,
-      "model_margin": 39.9,
-      "market_margin": 38.0,
+      "kickoff": "2026-10-10T02:15:00+00:00",
+      "away": "Iowa State",
+      "home": "BYU",
+      "pick": "BYU",
+      "pick_spread": -10.5,
+      "model_margin": 12.4,
+      "market_margin": 10.5,
       "edge": 1.9,
       "confidence": 0.15,
       "sigma": 12.9,
@@ -4443,7 +4473,7 @@
       "current_week": true
     },
     {
-      "game_id": 401856826,
+      "game_id": 401862796,
       "drivers": [
         {
           "kind": "caution",
@@ -4451,19 +4481,19 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks BYU #12, Iowa State #56"
+          "text": "Model ranks North Texas #51, Charlotte #249"
         }
       ],
-      "home_rating": 4.1,
-      "away_rating": 1.1,
+      "home_rating": 1.3,
+      "away_rating": -5.9,
       "week": 6,
-      "kickoff": "2026-10-10T02:15:00+00:00",
-      "away": "Iowa State",
-      "home": "BYU",
-      "pick": "BYU",
-      "pick_spread": -10.5,
-      "model_margin": 12.4,
-      "market_margin": 10.5,
+      "kickoff": "2026-10-10T19:30:00+00:00",
+      "away": "Charlotte",
+      "home": "North Texas",
+      "pick": "North Texas",
+      "pick_spread": -28.0,
+      "model_margin": 29.9,
+      "market_margin": 28.0,
       "edge": 1.9,
       "confidence": 0.15,
       "sigma": 12.9,
@@ -4499,7 +4529,7 @@
       "current_week": false
     },
     {
-      "game_id": 401862796,
+      "game_id": 401869843,
       "drivers": [
         {
           "kind": "caution",
@@ -4507,20 +4537,20 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks North Texas #51, Charlotte #249"
+          "text": "Model ranks Old Dominion #204, App State #134"
         }
       ],
-      "home_rating": 1.3,
-      "away_rating": -5.9,
+      "home_rating": -1.1,
+      "away_rating": -1.4,
       "week": 6,
-      "kickoff": "2026-10-10T19:30:00+00:00",
-      "away": "Charlotte",
-      "home": "North Texas",
-      "pick": "North Texas",
-      "pick_spread": -28.0,
-      "model_margin": 29.9,
-      "market_margin": 28.0,
-      "edge": 1.9,
+      "kickoff": "2026-10-10T17:00:00+00:00",
+      "away": "Old Dominion",
+      "home": "App State",
+      "pick": "Old Dominion",
+      "pick_spread": 9.5,
+      "model_margin": 7.7,
+      "market_margin": 9.5,
+      "edge": -1.8,
       "confidence": 0.14,
       "sigma": 12.9,
       "top_pick": false,
@@ -4547,36 +4577,6 @@
       "model_margin": -7.7,
       "market_margin": -9.5,
       "edge": 1.8,
-      "confidence": 0.14,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401869843,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Old Dominion #204, App State #134"
-        }
-      ],
-      "home_rating": -1.1,
-      "away_rating": -1.4,
-      "week": 6,
-      "kickoff": "2026-10-10T17:00:00+00:00",
-      "away": "Old Dominion",
-      "home": "App State",
-      "pick": "Old Dominion",
-      "pick_spread": 9.5,
-      "model_margin": 7.7,
-      "market_margin": 9.5,
-      "edge": -1.8,
       "confidence": 0.14,
       "sigma": 12.9,
       "top_pick": false,
@@ -4727,32 +4727,6 @@
       "current_week": true
     },
     {
-      "game_id": 401866435,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": -2.8,
-      "away_rating": -1.5,
-      "week": 6,
-      "kickoff": "2026-10-10T19:30:00+00:00",
-      "away": "Eastern Michigan",
-      "home": "Akron",
-      "pick": "Akron",
-      "pick_spread": 6.5,
-      "model_margin": -5.0,
-      "market_margin": -6.5,
-      "edge": 1.5,
-      "confidence": 0.12,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401858263,
       "drivers": [
         {
@@ -4783,6 +4757,62 @@
       "current_week": false
     },
     {
+      "game_id": 401866435,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": -2.8,
+      "away_rating": -1.5,
+      "week": 6,
+      "kickoff": "2026-10-10T19:30:00+00:00",
+      "away": "Eastern Michigan",
+      "home": "Akron",
+      "pick": "Akron",
+      "pick_spread": 6.5,
+      "model_margin": -5.0,
+      "market_margin": -6.5,
+      "edge": 1.5,
+      "confidence": 0.12,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858482,
+      "drivers": [
+        {
+          "kind": "contrarian",
+          "text": "Backing a 37-point underdog"
+        },
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": 2.4,
+      "away_rating": -4.7,
+      "week": 6,
+      "kickoff": "2026-10-10T16:30:00+00:00",
+      "away": "Ball State",
+      "home": "Northwestern",
+      "pick": "Ball State",
+      "pick_spread": 37.0,
+      "model_margin": 35.6,
+      "market_margin": 37.0,
+      "edge": -1.4,
+      "confidence": 0.11,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
       "game_id": 401856830,
       "drivers": [
         {
@@ -4805,12 +4835,42 @@
       "model_margin": 8.7,
       "market_margin": 7.5,
       "edge": 1.2,
-      "confidence": 0.09,
+      "confidence": 0.1,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
       "current_week": false
+    },
+    {
+      "game_id": 401862798,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Memphis #41, UAB #221"
+        }
+      ],
+      "home_rating": 1.8,
+      "away_rating": -1.5,
+      "week": 6,
+      "kickoff": "2026-10-10T23:00:00+00:00",
+      "away": "UAB",
+      "home": "Memphis",
+      "pick": "Memphis",
+      "pick_spread": -14.0,
+      "model_margin": 15.1,
+      "market_margin": 14.0,
+      "edge": 1.1,
+      "confidence": 0.09,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
     },
     {
       "game_id": 401864517,
@@ -4831,62 +4891,6 @@
       "model_margin": -8.4,
       "market_margin": -9.5,
       "edge": 1.1,
-      "confidence": 0.09,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856714,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": 3.1,
-      "away_rating": 1.9,
-      "week": 6,
-      "kickoff": "2026-10-10T16:45:00+00:00",
-      "away": "South Carolina",
-      "home": "Florida",
-      "pick": "South Carolina",
-      "pick_spread": 11.5,
-      "model_margin": 10.4,
-      "market_margin": 11.5,
-      "edge": -1.1,
-      "confidence": 0.09,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858486,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Minnesota #58, Purdue #141"
-        }
-      ],
-      "home_rating": -1.1,
-      "away_rating": 1.0,
-      "week": 6,
-      "kickoff": "2026-10-11T00:00:00+00:00",
-      "away": "Minnesota",
-      "home": "Purdue",
-      "pick": "Minnesota",
-      "pick_spread": -2.5,
-      "model_margin": -3.6,
-      "market_margin": -2.5,
-      "edge": -1.1,
       "confidence": 0.09,
       "sigma": 12.9,
       "top_pick": false,
@@ -4925,7 +4929,7 @@
       "current_week": true
     },
     {
-      "game_id": 401862798,
+      "game_id": 401858486,
       "drivers": [
         {
           "kind": "caution",
@@ -4933,20 +4937,20 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Memphis #41, UAB #221"
+          "text": "Model ranks Minnesota #58, Purdue #141"
         }
       ],
-      "home_rating": 1.8,
-      "away_rating": -1.5,
+      "home_rating": -1.1,
+      "away_rating": 1.0,
       "week": 6,
-      "kickoff": "2026-10-10T23:00:00+00:00",
-      "away": "UAB",
-      "home": "Memphis",
-      "pick": "Memphis",
-      "pick_spread": -14.0,
-      "model_margin": 15.1,
-      "market_margin": 14.0,
-      "edge": 1.1,
+      "kickoff": "2026-10-11T00:00:00+00:00",
+      "away": "Minnesota",
+      "home": "Purdue",
+      "pick": "Minnesota",
+      "pick_spread": -2.5,
+      "model_margin": -3.6,
+      "market_margin": -2.5,
+      "edge": -1.1,
       "confidence": 0.09,
       "sigma": 12.9,
       "top_pick": false,
@@ -4955,27 +4959,23 @@
       "current_week": true
     },
     {
-      "game_id": 401858482,
+      "game_id": 401856714,
       "drivers": [
-        {
-          "kind": "contrarian",
-          "text": "Backing a 36-point underdog"
-        },
         {
           "kind": "caution",
           "text": "Ratings still 75% last season"
         }
       ],
-      "home_rating": 2.4,
-      "away_rating": -4.7,
+      "home_rating": 3.1,
+      "away_rating": 1.9,
       "week": 6,
-      "kickoff": "2026-10-10T16:30:00+00:00",
-      "away": "Ball State",
-      "home": "Northwestern",
-      "pick": "Ball State",
-      "pick_spread": 36.0,
-      "model_margin": 34.9,
-      "market_margin": 36.0,
+      "kickoff": "2026-10-10T16:45:00+00:00",
+      "away": "South Carolina",
+      "home": "Florida",
+      "pick": "South Carolina",
+      "pick_spread": 11.5,
+      "model_margin": 10.4,
+      "market_margin": 11.5,
       "edge": -1.1,
       "confidence": 0.09,
       "sigma": 12.9,
@@ -5190,9 +5190,39 @@
       "home": "Nebraska",
       "pick": "Indiana",
       "pick_spread": -7.0,
-      "model_margin": -7.3,
+      "model_margin": -7.4,
       "market_margin": -7.0,
-      "edge": -0.3,
+      "edge": -0.4,
+      "confidence": 0.03,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856713,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Tennessee #14, Arkansas #85"
+        }
+      ],
+      "home_rating": -0.3,
+      "away_rating": 3.9,
+      "week": 6,
+      "kickoff": "2026-10-10T20:15:00+00:00",
+      "away": "Tennessee",
+      "home": "Arkansas",
+      "pick": "Tennessee",
+      "pick_spread": -13.5,
+      "model_margin": -13.9,
+      "market_margin": -13.5,
+      "edge": -0.4,
       "confidence": 0.03,
       "sigma": 12.9,
       "top_pick": false,
@@ -5223,37 +5253,7 @@
       "model_margin": -7.7,
       "market_margin": -8.0,
       "edge": 0.3,
-      "confidence": 0.03,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856713,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Tennessee #14, Arkansas #85"
-        }
-      ],
-      "home_rating": -0.3,
-      "away_rating": 3.9,
-      "week": 6,
-      "kickoff": "2026-10-10T20:15:00+00:00",
-      "away": "Tennessee",
-      "home": "Arkansas",
-      "pick": "Tennessee",
-      "pick_spread": -13.5,
-      "model_margin": -13.8,
-      "market_margin": -13.5,
-      "edge": -0.3,
-      "confidence": 0.03,
+      "confidence": 0.02,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -5313,36 +5313,6 @@
       "current_week": true
     },
     {
-      "game_id": 401858483,
-      "drivers": [
-        {
-          "kind": "contrarian",
-          "text": "Backing a 34-point underdog"
-        },
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": 7.4,
-      "away_rating": 0.0,
-      "week": 6,
-      "kickoff": "2026-10-10T20:15:00+00:00",
-      "away": "Maryland",
-      "home": "Ohio State",
-      "pick": "Maryland",
-      "pick_spread": 34.5,
-      "model_margin": 34.3,
-      "market_margin": 34.5,
-      "edge": -0.2,
-      "confidence": 0.02,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401871051,
       "drivers": [
         {
@@ -5364,6 +5334,36 @@
       "pick_spread": -3.0,
       "model_margin": -3.2,
       "market_margin": -3.0,
+      "edge": -0.2,
+      "confidence": 0.02,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858483,
+      "drivers": [
+        {
+          "kind": "contrarian",
+          "text": "Backing a 34-point underdog"
+        },
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": 7.4,
+      "away_rating": 0.0,
+      "week": 6,
+      "kickoff": "2026-10-10T20:15:00+00:00",
+      "away": "Maryland",
+      "home": "Ohio State",
+      "pick": "Maryland",
+      "pick_spread": 34.5,
+      "model_margin": 34.3,
+      "market_margin": 34.5,
       "edge": -0.2,
       "confidence": 0.01,
       "sigma": 12.9,
@@ -5433,32 +5433,6 @@
       "current_week": true
     },
     {
-      "game_id": 401862795,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 75% last season"
-        }
-      ],
-      "home_rating": 0.3,
-      "away_rating": 0.5,
-      "week": 6,
-      "kickoff": "2026-10-10T16:00:00+00:00",
-      "away": "Tulane",
-      "home": "Army",
-      "pick": "Tulane",
-      "pick_spread": 3.0,
-      "model_margin": 2.9,
-      "market_margin": 3.0,
-      "edge": -0.1,
-      "confidence": 0.01,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401856712,
       "drivers": [
         {
@@ -5477,6 +5451,32 @@
       "model_margin": 1.6,
       "market_margin": 1.5,
       "edge": 0.1,
+      "confidence": 0.01,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401862795,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 75% last season"
+        }
+      ],
+      "home_rating": 0.3,
+      "away_rating": 0.5,
+      "week": 6,
+      "kickoff": "2026-10-10T16:00:00+00:00",
+      "away": "Tulane",
+      "home": "Army",
+      "pick": "Tulane",
+      "pick_spread": 3.0,
+      "model_margin": 2.9,
+      "market_margin": 3.0,
+      "edge": -0.1,
       "confidence": 0.01,
       "sigma": 12.9,
       "top_pick": false,
@@ -5574,12 +5574,12 @@
       "away": "Washington State",
       "home": "Utah State",
       "pick": "Over",
-      "line": 43.5,
-      "model_total": 61.6,
-      "edge": 18.1,
+      "line": 44.5,
+      "model_total": 61.7,
+      "edge": 17.2,
       "wind": null,
       "indoor": false,
-      "confidence": 1.37,
+      "confidence": 1.29,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -5734,30 +5734,6 @@
       "current_week": true
     },
     {
-      "game_id": 401871066,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate poorly, -14 combined"
-        }
-      ],
-      "week": 6,
-      "kickoff": "2026-10-07T23:30:00+00:00",
-      "away": "New Mexico State",
-      "home": "Florida International",
-      "pick": "Over",
-      "line": 46.5,
-      "model_total": 55.8,
-      "edge": 9.3,
-      "wind": 10.1,
-      "indoor": false,
-      "confidence": 0.7,
-      "top_pick": false,
-      "tier": "A",
-      "qualified": true,
-      "current_week": true
-    },
-    {
       "game_id": 401869965,
       "drivers": [],
       "week": 6,
@@ -5814,6 +5790,30 @@
       "wind": null,
       "indoor": false,
       "confidence": 0.65,
+      "top_pick": false,
+      "tier": "A",
+      "qualified": true,
+      "current_week": true
+    },
+    {
+      "game_id": 401871066,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate poorly, -14 combined"
+        }
+      ],
+      "week": 6,
+      "kickoff": "2026-10-07T23:30:00+00:00",
+      "away": "New Mexico State",
+      "home": "Florida International",
+      "pick": "Over",
+      "line": 47.5,
+      "model_total": 55.8,
+      "edge": 8.3,
+      "wind": 8.4,
+      "indoor": false,
+      "confidence": 0.63,
       "top_pick": false,
       "tier": "A",
       "qualified": true,
@@ -5879,12 +5879,12 @@
       "away": "San Diego State",
       "home": "Oregon State",
       "pick": "Under",
-      "line": 54.0,
+      "line": 53.5,
       "model_total": 46.8,
-      "edge": -7.2,
+      "edge": -6.7,
       "wind": null,
       "indoor": false,
-      "confidence": 0.54,
+      "confidence": 0.51,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
@@ -5939,30 +5939,6 @@
       "current_week": false
     },
     {
-      "game_id": 401858482,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate poorly, -8 combined"
-        }
-      ],
-      "week": 6,
-      "kickoff": "2026-10-10T16:30:00+00:00",
-      "away": "Ball State",
-      "home": "Northwestern",
-      "pick": "Under",
-      "line": 53.0,
-      "model_total": 46.7,
-      "edge": -6.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.47,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
-    },
-    {
       "game_id": 401862799,
       "drivers": [],
       "week": 6,
@@ -5976,6 +5952,30 @@
       "wind": null,
       "indoor": false,
       "confidence": 0.45,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858482,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate poorly, -8 combined"
+        }
+      ],
+      "week": 6,
+      "kickoff": "2026-10-10T16:30:00+00:00",
+      "away": "Ball State",
+      "home": "Northwestern",
+      "pick": "Under",
+      "line": 52.5,
+      "model_total": 46.7,
+      "edge": -5.8,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.44,
       "top_pick": false,
       "tier": "B",
       "qualified": false,
@@ -6129,25 +6129,6 @@
       "current_week": true
     },
     {
-      "game_id": 401871090,
-      "drivers": [],
-      "week": 6,
-      "kickoff": "2026-10-07T00:00:00+00:00",
-      "away": "Southern Miss",
-      "home": "Troy",
-      "pick": "Under",
-      "line": 52.5,
-      "model_total": 48.3,
-      "edge": -4.2,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.32,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401862798,
       "drivers": [],
       "week": 6,
@@ -6251,6 +6232,25 @@
       "tier": "C",
       "qualified": false,
       "current_week": false
+    },
+    {
+      "game_id": 401871090,
+      "drivers": [],
+      "week": 6,
+      "kickoff": "2026-10-07T00:00:00+00:00",
+      "away": "Southern Miss",
+      "home": "Troy",
+      "pick": "Under",
+      "line": 52.0,
+      "model_total": 48.2,
+      "edge": -3.8,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.28,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": true
     },
     {
       "game_id": 401869933,
@@ -6653,30 +6653,6 @@
       "current_week": true
     },
     {
-      "game_id": 401856712,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +22 combined"
-        }
-      ],
-      "week": 6,
-      "kickoff": "2026-10-10T23:30:00+00:00",
-      "away": "Georgia",
-      "home": "Alabama",
-      "pick": "Under",
-      "line": 54.5,
-      "model_total": 52.7,
-      "edge": -1.8,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.14,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401856723,
       "drivers": [
         {
@@ -6962,6 +6938,30 @@
       "wind": null,
       "indoor": false,
       "confidence": 0.03,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856712,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +21 combined"
+        }
+      ],
+      "week": 6,
+      "kickoff": "2026-10-10T23:30:00+00:00",
+      "away": "Georgia",
+      "home": "Alabama",
+      "pick": "Over",
+      "line": 52.5,
+      "model_total": 52.6,
+      "edge": 0.1,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.01,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -12032,37 +12032,37 @@
     },
     {
       "rank": 205,
-      "team": "Wagner",
+      "team": "Drake",
       "rating": -1.44
     },
     {
       "rank": 206,
-      "team": "Morehead State",
+      "team": "North Dakota",
       "rating": -1.44
     },
     {
       "rank": 207,
-      "team": "Indiana State",
+      "team": "Wagner",
       "rating": -1.44
     },
     {
       "rank": 208,
-      "team": "Butler",
+      "team": "Morehead State",
       "rating": -1.44
     },
     {
       "rank": 209,
-      "team": "Morgan State",
+      "team": "Alcorn State",
       "rating": -1.44
     },
     {
       "rank": 210,
-      "team": "Lafayette",
+      "team": "Southeastern Louisiana",
       "rating": -1.44
     },
     {
       "rank": 211,
-      "team": "Davidson",
+      "team": "Butler",
       "rating": -1.44
     },
     {
@@ -12072,42 +12072,42 @@
     },
     {
       "rank": 213,
-      "team": "Drake",
-      "rating": -1.44
-    },
-    {
-      "rank": 214,
-      "team": "Alcorn State",
-      "rating": -1.44
-    },
-    {
-      "rank": 215,
-      "team": "Southeastern Louisiana",
-      "rating": -1.44
-    },
-    {
-      "rank": 216,
       "team": "Maine",
       "rating": -1.44
     },
     {
+      "rank": 214,
+      "team": "Morgan State",
+      "rating": -1.44
+    },
+    {
+      "rank": 215,
+      "team": "Lafayette",
+      "rating": -1.44
+    },
+    {
+      "rank": 216,
+      "team": "Stetson",
+      "rating": -1.44
+    },
+    {
       "rank": 217,
-      "team": "Charleston Southern",
+      "team": "Davidson",
       "rating": -1.44
     },
     {
       "rank": 218,
-      "team": "North Dakota",
+      "team": "Charleston Southern",
       "rating": -1.44
     },
     {
       "rank": 219,
-      "team": "Dayton",
+      "team": "Indiana State",
       "rating": -1.44
     },
     {
       "rank": 220,
-      "team": "Stetson",
+      "team": "Dayton",
       "rating": -1.44
     },
     {
