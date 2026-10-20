@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-10-20T18:01:24+00:00",
+  "generated_at": "2026-10-20T20:08:02+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 7,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423122,
-      0.05340493345927233,
-      -0.05440043288034832,
-      -0.42444771489760236,
-      -0.08438862443957923,
-      9.718782974976097
+      0.06047293116423176,
+      0.05340493345927344,
+      -0.05440043288033939,
+      -0.42444771489760597,
+      -0.08438862443957941,
+      9.718782974976095
     ],
     "conf_names": [
       "abs_pred",
@@ -1607,7 +1607,7 @@
       "home": "Bears",
       "pick": "Under",
       "edge": -6.8,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
@@ -1625,7 +1625,7 @@
       "away": "Packers",
       "home": "Lions",
       "pick": "Over",
-      "edge": 4.5,
+      "edge": 4.4,
       "confidence": 0.37,
       "tier": "A",
       "top_pick": false,
@@ -1642,7 +1642,7 @@
         }
       ],
       "line": 53.5,
-      "model_total": 58.0,
+      "model_total": 57.9,
       "wind": null,
       "indoor": true
     },
@@ -1677,7 +1677,7 @@
       "away": "Cowboys",
       "home": "Eagles",
       "pick": "Over",
-      "edge": 4.0,
+      "edge": 3.9,
       "confidence": 0.33,
       "tier": "A",
       "top_pick": false,
@@ -1685,7 +1685,7 @@
       "current_week": true,
       "drivers": [],
       "line": 44.5,
-      "model_total": 48.5,
+      "model_total": 48.4,
       "wind": null,
       "indoor": false
     },
@@ -1720,8 +1720,8 @@
       "away": "Colts",
       "home": "Vikings",
       "pick": "Over",
-      "edge": 3.6,
-      "confidence": 0.3,
+      "edge": 3.5,
+      "confidence": 0.29,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
@@ -1737,7 +1737,7 @@
         }
       ],
       "line": 41.5,
-      "model_total": 45.1,
+      "model_total": 45.0,
       "wind": null,
       "indoor": true
     },
@@ -1767,7 +1767,7 @@
       "away": "Steelers",
       "home": "Saints",
       "pick": "Under",
-      "edge": -2.6,
+      "edge": -2.7,
       "confidence": 0.22,
       "tier": "A",
       "top_pick": false,
@@ -1780,9 +1780,28 @@
         }
       ],
       "line": 44.5,
-      "model_total": 41.9,
+      "model_total": 41.8,
       "wind": null,
       "indoor": true
+    },
+    {
+      "game_id": "2026_07_SF_ATL",
+      "week": 7,
+      "kickoff": "2026-10-25T18:00:00+00:00",
+      "away": "49ers",
+      "home": "Falcons",
+      "pick": "Over",
+      "edge": 2.0,
+      "confidence": 0.16,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [],
+      "line": 48.5,
+      "model_total": 50.5,
+      "wind": null,
+      "indoor": false
     },
     {
       "game_id": "2026_07_CIN_BAL",
@@ -1791,8 +1810,8 @@
       "away": "Bengals",
       "home": "Ravens",
       "pick": "Under",
-      "edge": -1.7,
-      "confidence": 0.14,
+      "edge": -1.8,
+      "confidence": 0.15,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -1804,7 +1823,7 @@
         }
       ],
       "line": 51.5,
-      "model_total": 49.8,
+      "model_total": 49.7,
       "wind": null,
       "indoor": false
     },
@@ -1828,33 +1847,14 @@
       "indoor": false
     },
     {
-      "game_id": "2026_07_SF_ATL",
-      "week": 7,
-      "kickoff": "2026-10-25T18:00:00+00:00",
-      "away": "49ers",
-      "home": "Falcons",
-      "pick": "Over",
-      "edge": 1.4,
-      "confidence": 0.12,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [],
-      "line": 50.5,
-      "model_total": 51.9,
-      "wind": null,
-      "indoor": false
-    },
-    {
       "game_id": "2026_07_MIA_NYJ",
       "week": 7,
       "kickoff": "2026-10-25T18:00:00+00:00",
       "away": "Dolphins",
       "home": "Jets",
       "pick": "Under",
-      "edge": -1.3,
-      "confidence": 0.11,
+      "edge": -1.4,
+      "confidence": 0.12,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -1866,33 +1866,9 @@
         }
       ],
       "line": 38.5,
-      "model_total": 37.2,
+      "model_total": 37.1,
       "wind": null,
       "indoor": false
-    },
-    {
-      "game_id": "2026_07_LA_LV",
-      "week": 7,
-      "kickoff": "2026-10-25T21:25:00+00:00",
-      "away": "Rams",
-      "home": "Raiders",
-      "pick": "Over",
-      "edge": 0.7,
-      "confidence": 0.06,
-      "tier": "C",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "weather",
-          "text": "Indoors, weather removed"
-        }
-      ],
-      "line": 47.5,
-      "model_total": 48.2,
-      "wind": null,
-      "indoor": true
     },
     {
       "game_id": "2026_07_CLE_TEN",
@@ -1912,6 +1888,30 @@
       "model_total": 37.9,
       "wind": null,
       "indoor": false
+    },
+    {
+      "game_id": "2026_07_LA_LV",
+      "week": 7,
+      "kickoff": "2026-10-25T21:25:00+00:00",
+      "away": "Rams",
+      "home": "Raiders",
+      "pick": "Over",
+      "edge": 0.6,
+      "confidence": 0.05,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "weather",
+          "text": "Indoors, weather removed"
+        }
+      ],
+      "line": 47.5,
+      "model_total": 48.1,
+      "wind": null,
+      "indoor": true
     }
   ],
   "history": [
