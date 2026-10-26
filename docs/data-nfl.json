@@ -1,15 +1,15 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-10-25T19:17:54+00:00",
+  "generated_at": "2026-10-26T19:26:32+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 7,
   "assumed_price": -110.0,
   "top_pick_count": 5,
   "state": {
-    "games_played": 95,
-    "in_season_weight": 0.578,
+    "games_played": 106,
+    "in_season_weight": 0.604,
     "home_field": 1.83,
     "uses_epa": false,
     "uses_turnovers": false,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423263,
-      0.053404933459272774,
-      -0.05440043288034212,
-      -0.42444771489759986,
-      -0.08438862443958009,
-      9.718782974976092
+      0.06047293116423256,
+      0.05340493345927255,
+      -0.054400432880345705,
+      -0.42444771489760047,
+      -0.0843886244395786,
+      9.718782974976088
     ],
     "conf_names": [
       "abs_pred",
@@ -1262,80 +1262,317 @@
   },
   "picks": [
     {
-      "game_id": "2026_07_DEN_ARI",
-      "week": 7,
-      "kickoff": "2026-10-25T21:05:00+00:00",
-      "away": "Broncos",
-      "home": "Cardinals",
-      "pick": "DEN",
-      "edge": -1.2,
+      "game_id": "2026_08_MIN_DET",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Vikings",
+      "home": "Lions",
+      "pick": "MIN",
+      "edge": -1.7,
+      "confidence": 0.18,
+      "tier": "A",
+      "top_pick": true,
+      "qualified": true,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 3.0,
+      "model_margin": 1.3,
+      "market_margin": 3.0,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_LAC_LA",
+      "week": 8,
+      "kickoff": "2026-11-01T21:05:00+00:00",
+      "away": "Chargers",
+      "home": "Rams",
+      "pick": "LAC",
+      "edge": -1.6,
+      "confidence": 0.17,
+      "tier": "A",
+      "top_pick": true,
+      "qualified": true,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Chargers on 7 more days of rest"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Rams #9, Chargers #29"
+        }
+      ],
+      "pick_spread": 6.5,
+      "model_margin": 4.9,
+      "market_margin": 6.5,
+      "sigma": 9.5
+    },
+    {
+      "game_id": "2026_08_ARI_DAL",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Cardinals",
+      "home": "Cowboys",
+      "pick": "ARI",
+      "edge": -1.4,
+      "confidence": 0.15,
+      "tier": "B",
+      "top_pick": true,
+      "qualified": true,
+      "current_week": false,
+      "drivers": [],
+      "pick_spread": 6.5,
+      "model_margin": 5.1,
+      "market_margin": 6.5,
+      "sigma": 9.5
+    },
+    {
+      "game_id": "2026_08_ATL_TB",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Falcons",
+      "home": "Buccaneers",
+      "pick": "ATL",
+      "edge": -1.1,
       "confidence": 0.12,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 2.5,
+      "model_margin": 1.4,
+      "market_margin": 2.5,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_CHI_SEA",
+      "week": 8,
+      "kickoff": "2026-11-03T01:15:00+00:00",
+      "away": "Bears",
+      "home": "Seahawks",
+      "pick": "CHI",
+      "edge": -1.1,
+      "confidence": 0.11,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
       "drivers": [
         {
           "kind": "rest",
-          "text": "Broncos on 3 more days of rest"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Broncos #15, Cardinals #30"
+          "text": "Bears on 3 more days of rest"
         }
       ],
-      "pick_spread": -4.5,
-      "model_margin": -5.7,
-      "market_margin": -4.5,
-      "sigma": 9.6
+      "pick_spread": 3.0,
+      "model_margin": 1.9,
+      "market_margin": 3.0,
+      "sigma": 9.4
     },
     {
-      "game_id": "2026_07_LA_LV",
-      "week": 7,
-      "kickoff": "2026-10-25T21:25:00+00:00",
-      "away": "Rams",
-      "home": "Raiders",
-      "pick": "LA",
+      "game_id": "2026_08_PHI_WAS",
+      "week": 8,
+      "kickoff": "2026-11-02T01:20:00+00:00",
+      "away": "Eagles",
+      "home": "Commanders",
+      "pick": "PHI",
+      "edge": -1.0,
+      "confidence": 0.11,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Commanders on 7 more days of rest"
+        },
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 3.5,
+      "model_margin": 2.5,
+      "market_margin": 3.5,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_TEN_CIN",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Titans",
+      "home": "Bengals",
+      "pick": "TEN",
+      "edge": -1.0,
+      "confidence": 0.1,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks Bengals #11, Titans #32"
+        }
+      ],
+      "pick_spread": 10.0,
+      "model_margin": 9.0,
+      "market_margin": 10.0,
+      "sigma": 9.8
+    },
+    {
+      "game_id": "2026_08_CLE_PIT",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Browns",
+      "home": "Steelers",
+      "pick": "CLE",
+      "edge": -1.0,
+      "confidence": 0.1,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 3.5,
+      "model_margin": 2.5,
+      "market_margin": 3.5,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_LV_NYJ",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Raiders",
+      "home": "Jets",
+      "pick": "LV",
+      "edge": -0.9,
+      "confidence": 0.1,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "pick_spread": 1.5,
+      "model_margin": 0.6,
+      "market_margin": 1.5,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_NE_MIA",
+      "week": 8,
+      "kickoff": "2026-11-01T21:25:00+00:00",
+      "away": "Patriots",
+      "home": "Dolphins",
+      "pick": "NE",
       "edge": -0.8,
       "confidence": 0.09,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
       "drivers": [
         {
-          "kind": "rating",
-          "text": "Model ranks Rams #11, Raiders #25"
+          "kind": "rest",
+          "text": "Patriots on 3 more days of rest"
+        },
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
         }
       ],
-      "pick_spread": -3.5,
-      "model_margin": -4.3,
-      "market_margin": -3.5,
-      "sigma": 9.5
+      "pick_spread": -7.0,
+      "model_margin": -7.8,
+      "market_margin": -7.0,
+      "sigma": 9.7
     },
     {
-      "game_id": "2026_07_KC_SEA",
-      "week": 7,
-      "kickoff": "2026-10-26T01:20:00+00:00",
+      "game_id": "2026_08_CAR_GB",
+      "week": 8,
+      "kickoff": "2026-10-30T01:15:00+00:00",
+      "away": "Panthers",
+      "home": "Packers",
+      "pick": "CAR",
+      "edge": -0.8,
+      "confidence": 0.08,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "pick_spread": 3.5,
+      "model_margin": 2.7,
+      "market_margin": 3.5,
+      "sigma": 9.4
+    },
+    {
+      "game_id": "2026_08_KC_DEN",
+      "week": 8,
+      "kickoff": "2026-11-01T21:25:00+00:00",
       "away": "Chiefs",
-      "home": "Seahawks",
+      "home": "Broncos",
       "pick": "KC",
       "edge": -0.7,
       "confidence": 0.07,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": -1.5,
+      "model_margin": -2.2,
+      "market_margin": -1.5,
+      "sigma": 9.3
+    },
+    {
+      "game_id": "2026_08_IND_JAX",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Colts",
+      "home": "Jaguars",
+      "pick": "IND",
+      "edge": -0.5,
+      "confidence": 0.05,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
       "drivers": [
         {
           "kind": "rest",
-          "text": "Seahawks on 3 more days of rest"
+          "text": "Jaguars on 7 more days of rest"
+        },
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
         }
       ],
-      "pick_spread": 3.0,
-      "model_margin": 2.3,
-      "market_margin": 3.0,
-      "sigma": 9.4
+      "pick_spread": 7.5,
+      "model_margin": 7.0,
+      "market_margin": 7.5,
+      "sigma": 9.6
     },
     {
       "game_id": "2026_07_DAL_PHI",
@@ -1362,56 +1599,56 @@
       "sigma": 9.4
     },
     {
-      "game_id": "2026_07_GB_DET",
-      "week": 7,
-      "kickoff": "2026-10-25T21:25:00+00:00",
-      "away": "Packers",
-      "home": "Lions",
-      "pick": "GB",
-      "edge": -0.3,
-      "confidence": 0.03,
+      "game_id": "2026_08_BAL_BUF",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Ravens",
+      "home": "Bills",
+      "pick": "BUF",
+      "edge": 0.3,
+      "confidence": 0.04,
       "tier": "D",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
       "drivers": [
         {
           "kind": "rest",
-          "text": "Lions on 7 more days of rest"
+          "text": "Bills on 7 more days of rest"
         },
         {
-          "kind": "rivalry",
-          "text": "Division game, historically closer"
+          "kind": "rating",
+          "text": "Model ranks Bills #5, Ravens #17"
         }
       ],
-      "pick_spread": 3.5,
-      "model_margin": 3.2,
+      "pick_spread": -3.5,
+      "model_margin": 3.8,
       "market_margin": 3.5,
-      "sigma": 9.4
+      "sigma": 9.5
     }
   ],
   "total_picks": [
     {
-      "game_id": "2026_07_KC_SEA",
-      "week": 7,
-      "kickoff": "2026-10-26T01:20:00+00:00",
-      "away": "Chiefs",
+      "game_id": "2026_08_CHI_SEA",
+      "week": 8,
+      "kickoff": "2026-11-03T01:15:00+00:00",
+      "away": "Bears",
       "home": "Seahawks",
-      "pick": "Over",
-      "edge": 6.3,
-      "confidence": 0.52,
+      "pick": "Under",
+      "edge": -4.3,
+      "confidence": 0.36,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
       "drivers": [
         {
           "kind": "rest",
-          "text": "Seahawks on 3 more days of rest"
+          "text": "Bears on 3 more days of rest"
         }
       ],
-      "line": 42.5,
-      "model_total": 48.8,
+      "line": 46.5,
+      "model_total": 42.2,
       "wind": null,
       "indoor": false
     },
@@ -1422,96 +1659,337 @@
       "away": "Cowboys",
       "home": "Eagles",
       "pick": "Over",
-      "edge": 5.5,
-      "confidence": 0.46,
+      "edge": 3.6,
+      "confidence": 0.3,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
       "current_week": true,
       "drivers": [],
-      "line": 43.5,
-      "model_total": 49.0,
+      "line": 44.5,
+      "model_total": 48.1,
       "wind": null,
       "indoor": false
     },
     {
-      "game_id": "2026_07_GB_DET",
-      "week": 7,
-      "kickoff": "2026-10-25T21:25:00+00:00",
-      "away": "Packers",
-      "home": "Lions",
-      "pick": "Under",
-      "edge": -4.7,
-      "confidence": 0.39,
+      "game_id": "2026_08_ATL_TB",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Falcons",
+      "home": "Buccaneers",
+      "pick": "Over",
+      "edge": 2.9,
+      "confidence": 0.24,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
-      "current_week": true,
+      "current_week": false,
+      "drivers": [],
+      "line": 46.5,
+      "model_total": 49.4,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_PHI_WAS",
+      "week": 8,
+      "kickoff": "2026-11-02T01:20:00+00:00",
+      "away": "Eagles",
+      "home": "Commanders",
+      "pick": "Over",
+      "edge": 2.8,
+      "confidence": 0.24,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
       "drivers": [
         {
           "kind": "rest",
-          "text": "Lions on 7 more days of rest"
+          "text": "Commanders on 7 more days of rest"
+        }
+      ],
+      "line": 40.5,
+      "model_total": 43.3,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_MIN_DET",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Vikings",
+      "home": "Lions",
+      "pick": "Over",
+      "edge": 2.4,
+      "confidence": 0.2,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "weather",
+          "text": "Indoors, weather removed"
+        }
+      ],
+      "line": 46.5,
+      "model_total": 48.9,
+      "wind": null,
+      "indoor": true
+    },
+    {
+      "game_id": "2026_08_NE_MIA",
+      "week": 8,
+      "kickoff": "2026-11-01T21:25:00+00:00",
+      "away": "Patriots",
+      "home": "Dolphins",
+      "pick": "Under",
+      "edge": -2.0,
+      "confidence": 0.16,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Patriots on 3 more days of rest"
+        }
+      ],
+      "line": 44.5,
+      "model_total": 42.5,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_LV_NYJ",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Raiders",
+      "home": "Jets",
+      "pick": "Under",
+      "edge": -1.9,
+      "confidence": 0.16,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 44.5,
+      "model_total": 42.6,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_CLE_PIT",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Browns",
+      "home": "Steelers",
+      "pick": "Under",
+      "edge": -1.5,
+      "confidence": 0.13,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 38.5,
+      "model_total": 37.0,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_KC_DEN",
+      "week": 8,
+      "kickoff": "2026-11-01T21:25:00+00:00",
+      "away": "Chiefs",
+      "home": "Broncos",
+      "pick": "Under",
+      "edge": -1.0,
+      "confidence": 0.09,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 41.5,
+      "model_total": 40.5,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_IND_JAX",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Colts",
+      "home": "Jaguars",
+      "pick": "Over",
+      "edge": 1.0,
+      "confidence": 0.08,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Jaguars on 7 more days of rest"
+        }
+      ],
+      "line": 46.5,
+      "model_total": 47.5,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_BAL_BUF",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Ravens",
+      "home": "Bills",
+      "pick": "Under",
+      "edge": -0.7,
+      "confidence": 0.06,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Bills on 7 more days of rest"
+        }
+      ],
+      "line": 53.5,
+      "model_total": 52.8,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_TEN_CIN",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Titans",
+      "home": "Bengals",
+      "pick": "Under",
+      "edge": -0.7,
+      "confidence": 0.06,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 46.5,
+      "model_total": 45.8,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_CAR_GB",
+      "week": 8,
+      "kickoff": "2026-10-30T01:15:00+00:00",
+      "away": "Panthers",
+      "home": "Packers",
+      "pick": "Under",
+      "edge": -0.6,
+      "confidence": 0.05,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 47.5,
+      "model_total": 46.9,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_08_LAC_LA",
+      "week": 8,
+      "kickoff": "2026-11-01T21:05:00+00:00",
+      "away": "Chargers",
+      "home": "Rams",
+      "pick": "Under",
+      "edge": -0.5,
+      "confidence": 0.04,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Chargers on 7 more days of rest"
         },
         {
           "kind": "weather",
           "text": "Indoors, weather removed"
         }
       ],
-      "line": 55.5,
-      "model_total": 50.8,
-      "wind": null,
-      "indoor": true
-    },
-    {
-      "game_id": "2026_07_LA_LV",
-      "week": 7,
-      "kickoff": "2026-10-25T21:25:00+00:00",
-      "away": "Rams",
-      "home": "Raiders",
-      "pick": "Under",
-      "edge": -2.5,
-      "confidence": 0.21,
-      "tier": "A",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "weather",
-          "text": "Indoors, weather removed"
-        }
-      ],
-      "line": 48.5,
-      "model_total": 46.0,
-      "wind": null,
-      "indoor": true
-    },
-    {
-      "game_id": "2026_07_DEN_ARI",
-      "week": 7,
-      "kickoff": "2026-10-25T21:05:00+00:00",
-      "away": "Broncos",
-      "home": "Cardinals",
-      "pick": "Under",
-      "edge": -2.4,
-      "confidence": 0.2,
-      "tier": "A",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "Broncos on 3 more days of rest"
-        }
-      ],
       "line": 43.5,
-      "model_total": 41.1,
+      "model_total": 43.0,
+      "wind": null,
+      "indoor": true
+    },
+    {
+      "game_id": "2026_08_ARI_DAL",
+      "week": 8,
+      "kickoff": "2026-11-01T18:00:00+00:00",
+      "away": "Cardinals",
+      "home": "Cowboys",
+      "pick": "Over",
+      "edge": 0.4,
+      "confidence": 0.03,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [],
+      "line": 54.5,
+      "model_total": 54.9,
       "wind": null,
       "indoor": false
     }
   ],
   "history": [
+    {
+      "week": 7,
+      "away": "Dolphins",
+      "home": "Jets",
+      "pick": "MIA",
+      "pick_spread": 4.5,
+      "edge": -2.6,
+      "margin": -3,
+      "result": "win",
+      "units": 0.91,
+      "clv": 1.0
+    },
+    {
+      "week": 7,
+      "away": "Bengals",
+      "home": "Ravens",
+      "pick": "CIN",
+      "pick_spread": 3.0,
+      "edge": -2.2,
+      "margin": -22,
+      "result": "win",
+      "units": 0.91,
+      "clv": 6.0
+    },
+    {
+      "week": 7,
+      "away": "Giants",
+      "home": "Texans",
+      "pick": "NYG",
+      "pick_spread": 10.0,
+      "edge": -2.0,
+      "margin": -6,
+      "result": "win",
+      "units": 0.91,
+      "clv": 0.0
+    },
     {
       "week": 7,
       "away": "Patriots",
@@ -1523,6 +2001,18 @@
       "result": "loss",
       "units": -1.0,
       "clv": 0.0
+    },
+    {
+      "week": 7,
+      "away": "Buccaneers",
+      "home": "Panthers",
+      "pick": "TB",
+      "pick_spread": 3.5,
+      "edge": -1.4,
+      "margin": -30,
+      "result": "win",
+      "units": 0.91,
+      "clv": 0.5
     },
     {
       "week": 7,
@@ -2152,75 +2642,95 @@
     },
     {
       "n": 37,
-      "units": 7.91,
+      "units": 9.82,
       "market": "spread"
     },
     {
       "n": 38,
-      "units": 8.82,
+      "units": 10.73,
+      "market": "spread"
+    },
+    {
+      "n": 39,
+      "units": 11.64,
+      "market": "spread"
+    },
+    {
+      "n": 40,
+      "units": 10.64,
+      "market": "spread"
+    },
+    {
+      "n": 41,
+      "units": 11.55,
+      "market": "spread"
+    },
+    {
+      "n": 42,
+      "units": 12.45,
       "market": "spread"
     }
   ],
   "record": {
-    "settled": 38,
-    "pending": 4,
-    "wins": 24,
+    "settled": 42,
+    "pending": 0,
+    "wins": 28,
     "losses": 13,
     "pushes": 1,
-    "win_pct": 64.9,
-    "units": 8.82,
-    "roi_pct": 23.2,
-    "avg_clv": 0.39,
-    "beat_close_pct": 39.5,
+    "win_pct": 68.3,
+    "units": 12.45,
+    "roi_pct": 29.7,
+    "avg_clv": 0.54,
+    "beat_close_pct": 42.9,
     "breakeven_pct": 52.4
   },
   "record_by_market": {
     "spread": {
-      "settled": 38,
-      "wins": 24,
+      "settled": 42,
+      "wins": 28,
       "losses": 13,
       "pushes": 1,
-      "win_pct": 64.9,
-      "units": 8.82,
-      "roi_pct": 23.2
+      "win_pct": 68.3,
+      "units": 12.45,
+      "roi_pct": 29.7
     },
     "total": null,
     "top": {
-      "settled": 31,
-      "wins": 19,
+      "settled": 35,
+      "wins": 23,
       "losses": 11,
       "pushes": 1,
-      "win_pct": 63.3,
-      "units": 6.27,
-      "roi_pct": 20.2
+      "win_pct": 67.6,
+      "units": 9.91,
+      "roi_pct": 28.3
     }
   },
   "clv_by_market": {
     "spread": {
-      "n": 38,
-      "avg": 0.39,
-      "beat_pct": 39.5,
+      "n": 42,
+      "avg": 0.54,
+      "beat_pct": 42.9,
       "median": 0.0
     },
     "total": null,
     "all": {
-      "n": 38,
-      "avg": 0.39,
-      "beat_pct": 39.5,
+      "n": 42,
+      "avg": 0.54,
+      "beat_pct": 42.9,
       "median": 0.0
     }
   },
   "clv_by_tier": {
     "A": {
-      "n": 23,
-      "avg": 0.57,
-      "beat_pct": 43.5,
+      "n": 26,
+      "avg": 0.77,
+      "beat_pct": 46.2,
       "median": 0.0
     },
     "B": {
-      "n": 15,
-      "avg": 0.13,
-      "beat_pct": 33.3,
+      "n": 16,
+      "avg": 0.16,
+      "beat_pct": 37.5,
       "median": 0.0
     }
   },
@@ -2783,176 +3293,178 @@
   },
   "board_balance": {
     "spread": {
-      "n": 5,
-      "pct": 60.0,
-      "side": "underdog"
+      "n": 15,
+      "pct": 80.0,
+      "side": "underdog",
+      "corr": -0.383
     },
     "total": {
-      "n": 5,
+      "n": 15,
       "pct": 40.0,
-      "side": "over"
+      "side": "over",
+      "corr": 0.0
     }
   },
   "ratings": [
     {
       "rank": 1,
-      "team": "Jaguars",
-      "rating": 2.56
+      "team": "Seahawks",
+      "rating": 2.94
     },
     {
       "rank": 2,
-      "team": "49ers",
-      "rating": 2.52
+      "team": "Jaguars",
+      "rating": 2.62
     },
     {
       "rank": 3,
-      "team": "Seahawks",
-      "rating": 2.39
+      "team": "49ers",
+      "rating": 2.3
     },
     {
       "rank": 4,
-      "team": "Chiefs",
-      "rating": 2.11
+      "team": "Vikings",
+      "rating": 2.01
     },
     {
       "rank": 5,
       "team": "Bills",
-      "rating": 1.85
+      "rating": 1.83
     },
     {
       "rank": 6,
-      "team": "Vikings",
-      "rating": 1.79
+      "team": "Chiefs",
+      "rating": 1.56
     },
     {
       "rank": 7,
       "team": "Patriots",
-      "rating": 1.52
+      "rating": 1.49
     },
     {
       "rank": 8,
       "team": "Bears",
-      "rating": 1.52
+      "rating": 1.48
     },
     {
       "rank": 9,
-      "team": "Lions",
-      "rating": 1.42
+      "team": "Rams",
+      "rating": 1.47
     },
     {
       "rank": 10,
-      "team": "Ravens",
-      "rating": 1.1
+      "team": "Lions",
+      "rating": 1.32
     },
     {
       "rank": 11,
-      "team": "Rams",
-      "rating": 1.07
+      "team": "Bengals",
+      "rating": 1.14
     },
     {
       "rank": 12,
-      "team": "Texans",
-      "rating": 0.96
+      "team": "Broncos",
+      "rating": 0.78
     },
     {
       "rank": 13,
-      "team": "Packers",
-      "rating": 0.53
+      "team": "Texans",
+      "rating": 0.7
     },
     {
       "rank": 14,
-      "team": "Steelers",
-      "rating": 0.47
+      "team": "Buccaneers",
+      "rating": 0.66
     },
     {
       "rank": 15,
-      "team": "Broncos",
-      "rating": 0.44
+      "team": "Steelers",
+      "rating": 0.61
     },
     {
       "rank": 16,
-      "team": "Bengals",
-      "rating": 0.2
+      "team": "Packers",
+      "rating": 0.51
     },
     {
       "rank": 17,
-      "team": "Panthers",
-      "rating": 0.09
+      "team": "Ravens",
+      "rating": 0.32
     },
     {
       "rank": 18,
-      "team": "Colts",
-      "rating": -0.44
+      "team": "Falcons",
+      "rating": -0.26
     },
     {
       "rank": 19,
       "team": "Eagles",
-      "rating": -0.49
+      "rating": -0.52
     },
     {
       "rank": 20,
-      "team": "Buccaneers",
-      "rating": -0.56
+      "team": "Colts",
+      "rating": -0.65
     },
     {
       "rank": 21,
-      "team": "Falcons",
-      "rating": -0.63
+      "team": "Panthers",
+      "rating": -0.92
     },
     {
       "rank": 22,
-      "team": "Cowboys",
-      "rating": -0.97
+      "team": "Giants",
+      "rating": -0.92
     },
     {
       "rank": 23,
-      "team": "Giants",
-      "rating": -1.25
+      "team": "Cowboys",
+      "rating": -0.96
     },
     {
       "rank": 24,
       "team": "Browns",
-      "rating": -1.45
+      "rating": -1.41
     },
     {
       "rank": 25,
-      "team": "Raiders",
-      "rating": -1.5
+      "team": "Saints",
+      "rating": -1.66
     },
     {
       "rank": 26,
-      "team": "Saints",
-      "rating": -1.64
+      "team": "Jets",
+      "rating": -1.88
     },
     {
       "rank": 27,
-      "team": "Jets",
-      "rating": -1.72
+      "team": "Raiders",
+      "rating": -1.91
     },
     {
       "rank": 28,
       "team": "Commanders",
-      "rating": -1.96
+      "rating": -1.95
     },
     {
       "rank": 29,
       "team": "Chargers",
-      "rating": -1.99
+      "rating": -2.02
     },
     {
       "rank": 30,
-      "team": "Cardinals",
-      "rating": -2.45
+      "team": "Dolphins",
+      "rating": -2.54
     },
     {
       "rank": 31,
-      "team": "Dolphins",
-      "rating": -2.62
+      "team": "Cardinals",
+      "rating": -2.89
     },
     {
       "rank": 32,
       "team": "Titans",
-      "rating": -3.11
+      "rating": -3.2
     },
     {
       "rank": 33,
