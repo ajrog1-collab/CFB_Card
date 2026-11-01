@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-01T18:29:21+00:00",
+  "generated_at": "2026-11-01T20:51:05+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 8,
@@ -773,11 +773,11 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423122,
-      0.05340493345927233,
-      -0.05440043288034832,
-      -0.42444771489760236,
-      -0.08438862443957923,
+      0.06047293116423116,
+      0.053404933459271664,
+      -0.05440043288033503,
+      -0.4244477148976036,
+      -0.0843886244395802,
       9.718782974976097
     ],
     "conf_names": [
@@ -1290,6 +1290,30 @@
       "sigma": 9.5
     },
     {
+      "game_id": "2026_08_KC_DEN",
+      "week": 8,
+      "kickoff": "2026-11-01T21:25:00+00:00",
+      "away": "Chiefs",
+      "home": "Broncos",
+      "pick": "KC",
+      "edge": -1.4,
+      "confidence": 0.15,
+      "tier": "B",
+      "top_pick": true,
+      "qualified": true,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 1.5,
+      "model_margin": 0.1,
+      "market_margin": 1.5,
+      "sigma": 9.2
+    },
+    {
       "game_id": "2026_08_PHI_WAS",
       "week": 8,
       "kickoff": "2026-11-02T01:20:00+00:00",
@@ -1368,30 +1392,6 @@
       "model_margin": -7.8,
       "market_margin": -7.0,
       "sigma": 9.7
-    },
-    {
-      "game_id": "2026_08_KC_DEN",
-      "week": 8,
-      "kickoff": "2026-11-01T21:25:00+00:00",
-      "away": "Chiefs",
-      "home": "Broncos",
-      "pick": "KC",
-      "edge": -0.7,
-      "confidence": 0.07,
-      "tier": "C",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rivalry",
-          "text": "Division game, historically closer"
-        }
-      ],
-      "pick_spread": -1.5,
-      "model_margin": -2.2,
-      "market_margin": -1.5,
-      "sigma": 9.3
     }
   ],
   "total_picks": [
@@ -1444,6 +1444,34 @@
       "indoor": false
     },
     {
+      "game_id": "2026_08_LAC_LA",
+      "week": 8,
+      "kickoff": "2026-11-01T21:05:00+00:00",
+      "away": "Chargers",
+      "home": "Rams",
+      "pick": "Under",
+      "edge": -2.2,
+      "confidence": 0.19,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Chargers on 7 more days of rest"
+        },
+        {
+          "kind": "weather",
+          "text": "Indoors, weather removed"
+        }
+      ],
+      "line": 46.5,
+      "model_total": 44.3,
+      "wind": null,
+      "indoor": true
+    },
+    {
       "game_id": "2026_08_NE_MIA",
       "week": 8,
       "kickoff": "2026-11-01T21:25:00+00:00",
@@ -1485,34 +1513,6 @@
       "model_total": 43.6,
       "wind": null,
       "indoor": false
-    },
-    {
-      "game_id": "2026_08_LAC_LA",
-      "week": 8,
-      "kickoff": "2026-11-01T21:05:00+00:00",
-      "away": "Chargers",
-      "home": "Rams",
-      "pick": "Under",
-      "edge": -1.1,
-      "confidence": 0.09,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "Chargers on 7 more days of rest"
-        },
-        {
-          "kind": "weather",
-          "text": "Indoors, weather removed"
-        }
-      ],
-      "line": 45.5,
-      "model_total": 44.4,
-      "wind": null,
-      "indoor": true
     }
   ],
   "history": [
@@ -2235,7 +2235,7 @@
   ],
   "record": {
     "settled": 42,
-    "pending": 5,
+    "pending": 6,
     "wins": 28,
     "losses": 13,
     "pushes": 1,
@@ -2856,7 +2856,7 @@
   "board_balance": {
     "spread": {
       "n": 5,
-      "pct": 60.0,
+      "pct": 80.0,
       "side": "underdog"
     },
     "total": {
