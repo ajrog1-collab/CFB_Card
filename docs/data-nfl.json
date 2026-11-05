@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-05T20:45:19+00:00",
+  "generated_at": "2026-11-05T22:18:24+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 9,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423158,
-      0.05340493345927233,
-      -0.054400432880346544,
-      -0.42444771489760125,
-      -0.08438862443957967,
-      9.718782974976097
+      0.06047293116423263,
+      0.05340493345927322,
+      -0.054400432880341215,
+      -0.4244477148976016,
+      -0.08438862443958038,
+      9.71878297497609
     ],
     "conf_names": [
       "abs_pred",
@@ -1268,8 +1268,8 @@
       "away": "Texans",
       "home": "Chargers",
       "pick": "HOU",
-      "edge": -1.2,
-      "confidence": 0.12,
+      "edge": -1.0,
+      "confidence": 0.1,
       "tier": "B",
       "top_pick": false,
       "qualified": false,
@@ -1284,9 +1284,9 @@
           "text": "Model ranks Texans #16, Chargers #29"
         }
       ],
-      "pick_spread": -4.5,
-      "model_margin": -5.7,
-      "market_margin": -4.5,
+      "pick_spread": -5.5,
+      "model_margin": -6.5,
+      "market_margin": -5.5,
       "sigma": 9.6
     },
     {
@@ -1368,7 +1368,7 @@
       "home": "Falcons",
       "pick": "CIN",
       "edge": -0.8,
-      "confidence": 0.08,
+      "confidence": 0.09,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
@@ -1406,7 +1406,7 @@
       "home": "Vikings",
       "pick": "MIN",
       "edge": 0.6,
-      "confidence": 0.07,
+      "confidence": 0.06,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
@@ -1470,6 +1470,30 @@
       "sigma": 9.8
     },
     {
+      "game_id": "2026_09_GB_NE",
+      "week": 9,
+      "kickoff": "2026-11-08T21:25:00+00:00",
+      "away": "Packers",
+      "home": "Patriots",
+      "pick": "GB",
+      "edge": -0.4,
+      "confidence": 0.04,
+      "tier": "D",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Packers on 3 more days of rest"
+        }
+      ],
+      "pick_spread": 3.0,
+      "model_margin": 2.6,
+      "market_margin": 3.0,
+      "sigma": 9.4
+    },
+    {
       "game_id": "2026_09_DEN_CAR",
       "week": 9,
       "kickoff": "2026-11-08T18:00:00+00:00",
@@ -1491,30 +1515,6 @@
       "pick_spread": 2.5,
       "model_margin": -2.1,
       "market_margin": -2.5,
-      "sigma": 9.4
-    },
-    {
-      "game_id": "2026_09_GB_NE",
-      "week": 9,
-      "kickoff": "2026-11-08T21:25:00+00:00",
-      "away": "Packers",
-      "home": "Patriots",
-      "pick": "GB",
-      "edge": -0.3,
-      "confidence": 0.04,
-      "tier": "D",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "Packers on 3 more days of rest"
-        }
-      ],
-      "pick_spread": 3.0,
-      "model_margin": 2.7,
-      "market_margin": 3.0,
       "sigma": 9.4
     },
     {
@@ -1548,9 +1548,9 @@
       "away": "Cardinals",
       "home": "Seahawks",
       "pick": "ARI",
-      "edge": -0.2,
-      "confidence": 0.02,
-      "tier": "E",
+      "edge": -0.3,
+      "confidence": 0.03,
+      "tier": "D",
       "top_pick": false,
       "qualified": false,
       "current_week": true,
@@ -1565,7 +1565,7 @@
         }
       ],
       "pick_spread": 8.5,
-      "model_margin": 8.3,
+      "model_margin": 8.2,
       "market_margin": 8.5,
       "sigma": 9.7
     },
@@ -1623,8 +1623,8 @@
       "kickoff": "2026-11-13T01:15:00+00:00",
       "away": "Commanders",
       "home": "Giants",
-      "pick": "NYG",
-      "edge": 0.0,
+      "pick": "WAS",
+      "edge": -0.0,
       "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
@@ -1636,7 +1636,7 @@
           "text": "Division game, historically closer"
         }
       ],
-      "pick_spread": -1.5,
+      "pick_spread": 1.5,
       "model_margin": 1.5,
       "market_margin": 1.5,
       "sigma": 9.3
@@ -3434,7 +3434,7 @@
   "board_balance": {
     "spread": {
       "n": 16,
-      "pct": 50.0,
+      "pct": 56.2,
       "side": "underdog",
       "corr": -0.0
     },
