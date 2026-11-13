@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-13T20:33:24+00:00",
+  "generated_at": "2026-11-13T22:11:38+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 10,
@@ -1461,6 +1461,25 @@
       "sigma": 9.3
     },
     {
+      "game_id": "2026_11_NYJ_LAC",
+      "week": 11,
+      "kickoff": "2026-11-22T21:05:00+00:00",
+      "away": "Jets",
+      "home": "Chargers",
+      "pick": "NYJ",
+      "edge": -1.3,
+      "confidence": 0.14,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": true,
+      "current_week": false,
+      "drivers": [],
+      "pick_spread": 1.5,
+      "model_margin": 0.2,
+      "market_margin": 1.5,
+      "sigma": 9.3
+    },
+    {
       "game_id": "2026_10_KC_ATL",
       "week": 10,
       "kickoff": "2026-11-15T18:00:00+00:00",
@@ -1647,6 +1666,34 @@
       "sigma": 9.3
     },
     {
+      "game_id": "2026_11_LV_DEN",
+      "week": 11,
+      "kickoff": "2026-11-22T21:25:00+00:00",
+      "away": "Raiders",
+      "home": "Broncos",
+      "pick": "LV",
+      "edge": -0.7,
+      "confidence": 0.07,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Broncos on 7 more days of rest"
+        },
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        }
+      ],
+      "pick_spread": 8.5,
+      "model_margin": 7.8,
+      "market_margin": 8.5,
+      "sigma": 9.7
+    },
+    {
       "game_id": "2026_10_BUF_NYJ",
       "week": 10,
       "kickoff": "2026-11-15T18:00:00+00:00",
@@ -1725,6 +1772,30 @@
       "model_margin": -10.7,
       "market_margin": -10.5,
       "sigma": 9.8
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "week": 11,
+      "kickoff": "2026-11-22T21:25:00+00:00",
+      "away": "Steelers",
+      "home": "Eagles",
+      "pick": "PHI",
+      "edge": 0.1,
+      "confidence": 0.01,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Eagles on 7 more days of rest"
+        }
+      ],
+      "pick_spread": 4.5,
+      "model_margin": -4.4,
+      "market_margin": -4.5,
+      "sigma": 9.5
     },
     {
       "game_id": "2026_11_NO_CHI",
@@ -1881,6 +1952,30 @@
       "drivers": [],
       "line": 50.5,
       "model_total": 43.6,
+      "wind": null,
+      "indoor": false
+    },
+    {
+      "game_id": "2026_11_PIT_PHI",
+      "week": 11,
+      "kickoff": "2026-11-22T21:25:00+00:00",
+      "away": "Steelers",
+      "home": "Eagles",
+      "pick": "Over",
+      "edge": 6.5,
+      "confidence": 0.54,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Eagles on 7 more days of rest"
+        }
+      ],
+      "line": 38.5,
+      "model_total": 45.0,
       "wind": null,
       "indoor": false
     },
@@ -2176,6 +2271,30 @@
       "indoor": false
     },
     {
+      "game_id": "2026_11_LV_DEN",
+      "week": 11,
+      "kickoff": "2026-11-22T21:25:00+00:00",
+      "away": "Raiders",
+      "home": "Broncos",
+      "pick": "Over",
+      "edge": 1.8,
+      "confidence": 0.15,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Broncos on 7 more days of rest"
+        }
+      ],
+      "line": 41.5,
+      "model_total": 43.3,
+      "wind": null,
+      "indoor": false
+    },
+    {
       "game_id": "2026_10_KC_ATL",
       "week": 10,
       "kickoff": "2026-11-15T18:00:00+00:00",
@@ -2231,6 +2350,30 @@
       "model_total": 44.6,
       "wind": null,
       "indoor": false
+    },
+    {
+      "game_id": "2026_11_NYJ_LAC",
+      "week": 11,
+      "kickoff": "2026-11-22T21:05:00+00:00",
+      "away": "Jets",
+      "home": "Chargers",
+      "pick": "Over",
+      "edge": 0.0,
+      "confidence": 0.0,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": false,
+      "drivers": [
+        {
+          "kind": "weather",
+          "text": "Indoors, weather removed"
+        }
+      ],
+      "line": 42.5,
+      "model_total": 42.5,
+      "wind": null,
+      "indoor": true
     }
   ],
   "history": [
@@ -3794,16 +3937,16 @@
   },
   "board_balance": {
     "spread": {
-      "n": 21,
-      "pct": 61.9,
+      "n": 24,
+      "pct": 66.7,
       "side": "underdog",
-      "corr": -0.57
+      "corr": -0.543
     },
     "total": {
-      "n": 21,
-      "pct": 57.1,
+      "n": 24,
+      "pct": 62.5,
       "side": "over",
-      "corr": -0.898
+      "corr": -0.89
     }
   },
   "ratings": [
