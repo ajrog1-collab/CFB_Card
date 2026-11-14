@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-14T18:47:56+00:00",
+  "generated_at": "2026-11-14T20:56:43+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 10,
@@ -773,11 +773,11 @@
       "active": true
     },
     "conf_weights": [
-      0.060472931164232684,
-      0.05340493345927344,
-      -0.05440043288034565,
+      0.0604729311642328,
+      0.053404933459272774,
+      -0.05440043288034568,
       -0.4244477148976028,
-      -0.08438862443958128,
+      -0.08438862443958135,
       9.718782974976094
     ],
     "conf_names": [
@@ -1523,6 +1523,30 @@
       "sigma": 9.5
     },
     {
+      "game_id": "2026_10_SF_DAL",
+      "week": 10,
+      "kickoff": "2026-11-15T21:25:00+00:00",
+      "away": "49ers",
+      "home": "Cowboys",
+      "pick": "SF",
+      "edge": -1.2,
+      "confidence": 0.13,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks 49ers #3, Cowboys #17"
+        }
+      ],
+      "pick_spread": -3.5,
+      "model_margin": -4.7,
+      "market_margin": -3.5,
+      "sigma": 9.5
+    },
+    {
       "game_id": "2026_10_MIA_IND",
       "week": 10,
       "kickoff": "2026-11-15T18:00:00+00:00",
@@ -1614,30 +1638,6 @@
       "sigma": 9.6
     },
     {
-      "game_id": "2026_10_SF_DAL",
-      "week": 10,
-      "kickoff": "2026-11-15T21:25:00+00:00",
-      "away": "49ers",
-      "home": "Cowboys",
-      "pick": "SF",
-      "edge": -1.0,
-      "confidence": 0.1,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "Model ranks 49ers #3, Cowboys #17"
-        }
-      ],
-      "pick_spread": -4.5,
-      "model_margin": -5.5,
-      "market_margin": -4.5,
-      "sigma": 9.6
-    },
-    {
       "game_id": "2026_11_JAX_NYG",
       "week": 11,
       "kickoff": "2026-11-22T18:00:00+00:00",
@@ -1685,6 +1685,34 @@
       "sigma": 9.3
     },
     {
+      "game_id": "2026_10_BUF_NYJ",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00+00:00",
+      "away": "Bills",
+      "home": "Jets",
+      "pick": "BUF",
+      "edge": -0.7,
+      "confidence": 0.07,
+      "tier": "C",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rivalry",
+          "text": "Division game, historically closer"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Bills #2, Jets #28"
+        }
+      ],
+      "pick_spread": -7.5,
+      "model_margin": -8.2,
+      "market_margin": -7.5,
+      "sigma": 9.7
+    },
+    {
       "game_id": "2026_11_LV_DEN",
       "week": 11,
       "kickoff": "2026-11-22T21:25:00+00:00",
@@ -1710,34 +1738,6 @@
       "pick_spread": 8.5,
       "model_margin": 7.8,
       "market_margin": 8.5,
-      "sigma": 9.7
-    },
-    {
-      "game_id": "2026_10_BUF_NYJ",
-      "week": 10,
-      "kickoff": "2026-11-15T18:00:00+00:00",
-      "away": "Bills",
-      "home": "Jets",
-      "pick": "BUF",
-      "edge": -0.5,
-      "confidence": 0.05,
-      "tier": "D",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rivalry",
-          "text": "Division game, historically closer"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Bills #2, Jets #28"
-        }
-      ],
-      "pick_spread": -8.5,
-      "model_margin": -9.0,
-      "market_margin": -8.5,
       "sigma": 9.7
     },
     {
@@ -3978,7 +3978,7 @@
       "n": 25,
       "pct": 68.0,
       "side": "underdog",
-      "corr": -0.555
+      "corr": -0.535
     },
     "total": {
       "n": 25,

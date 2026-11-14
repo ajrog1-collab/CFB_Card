@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-14T18:47:53+00:00",
+  "generated_at": "2026-11-14T20:56:40+00:00",
   "season": 2026,
   "min_edge": 4.9,
   "board_week": 11,
   "assumed_price": -110.0,
   "state": {
-    "games_played": 696,
-    "in_season_weight": 0.335,
+    "games_played": 704,
+    "in_season_weight": 0.337,
     "home_field": 3.35,
     "uses_epa": true,
     "uses_turnovers": true,
@@ -44,15 +44,15 @@
   },
   "board_balance": {
     "spread": {
-      "n": 68,
-      "pct": 51.5,
+      "n": 53,
+      "pct": 50.9,
       "side": "underdog",
-      "corr": -0.0,
+      "corr": 0.0,
       "debias": "slate"
     },
     "total": {
-      "n": 68,
-      "pct": 47.1,
+      "n": 53,
+      "pct": 45.3,
       "side": "over",
       "corr": -0.0,
       "debias": "slate"
@@ -63,7 +63,7 @@
     "model_disagree": 0.002,
     "missing_epa": -6.291,
     "rivalry": -0.397,
-    "wx_unknown": -0.0,
+    "wx_unknown": 0.0,
     "immaturity": 0.198,
     "baseline": 12.18
   },
@@ -1383,7 +1383,7 @@
       "model_disagree": 0.002,
       "missing_epa": -6.291,
       "rivalry": -0.397,
-      "wx_unknown": -0.0,
+      "wx_unknown": 0.0,
       "immaturity": 0.198,
       "baseline": 12.18
     },
@@ -1492,13 +1492,13 @@
       }
     ],
     "conf_weights": [
-      0.025500852625894736,
-      0.002300952619073371,
-      -6.291480528847757,
-      -0.39744490870674015,
-      -8.881784197001252e-16,
-      0.1978817660607189,
-      12.179657147797654
+      0.025500852625894826,
+      0.002300952619073149,
+      -6.2914805288477345,
+      -0.39744490870672805,
+      1.7763568394002505e-15,
+      0.19788176606071517,
+      12.179657147797661
     ],
     "conf_names": [
       "abs_pred",
@@ -1784,14 +1784,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/68.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/68.png"
     },
-    "Boston College": {
-      "abbr": "BC",
-      "conf": "ACC",
-      "color": "#8c2232",
-      "alt": "#dbcca6",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/103.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/103.png"
-    },
     "BYU": {
       "abbr": "BYU",
       "conf": "Big 12",
@@ -1799,14 +1791,6 @@
       "alt": "#002e5d",
       "logo": "https://cdn.collegefootballdata.com/logos/500/252.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/252.png"
-    },
-    "California": {
-      "abbr": "CAL",
-      "conf": "ACC",
-      "color": "#041e42",
-      "alt": "#ffc72c",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/25.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/25.png"
     },
     "Clemson": {
       "abbr": "CLEM",
@@ -1824,14 +1808,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/36.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/36.png"
     },
-    "Delaware": {
-      "abbr": "DEL",
-      "conf": "Conference USA",
-      "color": "#00539f",
-      "alt": "#ffd200",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/48.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/48.png"
-    },
     "Florida": {
       "abbr": "FLA",
       "conf": "SEC",
@@ -1847,14 +1823,6 @@
       "alt": "#cc0000",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2226.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2226.png"
-    },
-    "Florida International": {
-      "abbr": "FIU",
-      "conf": "Conference USA",
-      "color": "#091f3f",
-      "alt": "#c3993f",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2229.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2229.png"
     },
     "Florida State": {
       "abbr": "FSU",
@@ -1880,22 +1848,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/61.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/61.png"
     },
-    "Georgia Southern": {
-      "abbr": "GASO",
-      "conf": "Sun Belt",
-      "color": "#041e42",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/290.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/290.png"
-    },
-    "Georgia State": {
-      "abbr": "GAST",
-      "conf": "Sun Belt",
-      "color": "#0039a6",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2247.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2247.png"
-    },
     "Hawai'i": {
       "abbr": "HAW",
       "conf": "Mountain West",
@@ -1912,14 +1864,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/356.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/356.png"
     },
-    "Indiana": {
-      "abbr": "IU",
-      "conf": "Big Ten",
-      "color": "#990000",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/84.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/84.png"
-    },
     "Iowa": {
       "abbr": "IOWA",
       "conf": "Big Ten",
@@ -1928,38 +1872,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/2294.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2294.png"
     },
-    "Jacksonville State": {
-      "abbr": "JXST",
-      "conf": "Conference USA",
-      "color": "#cc0000",
-      "alt": "#000000",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/55.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/55.png"
-    },
-    "Kansas": {
-      "abbr": "KU",
-      "conf": "Big 12",
-      "color": "#0051ba",
-      "alt": "#e8000d",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2305.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2305.png"
-    },
-    "Kansas State": {
-      "abbr": "KSU",
-      "conf": "Big 12",
-      "color": "#512888",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2306.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2306.png"
-    },
-    "Kennesaw State": {
-      "abbr": "KENN",
-      "conf": "Conference USA",
-      "color": "#fdbb30",
-      "alt": "#0b1315",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/338.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/338.png"
-    },
     "Kentucky": {
       "abbr": "UK",
       "conf": "SEC",
@@ -1967,14 +1879,6 @@
       "alt": "#ffffff",
       "logo": "https://cdn.collegefootballdata.com/logos/500/96.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/96.png"
-    },
-    "Liberty": {
-      "abbr": "LIB",
-      "conf": "Conference USA",
-      "color": "#0a254e",
-      "alt": "#b72025",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2335.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2335.png"
     },
     "Louisiana Tech": {
       "abbr": "LT",
@@ -2032,14 +1936,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/127.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/127.png"
     },
-    "Middle Tennessee": {
-      "abbr": "MTSU",
-      "conf": "Conference USA",
-      "color": "#036eb7",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2393.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2393.png"
-    },
     "Minnesota": {
       "abbr": "MINN",
       "conf": "Big Ten",
@@ -2064,14 +1960,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/142.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/142.png"
     },
-    "Missouri State": {
-      "abbr": "MOST",
-      "conf": "Conference USA",
-      "color": "#5e0009",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2623.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2623.png"
-    },
     "NC State": {
       "abbr": "NCSU",
       "conf": "ACC",
@@ -2088,14 +1976,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/158.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/158.png"
     },
-    "Nevada": {
-      "abbr": "NEV",
-      "conf": "Mountain West",
-      "color": "#041e42",
-      "alt": "#8a8d8f",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2440.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2440.png"
-    },
     "New Mexico": {
       "abbr": "UNM",
       "conf": "Mountain West",
@@ -2103,14 +1983,6 @@
       "alt": "#a7a8aa",
       "logo": "https://cdn.collegefootballdata.com/logos/500/167.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/167.png"
-    },
-    "New Mexico State": {
-      "abbr": "NMSU",
-      "conf": "Conference USA",
-      "color": "#8c0b42",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/166.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/166.png"
     },
     "North Carolina": {
       "abbr": "UNC",
@@ -2127,14 +1999,6 @@
       "alt": "#ffc425",
       "logo": "https://cdn.collegefootballdata.com/logos/500/2449.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2449.png"
-    },
-    "Northern Illinois": {
-      "abbr": "NIU",
-      "conf": "Mountain West",
-      "color": "#c8102e",
-      "alt": "#000000",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2459.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2459.png"
     },
     "North Texas": {
       "abbr": "UNT",
@@ -2231,14 +2095,6 @@
       "alt": "#c1c6c8",
       "logo": "https://cdn.collegefootballdata.com/logos/500/242.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/242.png"
-    },
-    "Sam Houston": {
-      "abbr": "SHSU",
-      "conf": "Conference USA",
-      "color": "#f56423",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/2534.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/2534.png"
     },
     "San Diego State": {
       "abbr": "SDSU",
@@ -2472,22 +2328,6 @@
       "logo": "https://cdn.collegefootballdata.com/logos/500/265.png",
       "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/265.png"
     },
-    "Western Kentucky": {
-      "abbr": "WKU",
-      "conf": "Conference USA",
-      "color": "#c60c30",
-      "alt": "#ffffff",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/98.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/98.png"
-    },
-    "West Virginia": {
-      "abbr": "WVU",
-      "conf": "Big 12",
-      "color": "#eaaa00",
-      "alt": "#002855",
-      "logo": "https://cdn.collegefootballdata.com/logos/500/277.png",
-      "logo_dark": "https://cdn.collegefootballdata.com/logos-dark/500/277.png"
-    },
     "Wyoming": {
       "abbr": "WYO",
       "conf": "Mountain West",
@@ -2513,790 +2353,630 @@
   "qb_value": {
     "Air Force": {
       "starter": "Josh Johnson",
-      "starter_ppa": -1.378,
-      "backup": "Kemper Hodges",
-      "backup_ppa": 0.288,
-      "points": -50.0,
+      "starter_ppa": 0.281,
+      "backup": "Maguire Martin",
+      "backup_ppa": 1.0,
+      "points": -21.6,
       "estimated": false
     },
     "Alabama": {
-      "starter": "Austin Mack",
-      "starter_ppa": 0.609,
-      "backup": "Keelon Russell",
-      "backup_ppa": 0.463,
-      "points": 4.4,
+      "starter": "Ty Simpson",
+      "starter_ppa": 0.322,
+      "backup": "Austin Mack",
+      "backup_ppa": 0.374,
+      "points": -1.6,
       "estimated": false
     },
     "App State": {
-      "starter": "Malachi Singleton",
-      "starter_ppa": 0.227,
-      "backup": "Tommy Ulatowski",
-      "backup_ppa": 0.139,
-      "points": 2.6,
+      "starter": "Billy Wiles",
+      "starter_ppa": 0.137,
+      "backup": "J.J. Kohl",
+      "backup_ppa": 0.417,
+      "points": -8.4,
       "estimated": false
     },
     "Arizona": {
-      "starter": "Noah Fifita",
-      "starter_ppa": 0.364,
-      "backup": "Sawyer Anderson",
-      "backup_ppa": -0.241,
-      "points": 18.1,
+      "starter": "Braedyn Locke",
+      "starter_ppa": -1.045,
+      "backup": "Noah Fifita",
+      "backup_ppa": 0.23,
+      "points": -38.2,
       "estimated": false
     },
     "Arizona State": {
-      "starter": "Mikey Keene",
-      "starter_ppa": 0.139,
-      "backup": "Cutter Boley",
-      "backup_ppa": 0.105,
-      "points": 1.0,
+      "starter": "Jeff Sims",
+      "starter_ppa": 0.066,
+      "backup": "Sam Leavitt",
+      "backup_ppa": 0.3,
+      "points": -7.0,
       "estimated": false
     },
     "Arkansas": {
-      "starter": "KJ Jackson",
-      "starter_ppa": 0.096,
-      "backup": "AJ Hill",
-      "backup_ppa": 0.057,
-      "points": 1.2,
+      "starter": "Taylen Green",
+      "starter_ppa": 0.405,
+      "backup": "KJ Jackson",
+      "backup_ppa": 0.489,
+      "points": -2.5,
       "estimated": false
     },
     "Auburn": {
-      "starter": "Byrum Brown",
-      "starter_ppa": 0.161,
-      "backup": "Tristan Ti'a",
-      "backup_ppa": 0.334,
-      "points": -5.2,
+      "starter": "Ashton Daniels",
+      "starter_ppa": 0.246,
+      "backup": "Jackson Arnold",
+      "backup_ppa": 0.198,
+      "points": 1.4,
       "estimated": false
     },
     "BYU": {
       "starter": "Treyson Bourguet",
-      "starter_ppa": -1.506,
-      "backup": "Bear Bachmeier",
-      "backup_ppa": 0.285,
-      "points": -53.7,
+      "starter_ppa": 0.507,
+      "backup": "McCae Hillstead",
+      "backup_ppa": 0.259,
+      "points": 7.4,
       "estimated": false
     },
     "Baylor": {
-      "starter": "D.J. Lagway",
-      "starter_ppa": 0.213,
+      "starter": "Sawyer Robertson",
+      "starter_ppa": 0.249,
       "backup": "Nate Bennett",
-      "backup_ppa": 0.342,
-      "points": -3.9,
+      "backup_ppa": 0.119,
+      "points": 3.9,
       "estimated": false
     },
     "Boise State": {
       "starter": "Maddux Madsen",
-      "starter_ppa": 0.445,
+      "starter_ppa": 0.28,
       "backup": "Max Cutforth",
-      "backup_ppa": 1.186,
-      "points": -22.2,
-      "estimated": false
-    },
-    "Boston College": {
-      "starter": "Grayson Wilson",
-      "starter_ppa": -1.489,
-      "backup": "Femi Babalola",
-      "backup_ppa": -0.094,
-      "points": -41.9,
-      "estimated": false
-    },
-    "California": {
-      "starter": "Jackson Brousseau",
-      "starter_ppa": 0.047,
-      "backup": "Jaron-Keawe Sagapolutele",
-      "backup_ppa": 0.02,
-      "points": 0.8,
+      "backup_ppa": 0.035,
+      "points": 7.4,
       "estimated": false
     },
     "Clemson": {
-      "starter": "Christopher Vizzina",
-      "starter_ppa": -0.301,
-      "backup": "Trent Pearman",
-      "backup_ppa": -0.107,
-      "points": -5.8,
+      "starter": "Cade Klubnik",
+      "starter_ppa": 0.211,
+      "backup": "Christopher Vizzina",
+      "backup_ppa": 0.003,
+      "points": 6.2,
       "estimated": false
     },
     "Colorado State": {
-      "starter": "Hauss Hejny",
-      "starter_ppa": 0.444,
-      "backup": "Darius Curry",
-      "backup_ppa": 0.487,
-      "points": -1.3,
-      "estimated": false
-    },
-    "Delaware": {
-      "starter": "Riley Trujillo",
-      "starter_ppa": -0.011,
-      "backup": "Nick Minicucci",
-      "backup_ppa": 0.328,
-      "points": -10.2,
+      "starter": "Tahj Bullock",
+      "starter_ppa": -0.159,
+      "backup": "Brayden Fowler-Nicolosi",
+      "backup_ppa": 0.281,
+      "points": -13.2,
       "estimated": false
     },
     "Florida": {
-      "starter": "Aaron Philo",
-      "starter_ppa": 0.343,
+      "starter": "D.J. Lagway",
+      "starter_ppa": 0.131,
       "backup": "Tramell Jones Jr.",
-      "backup_ppa": 0.217,
-      "points": 3.8,
+      "backup_ppa": 0.011,
+      "points": 3.6,
       "estimated": false
     },
     "Florida Atlantic": {
-      "starter": "Caden Veltkamp",
-      "starter_ppa": 0.327,
-      "backup": "Jordan Magwood",
-      "backup_ppa": -0.208,
-      "points": 16.1,
-      "estimated": false
-    },
-    "Florida International": {
-      "starter": "J.J. Kohl",
-      "starter_ppa": 0.083,
-      "backup": "Zach Marker",
-      "backup_ppa": -0.102,
-      "points": 5.5,
+      "starter": "Zach Gibson",
+      "starter_ppa": 0.133,
+      "backup": "Caden Veltkamp",
+      "backup_ppa": 0.223,
+      "points": -2.7,
       "estimated": false
     },
     "Florida State": {
-      "starter": "Ashton Daniels",
-      "starter_ppa": 0.274,
-      "backup": "Kevin Sperry",
-      "backup_ppa": -0.219,
-      "points": 14.8,
+      "starter": "Thomas Castellanos",
+      "starter_ppa": 0.317,
+      "backup": "Brock Glenn",
+      "backup_ppa": 0.488,
+      "points": -5.1,
       "estimated": false
     },
     "Fresno State": {
-      "starter": "Jayden Mandal",
-      "starter_ppa": 0.276,
-      "backup": "Khristian Martin",
-      "backup_ppa": 0.609,
-      "points": -10.0,
+      "starter": "E.J. Warner",
+      "starter_ppa": 0.424,
+      "backup": "Carson Conklin",
+      "backup_ppa": 0.002,
+      "points": 12.7,
       "estimated": false
     },
     "Georgia": {
       "starter": "Gunner Stockton",
-      "starter_ppa": 0.403,
+      "starter_ppa": 0.314,
       "backup": "Ryan Puglisi",
-      "backup_ppa": 0.56,
-      "points": -4.7,
-      "estimated": false
-    },
-    "Georgia Southern": {
-      "starter": "Max Johnson",
-      "starter_ppa": 0.25,
-      "backup": "Turner Helton",
-      "backup_ppa": 0.324,
-      "points": -2.2,
-      "estimated": false
-    },
-    "Georgia State": {
-      "starter": "Ayden Pereira",
-      "starter_ppa": 0.166,
-      "backup": "Cameran Brown",
-      "backup_ppa": 0.393,
-      "points": -6.8,
+      "backup_ppa": 0.117,
+      "points": 5.9,
       "estimated": false
     },
     "Hawai'i": {
       "starter": "Micah Alejado",
-      "starter_ppa": 0.102,
-      "backup": "Bjorn Jurgensen",
-      "backup_ppa": -0.386,
-      "points": 14.6,
+      "starter_ppa": 0.277,
+      "backup": "Dermaricus Davis",
+      "backup_ppa": 0.411,
+      "points": -4.0,
       "estimated": false
     },
     "Illinois": {
-      "starter": "Katin Houser",
-      "starter_ppa": 0.265,
-      "backup": "Carson Boyd",
-      "backup_ppa": -0.185,
-      "points": 13.5,
-      "estimated": false
-    },
-    "Indiana": {
-      "starter": "Josh Hoover",
-      "starter_ppa": 0.454,
-      "backup": "Grant Wilson",
-      "backup_ppa": 0.595,
-      "points": -4.2,
+      "starter": "Luke Altmyer",
+      "starter_ppa": 0.388,
+      "backup": "Ethan Hampton",
+      "backup_ppa": 0.235,
+      "points": 4.6,
       "estimated": false
     },
     "Iowa": {
-      "starter": "Hank Brown",
-      "starter_ppa": 0.169,
-      "backup": "Jeremy Hecklinski",
-      "backup_ppa": 0.08,
-      "points": 2.7,
-      "estimated": false
-    },
-    "Jacksonville State": {
-      "starter": "Caden Creel",
-      "starter_ppa": 0.258,
-      "backup": "Jack Moran",
-      "backup_ppa": 1.504,
-      "points": -37.4,
-      "estimated": false
-    },
-    "Kansas": {
-      "starter": "Chase Jenkins",
-      "starter_ppa": 0.887,
-      "backup": "Isaiah Marshall",
-      "backup_ppa": 0.174,
-      "points": 21.4,
-      "estimated": false
-    },
-    "Kansas State": {
-      "starter": "Jacob Knuth",
-      "starter_ppa": -0.061,
-      "backup": "Avery Johnson",
-      "backup_ppa": 0.352,
-      "points": -12.4,
-      "estimated": false
-    },
-    "Kennesaw State": {
-      "starter": "Rickie Collins",
-      "starter_ppa": 0.075,
-      "backup": "Skyler Williams",
-      "backup_ppa": -0.695,
-      "points": 23.1,
+      "starter": "Mark Gronowski",
+      "starter_ppa": 0.289,
+      "backup": "Hank Brown",
+      "backup_ppa": 0.03,
+      "points": 7.8,
       "estimated": false
     },
     "Kentucky": {
-      "starter": "Callum Wither",
-      "starter_ppa": -0.491,
-      "backup": "Kenny Minchey",
-      "backup_ppa": 0.206,
-      "points": -20.9,
+      "starter": "Zach Calzada",
+      "starter_ppa": -0.114,
+      "backup": "Cutter Boley",
+      "backup_ppa": 0.185,
+      "points": -9.0,
       "estimated": false
     },
     "LSU": {
-      "starter": "Sam Leavitt",
-      "starter_ppa": 0.352,
-      "backup": "Husan Longstreet",
-      "backup_ppa": 0.648,
-      "points": -8.9,
-      "estimated": false
-    },
-    "Liberty": {
-      "starter": "Jaylen Henderson",
-      "starter_ppa": 0.092,
-      "backup": "Ethan Vasko",
-      "backup_ppa": 0.808,
-      "points": -21.5,
+      "starter": "Garrett Nussmeier",
+      "starter_ppa": 0.211,
+      "backup": "Ju'Juan Johnson",
+      "backup_ppa": -0.003,
+      "points": 6.4,
       "estimated": false
     },
     "Louisiana Tech": {
-      "starter": "Blake Baker",
-      "starter_ppa": 0.235,
-      "backup": "Jackson Bradley",
-      "backup_ppa": -0.815,
-      "points": 31.5,
+      "starter": "Evan Bullock",
+      "starter_ppa": -0.139,
+      "backup": "Blake Baker",
+      "backup_ppa": 0.292,
+      "points": -12.9,
       "estimated": false
     },
     "Louisville": {
-      "starter": "Davin Wydner",
-      "starter_ppa": 0.68,
-      "backup": "Lincoln Kienholz",
-      "backup_ppa": 0.432,
-      "points": 7.4,
+      "starter": "Miller Moss",
+      "starter_ppa": 0.159,
+      "backup": "Brady Allen",
+      "backup_ppa": 0.059,
+      "points": 3.0,
       "estimated": false
     },
     "Marshall": {
       "starter": "Carlos Del Rio-Wilson",
-      "starter_ppa": -0.263,
+      "starter_ppa": 0.278,
       "backup": "Zion Turner",
-      "backup_ppa": -0.01,
-      "points": -7.6,
+      "backup_ppa": 0.187,
+      "points": 2.7,
       "estimated": false
     },
     "Miami": {
-      "starter": "Darian Mensah",
-      "starter_ppa": 0.602,
-      "backup": "Luke Nickel",
-      "backup_ppa": 0.64,
-      "points": -1.1,
+      "starter": "Carson Beck",
+      "starter_ppa": 0.318,
+      "backup": "Emory Williams",
+      "backup_ppa": 0.137,
+      "points": 5.4,
       "estimated": false
     },
     "Michigan": {
-      "starter": "Bryce Underwood",
-      "starter_ppa": 0.076,
-      "backup": "Tommy Carr",
-      "backup_ppa": 0.192,
-      "points": -3.5,
+      "starter": "Jadyn Davis",
+      "starter_ppa": -0.092,
+      "backup": "Bryce Underwood",
+      "backup_ppa": 0.253,
+      "points": -10.3,
       "estimated": false
     },
     "Michigan State": {
-      "starter": "Cam Fancher",
-      "starter_ppa": -0.182,
+      "starter": "Aidan Chiles",
+      "starter_ppa": 0.431,
       "backup": "Alessio Milivojevic",
-      "backup_ppa": 0.05,
-      "points": -7.0,
-      "estimated": false
-    },
-    "Middle Tennessee": {
-      "starter": "Peter Costelli",
-      "starter_ppa": -0.62,
-      "backup": "Roman Gagliano",
-      "backup_ppa": 0.16,
-      "points": -23.4,
+      "backup_ppa": 0.099,
+      "points": 10.0,
       "estimated": false
     },
     "Minnesota": {
-      "starter": "Drake Lindsey",
-      "starter_ppa": 0.093,
-      "backup": "Max Shikenjanski",
-      "backup_ppa": 1.174,
-      "points": -32.4,
+      "starter": "Dylan Wittke",
+      "starter_ppa": -0.194,
+      "backup": "Drake Lindsey",
+      "backup_ppa": 0.185,
+      "points": -11.4,
       "estimated": false
     },
     "Mississippi State": {
-      "starter": "AJ Swann",
-      "starter_ppa": 0.072,
-      "backup": "Kamario Taylor",
-      "backup_ppa": 0.327,
-      "points": -7.7,
+      "starter": "Blake Shapen",
+      "starter_ppa": 0.201,
+      "backup": "Luke Kromenhoek",
+      "backup_ppa": 0.225,
+      "points": -0.7,
       "estimated": false
     },
     "Missouri": {
-      "starter": "Nick Evers",
-      "starter_ppa": 0.452,
-      "backup": "Austin Simmons",
-      "backup_ppa": 0.285,
-      "points": 5.0,
-      "estimated": false
-    },
-    "Missouri State": {
-      "starter": "Henry Belin IV",
-      "starter_ppa": 0.107,
-      "backup": "Skyler Locklear",
-      "backup_ppa": 0.143,
-      "points": -1.1,
+      "starter": "Sam Horn",
+      "starter_ppa": 0.373,
+      "backup": "Beau Pribula",
+      "backup_ppa": 0.263,
+      "points": 3.3,
       "estimated": false
     },
     "NC State": {
-      "starter": "Tad Hudson",
-      "starter_ppa": -0.187,
+      "starter": "Lex Thomas",
+      "starter_ppa": -0.273,
       "backup": "CJ Bailey",
-      "backup_ppa": 0.278,
-      "points": -14.0,
+      "backup_ppa": 0.352,
+      "points": -18.8,
       "estimated": false
     },
     "Nebraska": {
-      "starter": "Anthony Colandrea",
-      "starter_ppa": 0.215,
-      "backup": "Daniel Kaelin",
-      "backup_ppa": -0.482,
-      "points": 20.9,
-      "estimated": false
-    },
-    "Nevada": {
-      "starter": "AJ Bianco",
-      "starter_ppa": 0.018,
-      "backup": "Luke Duncan",
-      "backup_ppa": -0.359,
-      "points": 11.3,
+      "starter": "Dylan Raiola",
+      "starter_ppa": 0.277,
+      "backup": "TJ Lateef",
+      "backup_ppa": 0.076,
+      "points": 6.0,
       "estimated": false
     },
     "New Mexico": {
-      "starter": "Luke Moga",
-      "starter_ppa": 0.128,
+      "starter": "Jack Layne",
+      "starter_ppa": 0.252,
       "backup": "James Laubstein",
-      "backup_ppa": 0.69,
-      "points": -16.9,
-      "estimated": false
-    },
-    "New Mexico State": {
-      "starter": "Adam Damante",
-      "starter_ppa": -0.205,
-      "backup": "Trey Hedden",
-      "backup_ppa": 0.064,
-      "points": -8.1,
+      "backup_ppa": 0.295,
+      "points": -1.3,
       "estimated": false
     },
     "North Carolina": {
-      "starter": "Billy Edwards",
-      "starter_ppa": 0.257,
-      "backup": "Miles O'Neill",
-      "backup_ppa": 0.409,
-      "points": -4.6,
+      "starter": "Max Johnson",
+      "starter_ppa": 0.139,
+      "backup": "Giovanni Lopez",
+      "backup_ppa": 0.229,
+      "points": -2.7,
       "estimated": false
     },
     "North Dakota State": {
-      "starter": "Nathan Hayes",
-      "starter_ppa": 0.258,
-      "backup": "Trey Drake",
-      "backup_ppa": 1.302,
-      "points": -31.3,
+      "starter": "Cole Payton",
+      "starter_ppa": 0.587,
+      "backup": "Nathan Hayes",
+      "backup_ppa": 0.491,
+      "points": 2.9,
       "estimated": false
     },
     "North Texas": {
-      "starter": "Tayven Jackson",
-      "starter_ppa": 0.481,
+      "starter": "Reese Poffenbarger",
+      "starter_ppa": 0.048,
       "backup": "Chris Jimerson Jr.",
-      "backup_ppa": 0.374,
-      "points": 3.2,
-      "estimated": false
-    },
-    "Northern Illinois": {
-      "starter": "Taron Dickens",
-      "starter_ppa": 0.019,
-      "backup": "Jalen Macon",
-      "backup_ppa": -0.263,
-      "points": 8.5,
+      "backup_ppa": 0.961,
+      "points": -27.4,
       "estimated": false
     },
     "Northwestern": {
-      "starter": "Nicco Marchiol",
-      "starter_ppa": -0.083,
-      "backup": "Aidan Chiles",
-      "backup_ppa": 0.509,
-      "points": -17.8,
+      "starter": "Preston Stone",
+      "starter_ppa": 0.16,
+      "backup": "Ryan Boe",
+      "backup_ppa": 0.163,
+      "points": -0.1,
       "estimated": false
     },
     "Notre Dame": {
-      "starter": "C.J. Carr",
-      "starter_ppa": 0.462,
-      "backup": "Noah Grubbs",
-      "backup_ppa": 0.482,
-      "points": -0.6,
+      "starter": "Kenny Minchey",
+      "starter_ppa": 0.461,
+      "backup": "C.J. Carr",
+      "backup_ppa": 0.357,
+      "points": 3.1,
       "estimated": false
     },
     "Ohio State": {
-      "starter": "Julian Sayin",
-      "starter_ppa": 0.492,
-      "backup": "Luke Fahey",
-      "backup_ppa": 0.189,
-      "points": 9.1,
+      "starter": "Lincoln Kienholz",
+      "starter_ppa": 0.587,
+      "backup": "Julian Sayin",
+      "backup_ppa": 0.482,
+      "points": 3.1,
       "estimated": false
     },
     "Oklahoma": {
       "starter": "John Mateer",
-      "starter_ppa": 0.176,
-      "backup": "Whitt Newbauer",
-      "backup_ppa": 0.55,
-      "points": -11.2,
+      "starter_ppa": 0.2,
+      "backup": "Michael Hawkins Jr.",
+      "backup_ppa": 0.279,
+      "points": -2.4,
       "estimated": false
     },
     "Oklahoma State": {
-      "starter": "Drew Mestemaker",
-      "starter_ppa": 0.362,
-      "backup": "Broderick Vehrs",
-      "backup_ppa": 0.747,
-      "points": -11.6,
+      "starter": "Zane Flores",
+      "starter_ppa": 0.02,
+      "backup": "Hauss Hejny",
+      "backup_ppa": 0.786,
+      "points": -23.0,
       "estimated": false
     },
     "Ole Miss": {
       "starter": "Trinidad Chambliss",
-      "starter_ppa": 0.261,
-      "backup": "Deuce Knight",
-      "backup_ppa": 0.072,
-      "points": 5.7,
+      "starter_ppa": 0.345,
+      "backup": "AJ Maddox",
+      "backup_ppa": 0.334,
+      "points": 0.3,
       "estimated": false
     },
     "Oregon": {
       "starter": "Dante Moore",
-      "starter_ppa": 0.282,
-      "backup": "Dylan Raiola",
-      "backup_ppa": 0.218,
-      "points": 1.9,
+      "starter_ppa": 0.382,
+      "backup": "Austin Novosad",
+      "backup_ppa": 0.683,
+      "points": -9.0,
       "estimated": false
     },
     "Oregon State": {
       "starter": "Maalik Murphy",
-      "starter_ppa": 0.276,
-      "backup": "Braden Atkinson",
-      "backup_ppa": 0.298,
-      "points": -0.7,
+      "starter_ppa": 0.187,
+      "backup": "Gabarri Johnson",
+      "backup_ppa": -0.071,
+      "points": 7.7,
       "estimated": false
     },
     "Penn State": {
-      "starter": "Rocco Becht",
-      "starter_ppa": 0.228,
-      "backup": "Connor Barry",
-      "backup_ppa": -0.032,
-      "points": 7.8,
+      "starter": "Drew Allar",
+      "starter_ppa": 0.248,
+      "backup": "Jaxon Smolik",
+      "backup_ppa": -0.454,
+      "points": 21.1,
       "estimated": false
     },
     "Purdue": {
-      "starter": "Ryan Browne",
-      "starter_ppa": 0.273,
-      "backup": "Evans Chuba",
-      "backup_ppa": 0.105,
-      "points": 5.0,
+      "starter": "Malachi Singleton",
+      "starter_ppa": 0.011,
+      "backup": "Ryan Browne",
+      "backup_ppa": 0.226,
+      "points": -6.5,
       "estimated": false
     },
     "Rice": {
-      "starter": "Jacurri Brown",
-      "starter_ppa": 0.031,
-      "backup": "Gael Ochoa",
-      "backup_ppa": 0.206,
-      "points": -5.2,
+      "starter": "Chase Jenkins",
+      "starter_ppa": 0.077,
+      "backup": "Drew Devillier",
+      "backup_ppa": -0.112,
+      "points": 5.7,
       "estimated": false
     },
     "SMU": {
       "starter": "Kevin Jennings",
-      "starter_ppa": 0.398,
+      "starter_ppa": 0.331,
       "backup": "Charlie Fiser",
-      "backup_ppa": -0.14,
-      "points": 16.1,
-      "estimated": false
-    },
-    "Sam Houston": {
-      "starter": "Landyn Locke",
-      "starter_ppa": 0.058,
-      "backup": "DJ Bailey",
-      "backup_ppa": 0.116,
-      "points": -1.7,
+      "backup_ppa": 0.474,
+      "points": -4.3,
       "estimated": false
     },
     "San Diego State": {
       "starter": "Jayden Denegal",
-      "starter_ppa": -0.083,
-      "backup": "Stone Saunders",
-      "backup_ppa": 0.133,
-      "points": -6.5,
+      "starter_ppa": 0.073,
+      "backup": "Kyle Crum",
+      "backup_ppa": -0.042,
+      "points": 3.4,
       "estimated": false
     },
     "San Jos\u00e9 State": {
-      "starter": "Robert McDaniel",
-      "starter_ppa": -0.458,
-      "backup": "Daniel Rolovich",
-      "backup_ppa": 0.194,
-      "points": -19.6,
+      "starter": "Xavier Ward",
+      "starter_ppa": -0.489,
+      "backup": "Walker Eget",
+      "backup_ppa": 0.312,
+      "points": -24.0,
       "estimated": false
     },
     "South Alabama": {
       "starter": "Bishop Davenport",
-      "starter_ppa": 0.339,
+      "starter_ppa": 0.177,
       "backup": "Jared Hollins",
-      "backup_ppa": 0.128,
-      "points": 6.3,
+      "backup_ppa": 0.107,
+      "points": 2.1,
       "estimated": false
     },
     "South Carolina": {
       "starter": "Lanorris Sellers",
-      "starter_ppa": 0.286,
-      "backup": "Lucian Anderson III",
-      "backup_ppa": 0.637,
-      "points": -10.5,
+      "starter_ppa": 0.192,
+      "backup": "Air Noland",
+      "backup_ppa": 0.074,
+      "points": 3.5,
       "estimated": false
     },
     "Southern Miss": {
-      "starter": "Ethan Hampton",
-      "starter_ppa": -0.084,
+      "starter": "Braylon Braxton",
+      "starter_ppa": 0.203,
       "backup": "Landy Lyddy",
-      "backup_ppa": -0.089,
-      "points": 0.1,
+      "backup_ppa": 0.348,
+      "points": -4.3,
       "estimated": false
     },
     "Stanford": {
-      "starter": "Davis Warren",
-      "starter_ppa": 0.192,
+      "starter": "Ben Gulbranson",
+      "starter_ppa": 0.221,
       "backup": "Charlie Mirer",
-      "backup_ppa": -0.763,
-      "points": 28.7,
+      "backup_ppa": 0.467,
+      "points": -7.4,
       "estimated": false
     },
     "TCU": {
-      "starter": "Jaden Craig",
-      "starter_ppa": 0.174,
-      "backup": "Adam Schobel",
-      "backup_ppa": -0.085,
-      "points": 7.8,
+      "starter": "Ken Seals",
+      "starter_ppa": 0.096,
+      "backup": "Josh Hoover",
+      "backup_ppa": 0.381,
+      "points": -8.6,
       "estimated": false
     },
     "Tennessee": {
-      "starter": "Ryan Staub",
-      "starter_ppa": 0.949,
+      "starter": "Jake Merklinger",
+      "starter_ppa": 0.356,
       "backup": "George MacIntyre",
-      "backup_ppa": 0.137,
-      "points": 24.4,
+      "backup_ppa": 0.425,
+      "points": -2.1,
       "estimated": false
     },
     "Texas": {
       "starter": "Arch Manning",
-      "starter_ppa": 0.161,
-      "backup": "Karle Lacey Jr.",
-      "backup_ppa": 0.476,
-      "points": -9.4,
+      "starter_ppa": 0.253,
+      "backup": "Matthew Caldwell",
+      "backup_ppa": 1.103,
+      "points": -25.5,
       "estimated": false
     },
     "Texas A&M": {
-      "starter": "Marcel Reed",
-      "starter_ppa": 0.047,
-      "backup": "Helaman Casuga",
-      "backup_ppa": -1.286,
-      "points": 40.0,
+      "starter": "Jacob Zeno",
+      "starter_ppa": 0.086,
+      "backup": "Marcel Reed",
+      "backup_ppa": 0.312,
+      "points": -6.8,
       "estimated": false
     },
     "Texas State": {
-      "starter": "Brad Jackson",
-      "starter_ppa": 0.401,
-      "backup": "Gavin Parkhurst",
-      "backup_ppa": 0.249,
-      "points": 4.6,
+      "starter": "Holden Geriner",
+      "starter_ppa": 0.356,
+      "backup": "Keldric Luster",
+      "backup_ppa": 0.323,
+      "points": 1.0,
       "estimated": false
     },
     "Texas Tech": {
-      "starter": "Thomas Castellanos",
-      "starter_ppa": 0.486,
-      "backup": "Will Hammond",
-      "backup_ppa": 0.236,
-      "points": 7.5,
+      "starter": "Behren Morton",
+      "starter_ppa": 0.295,
+      "backup": "Mitch Griffis",
+      "backup_ppa": 0.482,
+      "points": -5.6,
       "estimated": false
     },
     "Troy": {
       "starter": "Will Crowder",
-      "starter_ppa": 0.129,
+      "starter_ppa": 0.07,
       "backup": "Will Crowder",
-      "backup_ppa": 0.129,
+      "backup_ppa": 0.07,
       "points": 0.0,
       "estimated": false
     },
     "Tulane": {
-      "starter": "Zeon Chriss",
-      "starter_ppa": 0.108,
-      "backup": "Kadin Semonza",
-      "backup_ppa": -0.063,
-      "points": 5.1,
+      "starter": "Brendan Sullivan",
+      "starter_ppa": -0.03,
+      "backup": "Jake Retzlaff",
+      "backup_ppa": 0.301,
+      "points": -9.9,
       "estimated": false
     },
     "Tulsa": {
-      "starter": "Dexter Williams II",
-      "starter_ppa": -0.031,
-      "backup": "Baylor Hayes",
-      "backup_ppa": 0.302,
-      "points": -10.0,
+      "starter": "Stephen Kittleman",
+      "starter_ppa": 0.104,
+      "backup": "Kirk Francis",
+      "backup_ppa": 0.124,
+      "points": -0.6,
       "estimated": false
     },
     "UCF": {
-      "starter": "Alonza Barnett",
-      "starter_ppa": -0.037,
-      "backup": "Keyone Jenkins",
-      "backup_ppa": 0.138,
-      "points": -5.3,
+      "starter": "Jacurri Brown",
+      "starter_ppa": 0.861,
+      "backup": "Cam Fancher",
+      "backup_ppa": 0.065,
+      "points": 23.9,
       "estimated": false
     },
     "UCLA": {
       "starter": "Nico Iamaleava",
-      "starter_ppa": 0.058,
-      "backup": "Ty Dieffenbach",
-      "backup_ppa": 0.277,
-      "points": -6.6,
+      "starter_ppa": 0.227,
+      "backup": "Luke Duncan",
+      "backup_ppa": 0.272,
+      "points": -1.4,
       "estimated": false
     },
     "UNLV": {
-      "starter": "Alex Orji",
-      "starter_ppa": 0.026,
-      "backup": "Jackson Arnold",
-      "backup_ppa": 0.224,
-      "points": -5.9,
+      "starter": "Cameron Friel",
+      "starter_ppa": -0.156,
+      "backup": "Alex Orji",
+      "backup_ppa": 0.07,
+      "points": -6.8,
       "estimated": false
     },
     "USC": {
-      "starter": "Jayden Maiava",
-      "starter_ppa": 0.349,
-      "backup": "Jonas Williams",
-      "backup_ppa": 0.041,
-      "points": 9.2,
+      "starter": "Sam Huard",
+      "starter_ppa": 3.211,
+      "backup": "Jayden Maiava",
+      "backup_ppa": 0.477,
+      "points": 82.0,
       "estimated": false
     },
     "UTEP": {
-      "starter": "EJ Colson",
-      "starter_ppa": -0.03,
-      "backup": "Raymond Moore III",
-      "backup_ppa": -0.095,
-      "points": 2.0,
+      "starter": "Malachi Nelson",
+      "starter_ppa": 0.034,
+      "backup": "Skyler Locklear",
+      "backup_ppa": 0.021,
+      "points": 0.4,
       "estimated": false
     },
     "UTSA": {
       "starter": "Owen McCown",
-      "starter_ppa": 0.247,
+      "starter_ppa": 0.262,
       "backup": "Brandon Tennison",
-      "backup_ppa": -0.392,
-      "points": 19.2,
+      "backup_ppa": 0.22,
+      "points": 1.3,
       "estimated": false
     },
     "Utah": {
-      "starter": "Brandon Rose",
-      "starter_ppa": 0.313,
-      "backup": "Devon Dampier",
-      "backup_ppa": 0.357,
-      "points": -1.3,
+      "starter": "Devon Dampier",
+      "starter_ppa": 0.321,
+      "backup": "Byrd Ficklin",
+      "backup_ppa": 0.538,
+      "points": -6.5,
       "estimated": false
     },
     "Utah State": {
-      "starter": "McCae Hillstead",
-      "starter_ppa": 0.231,
-      "backup": "Grady Brosterhous",
-      "backup_ppa": -0.03,
-      "points": 7.8,
+      "starter": "Bryson Barnes",
+      "starter_ppa": 0.241,
+      "backup": "Jacob Conover",
+      "backup_ppa": 0.232,
+      "points": 0.3,
       "estimated": false
     },
     "Vanderbilt": {
-      "starter": "Blaze Berlowitz",
-      "starter_ppa": 0.164,
-      "backup": "Whit Muschamp",
-      "backup_ppa": 0.019,
-      "points": 4.4,
+      "starter": "Drew Dickey",
+      "starter_ppa": 0.648,
+      "backup": "Diego Pavia",
+      "backup_ppa": 0.483,
+      "points": 5.0,
       "estimated": false
     },
     "Virginia": {
-      "starter": "Beau Pribula",
-      "starter_ppa": 0.131,
-      "backup": "Eli Holstein",
-      "backup_ppa": 0.312,
-      "points": -5.4,
+      "starter": "Chandler Morris",
+      "starter_ppa": 0.325,
+      "backup": "Daniel Kaelin",
+      "backup_ppa": 0.096,
+      "points": 6.9,
       "estimated": false
     },
     "Virginia Tech": {
-      "starter": "Bryce Baker",
-      "starter_ppa": 0.192,
-      "backup": "Ethan Grunkemeyer",
-      "backup_ppa": 0.332,
-      "points": -4.2,
+      "starter": "Kyron Drones",
+      "starter_ppa": 0.189,
+      "backup": "William Watson III",
+      "backup_ppa": 0.13,
+      "points": 1.8,
       "estimated": false
     },
     "Washington": {
-      "starter": "Elijah Brown",
-      "starter_ppa": 0.284,
+      "starter": "Kai Horton",
+      "starter_ppa": -0.01,
       "backup": "Demond Williams Jr.",
-      "backup_ppa": 0.249,
-      "points": 1.0,
+      "backup_ppa": 0.332,
+      "points": -10.3,
       "estimated": false
     },
     "Washington State": {
-      "starter": "Julian Dugger",
-      "starter_ppa": 0.627,
-      "backup": "Caden Pinnick",
-      "backup_ppa": -0.093,
-      "points": 21.6,
-      "estimated": false
-    },
-    "West Virginia": {
-      "starter": "Michael Hawkins Jr.",
-      "starter_ppa": 0.364,
-      "backup": "Jyron Hughley",
-      "backup_ppa": 1.143,
-      "points": -23.4,
-      "estimated": false
-    },
-    "Western Kentucky": {
-      "starter": "Brock Glenn",
-      "starter_ppa": 0.139,
-      "backup": "Caleb McMickle",
-      "backup_ppa": 0.319,
-      "points": -5.4,
+      "starter": "Zevi Eckhaus",
+      "starter_ppa": 0.236,
+      "backup": "Jaxon Potter",
+      "backup_ppa": 0.239,
+      "points": -0.1,
       "estimated": false
     },
     "Wyoming": {
-      "starter": "Tyler Hughes",
-      "starter_ppa": 0.193,
+      "starter": "Kaden Anderson",
+      "starter_ppa": 0.09,
       "backup": "Mason Drube",
-      "backup_ppa": -4.293,
-      "points": 134.6,
+      "backup_ppa": -0.093,
+      "points": 5.5,
       "estimated": false
     }
   },
-  "qb_season": 2026,
+  "qb_season": 2025,
   "picks": [
     {
       "game_id": 401856873,
@@ -3307,7 +2987,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Arizona #18, Arizona State #82"
+          "text": "Model ranks Arizona #17, Arizona State #81"
         }
       ],
       "home_rating": 3.9,
@@ -3318,9 +2998,9 @@
       "home": "Arizona",
       "pick": "Arizona",
       "pick_spread": -4.5,
-      "model_margin": 10.2,
+      "model_margin": 10.3,
       "market_margin": 4.5,
-      "edge": 5.7,
+      "edge": 5.8,
       "confidence": 0.45,
       "sigma": 12.9,
       "top_pick": true,
@@ -3337,7 +3017,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Texas Tech #11, Oklahoma State #44"
+          "text": "Model ranks Texas Tech #12, Oklahoma State #44"
         }
       ],
       "home_rating": 1.8,
@@ -3348,9 +3028,9 @@
       "home": "Oklahoma State",
       "pick": "Texas Tech",
       "pick_spread": 3.5,
-      "model_margin": -1.2,
+      "model_margin": -1.1,
       "market_margin": 3.5,
-      "edge": -4.7,
+      "edge": -4.6,
       "confidence": 0.36,
       "sigma": 12.9,
       "top_pick": false,
@@ -3385,25 +3065,29 @@
       "current_week": false
     },
     {
-      "game_id": 401869952,
+      "game_id": 401862828,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Tulane #104, Rice #235"
         }
       ],
-      "home_rating": -0.4,
+      "home_rating": -3.5,
       "away_rating": -0.9,
       "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Georgia Southern",
-      "home": "Georgia State",
-      "pick": "Georgia State",
-      "pick_spread": 6.0,
-      "model_margin": -1.6,
-      "market_margin": -6.0,
-      "edge": 4.4,
-      "confidence": 0.34,
+      "kickoff": "2026-11-14T21:30:00+00:00",
+      "away": "Tulane",
+      "home": "Rice",
+      "pick": "Tulane",
+      "pick_spread": 3.5,
+      "model_margin": -0.8,
+      "market_margin": 3.5,
+      "edge": -4.3,
+      "confidence": 0.33,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3439,36 +3123,6 @@
       "tier": "C",
       "qualified": false,
       "current_week": false
-    },
-    {
-      "game_id": 401862828,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Tulane #104, Rice #235"
-        }
-      ],
-      "home_rating": -3.5,
-      "away_rating": -0.9,
-      "week": 11,
-      "kickoff": "2026-11-14T21:30:00+00:00",
-      "away": "Tulane",
-      "home": "Rice",
-      "pick": "Tulane",
-      "pick_spread": 3.0,
-      "model_margin": -1.1,
-      "market_margin": 3.0,
-      "edge": -4.1,
-      "confidence": 0.32,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": true
     },
     {
       "game_id": 401858313,
@@ -3531,10 +3185,10 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Florida #40, Kentucky #72"
+          "text": "Model ranks Florida #40, Kentucky #73"
         }
       ],
-      "home_rating": 0.0,
+      "home_rating": -0.0,
       "away_rating": 2.2,
       "week": 11,
       "kickoff": "2026-11-14T23:15:00+00:00",
@@ -3546,36 +3200,6 @@
       "market_margin": 3.0,
       "edge": -3.5,
       "confidence": 0.27,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401864540,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Wyoming #165, UTEP #248"
-        }
-      ],
-      "home_rating": -6.1,
-      "away_rating": -1.2,
-      "week": 11,
-      "kickoff": "2026-11-15T03:00:00+00:00",
-      "away": "Wyoming",
-      "home": "UTEP",
-      "pick": "Wyoming",
-      "pick_spread": -7.0,
-      "model_margin": -10.2,
-      "market_margin": -7.0,
-      "edge": -3.2,
-      "confidence": 0.25,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3602,10 +3226,40 @@
       "home": "Washington State",
       "pick": "Washington State",
       "pick_spread": -8.5,
-      "model_margin": 11.6,
+      "model_margin": 11.7,
       "market_margin": 8.5,
-      "edge": 3.1,
-      "confidence": 0.24,
+      "edge": 3.2,
+      "confidence": 0.25,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401864540,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Wyoming #162, UTEP #248"
+        }
+      ],
+      "home_rating": -6.1,
+      "away_rating": -1.2,
+      "week": 11,
+      "kickoff": "2026-11-15T03:00:00+00:00",
+      "away": "Wyoming",
+      "home": "UTEP",
+      "pick": "Wyoming",
+      "pick_spread": -7.0,
+      "model_margin": -10.2,
+      "market_margin": -7.0,
+      "edge": -3.2,
+      "confidence": 0.25,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "C",
@@ -3618,6 +3272,10 @@
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks San Diego State #88, Utah State #113"
         }
       ],
       "home_rating": -0.6,
@@ -3637,32 +3295,6 @@
       "tier": "C",
       "qualified": false,
       "current_week": true
-    },
-    {
-      "game_id": 401856764,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 1.6,
-      "away_rating": 3.5,
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "South Carolina",
-      "home": "Clemson",
-      "pick": "South Carolina",
-      "pick_spread": 3.0,
-      "model_margin": 0.1,
-      "market_margin": 3.0,
-      "edge": -2.9,
-      "confidence": 0.23,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": false
     },
     {
       "game_id": 401858543,
@@ -3691,7 +3323,7 @@
       "current_week": false
     },
     {
-      "game_id": 401858531,
+      "game_id": 401856764,
       "drivers": [
         {
           "kind": "caution",
@@ -3699,19 +3331,19 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Ohio State #2, Nebraska #29"
+          "text": "Model ranks South Carolina #21, Clemson #48"
         }
       ],
-      "home_rating": 2.6,
-      "away_rating": 6.8,
-      "week": 12,
-      "kickoff": "2026-11-21T05:00:00+00:00",
-      "away": "Ohio State",
-      "home": "Nebraska",
-      "pick": "Ohio State",
-      "pick_spread": -5.5,
-      "model_margin": -8.4,
-      "market_margin": -5.5,
+      "home_rating": 1.6,
+      "away_rating": 3.5,
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "South Carolina",
+      "home": "Clemson",
+      "pick": "South Carolina",
+      "pick_spread": 3.0,
+      "model_margin": 0.1,
+      "market_margin": 3.0,
       "edge": -2.9,
       "confidence": 0.23,
       "sigma": 12.9,
@@ -3729,11 +3361,11 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Iowa #13, Purdue #218"
+          "text": "Model ranks Iowa #14, Purdue #216"
         }
       ],
       "home_rating": 4.5,
-      "away_rating": -1.7,
+      "away_rating": -1.6,
       "week": 11,
       "kickoff": "2026-11-15T00:30:00+00:00",
       "away": "Purdue",
@@ -3743,7 +3375,7 @@
       "model_margin": 20.3,
       "market_margin": 17.5,
       "edge": 2.8,
-      "confidence": 0.21,
+      "confidence": 0.22,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -3759,10 +3391,10 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Tennessee #19, Vanderbilt #60"
+          "text": "Model ranks Tennessee #18, Vanderbilt #60"
         }
       ],
-      "home_rating": 0.5,
+      "home_rating": 0.6,
       "away_rating": 3.9,
       "week": 13,
       "kickoff": "2026-11-28T05:00:00+00:00",
@@ -3774,148 +3406,6 @@
       "market_margin": -3.0,
       "edge": -2.6,
       "confidence": 0.2,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401858537,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 1.6,
-      "away_rating": 1.6,
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Illinois",
-      "home": "Northwestern",
-      "pick": "Northwestern",
-      "pick_spread": 3.5,
-      "model_margin": -0.9,
-      "market_margin": -3.5,
-      "edge": 2.6,
-      "confidence": 0.2,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401856862,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 2.2,
-      "away_rating": 0.7,
-      "week": 11,
-      "kickoff": "2026-11-14T19:00:00+00:00",
-      "away": "Kansas State",
-      "home": "TCU",
-      "pick": "Kansas State",
-      "pick_spread": 14.0,
-      "model_margin": 11.4,
-      "market_margin": 14.0,
-      "edge": -2.6,
-      "confidence": 0.2,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401864536,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Nevada #105, Northern Illinois #245"
-        }
-      ],
-      "home_rating": -5.0,
-      "away_rating": -0.9,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Nevada",
-      "home": "Northern Illinois",
-      "pick": "Nevada",
-      "pick_spread": -6.0,
-      "model_margin": -8.5,
-      "market_margin": -6.0,
-      "edge": -2.5,
-      "confidence": 0.2,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401864539,
-      "drivers": [
-        {
-          "kind": "contrarian",
-          "text": "Backing a 18-point underdog"
-        },
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 2.5,
-      "away_rating": -0.2,
-      "week": 11,
-      "kickoff": "2026-11-15T00:30:00+00:00",
-      "away": "UNLV",
-      "home": "New Mexico",
-      "pick": "UNLV",
-      "pick_spread": 17.5,
-      "model_margin": 15.0,
-      "market_margin": 17.5,
-      "edge": -2.5,
-      "confidence": 0.19,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856879,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks TCU #39, Texas Tech #11"
-        }
-      ],
-      "home_rating": 4.6,
-      "away_rating": 2.2,
-      "week": 13,
-      "kickoff": "2026-11-27T01:00:00+00:00",
-      "away": "TCU",
-      "home": "Texas Tech",
-      "pick": "TCU",
-      "pick_spread": 16.5,
-      "model_margin": 14.1,
-      "market_margin": 16.5,
-      "edge": -2.4,
-      "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -3937,11 +3427,11 @@
       "away": "Texas",
       "home": "LSU",
       "pick": "Texas",
-      "pick_spread": 4.5,
-      "model_margin": 2.4,
-      "market_margin": 4.5,
-      "edge": -2.1,
-      "confidence": 0.16,
+      "pick_spread": 5.5,
+      "model_margin": 3.0,
+      "market_margin": 5.5,
+      "edge": -2.5,
+      "confidence": 0.2,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -3949,33 +3439,37 @@
       "current_week": true
     },
     {
-      "game_id": 401858307,
+      "game_id": 401864539,
       "drivers": [
+        {
+          "kind": "contrarian",
+          "text": "Backing a 18-point underdog"
+        },
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
         }
       ],
-      "home_rating": 6.7,
-      "away_rating": 4.2,
-      "week": 12,
-      "kickoff": "2026-11-22T00:30:00+00:00",
-      "away": "SMU",
-      "home": "Notre Dame",
-      "pick": "SMU",
-      "pick_spread": 16.5,
-      "model_margin": 14.4,
-      "market_margin": 16.5,
-      "edge": -2.1,
-      "confidence": 0.16,
+      "home_rating": 2.5,
+      "away_rating": -0.1,
+      "week": 11,
+      "kickoff": "2026-11-15T00:30:00+00:00",
+      "away": "UNLV",
+      "home": "New Mexico",
+      "pick": "UNLV",
+      "pick_spread": 17.5,
+      "model_margin": 15.1,
+      "market_margin": 17.5,
+      "edge": -2.4,
+      "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
-      "current_week": false
+      "current_week": true
     },
     {
-      "game_id": 401856882,
+      "game_id": 401856879,
       "drivers": [
         {
           "kind": "caution",
@@ -3983,26 +3477,78 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks South Carolina #23, Arkansas #96"
+          "text": "Model ranks TCU #39, Texas Tech #12"
         }
       ],
-      "home_rating": -0.8,
-      "away_rating": 3.5,
-      "week": 11,
-      "kickoff": "2026-11-15T00:45:00+00:00",
-      "away": "South Carolina",
-      "home": "Arkansas",
-      "pick": "South Carolina",
-      "pick_spread": -7.5,
-      "model_margin": -9.6,
-      "market_margin": -7.5,
-      "edge": -2.1,
-      "confidence": 0.16,
+      "home_rating": 4.6,
+      "away_rating": 2.2,
+      "week": 13,
+      "kickoff": "2026-11-27T01:00:00+00:00",
+      "away": "TCU",
+      "home": "Texas Tech",
+      "pick": "TCU",
+      "pick_spread": 16.5,
+      "model_margin": 14.1,
+      "market_margin": 16.5,
+      "edge": -2.4,
+      "confidence": 0.19,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
-      "current_week": true
+      "current_week": false
+    },
+    {
+      "game_id": 401858531,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        }
+      ],
+      "home_rating": 3.1,
+      "away_rating": 6.9,
+      "week": 12,
+      "kickoff": "2026-11-21T05:00:00+00:00",
+      "away": "Ohio State",
+      "home": "Nebraska",
+      "pick": "Ohio State",
+      "pick_spread": -5.5,
+      "model_margin": -7.7,
+      "market_margin": -5.5,
+      "edge": -2.2,
+      "confidence": 0.17,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401858537,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        }
+      ],
+      "home_rating": 1.3,
+      "away_rating": 1.6,
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Illinois",
+      "home": "Northwestern",
+      "pick": "Northwestern",
+      "pick_spread": 3.5,
+      "model_margin": -1.4,
+      "market_margin": -3.5,
+      "edge": 2.1,
+      "confidence": 0.17,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
     },
     {
       "game_id": 401856886,
@@ -4031,27 +3577,27 @@
       "current_week": true
     },
     {
-      "game_id": 401871099,
+      "game_id": 401856882,
       "drivers": [
-        {
-          "kind": "contrarian",
-          "text": "Backing a 18-point underdog"
-        },
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks South Carolina #21, Arkansas #95"
         }
       ],
-      "home_rating": 0.5,
-      "away_rating": -2.4,
+      "home_rating": -0.8,
+      "away_rating": 3.5,
       "week": 11,
-      "kickoff": "2026-11-14T22:00:00+00:00",
-      "away": "Southern Miss",
-      "home": "Louisiana Tech",
-      "pick": "Southern Miss",
-      "pick_spread": 17.5,
-      "model_margin": 15.4,
-      "market_margin": 17.5,
+      "kickoff": "2026-11-15T00:45:00+00:00",
+      "away": "South Carolina",
+      "home": "Arkansas",
+      "pick": "South Carolina",
+      "pick_spread": -7.5,
+      "model_margin": -9.6,
+      "market_margin": -7.5,
       "edge": -2.1,
       "confidence": 0.16,
       "sigma": 12.9,
@@ -4059,6 +3605,36 @@
       "tier": "D",
       "qualified": false,
       "current_week": true
+    },
+    {
+      "game_id": 401856751,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Missouri #37, Kentucky #73"
+        }
+      ],
+      "home_rating": 2.3,
+      "away_rating": -0.0,
+      "week": 12,
+      "kickoff": "2026-11-22T00:30:00+00:00",
+      "away": "Kentucky",
+      "home": "Missouri",
+      "pick": "Missouri",
+      "pick_spread": -6.0,
+      "model_margin": 8.0,
+      "market_margin": 6.0,
+      "edge": 2.0,
+      "confidence": 0.16,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
     },
     {
       "game_id": 401856872,
@@ -4069,7 +3645,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Utah #5, TCU #39"
+          "text": "Model ranks Utah #6, TCU #39"
         }
       ],
       "home_rating": 2.2,
@@ -4091,34 +3667,34 @@
       "current_week": false
     },
     {
-      "game_id": 401856751,
+      "game_id": 401871099,
       "drivers": [
+        {
+          "kind": "contrarian",
+          "text": "Backing a 18-point underdog"
+        },
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Missouri #37, Kentucky #72"
         }
       ],
-      "home_rating": 2.3,
-      "away_rating": 0.0,
-      "week": 12,
-      "kickoff": "2026-11-22T00:30:00+00:00",
-      "away": "Kentucky",
-      "home": "Missouri",
-      "pick": "Missouri",
-      "pick_spread": -6.0,
-      "model_margin": 8.0,
-      "market_margin": 6.0,
-      "edge": 2.0,
+      "home_rating": 0.5,
+      "away_rating": -2.4,
+      "week": 11,
+      "kickoff": "2026-11-14T22:00:00+00:00",
+      "away": "Southern Miss",
+      "home": "Louisiana Tech",
+      "pick": "Southern Miss",
+      "pick_spread": 17.5,
+      "model_margin": 15.5,
+      "market_margin": 17.5,
+      "edge": -2.0,
       "confidence": 0.16,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
-      "current_week": false
+      "current_week": true
     },
     {
       "game_id": 401856887,
@@ -4139,33 +3715,7 @@
       "model_margin": 0.6,
       "market_margin": 2.5,
       "edge": -1.9,
-      "confidence": 0.15,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401862826,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": -0.7,
-      "away_rating": -0.5,
-      "week": 11,
-      "kickoff": "2026-11-15T00:15:00+00:00",
-      "away": "Florida Atlantic",
-      "home": "Tulsa",
-      "pick": "Florida Atlantic",
-      "pick_spread": 6.5,
-      "model_margin": 4.6,
-      "market_margin": 6.5,
-      "edge": -1.9,
-      "confidence": 0.15,
+      "confidence": 0.14,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -4188,10 +3738,10 @@
       "home": "Virginia Tech",
       "pick": "Virginia Tech",
       "pick_spread": -1.5,
-      "model_margin": 3.4,
+      "model_margin": 3.3,
       "market_margin": 1.5,
-      "edge": 1.9,
-      "confidence": 0.15,
+      "edge": 1.8,
+      "confidence": 0.14,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -4199,85 +3749,25 @@
       "current_week": false
     },
     {
-      "game_id": 401858294,
+      "game_id": 401862826,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Notre Dame #3, Boston College #224"
-        }
-      ],
-      "home_rating": 6.7,
-      "away_rating": -2.1,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Boston College",
-      "home": "Notre Dame",
-      "pick": "Notre Dame",
-      "pick_spread": -29.5,
-      "model_margin": 31.2,
-      "market_margin": 29.5,
-      "edge": 1.7,
-      "confidence": 0.13,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401870769,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": -4.6,
-      "away_rating": -2.6,
-      "week": 11,
-      "kickoff": "2026-11-14T19:00:00+00:00",
-      "away": "Kennesaw State",
-      "home": "Sam Houston",
-      "pick": "Sam Houston",
-      "pick_spread": 8.5,
-      "model_margin": -6.8,
-      "market_margin": -8.5,
-      "edge": 1.7,
-      "confidence": 0.13,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856861,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Kansas #57, West Virginia #91"
         }
       ],
       "home_rating": -0.7,
-      "away_rating": 0.7,
+      "away_rating": -0.6,
       "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Kansas",
-      "home": "West Virginia",
-      "pick": "Kansas",
-      "pick_spread": 1.5,
-      "model_margin": -0.1,
-      "market_margin": 1.5,
-      "edge": -1.6,
-      "confidence": 0.12,
+      "kickoff": "2026-11-15T00:15:00+00:00",
+      "away": "Florida Atlantic",
+      "home": "Tulsa",
+      "pick": "Florida Atlantic",
+      "pick_spread": 6.5,
+      "model_margin": 4.7,
+      "market_margin": 6.5,
+      "edge": -1.8,
+      "confidence": 0.14,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -4300,9 +3790,9 @@
       "home": "Marshall",
       "pick": "Marshall",
       "pick_spread": 1.5,
-      "model_margin": 0.0,
+      "model_margin": 0.1,
       "market_margin": -1.5,
-      "edge": 1.5,
+      "edge": 1.6,
       "confidence": 0.12,
       "sigma": 12.9,
       "top_pick": false,
@@ -4319,7 +3809,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Penn State #26, Minnesota #98"
+          "text": "Model ranks Penn State #28, Minnesota #97"
         }
       ],
       "home_rating": 3.0,
@@ -4333,7 +3823,7 @@
       "model_margin": 14.0,
       "market_margin": 12.5,
       "edge": 1.5,
-      "confidence": 0.11,
+      "confidence": 0.12,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "D",
@@ -4341,24 +3831,28 @@
       "current_week": true
     },
     {
-      "game_id": 401856871,
+      "game_id": 401858540,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Ohio State #2, Michigan #29"
         }
       ],
-      "home_rating": 2.5,
-      "away_rating": 4.6,
-      "week": 12,
-      "kickoff": "2026-11-21T05:00:00+00:00",
-      "away": "Texas Tech",
-      "home": "Baylor",
-      "pick": "Texas Tech",
-      "pick_spread": -1.5,
-      "model_margin": -2.8,
-      "market_margin": -1.5,
-      "edge": -1.3,
+      "home_rating": 6.9,
+      "away_rating": 3.0,
+      "week": 13,
+      "kickoff": "2026-11-28T17:00:00+00:00",
+      "away": "Michigan",
+      "home": "Ohio State",
+      "pick": "Ohio State",
+      "pick_spread": -13.5,
+      "model_margin": 14.8,
+      "market_margin": 13.5,
+      "edge": 1.3,
       "confidence": 0.1,
       "sigma": 12.9,
       "top_pick": false,
@@ -4393,6 +3887,62 @@
       "current_week": false
     },
     {
+      "game_id": 401858302,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Miami #4, Virginia Tech #54"
+        }
+      ],
+      "home_rating": 6.6,
+      "away_rating": 1.2,
+      "week": 12,
+      "kickoff": "2026-11-21T05:00:00+00:00",
+      "away": "Virginia Tech",
+      "home": "Miami",
+      "pick": "Miami",
+      "pick_spread": -18.5,
+      "model_margin": 19.8,
+      "market_margin": 18.5,
+      "edge": 1.3,
+      "confidence": 0.1,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401856871,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        }
+      ],
+      "home_rating": 2.6,
+      "away_rating": 4.6,
+      "week": 12,
+      "kickoff": "2026-11-21T05:00:00+00:00",
+      "away": "Texas Tech",
+      "home": "Baylor",
+      "pick": "Texas Tech",
+      "pick_spread": -1.5,
+      "model_margin": -2.8,
+      "market_margin": -1.5,
+      "edge": -1.3,
+      "confidence": 0.1,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": false
+    },
+    {
       "game_id": 401862827,
       "drivers": [
         {
@@ -4401,7 +3951,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks North Texas #33, UTSA #67"
+          "text": "Model ranks North Texas #32, UTSA #69"
         }
       ],
       "home_rating": 0.3,
@@ -4412,66 +3962,10 @@
       "home": "UTSA",
       "pick": "North Texas",
       "pick_spread": -2.5,
-      "model_margin": -3.8,
+      "model_margin": -3.7,
       "market_margin": -2.5,
-      "edge": -1.3,
-      "confidence": 0.1,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856888,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 3.6,
-      "away_rating": 3.9,
-      "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "Tennessee",
-      "home": "Texas A&M",
-      "pick": "Texas A&M",
-      "pick_spread": 1.5,
-      "model_margin": -0.3,
-      "market_margin": -1.5,
-      "edge": 1.2,
-      "confidence": 0.1,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401871060,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Florida Internati\u2026 #136, Delaware #219"
-        }
-      ],
-      "home_rating": -1.7,
-      "away_rating": -1.1,
-      "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "Florida International",
-      "home": "Delaware",
-      "pick": "Florida International",
-      "pick_spread": 3.5,
-      "model_margin": 2.3,
-      "market_margin": 3.5,
       "edge": -1.2,
-      "confidence": 0.09,
+      "confidence": 0.1,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -4505,96 +3999,6 @@
       "current_week": true
     },
     {
-      "game_id": 401858302,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Miami #4, Virginia Tech #54"
-        }
-      ],
-      "home_rating": 6.6,
-      "away_rating": 1.2,
-      "week": 12,
-      "kickoff": "2026-11-21T05:00:00+00:00",
-      "away": "Virginia Tech",
-      "home": "Miami",
-      "pick": "Miami",
-      "pick_spread": -18.5,
-      "model_margin": 19.6,
-      "market_margin": 18.5,
-      "edge": 1.1,
-      "confidence": 0.09,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401858540,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Ohio State #2, Michigan #27"
-        }
-      ],
-      "home_rating": 6.8,
-      "away_rating": 3.0,
-      "week": 13,
-      "kickoff": "2026-11-28T17:00:00+00:00",
-      "away": "Michigan",
-      "home": "Ohio State",
-      "pick": "Ohio State",
-      "pick_spread": -13.5,
-      "model_margin": 14.6,
-      "market_margin": 13.5,
-      "edge": 1.1,
-      "confidence": 0.08,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401860914,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Oregon State #69, Boise State #22"
-        }
-      ],
-      "home_rating": 3.5,
-      "away_rating": 0.2,
-      "week": 11,
-      "kickoff": "2026-11-14T23:00:00+00:00",
-      "away": "Oregon State",
-      "home": "Boise State",
-      "pick": "Oregon State",
-      "pick_spread": 16.5,
-      "model_margin": 15.4,
-      "market_margin": 16.5,
-      "edge": -1.1,
-      "confidence": 0.08,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401858521,
       "drivers": [
         {
@@ -4603,7 +4007,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Washington #47, Michigan State #84"
+          "text": "Model ranks Washington #46, Michigan State #83"
         }
       ],
       "home_rating": -0.5,
@@ -4614,9 +4018,9 @@
       "home": "Michigan State",
       "pick": "Washington",
       "pick_spread": -2.5,
-      "model_margin": -3.6,
+      "model_margin": -3.5,
       "market_margin": -2.5,
-      "edge": -1.1,
+      "edge": -1.0,
       "confidence": 0.08,
       "sigma": 12.9,
       "top_pick": false,
@@ -4625,7 +4029,7 @@
       "current_week": true
     },
     {
-      "game_id": 401871061,
+      "game_id": 401856762,
       "drivers": [
         {
           "kind": "caution",
@@ -4633,20 +4037,80 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Liberty #36, Middle Tennessee #237"
+          "text": "Model ranks Ole Miss #13, Mississippi State #62"
         }
       ],
-      "home_rating": 2.4,
-      "away_rating": -3.6,
+      "home_rating": 4.6,
+      "away_rating": 0.5,
+      "week": 13,
+      "kickoff": "2026-11-27T17:00:00+00:00",
+      "away": "Mississippi State",
+      "home": "Ole Miss",
+      "pick": "Ole Miss",
+      "pick_spread": -14.5,
+      "model_margin": 15.5,
+      "market_margin": 14.5,
+      "edge": 1.0,
+      "confidence": 0.08,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401860916,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Fresno State #72, Texas State #41"
+        }
+      ],
+      "home_rating": 2.0,
+      "away_rating": 0.2,
       "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Middle Tennessee",
-      "home": "Liberty",
-      "pick": "Liberty",
-      "pick_spread": -21.0,
-      "model_margin": 22.1,
-      "market_margin": 21.0,
-      "edge": 1.1,
+      "kickoff": "2026-11-14T21:00:00+00:00",
+      "away": "Fresno State",
+      "home": "Texas State",
+      "pick": "Fresno State",
+      "pick_spread": 11.5,
+      "model_margin": 10.5,
+      "market_margin": 11.5,
+      "edge": -1.0,
+      "confidence": 0.08,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401860914,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Oregon State #71, Boise State #20"
+        }
+      ],
+      "home_rating": 3.5,
+      "away_rating": 0.2,
+      "week": 11,
+      "kickoff": "2026-11-14T23:00:00+00:00",
+      "away": "Oregon State",
+      "home": "Boise State",
+      "pick": "Oregon State",
+      "pick_spread": 16.5,
+      "model_margin": 15.5,
+      "market_margin": 16.5,
+      "edge": -1.0,
       "confidence": 0.08,
       "sigma": 12.9,
       "top_pick": false,
@@ -4685,64 +4149,30 @@
       "current_week": true
     },
     {
-      "game_id": 401856883,
+      "game_id": 401871100,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Georgia #1, Missouri #37"
         }
       ],
-      "home_rating": 7.0,
-      "away_rating": 2.3,
+      "home_rating": -1.6,
+      "away_rating": -2.3,
       "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Missouri",
-      "home": "Georgia",
-      "pick": "Georgia",
-      "pick_spread": -16.5,
-      "model_margin": 17.5,
-      "market_margin": 16.5,
-      "edge": 1.0,
-      "confidence": 0.08,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856762,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Ole Miss #12, Mississippi State #61"
-        }
-      ],
-      "home_rating": 4.6,
-      "away_rating": 0.5,
-      "week": 13,
-      "kickoff": "2026-11-27T17:00:00+00:00",
-      "away": "Mississippi State",
-      "home": "Ole Miss",
-      "pick": "Ole Miss",
-      "pick_spread": -14.5,
-      "model_margin": 15.4,
-      "market_margin": 14.5,
+      "kickoff": "2026-11-15T00:00:00+00:00",
+      "away": "Troy",
+      "home": "South Alabama",
+      "pick": "South Alabama",
+      "pick_spread": -3.0,
+      "model_margin": 3.9,
+      "market_margin": 3.0,
       "edge": 0.9,
       "confidence": 0.07,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
-      "current_week": false
+      "current_week": true
     },
     {
       "game_id": 401858527,
@@ -4753,7 +4183,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Iowa #13, Illinois #49"
+          "text": "Model ranks Iowa #14, Illinois #47"
         }
       ],
       "home_rating": 1.6,
@@ -4764,10 +4194,10 @@
       "home": "Illinois",
       "pick": "Iowa",
       "pick_spread": -5.5,
-      "model_margin": -6.4,
+      "model_margin": -6.3,
       "market_margin": -5.5,
-      "edge": -0.9,
-      "confidence": 0.07,
+      "edge": -0.8,
+      "confidence": 0.06,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -4775,86 +4205,30 @@
       "current_week": false
     },
     {
-      "game_id": 401871100,
+      "game_id": 401858307,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
         }
       ],
-      "home_rating": -1.6,
-      "away_rating": -2.2,
-      "week": 11,
-      "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "Troy",
-      "home": "South Alabama",
-      "pick": "South Alabama",
-      "pick_spread": -3.0,
-      "model_margin": 3.8,
-      "market_margin": 3.0,
-      "edge": 0.8,
-      "confidence": 0.06,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858295,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Virginia #66, California #231"
-        }
-      ],
-      "home_rating": 0.3,
-      "away_rating": -2.7,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "California",
-      "home": "Virginia",
-      "pick": "Virginia",
-      "pick_spread": -11.5,
-      "model_margin": 12.2,
-      "market_margin": 11.5,
-      "edge": 0.7,
+      "home_rating": 6.7,
+      "away_rating": 3.2,
+      "week": 12,
+      "kickoff": "2026-11-22T00:30:00+00:00",
+      "away": "SMU",
+      "home": "Notre Dame",
+      "pick": "SMU",
+      "pick_spread": 16.5,
+      "model_margin": 15.8,
+      "market_margin": 16.5,
+      "edge": -0.7,
       "confidence": 0.05,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858518,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 5.6,
-      "away_rating": 4.0,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "USC",
-      "home": "Indiana",
-      "pick": "USC",
-      "pick_spread": 9.5,
-      "model_margin": 8.9,
-      "market_margin": 9.5,
-      "edge": -0.6,
-      "confidence": 0.05,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
+      "current_week": false
     },
     {
       "game_id": 401858298,
@@ -4865,7 +4239,7 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks Louisville #25, North Carolina #56"
+          "text": "Model ranks Louisville #26, North Carolina #56"
         }
       ],
       "home_rating": 1.0,
@@ -4880,62 +4254,6 @@
       "market_margin": -3.5,
       "edge": -0.5,
       "confidence": 0.04,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401870796,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": -3.1,
-      "away_rating": -2.5,
-      "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "New Mexico State",
-      "home": "Missouri State",
-      "pick": "New Mexico State",
-      "pick_spread": 1.5,
-      "model_margin": 1.0,
-      "market_margin": 1.5,
-      "edge": -0.5,
-      "confidence": 0.04,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860916,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Fresno State #70, Texas State #41"
-        }
-      ],
-      "home_rating": 2.0,
-      "away_rating": 0.2,
-      "week": 11,
-      "kickoff": "2026-11-14T21:00:00+00:00",
-      "away": "Fresno State",
-      "home": "Texas State",
-      "pick": "Fresno State",
-      "pick_spread": 10.0,
-      "model_margin": 9.6,
-      "market_margin": 10.0,
-      "edge": -0.4,
-      "confidence": 0.03,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -4969,92 +4287,6 @@
       "current_week": false
     },
     {
-      "game_id": 401864538,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks San Jos\u00e9 State #232, Air Force #65"
-        }
-      ],
-      "home_rating": 0.3,
-      "away_rating": -2.8,
-      "week": 11,
-      "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "San Jos\u00e9 State",
-      "home": "Air Force",
-      "pick": "San Jos\u00e9 State",
-      "pick_spread": 14.0,
-      "model_margin": 13.7,
-      "market_margin": 14.0,
-      "edge": -0.3,
-      "confidence": 0.02,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401870752,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Jacksonville State #53, Western Kentucky #221"
-        }
-      ],
-      "home_rating": -1.7,
-      "away_rating": 1.3,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Jacksonville State",
-      "home": "Western Kentucky",
-      "pick": "Jacksonville State",
-      "pick_spread": -7.5,
-      "model_margin": -7.7,
-      "market_margin": -7.5,
-      "edge": -0.2,
-      "confidence": 0.02,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858523,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        }
-      ],
-      "home_rating": 5.3,
-      "away_rating": 3.0,
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Michigan",
-      "home": "Oregon",
-      "pick": "Oregon",
-      "pick_spread": -10.0,
-      "model_margin": 10.2,
-      "market_margin": 10.0,
-      "edge": 0.2,
-      "confidence": 0.02,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
       "game_id": 401856857,
       "drivers": [
         {
@@ -5081,24 +4313,28 @@
       "current_week": true
     },
     {
-      "game_id": 401856858,
+      "game_id": 401864538,
       "drivers": [
         {
           "kind": "caution",
           "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks San Jos\u00e9 State #232, Air Force #67"
         }
       ],
-      "home_rating": 4.2,
-      "away_rating": 2.5,
+      "home_rating": 0.3,
+      "away_rating": -2.8,
       "week": 11,
       "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "Baylor",
-      "home": "BYU",
-      "pick": "Baylor",
-      "pick_spread": 8.5,
-      "model_margin": 8.4,
-      "market_margin": 8.5,
-      "edge": -0.1,
+      "away": "San Jos\u00e9 State",
+      "home": "Air Force",
+      "pick": "San Jos\u00e9 State",
+      "pick_spread": 14.0,
+      "model_margin": 13.8,
+      "market_margin": 14.0,
+      "edge": -0.2,
       "confidence": 0.01,
       "sigma": 12.9,
       "top_pick": false,
@@ -5133,36 +4369,6 @@
       "current_week": false
     },
     {
-      "game_id": 401858541,
-      "drivers": [
-        {
-          "kind": "caution",
-          "text": "Ratings still 66% last season"
-        },
-        {
-          "kind": "rating",
-          "text": "Model ranks Washington #47, Oregon #9"
-        }
-      ],
-      "home_rating": 5.3,
-      "away_rating": 1.6,
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Washington",
-      "home": "Oregon",
-      "pick": "Washington",
-      "pick_spread": 15.5,
-      "model_margin": 15.4,
-      "market_margin": 15.5,
-      "edge": -0.1,
-      "confidence": 0.01,
-      "sigma": 12.9,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": false
-    },
-    {
       "game_id": 401864537,
       "drivers": [
         {
@@ -5171,21 +4377,21 @@
         },
         {
           "kind": "rating",
-          "text": "Model ranks North Dakota State #51, Hawai'i #155"
+          "text": "Model ranks North Dakota State #50, Hawai'i #154"
         }
       ],
       "home_rating": -1.2,
-      "away_rating": 1.6,
+      "away_rating": 1.5,
       "week": 11,
       "kickoff": "2026-11-15T04:00:00+00:00",
       "away": "North Dakota State",
       "home": "Hawai'i",
       "pick": "North Dakota State",
       "pick_spread": -7.0,
-      "model_margin": -7.1,
+      "model_margin": -7.0,
       "market_margin": -7.0,
-      "edge": -0.1,
-      "confidence": 0.01,
+      "edge": -0.0,
+      "confidence": 0.0,
       "sigma": 12.9,
       "top_pick": false,
       "tier": "E",
@@ -5217,6 +4423,62 @@
       "tier": "E",
       "qualified": false,
       "current_week": false
+    },
+    {
+      "game_id": 401856858,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        }
+      ],
+      "home_rating": 4.2,
+      "away_rating": 2.6,
+      "week": 11,
+      "kickoff": "2026-11-15T00:00:00+00:00",
+      "away": "Baylor",
+      "home": "BYU",
+      "pick": "Baylor",
+      "pick_spread": 8.5,
+      "model_margin": 8.5,
+      "market_margin": 8.5,
+      "edge": -0.0,
+      "confidence": 0.0,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858541,
+      "drivers": [
+        {
+          "kind": "caution",
+          "text": "Ratings still 66% last season"
+        },
+        {
+          "kind": "rating",
+          "text": "Model ranks Washington #46, Oregon #9"
+        }
+      ],
+      "home_rating": 5.3,
+      "away_rating": 1.6,
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Washington",
+      "home": "Oregon",
+      "pick": "Washington",
+      "pick_spread": 15.5,
+      "model_margin": 15.5,
+      "market_margin": 15.5,
+      "edge": -0.0,
+      "confidence": 0.0,
+      "sigma": 12.9,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": false
     }
   ],
   "total_picks": [
@@ -5234,11 +4496,11 @@
       "home": "Oklahoma",
       "pick": "Over",
       "line": 48.5,
-      "model_total": 63.7,
-      "edge": 15.2,
+      "model_total": 64.1,
+      "edge": 15.6,
       "wind": null,
       "indoor": false,
-      "confidence": 1.15,
+      "confidence": 1.17,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -5253,35 +4515,11 @@
       "home": "Northwestern",
       "pick": "Under",
       "line": 52.5,
-      "model_total": 41.9,
-      "edge": -10.6,
+      "model_total": 42.3,
+      "edge": -10.2,
       "wind": null,
       "indoor": false,
-      "confidence": 0.8,
-      "top_pick": true,
-      "tier": "A",
-      "qualified": true,
-      "current_week": false
-    },
-    {
-      "game_id": 401858527,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +10 combined"
-        }
-      ],
-      "week": 12,
-      "kickoff": "2026-11-21T19:30:00+00:00",
-      "away": "Iowa",
-      "home": "Illinois",
-      "pick": "Under",
-      "line": 43.5,
-      "model_total": 33.0,
-      "edge": -10.5,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.79,
+      "confidence": 0.77,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -5301,15 +4539,39 @@
       "home": "Hawai'i",
       "pick": "Over",
       "line": 39.5,
-      "model_total": 49.1,
-      "edge": 9.6,
+      "model_total": 49.6,
+      "edge": 10.1,
       "wind": null,
       "indoor": false,
-      "confidence": 0.73,
+      "confidence": 0.76,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
       "current_week": true
+    },
+    {
+      "game_id": 401858527,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +10 combined"
+        }
+      ],
+      "week": 12,
+      "kickoff": "2026-11-21T19:30:00+00:00",
+      "away": "Iowa",
+      "home": "Illinois",
+      "pick": "Under",
+      "line": 43.5,
+      "model_total": 33.4,
+      "edge": -10.1,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.76,
+      "top_pick": true,
+      "tier": "A",
+      "qualified": true,
+      "current_week": false
     },
     {
       "game_id": 401864539,
@@ -5325,11 +4587,11 @@
       "home": "New Mexico",
       "pick": "Over",
       "line": 46.5,
-      "model_total": 55.1,
-      "edge": 8.6,
+      "model_total": 55.5,
+      "edge": 9.0,
       "wind": null,
       "indoor": false,
-      "confidence": 0.65,
+      "confidence": 0.68,
       "top_pick": true,
       "tier": "A",
       "qualified": true,
@@ -5349,58 +4611,15 @@
       "home": "Baylor",
       "pick": "Over",
       "line": 55.5,
-      "model_total": 63.7,
-      "edge": 8.2,
+      "model_total": 64.0,
+      "edge": 8.5,
       "wind": null,
       "indoor": false,
-      "confidence": 0.62,
+      "confidence": 0.64,
       "top_pick": false,
       "tier": "A",
       "qualified": true,
       "current_week": false
-    },
-    {
-      "game_id": 401864540,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate poorly, -15 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T03:00:00+00:00",
-      "away": "Wyoming",
-      "home": "UTEP",
-      "pick": "Under",
-      "line": 40.5,
-      "model_total": 32.4,
-      "edge": -8.1,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.61,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
-    },
-    {
-      "game_id": 401871100,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "Troy",
-      "home": "South Alabama",
-      "pick": "Under",
-      "line": 55.5,
-      "model_total": 47.8,
-      "edge": -7.7,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.58,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
     },
     {
       "game_id": 401858543,
@@ -5416,39 +4635,15 @@
       "home": "UCLA",
       "pick": "Over",
       "line": 55.5,
-      "model_total": 63.2,
-      "edge": 7.7,
-      "wind": null,
+      "model_total": 63.7,
+      "edge": 8.2,
+      "wind": 6.4,
       "indoor": false,
-      "confidence": 0.58,
+      "confidence": 0.62,
       "top_pick": false,
-      "tier": "B",
+      "tier": "A",
       "qualified": true,
       "current_week": false
-    },
-    {
-      "game_id": 401858519,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +8 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T00:30:00+00:00",
-      "away": "Purdue",
-      "home": "Iowa",
-      "pick": "Under",
-      "line": 47.5,
-      "model_total": 40.1,
-      "edge": -7.4,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.56,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
     },
     {
       "game_id": 401858298,
@@ -5464,11 +4659,11 @@
       "home": "North Carolina",
       "pick": "Over",
       "line": 57.5,
-      "model_total": 64.9,
-      "edge": 7.4,
-      "wind": null,
+      "model_total": 65.4,
+      "edge": 7.9,
+      "wind": 10.0,
       "indoor": false,
-      "confidence": 0.56,
+      "confidence": 0.6,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
@@ -5488,35 +4683,78 @@
       "home": "Oklahoma",
       "pick": "Over",
       "line": 51.5,
-      "model_total": 58.9,
-      "edge": 7.4,
+      "model_total": 59.2,
+      "edge": 7.7,
       "wind": null,
       "indoor": false,
-      "confidence": 0.56,
+      "confidence": 0.58,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
       "current_week": false
     },
     {
-      "game_id": 401870769,
+      "game_id": 401864540,
       "drivers": [
         {
           "kind": "offense",
-          "text": "Both offenses rate poorly, -13 combined"
+          "text": "Both offenses rate poorly, -15 combined"
         }
       ],
       "week": 11,
-      "kickoff": "2026-11-14T19:00:00+00:00",
-      "away": "Kennesaw State",
-      "home": "Sam Houston",
+      "kickoff": "2026-11-15T03:00:00+00:00",
+      "away": "Wyoming",
+      "home": "UTEP",
       "pick": "Under",
-      "line": 44.5,
-      "model_total": 37.4,
-      "edge": -7.1,
+      "line": 40.5,
+      "model_total": 32.8,
+      "edge": -7.7,
       "wind": null,
       "indoor": false,
-      "confidence": 0.53,
+      "confidence": 0.58,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": true
+    },
+    {
+      "game_id": 401871100,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-15T00:00:00+00:00",
+      "away": "Troy",
+      "home": "South Alabama",
+      "pick": "Under",
+      "line": 55.5,
+      "model_total": 48.1,
+      "edge": -7.4,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.56,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": true
+    },
+    {
+      "game_id": 401858519,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +8 combined"
+        }
+      ],
+      "week": 11,
+      "kickoff": "2026-11-15T00:30:00+00:00",
+      "away": "Purdue",
+      "home": "Iowa",
+      "pick": "Under",
+      "line": 47.5,
+      "model_total": 40.2,
+      "edge": -7.3,
+      "wind": 4.8,
+      "indoor": false,
+      "confidence": 0.55,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
@@ -5536,15 +4774,58 @@
       "home": "Texas Tech",
       "pick": "Over",
       "line": 55.5,
-      "model_total": 62.5,
-      "edge": 7.0,
-      "wind": null,
+      "model_total": 62.4,
+      "edge": 6.9,
+      "wind": 14.0,
       "indoor": false,
-      "confidence": 0.53,
+      "confidence": 0.52,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
       "current_week": false
+    },
+    {
+      "game_id": 401858307,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +14 combined"
+        }
+      ],
+      "week": 12,
+      "kickoff": "2026-11-22T00:30:00+00:00",
+      "away": "SMU",
+      "home": "Notre Dame",
+      "pick": "Over",
+      "line": 57.5,
+      "model_total": 64.2,
+      "edge": 6.7,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.5,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": false
+    },
+    {
+      "game_id": 401856857,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-14T22:30:00+00:00",
+      "away": "Arizona State",
+      "home": "UCF",
+      "pick": "Over",
+      "line": 46.5,
+      "model_total": 53.2,
+      "edge": 6.7,
+      "wind": 11.5,
+      "indoor": false,
+      "confidence": 0.5,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": true
     },
     {
       "game_id": 401858302,
@@ -5555,11 +4836,35 @@
       "home": "Miami",
       "pick": "Under",
       "line": 61.5,
-      "model_total": 54.6,
-      "edge": -6.9,
+      "model_total": 54.9,
+      "edge": -6.6,
       "wind": null,
       "indoor": false,
-      "confidence": 0.52,
+      "confidence": 0.5,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": false
+    },
+    {
+      "game_id": 401856753,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +14 combined"
+        }
+      ],
+      "week": 12,
+      "kickoff": "2026-11-22T00:30:00+00:00",
+      "away": "Georgia",
+      "home": "South Carolina",
+      "pick": "Under",
+      "line": 51.5,
+      "model_total": 45.2,
+      "edge": -6.3,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.48,
       "top_pick": false,
       "tier": "B",
       "qualified": true,
@@ -5579,81 +4884,9 @@
       "home": "Kentucky",
       "pick": "Under",
       "line": 52.5,
-      "model_total": 45.8,
-      "edge": -6.7,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.51,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
-    },
-    {
-      "game_id": 401856753,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +14 combined"
-        }
-      ],
-      "week": 12,
-      "kickoff": "2026-11-22T00:30:00+00:00",
-      "away": "Georgia",
-      "home": "South Carolina",
-      "pick": "Under",
-      "line": 51.5,
-      "model_total": 44.8,
-      "edge": -6.7,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.51,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": false
-    },
-    {
-      "game_id": 401858518,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +10 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "USC",
-      "home": "Indiana",
-      "pick": "Over",
-      "line": 51.5,
-      "model_total": 58.1,
-      "edge": 6.6,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.5,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
-    },
-    {
-      "game_id": 401856886,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +10 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T21:15:00+00:00",
-      "away": "Auburn",
-      "home": "Mississippi State",
-      "pick": "Under",
-      "line": 51.5,
-      "model_total": 45.1,
-      "edge": -6.4,
-      "wind": null,
+      "model_total": 46.2,
+      "edge": -6.3,
+      "wind": 8.9,
       "indoor": false,
       "confidence": 0.48,
       "top_pick": false,
@@ -5675,78 +4908,35 @@
       "home": "Clemson",
       "pick": "Under",
       "line": 53.5,
-      "model_total": 47.1,
-      "edge": -6.4,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.48,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": false
-    },
-    {
-      "game_id": 401858307,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +14 combined"
-        }
-      ],
-      "week": 12,
-      "kickoff": "2026-11-22T00:30:00+00:00",
-      "away": "SMU",
-      "home": "Notre Dame",
-      "pick": "Over",
-      "line": 57.5,
-      "model_total": 63.8,
-      "edge": 6.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.48,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": false
-    },
-    {
-      "game_id": 401856857,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T22:30:00+00:00",
-      "away": "Arizona State",
-      "home": "UCF",
-      "pick": "Over",
-      "line": 46.5,
-      "model_total": 52.8,
-      "edge": 6.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.48,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": true,
-      "current_week": true
-    },
-    {
-      "game_id": 401858523,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +15 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Michigan",
-      "home": "Oregon",
-      "pick": "Over",
-      "line": 40.0,
-      "model_total": 46.0,
-      "edge": 6.0,
+      "model_total": 47.5,
+      "edge": -6.0,
       "wind": null,
       "indoor": false,
       "confidence": 0.45,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": true,
+      "current_week": false
+    },
+    {
+      "game_id": 401856886,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +10 combined"
+        }
+      ],
+      "week": 11,
+      "kickoff": "2026-11-14T21:15:00+00:00",
+      "away": "Auburn",
+      "home": "Mississippi State",
+      "pick": "Under",
+      "line": 51.5,
+      "model_total": 45.6,
+      "edge": -5.9,
+      "wind": 8.1,
+      "indoor": false,
+      "confidence": 0.44,
       "top_pick": false,
       "tier": "B",
       "qualified": false,
@@ -5761,15 +4951,58 @@
       "home": "Virginia Tech",
       "pick": "Under",
       "line": 57.5,
-      "model_total": 51.7,
-      "edge": -5.8,
-      "wind": null,
+      "model_total": 51.8,
+      "edge": -5.7,
+      "wind": 11.0,
       "indoor": false,
-      "confidence": 0.44,
+      "confidence": 0.43,
       "top_pick": false,
       "tier": "B",
       "qualified": false,
       "current_week": true
+    },
+    {
+      "game_id": 401860916,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-14T21:00:00+00:00",
+      "away": "Fresno State",
+      "home": "Texas State",
+      "pick": "Under",
+      "line": 60.5,
+      "model_total": 55.4,
+      "edge": -5.1,
+      "wind": 11.8,
+      "indoor": false,
+      "confidence": 0.39,
+      "top_pick": false,
+      "tier": "B",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856757,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +18 combined"
+        }
+      ],
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Auburn",
+      "home": "Alabama",
+      "pick": "Under",
+      "line": 52.5,
+      "model_total": 47.6,
+      "edge": -4.9,
+      "wind": 12.7,
+      "indoor": false,
+      "confidence": 0.37,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": false
     },
     {
       "game_id": 401858521,
@@ -5785,49 +5018,11 @@
       "home": "Michigan State",
       "pick": "Under",
       "line": 44.0,
-      "model_total": 38.7,
-      "edge": -5.3,
+      "model_total": 39.1,
+      "edge": -4.9,
       "wind": null,
       "indoor": false,
-      "confidence": 0.4,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860916,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T21:00:00+00:00",
-      "away": "Fresno State",
-      "home": "Texas State",
-      "pick": "Under",
-      "line": 60.5,
-      "model_total": 55.2,
-      "edge": -5.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.4,
-      "top_pick": false,
-      "tier": "B",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401869928,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T23:00:00+00:00",
-      "away": "App State",
-      "home": "Marshall",
-      "pick": "Under",
-      "line": 54.5,
-      "model_total": 50.0,
-      "edge": -4.5,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.34,
+      "confidence": 0.37,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
@@ -5847,9 +5042,52 @@
       "home": "Tennessee",
       "pick": "Over",
       "line": 48.5,
-      "model_total": 53.0,
-      "edge": 4.5,
+      "model_total": 53.4,
+      "edge": 4.9,
       "wind": null,
+      "indoor": false,
+      "confidence": 0.37,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401856885,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +13 combined"
+        }
+      ],
+      "week": 11,
+      "kickoff": "2026-11-15T00:30:00+00:00",
+      "away": "Texas",
+      "home": "LSU",
+      "pick": "Over",
+      "line": 46.5,
+      "model_total": 51.1,
+      "edge": 4.6,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.35,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856873,
+      "drivers": [],
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Arizona State",
+      "home": "Arizona",
+      "pick": "Over",
+      "line": 52.5,
+      "model_total": 57.0,
+      "edge": 4.5,
+      "wind": 6.9,
       "indoor": false,
       "confidence": 0.34,
       "top_pick": false,
@@ -5871,81 +5109,9 @@
       "home": "Oklahoma State",
       "pick": "Over",
       "line": 73.5,
-      "model_total": 77.9,
-      "edge": 4.4,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.33,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856757,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +18 combined"
-        }
-      ],
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Auburn",
-      "home": "Alabama",
-      "pick": "Under",
-      "line": 52.5,
-      "model_total": 48.2,
-      "edge": -4.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.32,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401856885,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +13 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T00:30:00+00:00",
-      "away": "Texas",
-      "home": "LSU",
-      "pick": "Over",
-      "line": 46.5,
-      "model_total": 50.7,
-      "edge": 4.2,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.32,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856888,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +10 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "Tennessee",
-      "home": "Texas A&M",
-      "pick": "Over",
-      "line": 44.5,
-      "model_total": 48.6,
+      "model_total": 77.6,
       "edge": 4.1,
-      "wind": null,
+      "wind": 9.5,
       "indoor": false,
       "confidence": 0.31,
       "top_pick": false,
@@ -5954,80 +5120,23 @@
       "current_week": true
     },
     {
-      "game_id": 401856873,
+      "game_id": 401869928,
       "drivers": [],
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Arizona State",
-      "home": "Arizona",
-      "pick": "Over",
-      "line": 52.5,
-      "model_total": 56.4,
-      "edge": 3.9,
-      "wind": null,
+      "week": 11,
+      "kickoff": "2026-11-14T23:00:00+00:00",
+      "away": "App State",
+      "home": "Marshall",
+      "pick": "Under",
+      "line": 54.5,
+      "model_total": 50.5,
+      "edge": -4.0,
+      "wind": 9.6,
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401858317,
-      "drivers": [],
-      "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Virginia",
-      "home": "Virginia Tech",
-      "pick": "Under",
-      "line": 53.5,
-      "model_total": 49.6,
-      "edge": -3.9,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.29,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": false
-    },
-    {
-      "game_id": 401871061,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Middle Tennessee",
-      "home": "Liberty",
-      "pick": "Over",
-      "line": 53.5,
-      "model_total": 57.2,
-      "edge": 3.7,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.28,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
       "current_week": true
-    },
-    {
-      "game_id": 401856751,
-      "drivers": [],
-      "week": 12,
-      "kickoff": "2026-11-22T00:30:00+00:00",
-      "away": "Kentucky",
-      "home": "Missouri",
-      "pick": "Under",
-      "line": 49.5,
-      "model_total": 45.9,
-      "edge": -3.6,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.27,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": false
     },
     {
       "game_id": 401858531,
@@ -6043,11 +5152,30 @@
       "home": "Nebraska",
       "pick": "Over",
       "line": 47.5,
-      "model_total": 50.7,
-      "edge": 3.2,
+      "model_total": 51.1,
+      "edge": 3.6,
       "wind": null,
       "indoor": false,
-      "confidence": 0.24,
+      "confidence": 0.27,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401858317,
+      "drivers": [],
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Virginia",
+      "home": "Virginia Tech",
+      "pick": "Under",
+      "line": 53.5,
+      "model_total": 50.1,
+      "edge": -3.4,
+      "wind": 3.8,
+      "indoor": false,
+      "confidence": 0.25,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
@@ -6071,34 +5199,15 @@
       "home": "UTSA",
       "pick": "Over",
       "line": 76.5,
-      "model_total": 79.7,
-      "edge": 3.2,
+      "model_total": 79.8,
+      "edge": 3.3,
       "wind": 0.0,
       "indoor": true,
-      "confidence": 0.24,
+      "confidence": 0.25,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
       "current_week": true
-    },
-    {
-      "game_id": 401856759,
-      "drivers": [],
-      "week": 13,
-      "kickoff": "2026-11-27T20:30:00+00:00",
-      "away": "Florida",
-      "home": "Florida State",
-      "pick": "Under",
-      "line": 52.5,
-      "model_total": 49.5,
-      "edge": -3.0,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.23,
-      "top_pick": false,
-      "tier": "C",
-      "qualified": false,
-      "current_week": false
     },
     {
       "game_id": 401856762,
@@ -6114,11 +5223,11 @@
       "home": "Ole Miss",
       "pick": "Over",
       "line": 57.5,
-      "model_total": 60.5,
-      "edge": 3.0,
+      "model_total": 60.8,
+      "edge": 3.3,
       "wind": null,
       "indoor": false,
-      "confidence": 0.23,
+      "confidence": 0.25,
       "top_pick": false,
       "tier": "C",
       "qualified": false,
@@ -6133,15 +5242,34 @@
       "home": "Tulsa",
       "pick": "Under",
       "line": 73.5,
-      "model_total": 70.6,
-      "edge": -2.9,
-      "wind": null,
+      "model_total": 70.2,
+      "edge": -3.3,
+      "wind": 9.0,
       "indoor": false,
-      "confidence": 0.22,
+      "confidence": 0.25,
       "top_pick": false,
-      "tier": "D",
+      "tier": "C",
       "qualified": false,
       "current_week": true
+    },
+    {
+      "game_id": 401856751,
+      "drivers": [],
+      "week": 12,
+      "kickoff": "2026-11-22T00:30:00+00:00",
+      "away": "Kentucky",
+      "home": "Missouri",
+      "pick": "Under",
+      "line": 49.5,
+      "model_total": 46.3,
+      "edge": -3.2,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.24,
+      "top_pick": false,
+      "tier": "C",
+      "qualified": false,
+      "current_week": false
     },
     {
       "game_id": 401862828,
@@ -6151,59 +5279,16 @@
       "away": "Tulane",
       "home": "Rice",
       "pick": "Under",
-      "line": 48.5,
-      "model_total": 45.6,
-      "edge": -2.9,
+      "line": 50.0,
+      "model_total": 47.0,
+      "edge": -3.0,
       "wind": null,
       "indoor": false,
       "confidence": 0.22,
       "top_pick": false,
-      "tier": "D",
+      "tier": "C",
       "qualified": false,
       "current_week": true
-    },
-    {
-      "game_id": 401858295,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "California",
-      "home": "Virginia",
-      "pick": "Under",
-      "line": 46.5,
-      "model_total": 43.7,
-      "edge": -2.8,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.21,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858528,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +9 combined"
-        }
-      ],
-      "week": 12,
-      "kickoff": "2026-11-21T05:00:00+00:00",
-      "away": "UCLA",
-      "home": "Michigan",
-      "pick": "Over",
-      "line": 41.5,
-      "model_total": 44.3,
-      "edge": 2.8,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.21,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": false
     },
     {
       "game_id": 401858313,
@@ -6214,203 +5299,49 @@
       "home": "North Carolina",
       "pick": "Over",
       "line": 55.5,
-      "model_total": 58.0,
-      "edge": 2.5,
-      "wind": null,
+      "model_total": 58.5,
+      "edge": 3.0,
+      "wind": 5.1,
       "indoor": false,
-      "confidence": 0.19,
+      "confidence": 0.22,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
       "current_week": false
     },
     {
-      "game_id": 401858524,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +13 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "Minnesota",
-      "home": "Penn State",
-      "pick": "Under",
-      "line": 42.5,
-      "model_total": 40.2,
-      "edge": -2.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.18,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860915,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "7-day rest gap"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T02:30:00+00:00",
-      "away": "Utah State",
-      "home": "San Diego State",
-      "pick": "Under",
-      "line": 43.5,
-      "model_total": 41.2,
-      "edge": -2.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.17,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858294,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +9 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Boston College",
-      "home": "Notre Dame",
-      "pick": "Under",
-      "line": 51.5,
-      "model_total": 49.2,
-      "edge": -2.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.17,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401864536,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate poorly, -9 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Nevada",
-      "home": "Northern Illinois",
-      "pick": "Under",
-      "line": 47.5,
-      "model_total": 45.3,
-      "edge": -2.2,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.16,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401871060,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate poorly, -10 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "Florida International",
-      "home": "Delaware",
-      "pick": "Over",
-      "line": 54.5,
-      "model_total": 56.7,
-      "edge": 2.2,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.16,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858541,
-      "drivers": [
-        {
-          "kind": "offense",
-          "text": "Both offenses rate above average, +12 combined"
-        }
-      ],
+      "game_id": 401856759,
+      "drivers": [],
       "week": 13,
-      "kickoff": "2026-11-28T05:00:00+00:00",
-      "away": "Washington",
-      "home": "Oregon",
-      "pick": "Over",
-      "line": 54.5,
-      "model_total": 56.5,
-      "edge": 2.0,
-      "wind": null,
+      "kickoff": "2026-11-27T20:30:00+00:00",
+      "away": "Florida",
+      "home": "Florida State",
+      "pick": "Under",
+      "line": 52.5,
+      "model_total": 49.7,
+      "edge": -2.8,
+      "wind": 11.9,
       "indoor": false,
-      "confidence": 0.15,
+      "confidence": 0.21,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
       "current_week": false
     },
     {
-      "game_id": 401870796,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate poorly, -9 combined"
-        }
-      ],
+      "game_id": 401860914,
+      "drivers": [],
       "week": 11,
-      "kickoff": "2026-11-14T20:00:00+00:00",
-      "away": "New Mexico State",
-      "home": "Missouri State",
-      "pick": "Over",
-      "line": 49.0,
-      "model_total": 50.9,
-      "edge": 1.9,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.14,
-      "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860917,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "7-day rest gap"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-15T03:30:00+00:00",
-      "away": "Colorado State",
-      "home": "Washington State",
+      "kickoff": "2026-11-14T23:00:00+00:00",
+      "away": "Oregon State",
+      "home": "Boise State",
       "pick": "Under",
       "line": 64.5,
-      "model_total": 62.6,
-      "edge": -1.9,
-      "wind": null,
+      "model_total": 62.3,
+      "edge": -2.2,
+      "wind": 15.8,
       "indoor": false,
-      "confidence": 0.14,
+      "confidence": 0.17,
       "top_pick": false,
       "tier": "D",
       "qualified": false,
@@ -6430,9 +5361,109 @@
       "home": "Ohio State",
       "pick": "Over",
       "line": 46.5,
-      "model_total": 48.3,
-      "edge": 1.8,
+      "model_total": 48.7,
+      "edge": 2.2,
       "wind": null,
+      "indoor": false,
+      "confidence": 0.16,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401858524,
+      "drivers": [
+        {
+          "kind": "defense",
+          "text": "Both defenses rate strong, +13 combined"
+        }
+      ],
+      "week": 11,
+      "kickoff": "2026-11-15T00:00:00+00:00",
+      "away": "Minnesota",
+      "home": "Penn State",
+      "pick": "Under",
+      "line": 42.5,
+      "model_total": 40.4,
+      "edge": -2.1,
+      "wind": 11.2,
+      "indoor": false,
+      "confidence": 0.16,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858528,
+      "drivers": [
+        {
+          "kind": "weather",
+          "text": "19 mph wind, the biggest drag on scoring"
+        },
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +9 combined"
+        }
+      ],
+      "week": 12,
+      "kickoff": "2026-11-21T05:00:00+00:00",
+      "away": "UCLA",
+      "home": "Michigan",
+      "pick": "Over",
+      "line": 41.5,
+      "model_total": 43.4,
+      "edge": 1.9,
+      "wind": 18.7,
+      "indoor": false,
+      "confidence": 0.14,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": false
+    },
+    {
+      "game_id": 401860915,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "7-day rest gap"
+        }
+      ],
+      "week": 11,
+      "kickoff": "2026-11-15T02:30:00+00:00",
+      "away": "Utah State",
+      "home": "San Diego State",
+      "pick": "Under",
+      "line": 43.5,
+      "model_total": 41.6,
+      "edge": -1.9,
+      "wind": null,
+      "indoor": false,
+      "confidence": 0.14,
+      "top_pick": false,
+      "tier": "D",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858541,
+      "drivers": [
+        {
+          "kind": "offense",
+          "text": "Both offenses rate above average, +12 combined"
+        }
+      ],
+      "week": 13,
+      "kickoff": "2026-11-28T05:00:00+00:00",
+      "away": "Washington",
+      "home": "Oregon",
+      "pick": "Over",
+      "line": 54.5,
+      "model_total": 56.2,
+      "edge": 1.7,
+      "wind": 6.1,
       "indoor": false,
       "confidence": 0.13,
       "top_pick": false,
@@ -6441,164 +5472,26 @@
       "current_week": false
     },
     {
-      "game_id": 401869952,
+      "game_id": 401860917,
       "drivers": [
         {
-          "kind": "defense",
-          "text": "Both defenses rate poorly, -9 combined"
+          "kind": "rest",
+          "text": "7-day rest gap"
         }
       ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Georgia Southern",
-      "home": "Georgia State",
-      "pick": "Over",
-      "line": 55.5,
-      "model_total": 56.8,
-      "edge": 1.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.1,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856858,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-15T00:00:00+00:00",
-      "away": "Baylor",
-      "home": "BYU",
-      "pick": "Under",
-      "line": 50.5,
-      "model_total": 49.2,
-      "edge": -1.3,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.1,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401871099,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T22:00:00+00:00",
-      "away": "Southern Miss",
-      "home": "Louisiana Tech",
-      "pick": "Under",
-      "line": 56.5,
-      "model_total": 55.3,
-      "edge": -1.2,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.09,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860914,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T23:00:00+00:00",
-      "away": "Oregon State",
-      "home": "Boise State",
-      "pick": "Under",
-      "line": 64.5,
-      "model_total": 63.6,
-      "edge": -0.9,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.07,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856864,
-      "drivers": [],
       "week": 11,
       "kickoff": "2026-11-15T03:30:00+00:00",
-      "away": "Utah",
-      "home": "Arizona",
+      "away": "Colorado State",
+      "home": "Washington State",
       "pick": "Under",
-      "line": 55.5,
-      "model_total": 54.6,
-      "edge": -0.9,
+      "line": 64.5,
+      "model_total": 62.9,
+      "edge": -1.6,
       "wind": null,
       "indoor": false,
-      "confidence": 0.06,
+      "confidence": 0.12,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856861,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Kansas",
-      "home": "West Virginia",
-      "pick": "Under",
-      "line": 68.5,
-      "model_total": 67.7,
-      "edge": -0.8,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.06,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856883,
-      "drivers": [
-        {
-          "kind": "defense",
-          "text": "Both defenses rate strong, +13 combined"
-        }
-      ],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Missouri",
-      "home": "Georgia",
-      "pick": "Under",
-      "line": 48.5,
-      "model_total": 47.7,
-      "edge": -0.8,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.06,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401870752,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T20:30:00+00:00",
-      "away": "Jacksonville State",
-      "home": "Western Kentucky",
-      "pick": "Over",
-      "line": 54.5,
-      "model_total": 55.1,
-      "edge": 0.6,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.05,
-      "top_pick": false,
-      "tier": "E",
+      "tier": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6616,11 +5509,11 @@
       "home": "TCU",
       "pick": "Under",
       "line": 44.5,
-      "model_total": 43.9,
-      "edge": -0.6,
-      "wind": null,
+      "model_total": 43.4,
+      "edge": -1.1,
+      "wind": 12.1,
       "indoor": false,
-      "confidence": 0.05,
+      "confidence": 0.09,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -6635,30 +5528,11 @@
       "home": "Air Force",
       "pick": "Under",
       "line": 48.5,
-      "model_total": 47.9,
-      "edge": -0.6,
-      "wind": null,
+      "model_total": 47.5,
+      "edge": -1.0,
+      "wind": 11.4,
       "indoor": false,
-      "confidence": 0.04,
-      "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856862,
-      "drivers": [],
-      "week": 11,
-      "kickoff": "2026-11-14T19:00:00+00:00",
-      "away": "Kansas State",
-      "home": "TCU",
-      "pick": "Over",
-      "line": 44.5,
-      "model_total": 45.1,
-      "edge": 0.6,
-      "wind": null,
-      "indoor": false,
-      "confidence": 0.04,
+      "confidence": 0.08,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -6673,11 +5547,49 @@
       "home": "Arkansas",
       "pick": "Over",
       "line": 51.5,
-      "model_total": 51.9,
-      "edge": 0.4,
+      "model_total": 52.3,
+      "edge": 0.8,
       "wind": null,
       "indoor": false,
-      "confidence": 0.03,
+      "confidence": 0.06,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856858,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-15T00:00:00+00:00",
+      "away": "Baylor",
+      "home": "BYU",
+      "pick": "Under",
+      "line": 50.5,
+      "model_total": 49.8,
+      "edge": -0.7,
+      "wind": 5.2,
+      "indoor": false,
+      "confidence": 0.06,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401871099,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-14T22:00:00+00:00",
+      "away": "Southern Miss",
+      "home": "Louisiana Tech",
+      "pick": "Under",
+      "line": 56.5,
+      "model_total": 55.8,
+      "edge": -0.7,
+      "wind": 9.3,
+      "indoor": false,
+      "confidence": 0.06,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -6697,15 +5609,34 @@
       "home": "Texas A&M",
       "pick": "Over",
       "line": 53.5,
-      "model_total": 53.6,
-      "edge": 0.1,
-      "wind": null,
+      "model_total": 54.2,
+      "edge": 0.7,
+      "wind": 6.0,
       "indoor": false,
-      "confidence": 0.01,
+      "confidence": 0.05,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
       "current_week": false
+    },
+    {
+      "game_id": 401856864,
+      "drivers": [],
+      "week": 11,
+      "kickoff": "2026-11-15T03:30:00+00:00",
+      "away": "Utah",
+      "home": "Arizona",
+      "pick": "Under",
+      "line": 55.5,
+      "model_total": 55.1,
+      "edge": -0.4,
+      "wind": 6.9,
+      "indoor": false,
+      "confidence": 0.03,
+      "top_pick": false,
+      "tier": "E",
+      "qualified": false,
+      "current_week": true
     },
     {
       "game_id": 401856765,
@@ -6714,13 +5645,13 @@
       "kickoff": "2026-11-28T05:00:00+00:00",
       "away": "Tennessee",
       "home": "Vanderbilt",
-      "pick": "Under",
+      "pick": "Over",
       "line": 57.5,
-      "model_total": 57.4,
-      "edge": -0.1,
+      "model_total": 57.7,
+      "edge": 0.2,
       "wind": null,
       "indoor": false,
-      "confidence": 0.01,
+      "confidence": 0.02,
       "top_pick": false,
       "tier": "E",
       "qualified": false,
@@ -7815,6 +6746,30 @@
       "result": "win",
       "units": 0.91,
       "clv": 3.0
+    },
+    {
+      "week": 11,
+      "away": "Cincinnati",
+      "home": "Iowa State",
+      "pick": "Under",
+      "pick_spread": 60.5,
+      "edge": -12.0,
+      "margin": 28,
+      "result": "win",
+      "units": 0.91,
+      "clv": 3.0
+    },
+    {
+      "week": 11,
+      "away": "Wake Forest",
+      "home": "SMU",
+      "pick": "Over",
+      "pick_spread": 61.5,
+      "edge": 8.8,
+      "margin": -42,
+      "result": "loss",
+      "units": -1.0,
+      "clv": -1.0
     },
     {
       "week": 11,
@@ -11322,16 +10277,16 @@
     }
   ],
   "record": {
-    "settled": 295,
-    "pending": 18,
-    "wins": 148,
-    "losses": 147,
+    "settled": 297,
+    "pending": 16,
+    "wins": 149,
+    "losses": 148,
     "pushes": 0,
     "win_pct": 50.2,
-    "units": -12.45,
+    "units": -12.55,
     "roi_pct": -4.2,
-    "avg_clv": 0.12,
-    "beat_close_pct": 38.6,
+    "avg_clv": 0.13,
+    "beat_close_pct": 38.7,
     "breakeven_pct": 52.4
   },
   "equity": [
@@ -12802,12 +11757,22 @@
     },
     {
       "n": 294,
-      "units": -11.45,
+      "units": -9.55,
       "market": "total"
     },
     {
       "n": 295,
-      "units": -12.45,
+      "units": -10.55,
+      "market": "total"
+    },
+    {
+      "n": 296,
+      "units": -11.55,
+      "market": "total"
+    },
+    {
+      "n": 297,
+      "units": -12.55,
       "market": "total"
     }
   ],
@@ -12886,31 +11851,31 @@
     },
     {
       "label": "7-10",
-      "bets": 87,
+      "bets": 88,
       "wins": 43,
-      "losses": 44,
+      "losses": 45,
       "pushes": 0,
-      "win_pct": 49.4,
-      "se": 5.4,
-      "units": -4.91,
-      "roi_pct": -5.6,
+      "win_pct": 48.9,
+      "se": 5.3,
+      "units": -5.91,
+      "roi_pct": -6.7,
       "pred_edge": 8.4,
-      "realized_edge": -0.9,
-      "calibration": -0.11
+      "realized_edge": -1.0,
+      "calibration": -0.12
     },
     {
       "label": "10-15",
-      "bets": 32,
-      "wins": 19,
+      "bets": 33,
+      "wins": 20,
       "losses": 13,
       "pushes": 0,
-      "win_pct": 59.4,
-      "se": 8.7,
-      "units": 4.27,
-      "roi_pct": 13.4,
+      "win_pct": 60.6,
+      "se": 8.5,
+      "units": 5.18,
+      "roi_pct": 15.7,
       "pred_edge": 11.9,
-      "realized_edge": 1.1,
-      "calibration": 0.09
+      "realized_edge": 1.2,
+      "calibration": 0.1
     }
   ],
   "record_by_market": {
@@ -12924,22 +11889,22 @@
       "roi_pct": -26.4
     },
     "total": {
-      "settled": 225,
-      "wins": 121,
-      "losses": 104,
+      "settled": 227,
+      "wins": 122,
+      "losses": 105,
       "pushes": 0,
-      "win_pct": 53.8,
-      "units": 6.0,
-      "roi_pct": 2.7
+      "win_pct": 53.7,
+      "units": 5.91,
+      "roi_pct": 2.6
     },
     "top": {
-      "settled": 90,
-      "wins": 48,
-      "losses": 42,
+      "settled": 92,
+      "wins": 49,
+      "losses": 43,
       "pushes": 0,
       "win_pct": 53.3,
-      "units": 1.64,
-      "roi_pct": 1.8
+      "units": 1.55,
+      "roi_pct": 1.7
     }
   },
   "clv_by_market": {
@@ -12950,23 +11915,23 @@
       "median": 0.0
     },
     "total": {
-      "n": 225,
-      "avg": 0.09,
+      "n": 227,
+      "avg": 0.1,
       "beat_pct": 39.6,
       "median": 0.0
     },
     "all": {
-      "n": 295,
-      "avg": 0.12,
-      "beat_pct": 38.6,
+      "n": 297,
+      "avg": 0.13,
+      "beat_pct": 38.7,
       "median": 0.0
     }
   },
   "clv_by_tier": {
     "A": {
-      "n": 211,
-      "avg": 0.17,
-      "beat_pct": 38.9,
+      "n": 213,
+      "avg": 0.18,
+      "beat_pct": 39.0,
       "median": 0.0
     },
     "B": {
@@ -12984,12 +11949,12 @@
   },
   "record_live_season": {
     "season": 2026,
-    "settled": 295,
-    "wins": 148,
-    "losses": 147,
+    "settled": 297,
+    "wins": 149,
+    "losses": 148,
     "pushes": 0,
     "win_pct": 50.2,
-    "units": -12.45,
+    "units": -12.55,
     "roi_pct": -4.2
   },
   "ratings": [
@@ -13001,7 +11966,7 @@
     {
       "rank": 2,
       "team": "Ohio State",
-      "rating": 6.83
+      "rating": 6.94
     },
     {
       "rank": 3,
@@ -13011,16 +11976,16 @@
     {
       "rank": 4,
       "team": "Miami",
-      "rating": 6.55
+      "rating": 6.57
     },
     {
       "rank": 5,
-      "team": "Utah",
-      "rating": 5.87
+      "team": "Texas",
+      "rating": 5.89
     },
     {
       "rank": 6,
-      "team": "Texas",
+      "team": "Utah",
       "rating": 5.87
     },
     {
@@ -13031,137 +11996,137 @@
     {
       "rank": 8,
       "team": "Alabama",
-      "rating": 5.51
+      "rating": 5.5
     },
     {
       "rank": 9,
       "team": "Oregon",
-      "rating": 5.26
+      "rating": 5.28
     },
     {
       "rank": 10,
+      "team": "Wake Forest",
+      "rating": 5.04
+    },
+    {
+      "rank": 11,
       "team": "LSU",
       "rating": 5.03
     },
     {
-      "rank": 11,
-      "team": "Texas Tech",
-      "rating": 4.6
-    },
-    {
       "rank": 12,
-      "team": "Ole Miss",
-      "rating": 4.56
+      "team": "Texas Tech",
+      "rating": 4.58
     },
     {
       "rank": 13,
-      "team": "Iowa",
-      "rating": 4.46
+      "team": "Ole Miss",
+      "rating": 4.57
     },
     {
       "rank": 14,
-      "team": "BYU",
-      "rating": 4.19
+      "team": "Iowa",
+      "rating": 4.49
     },
     {
       "rank": 15,
-      "team": "SMU",
-      "rating": 4.15
+      "team": "BYU",
+      "rating": 4.21
     },
     {
       "rank": 16,
       "team": "USC",
-      "rating": 4.05
+      "rating": 4.04
     },
     {
       "rank": 17,
-      "team": "Wake Forest",
-      "rating": 4.01
-    },
-    {
-      "rank": 18,
       "team": "Arizona",
       "rating": 3.92
     },
     {
-      "rank": 19,
+      "rank": 18,
       "team": "Tennessee",
-      "rating": 3.89
+      "rating": 3.88
     },
     {
-      "rank": 20,
-      "team": "James Madison",
-      "rating": 3.75
-    },
-    {
-      "rank": 21,
+      "rank": 19,
       "team": "Texas A&M",
       "rating": 3.56
     },
     {
-      "rank": 22,
+      "rank": 20,
       "team": "Boise State",
       "rating": 3.53
     },
     {
-      "rank": 23,
+      "rank": 21,
       "team": "South Carolina",
-      "rating": 3.45
+      "rating": 3.46
     },
     {
-      "rank": 24,
+      "rank": 22,
+      "team": "James Madison",
+      "rating": 3.34
+    },
+    {
+      "rank": 23,
       "team": "Oklahoma",
       "rating": 3.28
     },
     {
+      "rank": 24,
+      "team": "SMU",
+      "rating": 3.24
+    },
+    {
       "rank": 25,
-      "team": "Louisville",
-      "rating": 3.07
+      "team": "Nebraska",
+      "rating": 3.15
     },
     {
       "rank": 26,
-      "team": "Penn State",
-      "rating": 2.99
+      "team": "Louisville",
+      "rating": 3.06
     },
     {
       "rank": 27,
-      "team": "Michigan",
-      "rating": 2.98
+      "team": "Duke",
+      "rating": 3.0
     },
     {
       "rank": 28,
-      "team": "Duke",
-      "rating": 2.9
+      "team": "Penn State",
+      "rating": 2.98
     },
     {
       "rank": 29,
-      "team": "Nebraska",
-      "rating": 2.6
+      "team": "Michigan",
+      "rating": 2.97
     },
     {
       "rank": 30,
-      "team": "Florida State",
-      "rating": 2.59
+      "team": "Baylor",
+      "rating": 2.56
     },
     {
       "rank": 31,
-      "team": "Baylor",
+      "team": "Florida State",
       "rating": 2.55
     },
     {
       "rank": 32,
-      "team": "Memphis",
-      "rating": 2.54
-    },
-    {
-      "rank": 33,
       "team": "North Texas",
       "rating": 2.54
     },
     {
+      "rank": 33,
+      "team": "Memphis",
+      "rating": 2.53
+    },
+    {
       "rank": 34,
       "team": "Houston",
-      "rating": 2.5
+      "rating": 2.48
     },
     {
       "rank": 35,
@@ -13171,7 +12136,7 @@
     {
       "rank": 36,
       "team": "Liberty",
-      "rating": 2.38
+      "rating": 2.36
     },
     {
       "rank": 37,
@@ -13181,17 +12146,17 @@
     {
       "rank": 38,
       "team": "UCLA",
-      "rating": 2.27
+      "rating": 2.26
     },
     {
       "rank": 39,
       "team": "TCU",
-      "rating": 2.22
+      "rating": 2.23
     },
     {
       "rank": 40,
       "team": "Florida",
-      "rating": 2.2
+      "rating": 2.21
     },
     {
       "rank": 41,
@@ -13205,73 +12170,73 @@
     },
     {
       "rank": 43,
-      "team": "Western Michigan",
-      "rating": 1.76
+      "team": "Wisconsin",
+      "rating": 1.79
     },
     {
       "rank": 44,
       "team": "Oklahoma State",
-      "rating": 1.75
+      "rating": 1.77
     },
     {
       "rank": 45,
-      "team": "Clemson",
-      "rating": 1.63
+      "team": "Western Michigan",
+      "rating": 1.76
     },
     {
       "rank": 46,
-      "team": "Wisconsin",
-      "rating": 1.61
+      "team": "Washington",
+      "rating": 1.63
     },
     {
       "rank": 47,
-      "team": "Washington",
-      "rating": 1.61
+      "team": "Illinois",
+      "rating": 1.62
     },
     {
       "rank": 48,
-      "team": "Northwestern",
-      "rating": 1.6
+      "team": "Clemson",
+      "rating": 1.62
     },
     {
       "rank": 49,
-      "team": "Illinois",
-      "rating": 1.59
+      "team": "Pittsburgh",
+      "rating": 1.55
     },
     {
       "rank": 50,
-      "team": "Pittsburgh",
-      "rating": 1.56
+      "team": "North Dakota State",
+      "rating": 1.55
     },
     {
       "rank": 51,
-      "team": "North Dakota State",
-      "rating": 1.56
-    },
-    {
-      "rank": 52,
       "team": "South Florida",
       "rating": 1.38
     },
     {
-      "rank": 53,
+      "rank": 52,
       "team": "Jacksonville State",
+      "rating": 1.3
+    },
+    {
+      "rank": 53,
+      "team": "Northwestern",
       "rating": 1.3
     },
     {
       "rank": 54,
       "team": "Virginia Tech",
-      "rating": 1.24
+      "rating": 1.19
     },
     {
       "rank": 55,
       "team": "Ohio",
-      "rating": 1.05
+      "rating": 1.08
     },
     {
       "rank": 56,
       "team": "North Carolina",
-      "rating": 0.98
+      "rating": 0.99
     },
     {
       "rank": 57,
@@ -13281,7 +12246,7 @@
     {
       "rank": 58,
       "team": "Kansas State",
-      "rating": 0.66
+      "rating": 0.64
     },
     {
       "rank": 59,
@@ -13291,97 +12256,97 @@
     {
       "rank": 60,
       "team": "Vanderbilt",
-      "rating": 0.55
+      "rating": 0.56
     },
     {
       "rank": 61,
-      "team": "Mississippi State",
-      "rating": 0.52
+      "team": "Iowa State",
+      "rating": 0.54
     },
     {
       "rank": 62,
-      "team": "Louisiana Tech",
-      "rating": 0.48
+      "team": "Mississippi State",
+      "rating": 0.53
     },
     {
       "rank": 63,
-      "team": "Louisiana",
-      "rating": 0.46
+      "team": "Louisiana Tech",
+      "rating": 0.47
     },
     {
       "rank": 64,
+      "team": "Louisiana",
+      "rating": 0.45
+    },
+    {
+      "rank": 65,
+      "team": "UConn",
+      "rating": 0.35
+    },
+    {
+      "rank": 66,
       "team": "Army",
       "rating": 0.31
     },
     {
-      "rank": 65,
+      "rank": 67,
       "team": "Air Force",
-      "rating": 0.29
+      "rating": 0.31
     },
     {
-      "rank": 66,
+      "rank": 68,
       "team": "Virginia",
       "rating": 0.28
     },
     {
-      "rank": 67,
+      "rank": 69,
       "team": "UTSA",
       "rating": 0.26
     },
     {
-      "rank": 68,
+      "rank": 70,
       "team": "East Carolina",
       "rating": 0.25
     },
     {
-      "rank": 69,
-      "team": "Oregon State",
-      "rating": 0.24
-    },
-    {
-      "rank": 70,
-      "team": "Fresno State",
-      "rating": 0.19
-    },
-    {
       "rank": 71,
-      "team": "Iowa State",
-      "rating": 0.15
+      "team": "Oregon State",
+      "rating": 0.23
     },
     {
       "rank": 72,
-      "team": "Kentucky",
-      "rating": 0.0
+      "team": "Fresno State",
+      "rating": 0.18
     },
     {
       "rank": 73,
+      "team": "Kentucky",
+      "rating": -0.01
+    },
+    {
+      "rank": 74,
       "team": "UCF",
       "rating": -0.07
     },
     {
-      "rank": 74,
+      "rank": 75,
       "team": "Campbell",
       "rating": -0.15
     },
     {
-      "rank": 75,
+      "rank": 76,
       "team": "UNLV",
       "rating": -0.15
     },
     {
-      "rank": 76,
-      "team": "UConn",
-      "rating": -0.16
-    },
-    {
       "rank": 77,
       "team": "Navy",
-      "rating": -0.21
+      "rating": -0.2
     },
     {
       "rank": 78,
       "team": "NC State",
-      "rating": -0.33
+      "rating": -0.32
     },
     {
       "rank": 79,
@@ -13390,102 +12355,102 @@
     },
     {
       "rank": 80,
-      "team": "Cincinnati",
-      "rating": -0.34
+      "team": "Georgia State",
+      "rating": -0.45
     },
     {
       "rank": 81,
-      "team": "Georgia State",
-      "rating": -0.43
-    },
-    {
-      "rank": 82,
       "team": "Arizona State",
       "rating": -0.48
     },
     {
-      "rank": 83,
+      "rank": 82,
       "team": "Washington State",
       "rating": -0.5
     },
     {
-      "rank": 84,
+      "rank": 83,
       "team": "Michigan State",
-      "rating": -0.53
+      "rating": -0.51
     },
     {
-      "rank": 85,
+      "rank": 84,
       "team": "Florida Atlantic",
       "rating": -0.55
     },
     {
-      "rank": 86,
-      "team": "Syracuse",
-      "rating": -0.57
-    },
-    {
-      "rank": 87,
+      "rank": 85,
       "team": "Jackson State",
       "rating": -0.57
     },
     {
-      "rank": 88,
+      "rank": 86,
       "team": "Central Arkansas",
       "rating": -0.59
     },
     {
-      "rank": 89,
-      "team": "San Diego State",
-      "rating": -0.6
-    },
-    {
-      "rank": 90,
+      "rank": 87,
       "team": "Bethune-Cookman",
       "rating": -0.62
     },
     {
-      "rank": 91,
+      "rank": 88,
+      "team": "San Diego State",
+      "rating": -0.62
+    },
+    {
+      "rank": 89,
+      "team": "Syracuse",
+      "rating": -0.64
+    },
+    {
+      "rank": 90,
       "team": "West Virginia",
       "rating": -0.66
     },
     {
-      "rank": 92,
+      "rank": 91,
       "team": "Tulsa",
-      "rating": -0.67
+      "rating": -0.68
     },
     {
-      "rank": 93,
+      "rank": 92,
       "team": "Houston Christian",
       "rating": -0.72
     },
     {
-      "rank": 94,
+      "rank": 93,
       "team": "Youngstown State",
       "rating": -0.73
     },
     {
-      "rank": 95,
+      "rank": 94,
       "team": "Cal Poly",
       "rating": -0.8
     },
     {
-      "rank": 96,
+      "rank": 95,
       "team": "Arkansas",
       "rating": -0.81
     },
     {
-      "rank": 97,
+      "rank": 96,
       "team": "Florida A&M",
       "rating": -0.81
     },
     {
-      "rank": 98,
+      "rank": 97,
       "team": "Minnesota",
       "rating": -0.84
     },
     {
-      "rank": 99,
+      "rank": 98,
       "team": "Western Carolina",
+      "rating": -0.86
+    },
+    {
+      "rank": 99,
+      "team": "Cincinnati",
       "rating": -0.86
     },
     {
@@ -13505,28 +12470,28 @@
     },
     {
       "rank": 103,
-      "team": "Georgia Southern",
+      "team": "Nevada",
       "rating": -0.91
     },
     {
       "rank": 104,
       "team": "Tulane",
-      "rating": -0.92
+      "rating": -0.91
     },
     {
       "rank": 105,
-      "team": "Nevada",
-      "rating": -0.92
-    },
-    {
-      "rank": 106,
       "team": "Portland State",
       "rating": -0.93
     },
     {
-      "rank": 107,
+      "rank": 106,
       "team": "Northern Arizona",
       "rating": -0.93
+    },
+    {
+      "rank": 107,
+      "team": "Georgia Southern",
+      "rating": -0.94
     },
     {
       "rank": 108,
@@ -13615,102 +12580,102 @@
     },
     {
       "rank": 125,
-      "team": "Rutgers",
-      "rating": -1.08
-    },
-    {
-      "rank": 126,
       "team": "Texas Southern",
       "rating": -1.08
     },
     {
-      "rank": 127,
+      "rank": 126,
       "team": "Colorado",
-      "rating": -1.08
+      "rating": -1.09
     },
     {
-      "rank": 128,
+      "rank": 127,
       "team": "South Dakota State",
       "rating": -1.1
     },
     {
-      "rank": 129,
+      "rank": 128,
       "team": "Towson",
       "rating": -1.1
     },
     {
-      "rank": 130,
+      "rank": 129,
       "team": "Incarnate Word",
       "rating": -1.11
     },
     {
-      "rank": 131,
+      "rank": 130,
       "team": "Monmouth",
       "rating": -1.11
     },
     {
-      "rank": 132,
+      "rank": 131,
       "team": "Hampton",
       "rating": -1.12
     },
     {
-      "rank": 133,
+      "rank": 132,
       "team": "Mississippi Valley State",
       "rating": -1.12
     },
     {
-      "rank": 134,
+      "rank": 133,
       "team": "Montana State",
       "rating": -1.13
     },
     {
-      "rank": 135,
+      "rank": 134,
       "team": "Yale",
       "rating": -1.13
     },
     {
-      "rank": 136,
+      "rank": 135,
       "team": "Florida International",
       "rating": -1.13
     },
     {
-      "rank": 137,
+      "rank": 136,
       "team": "Tennessee State",
       "rating": -1.13
     },
     {
-      "rank": 138,
+      "rank": 137,
       "team": "Chattanooga",
       "rating": -1.14
     },
     {
-      "rank": 139,
+      "rank": 138,
       "team": "Grand Valley State",
       "rating": -1.15
     },
     {
-      "rank": 140,
+      "rank": 139,
       "team": "South Dakota",
       "rating": -1.17
     },
     {
-      "rank": 141,
+      "rank": 140,
       "team": "Southern Illinois",
       "rating": -1.18
     },
     {
-      "rank": 142,
+      "rank": 141,
       "team": "Weber State",
       "rating": -1.19
     },
     {
-      "rank": 143,
+      "rank": 142,
       "team": "Arkansas-Pine Bluff",
       "rating": -1.2
     },
     {
-      "rank": 144,
+      "rank": 143,
       "team": "Cornell",
+      "rating": -1.21
+    },
+    {
+      "rank": 144,
+      "team": "Norfolk State",
       "rating": -1.21
     },
     {
@@ -13720,68 +12685,68 @@
     },
     {
       "rank": 146,
-      "team": "Norfolk State",
-      "rating": -1.21
-    },
-    {
-      "rank": 147,
       "team": "Mercer",
       "rating": -1.21
     },
     {
-      "rank": 148,
+      "rank": 147,
       "team": "Duquesne",
       "rating": -1.21
     },
     {
-      "rank": 149,
+      "rank": 148,
       "team": "Western Illinois",
       "rating": -1.21
     },
     {
-      "rank": 150,
+      "rank": 149,
       "team": "Columbia",
       "rating": -1.21
     },
     {
-      "rank": 151,
+      "rank": 150,
       "team": "Bryant",
       "rating": -1.21
     },
     {
-      "rank": 152,
+      "rank": 151,
       "team": "East Tennessee State",
       "rating": -1.22
     },
     {
-      "rank": 153,
+      "rank": 152,
       "team": "Georgetown",
       "rating": -1.22
     },
     {
-      "rank": 154,
+      "rank": 153,
       "team": "McNeese",
       "rating": -1.22
     },
     {
-      "rank": 155,
+      "rank": 154,
       "team": "Hawai'i",
       "rating": -1.22
     },
     {
-      "rank": 156,
+      "rank": 155,
       "team": "Prairie View A&M",
       "rating": -1.22
     },
     {
-      "rank": 157,
+      "rank": 156,
       "team": "Holy Cross",
       "rating": -1.22
     },
     {
-      "rank": 158,
+      "rank": 157,
       "team": "New Hampshire",
       "rating": -1.22
+    },
+    {
+      "rank": 158,
+      "team": "UAB",
+      "rating": -1.23
     },
     {
       "rank": 159,
@@ -13800,7 +12765,7 @@
     },
     {
       "rank": 162,
-      "team": "UAB",
+      "team": "Wyoming",
       "rating": -1.24
     },
     {
@@ -13815,37 +12780,37 @@
     },
     {
       "rank": 165,
-      "team": "Wyoming",
-      "rating": -1.24
-    },
-    {
-      "rank": 166,
       "team": "Lamar",
       "rating": -1.24
     },
     {
-      "rank": 167,
+      "rank": 166,
       "team": "Pennsylvania",
       "rating": -1.24
     },
     {
-      "rank": 168,
+      "rank": 167,
       "team": "Northern Iowa",
       "rating": -1.25
     },
     {
-      "rank": 169,
+      "rank": 168,
       "team": "Gardner-Webb",
       "rating": -1.25
     },
     {
-      "rank": 170,
+      "rank": 169,
       "team": "North Carolina A&T",
       "rating": -1.25
     },
     {
-      "rank": 171,
+      "rank": 170,
       "team": "Furman",
+      "rating": -1.25
+    },
+    {
+      "rank": 171,
+      "team": "Robert Morris",
       "rating": -1.25
     },
     {
@@ -13855,243 +12820,243 @@
     },
     {
       "rank": 173,
-      "team": "Robert Morris",
-      "rating": -1.25
-    },
-    {
-      "rank": 174,
       "team": "North Carolina Central",
       "rating": -1.25
     },
     {
-      "rank": 175,
+      "rank": 174,
       "team": "Presbyterian",
       "rating": -1.25
     },
     {
-      "rank": 176,
+      "rank": 175,
       "team": "Villanova",
       "rating": -1.26
     },
     {
-      "rank": 177,
+      "rank": 176,
       "team": "William & Mary",
       "rating": -1.26
     },
     {
-      "rank": 178,
+      "rank": 177,
       "team": "The Citadel",
       "rating": -1.26
     },
     {
-      "rank": 179,
-      "team": "Maryland",
-      "rating": -1.26
-    },
-    {
-      "rank": 180,
+      "rank": 178,
       "team": "Eastern Illinois",
       "rating": -1.26
     },
     {
-      "rank": 181,
+      "rank": 179,
       "team": "Fordham",
       "rating": -1.26
     },
     {
-      "rank": 182,
+      "rank": 180,
       "team": "San Diego",
       "rating": -1.27
     },
     {
-      "rank": 183,
+      "rank": 181,
       "team": "Lehigh",
       "rating": -1.3
     },
     {
-      "rank": 184,
+      "rank": 182,
       "team": "Northern Colorado",
       "rating": -1.3
     },
     {
-      "rank": 185,
+      "rank": 183,
       "team": "Southeast Missouri State",
       "rating": -1.31
     },
     {
-      "rank": 186,
+      "rank": 184,
       "team": "Brown",
       "rating": -1.32
     },
     {
-      "rank": 187,
+      "rank": 185,
       "team": "Northwestern State",
       "rating": -1.32
     },
     {
-      "rank": 188,
+      "rank": 186,
       "team": "Montana",
       "rating": -1.33
     },
     {
-      "rank": 189,
+      "rank": 187,
       "team": "Alabama State",
       "rating": -1.33
     },
     {
-      "rank": 190,
+      "rank": 188,
       "team": "Georgia Tech",
       "rating": -1.34
     },
     {
-      "rank": 191,
+      "rank": 189,
       "team": "Dartmouth",
       "rating": -1.34
     },
     {
-      "rank": 192,
+      "rank": 190,
       "team": "Miami (OH)",
       "rating": -1.34
     },
     {
-      "rank": 193,
+      "rank": 191,
       "team": "Alabama A&M",
       "rating": -1.35
     },
     {
-      "rank": 194,
+      "rank": 192,
       "team": "Richmond",
       "rating": -1.36
     },
     {
-      "rank": 195,
+      "rank": 193,
       "team": "UT Martin",
       "rating": -1.36
     },
     {
-      "rank": 196,
+      "rank": 194,
       "team": "Bucknell",
       "rating": -1.37
     },
     {
-      "rank": 197,
+      "rank": 195,
       "team": "Illinois State",
       "rating": -1.38
     },
     {
-      "rank": 198,
+      "rank": 196,
       "team": "Stetson",
       "rating": -1.44
     },
     {
-      "rank": 199,
-      "team": "Alcorn State",
-      "rating": -1.44
-    },
-    {
-      "rank": 200,
-      "team": "Valparaiso",
-      "rating": -1.44
-    },
-    {
-      "rank": 201,
+      "rank": 197,
       "team": "Wagner",
       "rating": -1.44
     },
     {
-      "rank": 202,
+      "rank": 198,
       "team": "Morehead State",
       "rating": -1.44
     },
     {
-      "rank": 203,
-      "team": "Lafayette",
+      "rank": 199,
+      "team": "Valparaiso",
       "rating": -1.44
     },
     {
-      "rank": 204,
-      "team": "Indiana State",
-      "rating": -1.44
-    },
-    {
-      "rank": 205,
-      "team": "North Dakota",
-      "rating": -1.44
-    },
-    {
-      "rank": 206,
-      "team": "Morgan State",
-      "rating": -1.44
-    },
-    {
-      "rank": 207,
-      "team": "Southeastern Louisiana",
-      "rating": -1.44
-    },
-    {
-      "rank": 208,
-      "team": "Butler",
-      "rating": -1.44
-    },
-    {
-      "rank": 209,
-      "team": "Davidson",
-      "rating": -1.44
-    },
-    {
-      "rank": 210,
-      "team": "Dayton",
-      "rating": -1.44
-    },
-    {
-      "rank": 211,
-      "team": "Charleston Southern",
-      "rating": -1.44
-    },
-    {
-      "rank": 212,
+      "rank": 200,
       "team": "Maine",
       "rating": -1.44
     },
     {
-      "rank": 213,
+      "rank": 201,
+      "team": "Lafayette",
+      "rating": -1.44
+    },
+    {
+      "rank": 202,
+      "team": "Indiana State",
+      "rating": -1.44
+    },
+    {
+      "rank": 203,
+      "team": "Butler",
+      "rating": -1.44
+    },
+    {
+      "rank": 204,
+      "team": "Charleston Southern",
+      "rating": -1.44
+    },
+    {
+      "rank": 205,
       "team": "Drake",
       "rating": -1.44
     },
     {
-      "rank": 214,
+      "rank": 206,
+      "team": "Davidson",
+      "rating": -1.44
+    },
+    {
+      "rank": 207,
+      "team": "Alcorn State",
+      "rating": -1.44
+    },
+    {
+      "rank": 208,
+      "team": "Morgan State",
+      "rating": -1.44
+    },
+    {
+      "rank": 209,
+      "team": "Dayton",
+      "rating": -1.44
+    },
+    {
+      "rank": 210,
+      "team": "North Dakota",
+      "rating": -1.44
+    },
+    {
+      "rank": 211,
+      "team": "Southeastern Louisiana",
+      "rating": -1.44
+    },
+    {
+      "rank": 212,
+      "team": "Maryland",
+      "rating": -1.47
+    },
+    {
+      "rank": 213,
       "team": "App State",
-      "rating": -1.48
+      "rating": -1.5
+    },
+    {
+      "rank": 214,
+      "team": "Buffalo",
+      "rating": -1.56
     },
     {
       "rank": 215,
       "team": "South Alabama",
-      "rating": -1.56
+      "rating": -1.57
     },
     {
       "rank": 216,
-      "team": "Buffalo",
-      "rating": -1.57
+      "team": "Purdue",
+      "rating": -1.62
     },
     {
       "rank": 217,
       "team": "Marshall",
-      "rating": -1.61
+      "rating": -1.63
     },
     {
       "rank": 218,
-      "team": "Purdue",
-      "rating": -1.65
+      "team": "Delaware",
+      "rating": -1.68
     },
     {
       "rank": 219,
-      "team": "Delaware",
-      "rating": -1.67
+      "team": "Coastal Carolina",
+      "rating": -1.7
     },
     {
       "rank": 220,
-      "team": "Coastal Carolina",
-      "rating": -1.7
+      "team": "Rutgers",
+      "rating": -1.71
     },
     {
       "rank": 221,
@@ -14101,32 +13066,32 @@
     {
       "rank": 222,
       "team": "Arkansas State",
-      "rating": -1.8
+      "rating": -1.81
     },
     {
       "rank": 223,
       "team": "Temple",
-      "rating": -1.97
+      "rating": -1.95
     },
     {
       "rank": 224,
-      "team": "Boston College",
-      "rating": -2.12
-    },
-    {
-      "rank": 225,
       "team": "Central Michigan",
       "rating": -2.18
     },
     {
+      "rank": 225,
+      "team": "Boston College",
+      "rating": -2.21
+    },
+    {
       "rank": 226,
       "team": "Old Dominion",
-      "rating": -2.18
+      "rating": -2.21
     },
     {
       "rank": 227,
       "team": "Troy",
-      "rating": -2.23
+      "rating": -2.25
     },
     {
       "rank": 228,
@@ -14156,12 +13121,12 @@
     {
       "rank": 233,
       "team": "Eastern Michigan",
-      "rating": -3.05
+      "rating": -3.04
     },
     {
       "rank": 234,
       "team": "Missouri State",
-      "rating": -3.13
+      "rating": -3.17
     },
     {
       "rank": 235,
@@ -14171,27 +13136,27 @@
     {
       "rank": 236,
       "team": "Kent State",
-      "rating": -3.57
+      "rating": -3.55
     },
     {
       "rank": 237,
       "team": "Middle Tennessee",
-      "rating": -3.6
+      "rating": -3.61
     },
     {
       "rank": 238,
       "team": "Stanford",
-      "rating": -3.73
+      "rating": -3.69
     },
     {
       "rank": 239,
       "team": "Akron",
-      "rating": -4.04
+      "rating": -3.99
     },
     {
       "rank": 240,
       "team": "Bowling Green",
-      "rating": -4.17
+      "rating": -4.13
     },
     {
       "rank": 241,
@@ -14216,7 +13181,7 @@
     {
       "rank": 245,
       "team": "Northern Illinois",
-      "rating": -5.04
+      "rating": -5.03
     },
     {
       "rank": 246,
@@ -14226,7 +13191,7 @@
     {
       "rank": 247,
       "team": "Massachusetts",
-      "rating": -5.25
+      "rating": -5.26
     },
     {
       "rank": 248,
@@ -14236,7 +13201,7 @@
     {
       "rank": 249,
       "team": "Charlotte",
-      "rating": -6.16
+      "rating": -6.15
     }
   ],
   "notes": []
