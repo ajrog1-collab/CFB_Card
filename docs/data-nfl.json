@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-19T21:42:06+00:00",
+  "generated_at": "2026-11-19T23:14:45+00:00",
   "season": 2026,
   "min_edge": 1.3,
   "board_week": 11,
@@ -773,12 +773,12 @@
       "active": true
     },
     "conf_weights": [
-      0.06047293116423134,
-      0.053404933459272774,
-      -0.05440043288034385,
-      -0.4244477148976017,
-      -0.08438862443958006,
-      9.718782974976097
+      0.06047293116423225,
+      0.05340493345927366,
+      -0.054400432880341194,
+      -0.4244477148976057,
+      -0.0843886244395779,
+      9.718782974976088
     ],
     "conf_names": [
       "abs_pred",
@@ -1372,17 +1372,41 @@
       "away": "Vikings",
       "home": "49ers",
       "pick": "MIN",
-      "edge": -1.6,
-      "confidence": 0.17,
+      "edge": -1.7,
+      "confidence": 0.19,
       "tier": "A",
       "top_pick": true,
       "qualified": true,
       "current_week": true,
       "drivers": [],
-      "pick_spread": 3.0,
-      "model_margin": 1.4,
-      "market_margin": 3.0,
-      "sigma": 9.3
+      "pick_spread": 3.5,
+      "model_margin": 1.8,
+      "market_margin": 3.5,
+      "sigma": 9.4
+    },
+    {
+      "game_id": "2026_11_ARI_KC",
+      "week": 11,
+      "kickoff": "2026-11-22T18:00:00+00:00",
+      "away": "Cardinals",
+      "home": "Chiefs",
+      "pick": "ARI",
+      "edge": -1.6,
+      "confidence": 0.16,
+      "tier": "A",
+      "top_pick": false,
+      "qualified": true,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks Chiefs #4, Cardinals #32"
+        }
+      ],
+      "pick_spread": 16.5,
+      "model_margin": 14.9,
+      "market_margin": 16.5,
+      "sigma": 10.2
     },
     {
       "game_id": "2026_11_NYJ_LAC",
@@ -1402,30 +1426,6 @@
       "model_margin": 1.6,
       "market_margin": 3.0,
       "sigma": 9.4
-    },
-    {
-      "game_id": "2026_11_ARI_KC",
-      "week": 11,
-      "kickoff": "2026-11-22T18:00:00+00:00",
-      "away": "Cardinals",
-      "home": "Chiefs",
-      "pick": "ARI",
-      "edge": -1.4,
-      "confidence": 0.14,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": true,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "Model ranks Chiefs #4, Cardinals #32"
-        }
-      ],
-      "pick_spread": 15.5,
-      "model_margin": 14.1,
-      "market_margin": 15.5,
-      "sigma": 10.1
     },
     {
       "game_id": "2026_11_TEN_DAL",
@@ -3713,7 +3713,7 @@
       "n": 18,
       "pct": 77.8,
       "side": "underdog",
-      "corr": -0.642
+      "corr": -0.656
     },
     "total": {
       "n": 18,
