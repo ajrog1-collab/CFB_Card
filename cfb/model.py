@@ -42,8 +42,26 @@ def _headers() -> dict:
     return {"Authorization": f"Bearer {key}"}
 
 
+# Live tally of network calls. The free CFBD tier allows 1,000 a calendar
+# month, so a run that quietly spends 170 of them is worth seeing in the log
+# rather than discovering when a 429 stops everything.
+API_CALLS = {"network": 0, "cache": 0}
+
+
+def api_usage() -> str:
+    n, c = API_CALLS["network"], API_CALLS["cache"]
+    return f"{n} API call{'s' if n != 1 else ''} this run ({c} served from cache)"
+
+
+def _write_cache(df: pd.DataFrame, path) -> None:
+    try:
+        df.to_parquet(path, index=False)
+    except Exception as e:
+        print(f"    could not cache {path.name}: {e}")
+
+
 def cfbd_get(endpoint: str, params: dict, force: bool = False,
-             required: bool = True) -> pd.DataFrame:
+             required: bool = True, cache_empty: bool = True) -> pd.DataFrame:
     """Fetch an endpoint, caching to the repo. Returns empty frame on failure.
 
     `required=False` marks an endpoint the model can live without (weather,
@@ -58,10 +76,13 @@ def cfbd_get(endpoint: str, params: dict, force: bool = False,
 
     if path.exists() and not force:
         try:
-            return pd.read_parquet(path)
+            df = pd.read_parquet(path)
+            API_CALLS["cache"] += 1
+            return df
         except Exception:
             pass  # corrupt cache file, refetch
 
+    API_CALLS["network"] += 1
     try:
         r = requests.get(
             f"{BASE}/{endpoint.strip('/')}", headers=_headers(), params=params, timeout=90
@@ -79,7 +100,11 @@ def cfbd_get(endpoint: str, params: dict, force: bool = False,
         print(f"    {endpoint} not available on this API tier ({r.status_code}) — skipping")
         return pd.DataFrame()
     if r.status_code == 429:
-        raise RuntimeError("CFBD returned 429. Monthly API call limit reached.")
+        raise RuntimeError(
+            f"CFBD returned 429, monthly API call limit reached. {api_usage()}. "
+            "The allowance resets on the 1st; until then the site keeps serving "
+            "the last successful run."
+        )
     if r.status_code >= 400:
         print(f"    HTTP {r.status_code} on {endpoint} {params}")
         return pd.DataFrame()
@@ -89,13 +114,19 @@ def cfbd_get(endpoint: str, params: dict, force: bool = False,
     except Exception:
         return pd.DataFrame()
     if not data:
-        return pd.DataFrame()
+        # An empty answer is still an answer. Not caching it meant every season
+        # and week that legitimately has no rows was re-requested on every run —
+        # up to 170 wasted calls a run against a 1,000/month allowance, which is
+        # what actually exhausted the quota. Current-season endpoints pass
+        # cache_empty=False, because their data arrives later.
+        empty = pd.DataFrame()
+        if cache_empty:
+            _write_cache(empty, path)
+        time.sleep(0.35)
+        return empty
 
     df = pd.json_normalize(data)
-    try:
-        df.to_parquet(path, index=False)
-    except Exception as e:
-        print(f"    could not cache {path.name}: {e}")
+    _write_cache(df, path)
     time.sleep(0.35)
     return df
 
