@@ -845,6 +845,93 @@ def update_log(picks, total_picks, finished, cuts):
     }
 
 
+def season_to_date(d, prior_model, season_hfa, deb_sp, deb_to, thr_sp, thr_to):
+    """How this season's picks would have graded, week by week.
+
+    The live record only holds picks the model actually flagged at the time, so
+    a market that never qualified has no history at all. This replays the season
+    instead: each week is priced using only the weeks before it, then graded
+    against the result.
+
+    It is not the same thing as the live record. It prices against the closing
+    number, which is the hardest one to beat, and it cannot measure line value.
+    Treat it as context, not as a track record.
+    """
+    cur = d[d.season == CURRENT]
+    done = cur[cur.home_pts.notna()]
+    if len(done) < 30:
+        return {}
+
+    prior = prior_model.preseason(CURRENT)
+    if prior is None:
+        return {}
+    earlier = [h for y, h in season_hfa.items() if y < CURRENT]
+    hfa = float(np.mean(earlier)) if earlier else 1.6
+    profit = american_to_profit(PRICE)
+
+    rows = []
+    for wk in sorted(done["week"].dropna().unique()):
+        before = done[done.week < wk]
+        test = done[done.week == wk]
+        if not len(test):
+            continue
+
+        r_in = None
+        if len(before) >= 60:
+            r_in, _ = fit_ratings(before, "margin", ridge=10.0, cap=35.0, min_games=60)
+        gp = games_played_counts(before)
+        R = blend_prior(prior, r_in, gp, BLEND_K)
+
+        out = test.copy()
+        rd = rating_diff(test, R, hfa)
+        out["pred_raw"] = rd
+        out["pred"] = apply_debias(out["pred_raw"].to_numpy(dtype=float),
+                                   out["mkt"].to_numpy(dtype=float),
+                                   float((deb_sp or {}).get("intercept", 0.0)),
+                                   float((deb_sp or {}).get("slope", 1.0))) if DEBIAS else rd
+        out["edge_sp"] = out["pred"] - out["mkt"]
+
+        out["edge_to"] = np.nan
+        if len(before) >= 80:
+            off, dfn, hfa_off, base = fit_points_ratings(before, ridge=10.0, cap=56.0,
+                                                         min_games=80)
+            if off is not None:
+                raw = predict_total(test, off, dfn, hfa_off, base)
+                pt = apply_debias(np.asarray(raw, dtype=float),
+                                  out["mkt_total"].to_numpy(dtype=float),
+                                  float((deb_to or {}).get("intercept", 0.0)),
+                                  float((deb_to or {}).get("slope", 1.0))) if DEBIAS else raw
+                out["edge_to"] = pt - out["mkt_total"]
+        rows.append(out)
+
+    if not rows:
+        return {}
+    s = pd.concat(rows, ignore_index=True)
+
+    def grade(edge_col, outcome_col, line_col, thr):
+        f = s.dropna(subset=[edge_col, outcome_col, line_col])
+        f = f[f[edge_col].abs() >= thr]
+        if len(f) < 10:
+            return None
+        got = np.where(f[edge_col] > 0, f[outcome_col] - f[line_col],
+                       f[line_col] - f[outcome_col])
+        wins = int((got > 0).sum()); losses = int((got < 0).sum())
+        pushes = int((got == 0).sum())
+        units = wins * profit - losses
+        dec = wins + losses
+        return {"picks": int(len(f)), "wins": wins, "losses": losses, "pushes": pushes,
+                "win_pct": round(wins / dec * 100, 1) if dec else None,
+                "units": round(units, 2),
+                "roi_pct": round(units / len(f) * 100, 1)}
+
+    return {
+        "games": int(len(s)),
+        "weeks": int(s["week"].nunique()),
+        "spread": grade("edge_sp", "margin", "mkt", thr_sp),
+        "total": grade("edge_to", "actual_total", "mkt_total", thr_to),
+    }
+
+
 def main():
     print("THE PRO CARD — NFL")
     raw = load_games()
@@ -1024,6 +1111,17 @@ def main():
             out["corr"] = round(float(np.corrcoef(line, frame["edge"])[0, 1]), 3)
         return out
 
+    std = season_to_date(d, prior_model, season_hfa,
+                         bts.get("debias"), tts.get("debias"),
+                         bts.get("min_edge", MIN_EDGE),
+                         tts.get("min_edge", MIN_EDGE_TOTAL))
+    if std:
+        for m in ("spread", "total"):
+            g = std.get(m)
+            if g:
+                print(f"  season to date {m}: {g['wins']}-{g['losses']} "
+                      f"({g['win_pct']}%) on {g['picks']} picks")
+
     payload = {
         "sport": "nfl", "title": "THE PRO CARD",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -1065,6 +1163,7 @@ def main():
                          sorted(ratings_now.items(), key=lambda kv: -kv[1]), start=1)]
                     if ratings_now else []),
         "qb_value": {}, "qb_season": None, "notes": notes,
+        "season_to_date": std,
     }
 
     # season-over-season accuracy trend, spreads and totals combined
