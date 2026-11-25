@@ -1,0 +1,36 @@
+"""Fail the run if a payload the site must load does not parse.
+
+docs/data.json reached the site containing a bare `NaN`, which no JSON parser
+accepts, so the page showed "NO DATA YET" with a parser error. The model had
+run fine; the file it wrote was simply unloadable. This checks the artefact
+itself rather than trusting the code that produced it.
+"""
+import json, sys
+from pathlib import Path
+
+bad = 0
+for path in sys.argv[1:]:
+    p = Path(path)
+    if not p.exists():
+        print(f"  {path}: not present, skipping")
+        continue
+    raw = p.read_text()
+    try:
+        d = json.loads(raw)
+    except Exception as e:
+        print(f"  {path}: DOES NOT PARSE -> {e}")
+        bad += 1
+        continue
+    # json.loads accepts NaN by default; the browser does not
+    try:
+        json.loads(raw, parse_constant=lambda c: (_ for _ in ()).throw(
+            ValueError(f"bare {c} is not valid JSON")))
+    except ValueError as e:
+        print(f"  {path}: {e}")
+        bad += 1
+        continue
+    picks = len(d.get("picks") or []) + len(d.get("total_picks") or [])
+    print(f"  {path}: parses, {len(raw):,} bytes, {picks} picks")
+
+print("PASS" if not bad else f"FAIL: {bad} unloadable payload(s)")
+sys.exit(1 if bad else 0)
