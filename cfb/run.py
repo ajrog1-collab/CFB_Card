@@ -920,8 +920,34 @@ def _fmt_team(name, n=18):
     return name if len(name) <= n else name[: n - 1] + "\u2026"
 
 
+def market_ratings(games):
+    """Power ratings fitted to the book's closing numbers instead of results.
+
+    This is the one thing that makes a driver worth reading. Comparing our rating
+    of a team against the market's implied rating says *where* the disagreement
+    sits — which team the book is pricing differently, and by how much. Without
+    it every explanation is a restatement of the edge the card already prints.
+    """
+    sub = games.dropna(subset=["mkt"])
+    if len(sub) < 150:
+        return {}, 0.0
+    r, hfa = fit_ratings(sub, "mkt", ridge=6.0, cap=40.0, min_games=150)
+    return (r or {}), hfa
+
+
+def _disagreement(pick_key, fade_key, pick_name, fade_name, ratings, mkt_r):
+    """Per-team gap between our rating and the market's implied one."""
+    out = []
+    for key, name in ((pick_key, pick_name), (fade_key, fade_name)):
+        ours, theirs = ratings.get(key), mkt_r.get(key)
+        if ours is None or theirs is None:
+            continue
+        out.append((name, ours - theirs))
+    return out
+
+
 def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_weight,
-                   sit_weights=None):
+                   sit_weights=None, mkt_r=None):
     """Why this pick, in numbers the card doesn't already show.
 
     The gap is printed on the card, so restating it is not a driver. Each entry
@@ -980,12 +1006,23 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
             _score, kind, text = cands[0]
             out.append({"kind": kind, "weight": 1.9, "text": text})
 
-    # 3. where these teams actually stand — context the card lacks
-    rp, rf = ranks.get(pick_key), ranks.get(fade_key)
-    if rp and rf and abs(rp - rf) >= 25:
-        out.append({"kind": "rating", "weight": 1.2,
-                    "text": f"Model ranks {_fmt_team(pick_name)} #{rp}, "
-                            f"{_fmt_team(fade_name)} #{rf}"})
+    # 3. where the disagreement actually sits — the only genuinely new thing
+    for name, gap in _disagreement(pick_key, fade_key, pick_name, fade_name,
+                                   ratings, mkt_r or {}):
+        if abs(gap) < 3.0:
+            continue
+        verb = "higher" if gap > 0 else "lower"
+        out.append({"kind": "rating", "weight": 2.2 + abs(gap) / 6.0,
+                    "text": f"We rate {_fmt_team(name)} {abs(gap):.1f} pts {verb} "
+                            f"than the book's number implies"})
+
+    # fall back to standings only when the disagreement is too small to name
+    if not any(x["kind"] == "rating" for x in out):
+        rp, rf = ranks.get(pick_key), ranks.get(fade_key)
+        if rp and rf and abs(rp - rf) >= 25:
+            out.append({"kind": "rating", "weight": 1.2,
+                        "text": f"Model ranks {_fmt_team(pick_name)} #{rp}, "
+                                f"{_fmt_team(fade_name)} #{rf}"})
 
     # 4. reasons to doubt it
     gp = min(games_played.get(ht, 0), games_played.get(at, 0))
@@ -995,9 +1032,7 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
     elif gp < 4:
         out.append({"kind": "caution", "weight": 3.0,
                     "text": f"Thin evidence: one side has played {gp} game{'s' if gp != 1 else ''}"})
-    elif in_season_weight < 0.35:
-        out.append({"kind": "caution", "weight": 1.4,
-                    "text": f"Ratings still {int((1 - in_season_weight) * 100)}% last season"})
+
 
     if row.get("rivalry") and uses("rivalry_compress"):
         out.append({"kind": "rivalry", "weight": 1.5,
@@ -1008,13 +1043,44 @@ def spread_drivers(row, ratings, ranks, off, dfn, hfa, games_played, in_season_w
         out.append({"kind": "contrarian", "weight": 1.7,
                     "text": f"Backing a {abs(mkt):.0f}-point underdog"})
 
+    # Never return nothing. A quarter of the board had no explanation at all,
+    # which reads as a broken button rather than a quiet game.
+    if not out:
+        gap = abs(float(row.get("edge") or 0))
+        sig = float(row.get("sigma") or 0)
+        if sig > 0:
+            out.append({"kind": "rating", "weight": 0.5,
+                        "text": f"{gap:.1f} pts of disagreement against a typical "
+                                f"miss of {sig:.0f} on games like this"})
+        else:
+            out.append({"kind": "rating", "weight": 0.5,
+                        "text": "No single factor drives this one; the ratings "
+                                "and the number simply differ"})
+
     out.sort(key=lambda d: -d["weight"])
     return [{"kind": d["kind"], "text": d["text"]} for d in out[:2]]
 
 
-def total_drivers(row, off, dfn, use_wx=True):
+def total_drivers(row, off, dfn, use_wx=True, mkt_total_r=None):
     """Why this total, in concrete numbers."""
     out = []
+    # name the side of the ball the number turns on, rather than reciting both
+    ht, at = row.get("home_team"), row.get("away_team")
+    o_vals = [off.get(ht), off.get(at)] if off else []
+    d_vals = [dfn.get(ht), dfn.get(at)] if dfn else []
+    o_sum = sum(v for v in o_vals if v is not None) if all(v is not None for v in o_vals) and o_vals else None
+    d_sum = sum(v for v in d_vals if v is not None) if all(v is not None for v in d_vals) and d_vals else None
+    if o_sum is not None and d_sum is not None and abs(o_sum) + abs(d_sum) > 6:
+        if abs(o_sum) >= abs(d_sum):
+            word = "above" if o_sum > 0 else "below"
+            out.append({"kind": "offense", "weight": 2.6,
+                        "text": f"Scoring drives this one: the two offences rate "
+                                f"{abs(o_sum):.0f} pts {word} average combined"})
+        else:
+            word = "above" if d_sum > 0 else "below"
+            out.append({"kind": "defense", "weight": 2.6,
+                        "text": f"Defence drives this one: the two rate "
+                                f"{abs(d_sum):.0f} pts {word} average combined"})
     home, away = row.get("home_name"), row.get("away_name")
     over = row.get("edge", 0) > 0
 
@@ -1030,28 +1096,6 @@ def total_drivers(row, off, dfn, use_wx=True):
     if temp is not None and temp == temp and float(temp) <= 28:
         out.append({"kind": "weather", "text": f"{float(temp):.0f}\u00b0F at kickoff",
                     "weight": 0.6})
-
-    if off and dfn:
-        oh, oa = off.get(row.get("home_team")), off.get(row.get("away_team"))
-        dh, da = dfn.get(row.get("home_team")), dfn.get(row.get("away_team"))
-        if None not in (oh, oa, dh, da):
-            o_sum, d_sum = oh + oa, dh + da
-            if over and o_sum >= 8:
-                out.append({"kind": "offense",
-                            "text": f"Both offenses rate above average, +{o_sum:.0f} combined",
-                            "weight": o_sum / 12.0})
-            elif over and d_sum <= -8:
-                out.append({"kind": "defense",
-                            "text": f"Both defenses rate poorly, {d_sum:.0f} combined",
-                            "weight": abs(d_sum) / 12.0})
-            elif (not over) and d_sum >= 8:
-                out.append({"kind": "defense",
-                            "text": f"Both defenses rate strong, +{d_sum:.0f} combined",
-                            "weight": d_sum / 12.0})
-            elif (not over) and o_sum <= -8:
-                out.append({"kind": "offense",
-                            "text": f"Both offenses rate poorly, {o_sum:.0f} combined",
-                            "weight": abs(o_sum) / 12.0})
 
     rest = float(row.get("rest_diff") or 0)
     if abs(rest) >= 7:
@@ -1485,6 +1529,12 @@ def main():
     log, log_out = update_bet_log(picks, finished, total_picks,
                                   bt_cuts=bt_summary.get("tier_cuts"))
 
+    # Ratings fitted to the book's own numbers, so a driver can say which team
+    # the market is pricing differently instead of restating the edge.
+    mkt_r, _mkt_hfa = market_ratings(d[d.season >= CURRENT - 1])
+    if mkt_r:
+        print(f"  market-implied ratings: {len(mkt_r)} teams")
+
     # ---- ratings table ----
     rank_map = {}
     if ratings_now:
@@ -1548,7 +1598,7 @@ def main():
                 "drivers": spread_drivers(r, ratings_now or {}, rank_map,
                                           t_off or {}, t_dfn or {}, hfa, gp_now,
                                           in_season_weight,
-                                          bt_summary.get("situational")),
+                                          bt_summary.get("situational"), mkt_r=mkt_r),
                 "home_rating": (round(float((ratings_now or {}).get(r.home_team)), 1)
                                 if (ratings_now or {}).get(r.home_team) is not None else None),
                 "away_rating": (round(float((ratings_now or {}).get(r.away_team)), 1)
