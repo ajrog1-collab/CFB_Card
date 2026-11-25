@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T16:50:12+00:00",
+  "generated_at": "2026-11-25T17:00:15+00:00",
   "season": 2026,
   "min_edge": 3.1,
   "board_week": 13,
@@ -47,17 +47,31 @@
       "n": 69,
       "pct": 52.2,
       "side": "underdog",
-      "corr": -0.0,
+      "corr": 0.0,
       "debias": "slate"
     },
     "total": {
       "n": 69,
       "pct": 55.1,
       "side": "over",
-      "corr": 0.0,
+      "corr": -0.0,
       "debias": "slate"
     }
   },
+  "week_strength": [
+    {
+      "market": "spreads",
+      "top_n": 2,
+      "weak": 2,
+      "top_edge": 3.9
+    },
+    {
+      "market": "totals",
+      "top_n": 4,
+      "weak": 0,
+      "top_edge": 11.8
+    }
+  ],
   "uncertainty": {
     "abs_pred": -0.0,
     "model_disagree": 0.023,
@@ -1492,12 +1506,12 @@
       }
     ],
     "conf_weights": [
-      -5.989660421136546e-06,
-      0.02308075745072591,
-      -6.556692944887046,
-      -0.33394232869387197,
+      -5.989660421223363e-06,
+      0.02308075745072613,
+      -6.556692944887036,
+      -0.33394232869386986,
       0.0,
-      0.2675742692892381,
+      0.26757426928923805,
       11.849027339902268
     ],
     "conf_names": [
@@ -3896,7 +3910,8 @@
       "confidence": 0.31,
       "sigma": 12.5,
       "top_pick": true,
-      "tier": "D",
+      "tier": "A",
+      "tier_absolute": "D",
       "qualified": true,
       "current_week": true
     },
@@ -3922,7 +3937,8 @@
       "confidence": 0.31,
       "sigma": 12.5,
       "top_pick": true,
-      "tier": "D",
+      "tier": "A",
+      "tier_absolute": "D",
       "qualified": true,
       "current_week": true
     },
@@ -3952,7 +3968,8 @@
       "confidence": 0.3,
       "sigma": 12.5,
       "top_pick": true,
-      "tier": "D",
+      "tier": "B",
+      "tier_absolute": "D",
       "qualified": true,
       "current_week": true
     },
@@ -3975,10 +3992,11 @@
       "model_margin": -2.3,
       "market_margin": -6.0,
       "edge": 3.7,
-      "confidence": 0.3,
+      "confidence": 0.29,
       "sigma": 12.5,
       "top_pick": true,
-      "tier": "D",
+      "tier": "B",
+      "tier_absolute": "D",
       "qualified": true,
       "current_week": true
     },
@@ -4008,7 +4026,8 @@
       "confidence": 0.27,
       "sigma": 12.5,
       "top_pick": true,
-      "tier": "E",
+      "tier": "C",
+      "tier_absolute": "E",
       "qualified": true,
       "current_week": true
     },
@@ -4034,7 +4053,8 @@
       "confidence": 0.26,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": "D",
+      "tier_absolute": "E",
       "qualified": true,
       "current_week": false
     },
@@ -4058,13 +4078,14 @@
       "home": "Missouri",
       "pick": "Oklahoma",
       "pick_spread": 2.5,
-      "model_margin": -0.6,
+      "model_margin": -0.7,
       "market_margin": 2.5,
-      "edge": -3.1,
+      "edge": -3.2,
       "confidence": 0.25,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": "D",
+      "tier_absolute": "E",
       "qualified": true,
       "current_week": true
     },
@@ -4091,7 +4112,35 @@
       "sigma": 12.5,
       "top_pick": false,
       "tier": "E",
+      "tier_absolute": "E",
       "qualified": true,
+      "current_week": true
+    },
+    {
+      "game_id": 401856761,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks Louisville #20, Kentucky #76"
+        }
+      ],
+      "home_rating": -0.2,
+      "away_rating": 3.5,
+      "week": 13,
+      "kickoff": "2026-11-28T17:00:00+00:00",
+      "away": "Louisville",
+      "home": "Kentucky",
+      "pick": "Louisville",
+      "pick_spread": -3.0,
+      "model_margin": -6.0,
+      "market_margin": -3.0,
+      "edge": -3.0,
+      "confidence": 0.24,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
       "current_week": true
     },
     {
@@ -4116,33 +4165,8 @@
       "confidence": 0.24,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856761,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "Model ranks Louisville #20, Kentucky #76"
-        }
-      ],
-      "home_rating": -0.2,
-      "away_rating": 3.5,
-      "week": 13,
-      "kickoff": "2026-11-28T17:00:00+00:00",
-      "away": "Louisville",
-      "home": "Kentucky",
-      "pick": "Louisville",
-      "pick_spread": -3.0,
-      "model_margin": -5.9,
-      "market_margin": -3.0,
-      "edge": -2.9,
-      "confidence": 0.24,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4172,7 +4196,8 @@
       "confidence": 0.23,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4202,7 +4227,8 @@
       "confidence": 0.22,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4228,7 +4254,8 @@
       "confidence": 0.21,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4254,7 +4281,8 @@
       "confidence": 0.19,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4280,7 +4308,8 @@
       "confidence": 0.18,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4306,7 +4335,8 @@
       "confidence": 0.18,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4326,39 +4356,14 @@
       "home": "Wake Forest",
       "pick": "Duke",
       "pick_spread": 14.5,
-      "model_margin": 12.3,
+      "model_margin": 12.4,
       "market_margin": 14.5,
-      "edge": -2.2,
+      "edge": -2.1,
       "confidence": 0.17,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858542,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "2.1 pts of disagreement against a typical miss of 13 on games like this"
-        }
-      ],
-      "home_rating": -1.8,
-      "away_rating": -1.4,
-      "week": 13,
-      "kickoff": "2026-11-28T21:15:00+00:00",
-      "away": "Michigan State",
-      "home": "Rutgers",
-      "pick": "Rutgers",
-      "pick_spread": 3.5,
-      "model_margin": -1.4,
-      "market_margin": -3.5,
-      "edge": 2.1,
-      "confidence": 0.17,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4384,7 +4389,35 @@
       "confidence": 0.17,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858542,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "2.1 pts of disagreement against a typical miss of 13 on games like this"
+        }
+      ],
+      "home_rating": -1.8,
+      "away_rating": -1.4,
+      "week": 13,
+      "kickoff": "2026-11-28T21:15:00+00:00",
+      "away": "Michigan State",
+      "home": "Rutgers",
+      "pick": "Rutgers",
+      "pick_spread": 3.5,
+      "model_margin": -1.4,
+      "market_margin": -3.5,
+      "edge": 2.1,
+      "confidence": 0.17,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4410,7 +4443,8 @@
       "confidence": 0.16,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4436,7 +4470,8 @@
       "confidence": 0.15,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4466,7 +4501,8 @@
       "confidence": 0.14,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4489,10 +4525,11 @@
       "model_margin": 5.7,
       "market_margin": 4.0,
       "edge": 1.7,
-      "confidence": 0.14,
+      "confidence": 0.13,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4518,7 +4555,8 @@
       "confidence": 0.13,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4548,7 +4586,8 @@
       "confidence": 0.12,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4574,7 +4613,8 @@
       "confidence": 0.12,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4604,7 +4644,8 @@
       "confidence": 0.12,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4630,7 +4671,8 @@
       "confidence": 0.12,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4650,13 +4692,14 @@
       "home": "Akron",
       "pick": "Akron",
       "pick_spread": 7.5,
-      "model_margin": -6.0,
+      "model_margin": -6.1,
       "market_margin": -7.5,
-      "edge": 1.5,
+      "edge": 1.4,
       "confidence": 0.12,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4686,7 +4729,8 @@
       "confidence": 0.1,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4712,7 +4756,8 @@
       "confidence": 0.1,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4738,7 +4783,8 @@
       "confidence": 0.1,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": false
     },
@@ -4764,7 +4810,35 @@
       "confidence": 0.1,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858315,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks Pittsburgh #56, California #236"
+        }
+      ],
+      "home_rating": -3.6,
+      "away_rating": 1.1,
+      "week": 13,
+      "kickoff": "2026-11-29T00:30:00+00:00",
+      "away": "Pittsburgh",
+      "home": "California",
+      "pick": "Pittsburgh",
+      "pick_spread": -9.5,
+      "model_margin": -10.7,
+      "market_margin": -9.5,
+      "edge": -1.2,
+      "confidence": 0.09,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4794,33 +4868,8 @@
       "confidence": 0.09,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858315,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "Model ranks Pittsburgh #56, California #236"
-        }
-      ],
-      "home_rating": -3.6,
-      "away_rating": 1.1,
-      "week": 13,
-      "kickoff": "2026-11-29T00:30:00+00:00",
-      "away": "Pittsburgh",
-      "home": "California",
-      "pick": "Pittsburgh",
-      "pick_spread": -9.5,
-      "model_margin": -10.7,
-      "market_margin": -9.5,
-      "edge": -1.2,
-      "confidence": 0.09,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4846,7 +4895,8 @@
       "confidence": 0.09,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4876,7 +4926,8 @@
       "confidence": 0.09,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4902,7 +4953,8 @@
       "confidence": 0.09,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4928,33 +4980,8 @@
       "confidence": 0.09,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856878,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "1.0 pts of disagreement against a typical miss of 13 on games like this"
-        }
-      ],
-      "home_rating": 0.2,
-      "away_rating": 0.4,
-      "week": 13,
-      "kickoff": "2026-11-28T19:00:00+00:00",
-      "away": "Kansas State",
-      "home": "Iowa State",
-      "pick": "Kansas State",
-      "pick_spread": 3.5,
-      "model_margin": 2.5,
-      "market_margin": 3.5,
-      "edge": -1.0,
-      "confidence": 0.08,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -4984,7 +5011,35 @@
       "confidence": 0.08,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856878,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "1.0 pts of disagreement against a typical miss of 13 on games like this"
+        }
+      ],
+      "home_rating": 0.2,
+      "away_rating": 0.4,
+      "week": 13,
+      "kickoff": "2026-11-28T19:00:00+00:00",
+      "away": "Kansas State",
+      "home": "Iowa State",
+      "pick": "Kansas State",
+      "pick_spread": 3.5,
+      "model_margin": 2.5,
+      "market_margin": 3.5,
+      "edge": -1.0,
+      "confidence": 0.08,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5008,13 +5063,14 @@
       "home": "Syracuse",
       "pick": "Syracuse",
       "pick_spread": 25.5,
-      "model_margin": -24.5,
+      "model_margin": -24.6,
       "market_margin": -25.5,
-      "edge": 1.0,
-      "confidence": 0.08,
+      "edge": 0.9,
+      "confidence": 0.07,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5044,7 +5100,35 @@
       "confidence": 0.07,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401860929,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "0.8 pts of disagreement against a typical miss of 13 on games like this"
+        }
+      ],
+      "home_rating": -0.7,
+      "away_rating": -0.3,
+      "week": 13,
+      "kickoff": "2026-11-28T23:30:00+00:00",
+      "away": "San Diego State",
+      "home": "Washington State",
+      "pick": "San Diego State",
+      "pick_spread": 2.5,
+      "model_margin": 1.7,
+      "market_margin": 2.5,
+      "edge": -0.8,
+      "confidence": 0.07,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5074,33 +5158,8 @@
       "confidence": 0.07,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401860929,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "0.8 pts of disagreement against a typical miss of 13 on games like this"
-        }
-      ],
-      "home_rating": -0.7,
-      "away_rating": -0.3,
-      "week": 13,
-      "kickoff": "2026-11-28T23:30:00+00:00",
-      "away": "San Diego State",
-      "home": "Washington State",
-      "pick": "San Diego State",
-      "pick_spread": 2.5,
-      "model_margin": 1.7,
-      "market_margin": 2.5,
-      "edge": -0.8,
-      "confidence": 0.07,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5130,7 +5189,8 @@
       "confidence": 0.06,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5156,7 +5216,8 @@
       "confidence": 0.06,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5183,10 +5244,42 @@
       "model_margin": 2.3,
       "market_margin": 3.0,
       "edge": -0.7,
+      "confidence": 0.06,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856756,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "We rate Texas A&M 6.9 pts lower than the book's number implies"
+        },
+        {
+          "kind": "rating",
+          "text": "We rate Texas 3.3 pts lower than the book's number implies"
+        }
+      ],
+      "home_rating": 2.5,
+      "away_rating": 6.6,
+      "week": 13,
+      "kickoff": "2026-11-28T00:30:00+00:00",
+      "away": "Texas",
+      "home": "Texas A&M",
+      "pick": "Texas A&M",
+      "pick_spread": 11.5,
+      "model_margin": -10.8,
+      "market_margin": -11.5,
+      "edge": 0.7,
       "confidence": 0.05,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5212,7 +5305,8 @@
       "confidence": 0.05,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5221,7 +5315,7 @@
       "drivers": [
         {
           "kind": "rating",
-          "text": "0.7 pts of disagreement against a typical miss of 13 on games like this"
+          "text": "0.6 pts of disagreement against a typical miss of 13 on games like this"
         }
       ],
       "home_rating": 0.8,
@@ -5232,13 +5326,14 @@
       "home": "Ohio",
       "pick": "Ohio",
       "pick_spread": 3.0,
-      "model_margin": -2.3,
+      "model_margin": -2.4,
       "market_margin": -3.0,
-      "edge": 0.7,
+      "edge": 0.6,
       "confidence": 0.05,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5264,7 +5359,8 @@
       "confidence": 0.05,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5290,7 +5386,8 @@
       "confidence": 0.05,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5316,7 +5413,8 @@
       "confidence": 0.04,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5342,7 +5440,8 @@
       "confidence": 0.04,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5368,37 +5467,8 @@
       "confidence": 0.04,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401871063,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "We rate Liberty 3.9 pts higher than the book's number implies"
-        },
-        {
-          "kind": "contrarian",
-          "text": "Backing a 18-point underdog"
-        }
-      ],
-      "home_rating": -3.4,
-      "away_rating": 3.0,
-      "week": 13,
-      "kickoff": "2026-11-28T19:00:00+00:00",
-      "away": "Liberty",
-      "home": "Missouri State",
-      "pick": "Missouri State",
-      "pick_spread": 18.0,
-      "model_margin": -17.5,
-      "market_margin": -18.0,
-      "edge": 0.5,
-      "confidence": 0.04,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5428,7 +5498,39 @@
       "confidence": 0.04,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401871063,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "We rate Liberty 3.9 pts higher than the book's number implies"
+        },
+        {
+          "kind": "contrarian",
+          "text": "Backing a 18-point underdog"
+        }
+      ],
+      "home_rating": -3.4,
+      "away_rating": 3.0,
+      "week": 13,
+      "kickoff": "2026-11-28T19:00:00+00:00",
+      "away": "Liberty",
+      "home": "Missouri State",
+      "pick": "Missouri State",
+      "pick_spread": 18.0,
+      "model_margin": -17.5,
+      "market_margin": -18.0,
+      "edge": 0.5,
+      "confidence": 0.04,
+      "sigma": 12.5,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5454,7 +5556,8 @@
       "confidence": 0.03,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5480,7 +5583,8 @@
       "confidence": 0.03,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5506,7 +5610,8 @@
       "confidence": 0.03,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5536,7 +5641,8 @@
       "confidence": 0.02,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5562,7 +5668,8 @@
       "confidence": 0.02,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5588,7 +5695,8 @@
       "confidence": 0.02,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5618,37 +5726,8 @@
       "confidence": 0.02,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856756,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "We rate Texas A&M 6.9 pts lower than the book's number implies"
-        },
-        {
-          "kind": "rating",
-          "text": "We rate Texas 3.3 pts lower than the book's number implies"
-        }
-      ],
-      "home_rating": 2.5,
-      "away_rating": 6.6,
-      "week": 13,
-      "kickoff": "2026-11-28T00:30:00+00:00",
-      "away": "Texas",
-      "home": "Texas A&M",
-      "pick": "Texas A&M",
-      "pick_spread": 10.5,
-      "model_margin": -10.3,
-      "market_margin": -10.5,
-      "edge": 0.2,
-      "confidence": 0.01,
-      "sigma": 12.5,
-      "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5678,7 +5757,8 @@
       "confidence": 0.01,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5704,7 +5784,8 @@
       "confidence": 0.01,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5734,7 +5815,8 @@
       "confidence": 0.01,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -5760,7 +5842,8 @@
       "confidence": 0.0,
       "sigma": 12.5,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     }
@@ -5787,6 +5870,7 @@
       "confidence": 0.9,
       "top_pick": true,
       "tier": "A",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5811,6 +5895,7 @@
       "confidence": 0.84,
       "top_pick": true,
       "tier": "A",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5835,6 +5920,7 @@
       "confidence": 0.8,
       "top_pick": true,
       "tier": "A",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5856,9 +5942,10 @@
       "edge": 10.5,
       "wind": 4.3,
       "indoor": false,
-      "confidence": 0.79,
+      "confidence": 0.8,
       "top_pick": true,
       "tier": "A",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5886,7 +5973,8 @@
       "indoor": false,
       "confidence": 0.78,
       "top_pick": true,
-      "tier": "A",
+      "tier": "B",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5910,7 +5998,8 @@
       "indoor": false,
       "confidence": 0.76,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": false
     },
@@ -5934,7 +6023,8 @@
       "indoor": false,
       "confidence": 0.73,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5958,7 +6048,8 @@
       "indoor": false,
       "confidence": 0.72,
       "top_pick": false,
-      "tier": "A",
+      "tier": "B",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -5982,7 +6073,8 @@
       "indoor": false,
       "confidence": 0.68,
       "top_pick": false,
-      "tier": "A",
+      "tier": "C",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6010,7 +6102,8 @@
       "indoor": false,
       "confidence": 0.68,
       "top_pick": false,
-      "tier": "A",
+      "tier": "C",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6034,7 +6127,8 @@
       "indoor": false,
       "confidence": 0.62,
       "top_pick": false,
-      "tier": "A",
+      "tier": "C",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6058,7 +6152,8 @@
       "indoor": false,
       "confidence": 0.62,
       "top_pick": false,
-      "tier": "A",
+      "tier": "C",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6082,7 +6177,8 @@
       "indoor": false,
       "confidence": 0.6,
       "top_pick": false,
-      "tier": "A",
+      "tier": "D",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6106,7 +6202,8 @@
       "indoor": false,
       "confidence": 0.59,
       "top_pick": false,
-      "tier": "A",
+      "tier": "D",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6130,7 +6227,8 @@
       "indoor": false,
       "confidence": 0.58,
       "top_pick": false,
-      "tier": "A",
+      "tier": "D",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6149,7 +6247,8 @@
       "indoor": false,
       "confidence": 0.57,
       "top_pick": false,
-      "tier": "A",
+      "tier": "D",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6173,7 +6272,8 @@
       "indoor": false,
       "confidence": 0.54,
       "top_pick": false,
-      "tier": "A",
+      "tier": "E",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6197,7 +6297,8 @@
       "indoor": false,
       "confidence": 0.51,
       "top_pick": false,
-      "tier": "A",
+      "tier": "E",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6221,7 +6322,8 @@
       "indoor": false,
       "confidence": 0.5,
       "top_pick": false,
-      "tier": "A",
+      "tier": "E",
+      "tier_absolute": "A",
       "qualified": true,
       "current_week": true
     },
@@ -6249,7 +6351,8 @@
       "indoor": true,
       "confidence": 0.46,
       "top_pick": false,
-      "tier": "B",
+      "tier": "E",
+      "tier_absolute": "B",
       "qualified": true,
       "current_week": true
     },
@@ -6273,7 +6376,8 @@
       "indoor": false,
       "confidence": 0.39,
       "top_pick": false,
-      "tier": "B",
+      "tier": NaN,
+      "tier_absolute": "B",
       "qualified": false,
       "current_week": true
     },
@@ -6297,26 +6401,8 @@
       "indoor": false,
       "confidence": 0.39,
       "top_pick": false,
-      "tier": "B",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401858316,
-      "drivers": [],
-      "week": 13,
-      "kickoff": "2026-11-28T20:30:00+00:00",
-      "away": "SMU",
-      "home": "Stanford",
-      "pick": "Over",
-      "line": 61.0,
-      "model_total": 65.9,
-      "edge": 4.9,
-      "wind": 4.9,
-      "indoor": false,
-      "confidence": 0.37,
-      "top_pick": false,
-      "tier": "B",
+      "tier": NaN,
+      "tier_absolute": "B",
       "qualified": false,
       "current_week": true
     },
@@ -6340,7 +6426,28 @@
       "indoor": false,
       "confidence": 0.37,
       "top_pick": false,
-      "tier": "B",
+      "tier": NaN,
+      "tier_absolute": "B",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401858316,
+      "drivers": [],
+      "week": 13,
+      "kickoff": "2026-11-28T20:30:00+00:00",
+      "away": "SMU",
+      "home": "Stanford",
+      "pick": "Over",
+      "line": 61.0,
+      "model_total": 65.9,
+      "edge": 4.9,
+      "wind": 4.9,
+      "indoor": false,
+      "confidence": 0.37,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "B",
       "qualified": false,
       "current_week": true
     },
@@ -6359,7 +6466,8 @@
       "indoor": false,
       "confidence": 0.36,
       "top_pick": false,
-      "tier": "C",
+      "tier": NaN,
+      "tier_absolute": "C",
       "qualified": false,
       "current_week": true
     },
@@ -6383,7 +6491,8 @@
       "indoor": false,
       "confidence": 0.33,
       "top_pick": false,
-      "tier": "C",
+      "tier": NaN,
+      "tier_absolute": "C",
       "qualified": false,
       "current_week": true
     },
@@ -6407,7 +6516,8 @@
       "indoor": false,
       "confidence": 0.33,
       "top_pick": false,
-      "tier": "C",
+      "tier": NaN,
+      "tier_absolute": "C",
       "qualified": false,
       "current_week": true
     },
@@ -6431,7 +6541,8 @@
       "indoor": false,
       "confidence": 0.32,
       "top_pick": false,
-      "tier": "C",
+      "tier": NaN,
+      "tier_absolute": "C",
       "qualified": false,
       "current_week": true
     },
@@ -6450,7 +6561,8 @@
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6469,7 +6581,8 @@
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6493,7 +6606,8 @@
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6517,7 +6631,8 @@
       "indoor": false,
       "confidence": 0.3,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6541,7 +6656,8 @@
       "indoor": false,
       "confidence": 0.29,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6565,7 +6681,8 @@
       "indoor": false,
       "confidence": 0.29,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6589,26 +6706,8 @@
       "indoor": false,
       "confidence": 0.28,
       "top_pick": false,
-      "tier": "D",
-      "qualified": false,
-      "current_week": true
-    },
-    {
-      "game_id": 401856875,
-      "drivers": [],
-      "week": 13,
-      "kickoff": "2026-11-28T19:00:00+00:00",
-      "away": "UCF",
-      "home": "Colorado",
-      "pick": "Over",
-      "line": 49.5,
-      "model_total": 53.2,
-      "edge": 3.7,
-      "wind": 13.7,
-      "indoor": false,
-      "confidence": 0.28,
-      "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "D",
       "qualified": false,
       "current_week": true
     },
@@ -6632,7 +6731,28 @@
       "indoor": false,
       "confidence": 0.28,
       "top_pick": false,
-      "tier": "D",
+      "tier": NaN,
+      "tier_absolute": "E",
+      "qualified": false,
+      "current_week": true
+    },
+    {
+      "game_id": 401856875,
+      "drivers": [],
+      "week": 13,
+      "kickoff": "2026-11-28T19:00:00+00:00",
+      "away": "UCF",
+      "home": "Colorado",
+      "pick": "Over",
+      "line": 50.5,
+      "model_total": 54.1,
+      "edge": 3.6,
+      "wind": 13.7,
+      "indoor": false,
+      "confidence": 0.27,
+      "top_pick": false,
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6660,7 +6780,8 @@
       "indoor": true,
       "confidence": 0.27,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6684,7 +6805,8 @@
       "indoor": false,
       "confidence": 0.26,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6703,7 +6825,8 @@
       "indoor": false,
       "confidence": 0.26,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6727,7 +6850,8 @@
       "indoor": false,
       "confidence": 0.26,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6744,9 +6868,10 @@
       "edge": 3.2,
       "wind": 4.3,
       "indoor": false,
-      "confidence": 0.24,
+      "confidence": 0.25,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6770,7 +6895,8 @@
       "indoor": false,
       "confidence": 0.22,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6798,7 +6924,8 @@
       "indoor": false,
       "confidence": 0.22,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6822,7 +6949,8 @@
       "indoor": false,
       "confidence": 0.21,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6846,7 +6974,8 @@
       "indoor": false,
       "confidence": 0.21,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6870,7 +6999,8 @@
       "indoor": false,
       "confidence": 0.21,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6894,7 +7024,8 @@
       "indoor": false,
       "confidence": 0.2,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6913,7 +7044,8 @@
       "indoor": false,
       "confidence": 0.2,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6932,7 +7064,8 @@
       "indoor": false,
       "confidence": 0.18,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6951,7 +7084,8 @@
       "indoor": false,
       "confidence": 0.17,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6975,7 +7109,8 @@
       "indoor": false,
       "confidence": 0.17,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -6994,7 +7129,8 @@
       "indoor": false,
       "confidence": 0.16,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7018,7 +7154,8 @@
       "indoor": false,
       "confidence": 0.16,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7037,7 +7174,8 @@
       "indoor": false,
       "confidence": 0.16,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7061,7 +7199,8 @@
       "indoor": false,
       "confidence": 0.14,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7089,7 +7228,8 @@
       "indoor": true,
       "confidence": 0.13,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7113,7 +7253,8 @@
       "indoor": false,
       "confidence": 0.1,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7132,7 +7273,8 @@
       "indoor": false,
       "confidence": 0.09,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7156,7 +7298,8 @@
       "indoor": false,
       "confidence": 0.09,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7184,7 +7327,8 @@
       "indoor": false,
       "confidence": 0.09,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7208,7 +7352,8 @@
       "indoor": false,
       "confidence": 0.08,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7232,7 +7377,8 @@
       "indoor": false,
       "confidence": 0.07,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7250,13 +7396,14 @@
       "home": "UL Monroe",
       "pick": "Under",
       "line": 51.5,
-      "model_total": 50.5,
-      "edge": -1.0,
+      "model_total": 50.6,
+      "edge": -0.9,
       "wind": 13.3,
       "indoor": false,
       "confidence": 0.07,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7280,7 +7427,8 @@
       "indoor": false,
       "confidence": 0.07,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": false
     },
@@ -7304,7 +7452,8 @@
       "indoor": false,
       "confidence": 0.06,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7323,7 +7472,8 @@
       "indoor": false,
       "confidence": 0.06,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7347,7 +7497,8 @@
       "indoor": false,
       "confidence": 0.02,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     },
@@ -7371,7 +7522,8 @@
       "indoor": false,
       "confidence": 0.01,
       "top_pick": false,
-      "tier": "E",
+      "tier": NaN,
+      "tier_absolute": "E",
       "qualified": false,
       "current_week": true
     }
@@ -15477,12 +15629,12 @@
     },
     {
       "rank": 155,
-      "team": "Idaho State",
+      "team": "Tennessee Tech",
       "rating": -1.23
     },
     {
       "rank": 156,
-      "team": "Tennessee Tech",
+      "team": "Idaho State",
       "rating": -1.23
     },
     {
@@ -15692,17 +15844,17 @@
     },
     {
       "rank": 198,
-      "team": "Maine",
+      "team": "Wagner",
       "rating": -1.44
     },
     {
       "rank": 199,
-      "team": "Morehead State",
+      "team": "North Dakota",
       "rating": -1.44
     },
     {
       "rank": 200,
-      "team": "Indiana State",
+      "team": "Southeastern Louisiana",
       "rating": -1.44
     },
     {
@@ -15712,62 +15864,62 @@
     },
     {
       "rank": 202,
-      "team": "Lafayette",
-      "rating": -1.44
-    },
-    {
-      "rank": 203,
-      "team": "Drake",
-      "rating": -1.44
-    },
-    {
-      "rank": 204,
-      "team": "Davidson",
-      "rating": -1.44
-    },
-    {
-      "rank": 205,
-      "team": "North Dakota",
-      "rating": -1.44
-    },
-    {
-      "rank": 206,
-      "team": "Butler",
-      "rating": -1.44
-    },
-    {
-      "rank": 207,
       "team": "Alcorn State",
       "rating": -1.44
     },
     {
-      "rank": 208,
-      "team": "Dayton",
+      "rank": 203,
+      "team": "Morehead State",
       "rating": -1.44
     },
     {
-      "rank": 209,
-      "team": "Charleston Southern",
+      "rank": 204,
+      "team": "Maine",
       "rating": -1.44
     },
     {
-      "rank": 210,
-      "team": "Wagner",
+      "rank": 205,
+      "team": "Drake",
       "rating": -1.44
     },
     {
-      "rank": 211,
+      "rank": 206,
+      "team": "Indiana State",
+      "rating": -1.44
+    },
+    {
+      "rank": 207,
       "team": "Stetson",
       "rating": -1.44
     },
     {
+      "rank": 208,
+      "team": "Butler",
+      "rating": -1.44
+    },
+    {
+      "rank": 209,
+      "team": "Valparaiso",
+      "rating": -1.44
+    },
+    {
+      "rank": 210,
+      "team": "Davidson",
+      "rating": -1.44
+    },
+    {
+      "rank": 211,
+      "team": "Lafayette",
+      "rating": -1.44
+    },
+    {
       "rank": 212,
-      "team": "Southeastern Louisiana",
+      "team": "Dayton",
       "rating": -1.44
     },
     {
       "rank": 213,
-      "team": "Valparaiso",
+      "team": "Charleston Southern",
       "rating": -1.44
     },
     {
@@ -15951,5 +16103,7 @@
       "rating": -7.17
     }
   ],
-  "notes": []
+  "notes": [
+    "Thin week for spreads: the top-rated picks are small by historical standards. Stars rank this week's board, they do not promise a strong edge."
+  ]
 }
