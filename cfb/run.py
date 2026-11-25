@@ -31,6 +31,7 @@ from model import (
     api_usage, debias_like_board, infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
     parse_venues,
     predict_total, predict_uncertainty, rating_diff, regime_cuts,
+    relative_tiers,
     returning_production, tier_cutpoints,
     season_ratings, situational_matrix, talent_composite, totals_matrix,
 )
@@ -1501,6 +1502,20 @@ def main():
         tq = total_picks.index[total_picks.qualified][:TOP_PICK_COUNT]
         total_picks.loc[tq, "top_pick"] = True
 
+    # Stars rank the picks that cleared the bar, per market, so spreads are not
+    # judged against the much larger edges totals produce. Qualification stays
+    # absolute; only the ranking is relative. See relative_tiers in model.py.
+    _abs_cuts = regime_cuts(bt_summary.get("tier_cuts"),
+                            in_season_weight=in_season_weight)
+    for _f in (picks, total_picks):
+        if len(_f) and "confidence" in _f.columns:
+            cw = _f["current_week"] if "current_week" in _f.columns else True
+            rel, absol = relative_tiers(_f["confidence"],
+                                        _f["qualified"] & cw,
+                                        _abs_cuts)
+            _f["tier_rel"] = rel
+            _f["tier_abs"] = absol
+
     # The board's current week is the earliest week still unplayed across both
     # markets, so spreads and totals agree on what "this week" means.
     _wks = [int(f["week"].min()) for f in (picks, total_picks)
@@ -1565,9 +1580,8 @@ def main():
                                if "confidence" in frame.columns and pd.notna(r.get("confidence"))
                                else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": assign_tier(r.get("confidence"),
-                                    regime_cuts(bt_summary.get("tier_cuts"),
-                                                in_season_weight=in_season_weight)),
+                "tier": r.get("tier_rel"),
+                "tier_absolute": r.get("tier_abs"),
                 "qualified": bool(r.qualified),
                 "current_week": bool(r.get("current_week", True)),
             })
@@ -1612,9 +1626,8 @@ def main():
                 "sigma": (round(float(r.sigma), 1)
                           if "sigma" in frame.columns and pd.notna(r.get("sigma")) else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": assign_tier(r.get("confidence"),
-                                    regime_cuts(bt_summary.get("tier_cuts"),
-                                                in_season_weight=in_season_weight)),
+                "tier": r.get("tier_rel"),
+                "tier_absolute": r.get("tier_abs"),
                 "qualified": bool(r.qualified),
                 "current_week": bool(r.get("current_week", True)),
             })
@@ -1681,7 +1694,30 @@ def main():
     if qb_value and on_board:
         qb_value = {k: v for k, v in qb_value.items() if k in on_board} or qb_value
 
+    # A relative top band on a quiet week is still the best of a weak board.
+    # Say so, rather than letting five stars imply more than it does.
+    def week_strength(frame, label):
+        if not len(frame) or "tier_rel" not in frame.columns:
+            return None
+        top = frame[(frame.tier_rel == "A")]
+        if not len(top):
+            return None
+        weak = int((top["tier_abs"].isin(["D", "E"]) | top["tier_abs"].isna()).sum())
+        return {"market": label, "top_n": int(len(top)), "weak": weak,
+                "top_edge": round(float(frame.loc[frame.qualified, "edge"].abs().max()), 1)
+                             if frame.qualified.any() else None}
+
+    strength = [s for s in (week_strength(picks, "spreads"),
+                            week_strength(total_picks, "totals")) if s]
+
     notes = []
+    for s in strength:
+        if s["weak"] and s["weak"] >= s["top_n"] * 0.5:
+            notes.append(
+                f"Thin week for {s['market']}: the top-rated picks are small by "
+                f"historical standards. Stars rank this week's board, they do not "
+                f"promise a strong edge.")
+
     for kind, b in balance.items():
         if b and b["n"] >= 12 and (b["pct"] >= 75 or b["pct"] <= 25):
             notes.append(
@@ -1732,6 +1768,7 @@ def main():
         "bias_check": bt_summary.get("bias_check", {}),
         "totals_bias_check": t_summary.get("bias_check", {}),
         "board_balance": balance,
+        "week_strength": strength,
         "uncertainty": bt_summary.get("uncertainty", {}),
         "confidence_tiers": bt_summary.get("confidence_tiers", []),
         "tier_trend": bt_summary.get("tier_trend", {}),
