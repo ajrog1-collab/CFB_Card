@@ -1004,9 +1004,10 @@ def main():
                      "about injuries, holdouts or scheme changes.")
     notes.append("272 regular-season games a year means far fewer picks than college and "
                  "wider error bars on every number here.")
-    notes.append("Totals are shown for context but rarely qualify. Without play-level data "
-                 "the pro totals model ran 1.4 points behind the book and lost money in "
-                 "backtest, so the bar for a totals pick is set very high.")
+    notes.append("Totals now qualify and are logged so they build a record, but the "
+                 "backtest is not encouraging: without play-level data the pro totals "
+                 "model ran 1.4 points behind the book and hit 46% on 291 picks. Read the "
+                 "By type panel, not the headline, until the live sample is larger.")
 
     def balance(frame, kind):
         if not len(frame):
