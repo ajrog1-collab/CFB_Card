@@ -30,7 +30,7 @@ import pandas as pd
 import requests
 
 from model import (
-    api_usage,
+    api_usage, write_payload,
     PriorModel, apply_debias, debias_like_board, assign_tier, blend_prior, blend_ratings,
     fit_calibration, fit_debias, fit_points_ratings, fit_ratings, fit_uncertainty,
     confidence_features, confidence_score, games_played_counts, predict_total,
@@ -1188,7 +1188,7 @@ def main():
         for k, v in sorted(by.items())]
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(payload, indent=2))
+    write_payload(OUT, payload)
     print(f"\nWrote {OUT}")
     print(f"  {api_usage()}")
     print(f"  picks {len(payload['picks'])} ({sum(1 for p in payload['picks'] if p['qualified'])} qualified)"
