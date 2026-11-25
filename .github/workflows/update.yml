@@ -42,6 +42,7 @@ jobs:
       # the file still compiles and still imports, so it only dies at runtime.
       # Catching it here names the variable instead of burying a traceback.
       - name: Check for undefined names
+        continue-on-error: true      # reports loudly, never blocks a data refresh
         run: python tools/check_names.py cfb/model.py cfb/run.py cfb/nfl_run.py
 
       - name: Run college model
@@ -57,6 +58,20 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
         run: python -u cfb/nfl_run.py
+
+      # Catches star bands collapsing into the top tier and the in-season weight
+      # sitting low all year. Both ran silently for an entire season.
+      # The site has to be able to load what the model writes. A bare NaN in
+      # docs/data.json took the college board down with "NO DATA YET".
+      - name: Check payloads load
+        if: always()
+        continue-on-error: true
+        run: python tools/check_payload.py docs/data.json docs/data-nfl.json
+
+      - name: Check calibration
+        if: always()
+        continue-on-error: true      # reports, never blocks a data refresh
+        run: python tools/check_calibration.py docs/data.json docs/data-nfl.json
 
       - name: Commit results
         if: always()          # keep partial cache even if the run timed out
