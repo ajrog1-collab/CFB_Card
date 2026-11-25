@@ -28,7 +28,7 @@ from model import (
     build_games, cfbd_get, col, confidence_features, confidence_score,
     fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
     fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
-    api_usage, infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
+    api_usage, debias_like_board, infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
     parse_venues,
     predict_total, predict_uncertainty, rating_diff, regime_cuts,
     returning_production, tier_cutpoints,
@@ -591,16 +591,22 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     deb_a, deb_b = 0.0, 1.0
     if DEBIAS:
         bt["pred"] = bt["pred_raw"]
+        slate_used = 0
         for season in sorted(bt["season"].dropna().unique()):
             hist = bt[(bt.season < season) & bt.mkt.notna() & bt.pred_raw.notna()]
-            if len(hist) >= 300:
-                a, b = fit_debias(hist["pred_raw"], hist["mkt"])
-            else:
-                a, b = 0.0, 1.0
-            m = bt.season == season
-            bt.loc[m, "pred"] = apply_debias(bt.loc[m, "pred_raw"].to_numpy(dtype=float),
-                                             bt.loc[m, "mkt"].to_numpy(dtype=float), a, b)
-        # parameters handed to live picks come from the full history
+            a, b = fit_debias(hist["pred_raw"], hist["mkt"]) if len(hist) >= 300 else (0.0, 1.0)
+            # One week at a time, because that is the unit the live board sees.
+            # Correcting a whole season at once leaves much larger residual
+            # edges than the board ever produces, and every threshold and star
+            # band is cut from these numbers.
+            for wk in sorted(bt.loc[bt.season == season, "week"].dropna().unique()):
+                m = (bt.season == season) & (bt.week == wk)
+                if not m.any():
+                    continue
+                vals, src = debias_like_board(bt.loc[m], "pred_raw", "mkt", a, b)
+                bt.loc[m, "pred"] = vals
+                slate_used += (src == "slate")
+        print(f"    debias: {slate_used} weeks corrected on their own slate")
         full = bt.dropna(subset=["mkt", "pred_raw"])
         if len(full) >= 300:
             deb_a, deb_b = fit_debias(full["pred_raw"], full["mkt"])
@@ -782,14 +788,19 @@ def run_totals_backtest(d, use_wx):
     t_deb_a, t_deb_b = 0.0, 1.0
     if DEBIAS:
         bt["pred_total"] = bt["pred_total_raw"]
+        slate_used = 0
         for season in sorted(bt["season"].dropna().unique()):
             hist = bt[(bt.season < season) & bt.mkt_total.notna() & bt.pred_total_raw.notna()]
             a, b = (fit_debias(hist["pred_total_raw"], hist["mkt_total"])
                     if len(hist) >= 300 else (0.0, 1.0))
-            m = bt.season == season
-            bt.loc[m, "pred_total"] = apply_debias(
-                bt.loc[m, "pred_total_raw"].to_numpy(dtype=float),
-                bt.loc[m, "mkt_total"].to_numpy(dtype=float), a, b)
+            for wk in sorted(bt.loc[bt.season == season, "week"].dropna().unique()):
+                m = (bt.season == season) & (bt.week == wk)
+                if not m.any():
+                    continue
+                vals, src = debias_like_board(bt.loc[m], "pred_total_raw", "mkt_total", a, b)
+                bt.loc[m, "pred_total"] = vals
+                slate_used += (src == "slate")
+        print(f"    totals debias: {slate_used} weeks corrected on their own slate")
         full = bt.dropna(subset=["mkt_total", "pred_total_raw"])
         if len(full) >= 300:
             t_deb_a, t_deb_b = fit_debias(full["pred_total_raw"], full["mkt_total"])
@@ -888,17 +899,11 @@ def find_total_picks(cur, off, dfn, hfa_off, base, cal_w, cal_names, debias=None
     up["pred_total"] = up["pred_total_raw"]
     debias_source = "none"
     if DEBIAS:
-        a = float((debias or {}).get("intercept", 0.0))
-        b = float((debias or {}).get("slope", 1.0))
-        debias_source = "history" if debias else "none"
-        fit = up.dropna(subset=["pred_total_raw", "mkt_total"])
-        if len(fit) >= 30 and fit["mkt_total"].std() > 1:
-            sa, sb = fit_debias(fit["pred_total_raw"], fit["mkt_total"], min_n=30)
-            if sb != 1.0 or sa != 0.0:
-                a, b, debias_source = sa, sb, "slate"
-        up["pred_total"] = apply_debias(
-            up["pred_total_raw"].to_numpy(dtype=float),
-            up["mkt_total"].to_numpy(dtype=float), a, b)
+        # one implementation, shared with the backtest
+        up["pred_total"], debias_source = debias_like_board(
+            up, "pred_total_raw", "mkt_total",
+            float((debias or {}).get("intercept", 0.0)),
+            float((debias or {}).get("slope", 1.0)))
     up.attrs["debias_source"] = debias_source
     up["edge"] = up["pred_total"] - up["mkt_total"]
     up = up.dropna(subset=["edge"])
@@ -1142,23 +1147,13 @@ def find_picks(cur, ratings, hfa, sit_weights=None, prior=None,
     up["pred_raw"] = up["pred"]
     debias_source = "none"
     if DEBIAS:
-        a = float((debias or {}).get("intercept", 0.0))
-        b = float((debias or {}).get("slope", 1.0))
-        debias_source = "history" if debias else "none"
-
-        # Parameters fitted on in-season history under-correct a preseason board,
-        # because preseason ratings are compressed harder than mid-season ones.
-        # With enough games on the slate, fit the tilt on the slate itself. Only
-        # posted lines are used, which are public before kickoff, and only the
-        # systematic part is removed — per-game disagreement survives untouched.
-        fit = up.dropna(subset=["pred_raw", "mkt"])
-        if len(fit) >= 30 and fit["mkt"].std() > 1:
-            sa, sb = fit_debias(fit["pred_raw"], fit["mkt"], min_n=30)
-            if sb != 1.0 or sa != 0.0:
-                a, b, debias_source = sa, sb, "slate"
-
-        up["pred"] = apply_debias(up["pred_raw"].to_numpy(dtype=float),
-                                  up["mkt"].to_numpy(dtype=float), a, b)
+        # Parameters fitted on history under-correct a board, because the board
+        # is one slate of games. Shared with the backtest so both produce the
+        # same distribution of edges — see debias_like_board in model.py.
+        up["pred"], debias_source = debias_like_board(
+            up, "pred_raw", "mkt",
+            float((debias or {}).get("intercept", 0.0)),
+            float((debias or {}).get("slope", 1.0)))
     up.attrs["debias_source"] = debias_source
     up["edge"] = up["pred"] - up["mkt"]
     up = up.dropna(subset=["edge"])
