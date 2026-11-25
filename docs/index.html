@@ -183,6 +183,7 @@
   .sortbar select{background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     border-radius:3px;font-family:var(--data);font-size:11px;padding:5px 7px;font-weight:600}
   .count{margin-left:auto}
+  .thin{color:var(--gold);letter-spacing:.1em}
   .searchwrap{position:relative;margin:10px 0 2px}
   .search{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     border-radius:4px;font-family:var(--body);font-size:14px;padding:9px 32px 9px 11px}
@@ -671,6 +672,15 @@ function renderBoard(){
   /* Model caveats live in THE MODEL, not on top of the picks. */
   const chip = (g,v,l) => `<button class="chip" data-f="${g}" data-v="${v}" aria-pressed="${FILTERS[g]===v}">${l}</button>`;
   const bwLabel = DATA.board_week != null ? `Week ${DATA.board_week} only` : 'This week only';
+  /* One muted word rather than a callout: the stars rank this week's board, and
+     on a weak week the top of it is still weak. */
+  const thin = (DATA.week_strength || []).filter(s => s.weak && s.weak >= s.top_n * 0.5)
+    .filter(s => FILTERS.market === 'all'
+              || (FILTERS.market === 'spread' && s.market === 'spreads')
+              || (FILTERS.market === 'total'  && s.market === 'totals'));
+  const thinTag = thin.length
+    ? ` <span class="thin" title="The top-rated picks this week are small by historical
+standards. Stars rank this board; they do not promise a strong edge.">· THIN</span>` : '';
   const controls = `
     <div class="filters">
       ${chip('quality','all','All')}${chip('quality','qual','Qualified')}
@@ -694,7 +704,7 @@ function renderBoard(){
         <option value="confidence"${SORT==='confidence'?' selected':''}>Confidence</option>
         <option value="kickoff"${SORT==='kickoff'?' selected':''}>Kickoff</option>
       </select>
-      <span class="count">${list.length} PICK${list.length===1?'':'S'}</span></div>`;
+      <span class="count">${list.length} PICK${list.length===1?'':'S'}${thinTag}</span></div>`;
   let rank = 0;
   const body = list.length ? list.map(p => ticket(p, p.top_pick ? ++rank : null)).join('')
     : `<div class="empty"><div class="empty-h">NOTHING ON THE CARD</div>
@@ -1082,10 +1092,14 @@ function renderModel(){
     <dl>
       <dt>Model / Book / Edge</dt><dd>Model's number, the posted number, the gap. All from
         the side picked.</dd>
-      <dt>Stars</dt><dd>Edge divided by the model's typical error on that kind of game.
-        5★ = most sure fifth of picks, 1★ = least. Bands come from
-        ${d.tier_regime === 'early' ? 'early-season' : 'in-season'} history to match how
-        today's ratings were built.</dd>
+      <dt>Stars</dt><dd>Rank this week's qualified picks against each other: 5★ is the
+        most sure fifth of the board, 1★ the least. They say which pick is best, not that
+        any pick is good — <b>that is what qualifying decides</b>, and that bar is
+        absolute, set from history. A quiet week yields few qualified picks and therefore
+        few stars.</dd>
+      <dt>Thin weeks</dt><dd>When the top-rated picks are small by historical standards,
+        a note says so at the top of the board. Five stars on a weak week is still the
+        best of a weak week.</dd>
       <dt>This week only</dt><dd>The board defaults to the earliest unplayed week, and
         <b>only those picks are logged</b>. Lines two weeks out are softer, so logging them
         would flatter line value and record wagers you would not have placed. Widen the
