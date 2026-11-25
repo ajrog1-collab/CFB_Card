@@ -30,6 +30,7 @@ import pandas as pd
 import requests
 
 from model import (
+    api_usage,
     PriorModel, apply_debias, assign_tier, blend_prior, blend_ratings,
     fit_calibration, fit_debias, fit_points_ratings, fit_ratings, fit_uncertainty,
     confidence_features, confidence_score, games_played_counts, predict_total,
@@ -457,9 +458,11 @@ def run_backtest(d, prior_model, season_hfa):
                 "market_mae": round(float(f.e_mkt.mean()), 2),
                 "model_mae_raw": round(float(f.e_raw.mean()), 2)}
 
-    cuts_early = tier_cutpoints(s.loc[s.week <= 4, "confidence"])
-    cuts_late = tier_cutpoints(s.loc[s.week >= 5, "confidence"])
-    cuts_all = tier_cutpoints(s["confidence"])
+    # Cut the star bands over qualifying picks only — see the note in run.py.
+    shown = s[s.edge.abs() >= thr]
+    cuts_early = tier_cutpoints(shown.loc[shown.week <= 4, "confidence"])
+    cuts_late = tier_cutpoints(shown.loc[shown.week >= 5, "confidence"])
+    cuts_all = tier_cutpoints(shown["confidence"])
     cuts = {"early": cuts_early or cuts_all, "late": cuts_late or cuts_all, "all": cuts_all}
 
     tier_trend, tier_summary = {}, {}
@@ -872,7 +875,8 @@ def main():
     r_in, _ = fit_ratings(played, "margin", ridge=10.0, cap=35.0, min_games=60) if len(played) >= 60 else (None, 0)
     gp = games_played_counts(played)
     ratings_now = blend_prior(prior, r_in, gp, BLEND_K)
-    ws = [gp.get(t, 0)/(gp.get(t, 0)+BLEND_K) for t in (prior or {})]
+    # only teams that have played, so this does not sit low all season
+    ws = [gp[t]/(gp[t]+BLEND_K) for t in (prior or {}) if gp.get(t, 0) > 0]
     in_season_weight = float(np.mean(ws)) if ws else 0.0
 
     conf = {"weights": bts.get("conf_weights"), "names": bts.get("conf_names"),
@@ -1082,6 +1086,7 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2))
     print(f"\nWrote {OUT}")
+    print(f"  {api_usage()}")
     print(f"  picks {len(payload['picks'])} ({sum(1 for p in payload['picks'] if p['qualified'])} qualified)"
           f" | totals {len(payload['total_picks'])}"
           f" | logged {len(log)} | settled {payload['record'].get('settled', 0)}")
