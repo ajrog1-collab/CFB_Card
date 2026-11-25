@@ -28,7 +28,7 @@ from model import (
     build_games, cfbd_get, col, confidence_features, confidence_score,
     fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
     fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
-    api_usage, debias_like_board, infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
+    api_usage, debias_like_board, infer_home_venues, write_payload, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
     parse_venues,
     predict_total, predict_uncertainty, rating_diff, regime_cuts,
     relative_tiers,
@@ -1580,8 +1580,8 @@ def main():
                                if "confidence" in frame.columns and pd.notna(r.get("confidence"))
                                else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": r.get("tier_rel"),
-                "tier_absolute": r.get("tier_abs"),
+                "tier": (r.get("tier_rel") if isinstance(r.get("tier_rel"), str) else None),
+                "tier_absolute": (r.get("tier_abs") if isinstance(r.get("tier_abs"), str) else None),
                 "qualified": bool(r.qualified),
                 "current_week": bool(r.get("current_week", True)),
             })
@@ -1626,8 +1626,8 @@ def main():
                 "sigma": (round(float(r.sigma), 1)
                           if "sigma" in frame.columns and pd.notna(r.get("sigma")) else None),
                 "top_pick": bool(r.get("top_pick", False)),
-                "tier": r.get("tier_rel"),
-                "tier_absolute": r.get("tier_abs"),
+                "tier": (r.get("tier_rel") if isinstance(r.get("tier_rel"), str) else None),
+                "tier_absolute": (r.get("tier_abs") if isinstance(r.get("tier_abs"), str) else None),
                 "qualified": bool(r.qualified),
                 "current_week": bool(r.get("current_week", True)),
             })
@@ -1809,7 +1809,7 @@ def main():
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(payload, indent=2))
+    write_payload(OUT, payload)
     print(f"\nWrote {OUT}")
     print(f"  picks: {len(payload['picks'])} "
           f"({sum(1 for p in payload['picks'] if p['qualified'])} qualified)")
