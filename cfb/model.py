@@ -210,7 +210,7 @@ def rating_diff(frame, ratings, hfa, default=None):
     return h - a + np.where(frame["neutral"].to_numpy(), 0.0, hfa)
 
 
-def fit_debias(pred, mkt, min_n=300):
+def fit_debias(pred, mkt, min_n=300, clamp=False):
     """Fit pred = a + b*mkt on historical games.
 
     The model's ratings are more regressed toward average than the market's, so
@@ -229,9 +229,43 @@ def fit_debias(pred, mkt, min_n=300):
     A = np.column_stack([mkt[ok], np.ones(int(ok.sum()))])
     beta, *_ = np.linalg.lstsq(A, pred[ok], rcond=None)
     b, a = float(beta[0]), float(beta[1])
-    if not np.isfinite(b) or b <= 0.2 or b > 3.0:
+    if not np.isfinite(b):
         return 0.0, 1.0
+    if b <= 0.2 or b > 3.0:
+        if not clamp:
+            return 0.0, 1.0
+        # Rejecting an implausible slope used to mean applying no correction at
+        # all, which left the totals board at a -0.75 line-to-edge correlation —
+        # worse than an imperfect correction. Clamp instead, and allow a mild
+        # negative: a model that runs slightly opposite to the market is odd,
+        # but the fitted slope is still what decorrelates the edge, and
+        # clamping that to +0.2 leaves the tilt in place.
+        b = float(np.clip(b, -1.0, 3.0))
     return a, b
+
+
+def debias_like_board(frame, pred_col, line_col, hist_a, hist_b, min_slate=30):
+    """Correct one slate the way the live board corrects it.
+
+    The live board refits `pred = a + b*line` on the games in front of it and
+    subtracts that line, so an edge is only the part of the prediction the
+    market number cannot explain. The backtest used historical parameters
+    instead, which leaves far more disagreement intact: qualified backtest
+    edges averaged 9.2 points while the live board topped out at 3.9. Every
+    threshold and star band is derived from the backtest and applied to the
+    board, so the two have to be produced the same way or nothing transfers.
+
+    Falls back to the supplied historical parameters when the slate is too
+    small to fit or the fit is implausible, exactly as the board does.
+    """
+    fit = frame.dropna(subset=[pred_col, line_col])
+    a, b, source = hist_a, hist_b, "history"
+    if len(fit) >= min_slate and fit[line_col].std() > 1:
+        sa, sb = fit_debias(fit[pred_col], fit[line_col], min_n=min_slate, clamp=True)
+        if (sa, sb) != (0.0, 1.0):
+            a, b, source = sa, sb, "slate"
+    return apply_debias(frame[pred_col].to_numpy(dtype=float),
+                        frame[line_col].to_numpy(dtype=float), a, b), source
 
 
 def apply_debias(pred, mkt, a, b):
