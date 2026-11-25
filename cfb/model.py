@@ -244,6 +244,53 @@ def fit_debias(pred, mkt, min_n=300, clamp=False):
     return a, b
 
 
+def relative_tiers(conf, qualified, absolute_cuts=None):
+    """Star bands cut across the picks that actually cleared the bar.
+
+    Two jobs were being asked of one number. Qualification answers "is any of
+    this worth betting", and it has to be absolute — a historical threshold —
+    or a quiet week promotes picks that would never normally show. Stars answer
+    "which of these is best", and that only means something relative to the
+    board in front of you.
+
+    So the gate stays absolute and the ranking goes relative: of the picks that
+    survived, the top fifth are five stars. A thin week yields few qualified
+    picks and therefore few stars, rather than a full board of false confidence.
+
+    `absolute_cuts`, when given, records where each pick would have landed on
+    the historical scale, so the card can say when a week is weak.
+    """
+    conf = np.asarray(conf, dtype=float)
+    qualified = np.asarray(qualified, dtype=bool)
+    out = [None] * len(conf)
+    absolute = [None] * len(conf)
+
+    if absolute_cuts:
+        for i, c in enumerate(conf):
+            absolute[i] = assign_tier(c, absolute_cuts)
+
+    idx = np.where(qualified & np.isfinite(conf))[0]
+    if not len(idx):
+        return out, absolute
+
+    # rank within the qualified set; ties keep their order
+    order = idx[np.argsort(-conf[idx], kind="stable")]
+    n = len(order)
+    for rank, i in enumerate(order):
+        frac = rank / n
+        if frac < 0.20:
+            out[i] = "A"
+        elif frac < 0.40:
+            out[i] = "B"
+        elif frac < 0.60:
+            out[i] = "C"
+        elif frac < 0.80:
+            out[i] = "D"
+        else:
+            out[i] = "E"
+    return out, absolute
+
+
 def debias_like_board(frame, pred_col, line_col, hist_a, hist_b, min_slate=30):
     """Correct one slate the way the live board corrects it.
 
