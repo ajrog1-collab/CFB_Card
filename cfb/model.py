@@ -244,6 +244,46 @@ def fit_debias(pred, mkt, min_n=300, clamp=False):
     return a, b
 
 
+def json_safe(obj):
+    """Replace NaN and Infinity with null, recursively.
+
+    json.dumps writes bare NaN by default, which no JSON parser accepts. A
+    column of tier letters that happened to contain only None came back from
+    pandas as float NaN and went straight into docs/data.json, and the site
+    could not parse the file at all. Nothing should be able to write an
+    unloadable payload, so everything passes through here.
+    """
+    if isinstance(obj, dict):
+        return {k: json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [json_safe(v) for v in obj]
+    if isinstance(obj, float):
+        return None if (obj != obj or obj in (float("inf"), float("-inf"))) else obj
+    if obj is None or isinstance(obj, (str, bool, int)):
+        return obj
+    if isinstance(obj, (np.floating,)):
+        f = float(obj)
+        return None if (f != f or f in (float("inf"), float("-inf"))) else f
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.bool_,)):
+        return bool(obj)
+    return obj
+
+
+def write_payload(path, payload):
+    """Write a payload that is guaranteed to parse.
+
+    allow_nan=False turns any remaining non-finite value into an exception at
+    write time rather than a broken site.
+    """
+    import json as _json
+    text = _json.dumps(json_safe(payload), indent=2, allow_nan=False)
+    _json.loads(text)          # parse it back before it reaches the repo
+    Path(path).write_text(text)
+    return len(text)
+
+
 def relative_tiers(conf, qualified, absolute_cuts=None):
     """Star bands cut across the picks that actually cleared the bar.
 
