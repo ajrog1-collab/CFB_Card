@@ -31,7 +31,7 @@ import requests
 
 from model import (
     api_usage,
-    PriorModel, apply_debias, assign_tier, blend_prior, blend_ratings,
+    PriorModel, apply_debias, debias_like_board, assign_tier, blend_prior, blend_ratings,
     fit_calibration, fit_debias, fit_points_ratings, fit_ratings, fit_uncertainty,
     confidence_features, confidence_score, games_played_counts, predict_total,
     predict_uncertainty, rating_diff, regime_cuts, tier_cutpoints, TIER_NAMES,
@@ -413,9 +413,12 @@ def run_backtest(d, prior_model, season_hfa):
         for season in sorted(bt["season"].dropna().unique()):
             hist = bt[(bt.season < season) & bt.mkt.notna() & bt.pred_raw.notna()]
             a, b = fit_debias(hist["pred_raw"], hist["mkt"], min_n=200) if len(hist) >= 200 else (0.0, 1.0)
-            m = bt.season == season
-            bt.loc[m, "pred"] = apply_debias(bt.loc[m, "pred_raw"].to_numpy(dtype=float),
-                                             bt.loc[m, "mkt"].to_numpy(dtype=float), a, b)
+            # per week, matching the board — see debias_like_board in model.py
+            for wk in sorted(bt.loc[bt.season == season, "week"].dropna().unique()):
+                m = (bt.season == season) & (bt.week == wk)
+                if m.any():
+                    bt.loc[m, "pred"], _ = debias_like_board(
+                        bt.loc[m], "pred_raw", "mkt", a, b, min_slate=12)
         full = bt.dropna(subset=["mkt", "pred_raw"])
         if len(full) >= 200:
             deb_a, deb_b = fit_debias(full["pred_raw"], full["mkt"], min_n=200)
@@ -587,10 +590,11 @@ def run_totals(d):
         for season in sorted(bt.season.dropna().unique()):
             hist = bt[(bt.season < season) & bt.mkt_total.notna() & bt.pred_total_raw.notna()]
             a, b = fit_debias(hist["pred_total_raw"], hist["mkt_total"], min_n=200) if len(hist) >= 200 else (0.0, 1.0)
-            m = bt.season == season
-            bt.loc[m, "pred_total"] = apply_debias(
-                bt.loc[m, "pred_total_raw"].to_numpy(dtype=float),
-                bt.loc[m, "mkt_total"].to_numpy(dtype=float), a, b)
+            for wk in sorted(bt.loc[bt.season == season, "week"].dropna().unique()):
+                m = (bt.season == season) & (bt.week == wk)
+                if m.any():
+                    bt.loc[m, "pred_total"], _ = debias_like_board(
+                        bt.loc[m], "pred_total_raw", "mkt_total", a, b, min_slate=12)
         full = bt.dropna(subset=["mkt_total", "pred_total_raw"])
         if len(full) >= 200:
             t_a, t_b = fit_debias(full["pred_total_raw"], full["mkt_total"], min_n=200)
