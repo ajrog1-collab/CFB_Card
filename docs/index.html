@@ -925,6 +925,27 @@ function renderRecord(){
       <div class="empty-p">Picks are logged and graded automatically once games finish.</div></div>`;
   }
 
+  /* Replayed season, shown under the live record and clearly separated from it.
+     Plain wording matters here: this is not a track record and should not be
+     mistaken for one. */
+  const std = d.season_to_date || {};
+  if(std.spread || std.total){
+    const box = (lab, g) => g ? `
+      <div class="tile"><div class="tile-k">${lab}</div>
+        <div class="tile-v ${g.win_pct >= be ? 'pos' : ''}">${g.wins}-${g.losses}</div>
+        <div class="tile-sub">${g.win_pct ?? '--'}% · ${g.units > 0 ? '+' : ''}${g.units}u
+          · ${g.picks} picks</div></div>` : '';
+    h += `<h2>HOW THIS SEASON WOULD HAVE GONE</h2>
+      <p class="sub">The record above only counts picks the model actually flagged at the
+      time. This replays all ${esc(std.weeks ?? '')} weeks instead, so you can see markets
+      that have no logged history yet.</p>
+      <div class="tiles">${box('SPREADS', std.spread)}${box('TOTALS', std.total)}</div>
+      <div class="note"><b>This is not a betting record.</b> It uses the closing number,
+      which is the hardest one to beat, so real results would likely differ. It also
+      can't measure line value. Treat it as background, and judge the model on the
+      logged record above.</div>`;
+  }
+
   /* CLV first: it is the earliest honest read on whether the picks beat the
      number, and it needs far fewer bets than win rate to mean anything. */
   const cbm = d.clv_by_market || {}, cbt = d.clv_by_tier || {};
