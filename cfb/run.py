@@ -28,7 +28,7 @@ from model import (
     build_games, cfbd_get, col, confidence_features, confidence_score,
     fetch_venue_forecast, fetch_venue_weather, fit_calibration, fit_debias,
     fit_points_ratings, fit_ratings, fit_uncertainty, games_played_counts,
-    infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
+    api_usage, infer_home_venues, parse_qb_value, parse_sp, parse_team_stats, parse_teams,
     parse_venues,
     predict_total, predict_uncertainty, rating_diff, regime_cuts,
     returning_production, tier_cutpoints,
@@ -181,7 +181,7 @@ def load_everything():
         print(f"  {yr}")
 
     # current season: never cached, always fresh
-    t = cfbd_get("teams/fbs", {"year": CURRENT})
+    t = cfbd_get("teams/fbs", {"year": CURRENT}, cache_empty=False)
     # a cache written before logos were requested would have no logo column;
     # refetch once so team marks are never stuck on initials
     if len(t) and not any(c in t.columns for c in ("logos", "logo")):
@@ -190,14 +190,15 @@ def load_everything():
     if len(t):
         c = col(t, "school", "team")
         fbs[CURRENT] = set(t[c]) if c else set()
-    rc = cfbd_get("recruiting/teams", {"year": CURRENT}, required=False)
+    rc = cfbd_get("recruiting/teams", {"year": CURRENT}, required=False, cache_empty=False)
     if len(rc):
         recruit.append(rc.assign(_year=CURRENT))
-    rp = cfbd_get("player/returning", {"year": CURRENT}, required=False)
+    rp = cfbd_get("player/returning", {"year": CURRENT}, required=False, cache_empty=False)
     if len(rp):
         returning.append(rp.assign(_year=CURRENT))
 
     qb_raw = cfbd_get("ppa/players/season", {"year": CURRENT, "position": "QB"},
+                      cache_empty=False,
                       force=True, required=False)
     if not len(qb_raw):
         # nothing played yet this season, so last year's usage is the best guide
@@ -631,16 +632,28 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
     s["sigma"] = predict_uncertainty(X, conf_w, conf_mae)
     s["confidence"] = confidence_score(s["edge"].to_numpy(dtype=float),
                                        s["sigma"].to_numpy(dtype=float))
+    # The qualifying bar has to be known before the star bands, because the bands
+    # are cut over qualifying picks only. Cutting over every game instead put 72%
+    # of a live board in the top band: qualified picks are already the high-edge
+    # quarter, so they all inherited the top of a distribution built from games
+    # that would never be shown.
+    thr = MIN_EDGE
+    if AUTO_THRESHOLD and len(s) > 300:
+        thr = float(np.quantile(s["edge"].abs().dropna(), 1 - TARGET_QUALIFIED))
+        thr = round(max(thr, 1.0), 1)
+
+    shown = s[s.edge.abs() >= thr]
+
     # Preseason ratings are compressed harder than in-season ones, so their
     # confidence values sit on a different scale. One set of cutpoints applied to
     # both means a live 5-star pick need not match a backtest 5-star pick. Cut
     # each regime separately and let live picks use the one they belong to.
-    cuts_early = tier_cutpoints(s.loc[s.week <= 4, "confidence"])
-    cuts_late = tier_cutpoints(s.loc[s.week >= 5, "confidence"])
-    cuts_all = tier_cutpoints(s["confidence"])
+    cuts_early = tier_cutpoints(shown.loc[shown.week <= 4, "confidence"])
+    cuts_late = tier_cutpoints(shown.loc[shown.week >= 5, "confidence"])
+    cuts_all = tier_cutpoints(shown["confidence"])
     cuts = {"early": cuts_early or cuts_all, "late": cuts_late or cuts_all,
             "all": cuts_all}
-    tier_trend, tier_summary = tier_season_trend(s, cuts)
+    tier_trend, tier_summary = tier_season_trend(shown, cuts)
 
     conf_report = ({n: round(float(w), 3) for n, w in zip(cnames, conf_w[:-1])}
                    if conf_w is not None else {})
@@ -658,15 +671,6 @@ def run_backtest(d, prior_model, season_hfa, use_epa):
         if "e_raw" in frame.columns and frame.e_raw.notna().any():
             out["model_mae_raw"] = round(float(frame.e_raw.mean()), 2)
         return out
-
-    # A fixed points threshold is arbitrary: after debiasing, edges are smaller,
-    # so 3 points might select two thirds of the board or none of it. Setting it
-    # at a percentile of the model's own disagreement keeps "qualified" meaning
-    # roughly the same thing from week to week.
-    thr = MIN_EDGE
-    if AUTO_THRESHOLD and len(s) > 300:
-        thr = float(np.quantile(s["edge"].abs().dropna(), 1 - TARGET_QUALIFIED))
-        thr = round(max(thr, 1.0), 1)
 
     qual = s[(s.edge.abs() >= thr) & s.cover.notna()]
     win = float(np.where(qual.edge > 0, qual.cover, 1 - qual.cover).mean()) if len(qual) > 20 else None
@@ -1413,7 +1417,13 @@ def main():
         gp = games_played_counts(done)
         ratings_now = blend_prior(prior, r_in, gp, BLEND_K)
         if prior:
-            ws = [gp.get(t, 0) / (gp.get(t, 0) + BLEND_K) for t in prior if t != "NON_FBS"]
+            # Only teams that have played. The prior carries every team in the
+            # rating universe — roughly 250, including the pooled non-FBS side —
+            # and the ~115 that never take the field contributed a weight of
+            # zero, holding this average near 0.3 deep into November and keeping
+            # the model on early-season star bands all year.
+            ws = [gp[t] / (gp[t] + BLEND_K) for t in prior
+                  if t != "NON_FBS" and gp.get(t, 0) > 0]
             in_season_weight = float(np.mean(ws)) if ws else 0.0
 
     # ---- backtests ----
@@ -1724,6 +1734,7 @@ def main():
     print(f"  total picks: {len(payload['total_picks'])} "
           f"({sum(1 for p in payload['total_picks'] if p['qualified'])} qualified)")
     print(f"  logged bets: {len(log)}  |  settled: {payload['record'].get('settled', 0)}")
+    print(f"  {api_usage()}")
     if qb_value:
         top = sorted(qb_value.items(), key=lambda kv: -kv[1]["points"])[:3]
         print(f"  QB value ({data.get('qb_season')}): " +
