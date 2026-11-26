@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-25T22:38:00+00:00",
+  "generated_at": "2026-11-26T00:41:00+00:00",
   "season": 2026,
   "min_edge": 0.9,
   "board_week": 12,
@@ -697,12 +697,12 @@
       "active": true
     },
     "conf_weights": [
-      0.01957257963620027,
-      0.09754782082179947,
-      -0.1063750070441066,
-      -0.23421346300219562,
-      -0.09190987002912972,
-      9.514134544646458
+      0.019572579636200484,
+      0.09754782082179969,
+      -0.10637500704410838,
+      -0.23421346300220558,
+      -0.09190987002912664,
+      9.514134544646456
     ],
     "conf_names": [
       "abs_pred",
@@ -1536,6 +1536,30 @@
       "sigma": 9.3
     },
     {
+      "game_id": "2026_12_WAS_ARI",
+      "week": 12,
+      "kickoff": "2026-11-29T21:25:00+00:00",
+      "away": "Commanders",
+      "home": "Cardinals",
+      "pick": "WAS",
+      "edge": -0.2,
+      "confidence": 0.02,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rating",
+          "text": "Model ranks Commanders #19, Cardinals #31"
+        }
+      ],
+      "pick_spread": -6.5,
+      "model_margin": -6.7,
+      "market_margin": -6.5,
+      "sigma": 9.4
+    },
+    {
       "game_id": "2026_12_CHI_DET",
       "week": 12,
       "kickoff": "2026-11-26T18:00:00+00:00",
@@ -1577,30 +1601,6 @@
       "model_margin": 2.3,
       "market_margin": 2.5,
       "sigma": 9.3
-    },
-    {
-      "game_id": "2026_12_WAS_ARI",
-      "week": 12,
-      "kickoff": "2026-11-29T21:25:00+00:00",
-      "away": "Commanders",
-      "home": "Cardinals",
-      "pick": "WAS",
-      "edge": -0.1,
-      "confidence": 0.01,
-      "tier": "E",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rating",
-          "text": "Model ranks Commanders #19, Cardinals #31"
-        }
-      ],
-      "pick_spread": -7.0,
-      "model_margin": -7.1,
-      "market_margin": -7.0,
-      "sigma": 9.4
     },
     {
       "game_id": "2026_12_BAL_HOU",
@@ -3721,7 +3721,7 @@
       "n": 17,
       "pct": 70.6,
       "side": "underdog",
-      "corr": -0.468
+      "corr": -0.458
     },
     "total": {
       "n": 17,
