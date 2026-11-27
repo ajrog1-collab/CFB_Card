@@ -1,7 +1,7 @@
 {
   "sport": "nfl",
   "title": "THE PRO CARD",
-  "generated_at": "2026-11-26T22:27:19+00:00",
+  "generated_at": "2026-11-27T00:49:11+00:00",
   "season": 2026,
   "min_edge": 0.9,
   "board_week": 12,
@@ -697,11 +697,11 @@
       "active": true
     },
     "conf_weights": [
-      0.01957257963620027,
-      0.09754782082179947,
-      -0.1063750070441066,
-      -0.23421346300219562,
-      -0.09190987002912972,
+      0.019572579636199947,
+      0.09754782082179925,
+      -0.10637500704410305,
+      -0.234213463002197,
+      -0.09190987002912927,
       9.514134544646458
     ],
     "conf_names": [
@@ -1541,25 +1541,6 @@
       "sigma": 9.4
     },
     {
-      "game_id": "2026_12_DEN_PIT",
-      "week": 12,
-      "kickoff": "2026-11-27T20:00:00+00:00",
-      "away": "Broncos",
-      "home": "Steelers",
-      "pick": "DEN",
-      "edge": -0.1,
-      "confidence": 0.02,
-      "tier": "E",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [],
-      "pick_spread": -4.5,
-      "model_margin": -4.6,
-      "market_margin": -4.5,
-      "sigma": 9.3
-    },
-    {
       "game_id": "2026_12_BAL_HOU",
       "week": 12,
       "kickoff": "2026-11-29T18:00:00+00:00",
@@ -1582,6 +1563,25 @@
       "model_margin": 6.4,
       "market_margin": 6.5,
       "sigma": 9.4
+    },
+    {
+      "game_id": "2026_12_DEN_PIT",
+      "week": 12,
+      "kickoff": "2026-11-27T20:00:00+00:00",
+      "away": "Broncos",
+      "home": "Steelers",
+      "pick": "PIT",
+      "edge": 0.1,
+      "confidence": 0.01,
+      "tier": "E",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [],
+      "pick_spread": 5.5,
+      "model_margin": -5.4,
+      "market_margin": -5.5,
+      "sigma": 9.3
     }
   ],
   "total_picks": [
@@ -1612,7 +1612,7 @@
       "home": "Steelers",
       "pick": "Under",
       "edge": -3.9,
-      "confidence": 0.33,
+      "confidence": 0.32,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
@@ -1630,15 +1630,15 @@
       "away": "Chiefs",
       "home": "Bills",
       "pick": "Over",
-      "edge": 3.1,
-      "confidence": 0.26,
+      "edge": 2.7,
+      "confidence": 0.23,
       "tier": "A",
       "top_pick": false,
       "qualified": false,
       "current_week": true,
       "drivers": [],
-      "line": 45.5,
-      "model_total": 48.6,
+      "line": 46.5,
+      "model_total": 49.2,
       "wind": null,
       "indoor": false
     },
@@ -1667,30 +1667,6 @@
       "indoor": true
     },
     {
-      "game_id": "2026_12_BAL_HOU",
-      "week": 12,
-      "kickoff": "2026-11-29T18:00:00+00:00",
-      "away": "Ravens",
-      "home": "Texans",
-      "pick": "Under",
-      "edge": -1.9,
-      "confidence": 0.16,
-      "tier": "B",
-      "top_pick": false,
-      "qualified": false,
-      "current_week": true,
-      "drivers": [
-        {
-          "kind": "rest",
-          "text": "Texans on 3 more days of rest"
-        }
-      ],
-      "line": 47.5,
-      "model_total": 45.6,
-      "wind": null,
-      "indoor": false
-    },
-    {
       "game_id": "2026_12_LV_CLE",
       "week": 12,
       "kickoff": "2026-11-30T01:20:00+00:00",
@@ -1715,6 +1691,30 @@
       "indoor": false
     },
     {
+      "game_id": "2026_12_BAL_HOU",
+      "week": 12,
+      "kickoff": "2026-11-29T18:00:00+00:00",
+      "away": "Ravens",
+      "home": "Texans",
+      "pick": "Under",
+      "edge": -1.9,
+      "confidence": 0.16,
+      "tier": "B",
+      "top_pick": false,
+      "qualified": false,
+      "current_week": true,
+      "drivers": [
+        {
+          "kind": "rest",
+          "text": "Texans on 3 more days of rest"
+        }
+      ],
+      "line": 47.5,
+      "model_total": 45.6,
+      "wind": null,
+      "indoor": false
+    },
+    {
       "game_id": "2026_12_WAS_ARI",
       "week": 12,
       "kickoff": "2026-11-29T21:25:00+00:00",
@@ -1722,7 +1722,7 @@
       "home": "Cardinals",
       "pick": "Over",
       "edge": 1.5,
-      "confidence": 0.12,
+      "confidence": 0.13,
       "tier": "C",
       "top_pick": false,
       "qualified": false,
@@ -1742,7 +1742,7 @@
       "pick": "Over",
       "edge": 1.4,
       "confidence": 0.12,
-      "tier": "D",
+      "tier": "C",
       "top_pick": false,
       "qualified": false,
       "current_week": true,
@@ -1759,7 +1759,7 @@
       "away": "Jets",
       "home": "Dolphins",
       "pick": "Under",
-      "edge": -0.8,
+      "edge": -0.7,
       "confidence": 0.06,
       "tier": "E",
       "top_pick": false,
@@ -1767,7 +1767,7 @@
       "current_week": true,
       "drivers": [],
       "line": 39.5,
-      "model_total": 38.7,
+      "model_total": 38.8,
       "wind": null,
       "indoor": false
     },
@@ -1821,7 +1821,7 @@
       "away": "Falcons",
       "home": "Vikings",
       "pick": "Under",
-      "edge": -0.2,
+      "edge": -0.1,
       "confidence": 0.01,
       "tier": "E",
       "top_pick": false,
@@ -1838,7 +1838,7 @@
         }
       ],
       "line": 41.5,
-      "model_total": 41.3,
+      "model_total": 41.4,
       "wind": null,
       "indoor": true
     },
@@ -1849,8 +1849,8 @@
       "away": "Giants",
       "home": "Colts",
       "pick": "Under",
-      "edge": -0.1,
-      "confidence": 0.01,
+      "edge": -0.0,
+      "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
       "qualified": false,
@@ -1862,7 +1862,7 @@
         }
       ],
       "line": 41.5,
-      "model_total": 41.4,
+      "model_total": 41.5,
       "wind": null,
       "indoor": false
     },
@@ -1872,8 +1872,8 @@
       "kickoff": "2026-11-29T21:05:00+00:00",
       "away": "Patriots",
       "home": "Chargers",
-      "pick": "Under",
-      "edge": -0.1,
+      "pick": "Over",
+      "edge": 0.0,
       "confidence": 0.0,
       "tier": "E",
       "top_pick": false,
@@ -1890,7 +1890,7 @@
         }
       ],
       "line": 35.5,
-      "model_total": 35.4,
+      "model_total": 35.5,
       "wind": null,
       "indoor": true
     }
@@ -3585,13 +3585,13 @@
   "board_balance": {
     "spread": {
       "n": 14,
-      "pct": 78.6,
+      "pct": 85.7,
       "side": "underdog",
-      "corr": -0.428
+      "corr": -0.448
     },
     "total": {
       "n": 14,
-      "pct": 50.0,
+      "pct": 57.1,
       "side": "over",
       "corr": 0.0
     }
